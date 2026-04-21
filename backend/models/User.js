@@ -2,8 +2,8 @@
 // USER MODEL (AUTH + ROLES + FAVORITES)
 // ==============================
 
-import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 // ==============================
 // USER SCHEMA
@@ -67,11 +67,6 @@ const UserSchema = new mongoose.Schema(
 );
 
 // ==============================
-// INDEXES (PERFORMANCE)
-// ==============================
-UserSchema.index({ email: 1 });
-
-// ==============================
 // PASSWORD HASHING (PRE SAVE)
 // ==============================
 UserSchema.pre("save", async function (next) {
@@ -93,4 +88,4 @@ UserSchema.methods.comparePassword = async function (enteredPassword) {
 // ==============================
 // EXPORT
 // ==============================
-export default mongoose.model("User", UserSchema);
+module.exports = mongoose.model("User", UserSchema);

@@ -1,12 +1,15 @@
-import BlogPost from "../models/BlogPost.js";
+const BlogPost = require("../models/BlogPost");
 
-// OPTIONAL REDIS
-// import redisClient from "../config/redis.js";
+const {
+  cacheWrapper,
+  generateCacheKey,
+  clearBlogCache,
+} = require("../utils/cache");
 
 // ==========================================
-// CREATE BLOG POST (ADMIN)
+// CREATE BLOG POST
 // ==========================================
-export const createBlogPost = async (req, res) => {
+const createBlogPost = async (req, res) => {
   try {
     const blog = new BlogPost({
       ...req.body,
@@ -15,23 +18,22 @@ export const createBlogPost = async (req, res) => {
 
     await blog.save();
 
+    await clearBlogCache();
+
     res.status(201).json({
       success: true,
       message: "Blog post created successfully",
       data: blog,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
 // ==========================================
-// GET ALL BLOG POSTS (FILTER + PAGINATION)
+// GET BLOG POSTS (FILTER + CACHE)
 // ==========================================
-export const getBlogPosts = async (req, res) => {
+const getBlogPosts = async (req, res) => {
   try {
     const {
       page = 1,
@@ -45,89 +47,93 @@ export const getBlogPosts = async (req, res) => {
 
     const query = { status };
 
-    // FILTERS
     if (category) query.category = category;
     if (tag) query.tags = tag;
 
-    // SEARCH
     if (keyword) {
       query.$text = { $search: keyword };
     }
 
-    // CACHE KEY
-    const cacheKey = `blogs:${JSON.stringify(req.query)}`;
+    const cacheKey = generateCacheKey("blogs", req.query);
 
-    // if (redisClient) {
-    //   const cached = await redisClient.get(cacheKey);
-    //   if (cached) return res.json(JSON.parse(cached));
-    // }
+    const result = await cacheWrapper({
+      key: cacheKey,
+      ttl: 120,
+      fetchFunction: async () => {
+        const blogs = await BlogPost.find(query)
+          .populate("author", "name")
+          .sort(sort)
+          .skip((page - 1) * limit)
+          .limit(Number(limit))
+          .lean();
 
-    const blogs = await BlogPost.find(query)
-      .populate("author", "name")
-      .sort(sort)
-      .skip((page - 1) * limit)
-      .limit(Number(limit));
+        const total = await BlogPost.countDocuments(query);
 
-    const total = await BlogPost.countDocuments(query);
+        return {
+          total,
+          page: Number(page),
+          pages: Math.ceil(total / limit),
+          data: blogs,
+        };
+      },
+    });
 
-    const response = {
+    res.json({
       success: true,
-      total,
-      page: Number(page),
-      pages: Math.ceil(total / limit),
-      data: blogs,
-    };
-
-    // if (redisClient) {
-    //   await redisClient.set(cacheKey, JSON.stringify(response), "EX", 120);
-    // }
-
-    res.json(response);
+      source: result.source,
+      ...result.data,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
 // ==========================================
-// GET SINGLE BLOG (BY SLUG - SEO)
+// GET BLOG BY SLUG (SEO)
 // ==========================================
-export const getBlogBySlug = async (req, res) => {
+const getBlogBySlug = async (req, res) => {
   try {
     const { slug } = req.params;
 
-    const blog = await BlogPost.findOne({
-      slug,
-      status: "published",
-    }).populate("author", "name");
+    const cacheKey = `blog:${slug}`;
 
-    if (!blog) {
-      return res.status(404).json({
-        success: false,
-        message: "Blog not found",
-      });
-    }
+    const result = await cacheWrapper({
+      key: cacheKey,
+      ttl: 300,
+      fetchFunction: async () => {
+        const blog = await BlogPost.findOne({
+          slug,
+          status: "published",
+        })
+          .populate("author", "name")
+          .lean();
 
-    // Increment views (non-blocking)
-    BlogPost.updateOne({ _id: blog._id }, { $inc: { views: 1 } }).exec();
+        if (!blog) throw new Error("Blog not found");
+
+        // increment views async
+        BlogPost.updateOne({ _id: blog._id }, { $inc: { views: 1 } }).exec();
+
+        return blog;
+      },
+    });
 
     res.json({
       success: true,
-      data: blog,
+      data: result.data,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(404).json({ success: false, message: error.message });
   }
 };
 
 // ==========================================
-// GET BLOG BY ID (ADMIN)
+// GET BLOG BY ID
 // ==========================================
-export const getBlogById = async (req, res) => {
+const getBlogById = async (req, res) => {
   try {
-    const blog = await BlogPost.findById(req.params.id).populate(
-      "author",
-      "name email",
-    );
+    const blog = await BlogPost.findById(req.params.id)
+      .populate("author", "name email")
+      .lean();
 
     if (!blog) {
       return res.status(404).json({
@@ -136,10 +142,7 @@ export const getBlogById = async (req, res) => {
       });
     }
 
-    res.json({
-      success: true,
-      data: blog,
-    });
+    res.json({ success: true, data: blog });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -148,7 +151,7 @@ export const getBlogById = async (req, res) => {
 // ==========================================
 // UPDATE BLOG
 // ==========================================
-export const updateBlogPost = async (req, res) => {
+const updateBlogPost = async (req, res) => {
   try {
     const blog = await BlogPost.findById(req.params.id);
 
@@ -159,7 +162,6 @@ export const updateBlogPost = async (req, res) => {
       });
     }
 
-    // AUTH CHECK (AUTHOR OR ADMIN)
     if (
       blog.author.toString() !== req.user._id.toString() &&
       req.user.role !== "admin"
@@ -172,12 +174,13 @@ export const updateBlogPost = async (req, res) => {
 
     Object.assign(blog, req.body);
 
-    // Auto set publishedAt
     if (req.body.status === "published" && !blog.publishedAt) {
       blog.publishedAt = new Date();
     }
 
     await blog.save();
+
+    await clearBlogCache();
 
     res.json({
       success: true,
@@ -192,7 +195,7 @@ export const updateBlogPost = async (req, res) => {
 // ==========================================
 // DELETE BLOG
 // ==========================================
-export const deleteBlogPost = async (req, res) => {
+const deleteBlogPost = async (req, res) => {
   try {
     const blog = await BlogPost.findById(req.params.id);
 
@@ -215,6 +218,8 @@ export const deleteBlogPost = async (req, res) => {
 
     await blog.deleteOne();
 
+    await clearBlogCache();
+
     res.json({
       success: true,
       message: "Blog deleted successfully",
@@ -225,9 +230,9 @@ export const deleteBlogPost = async (req, res) => {
 };
 
 // ==========================================
-// RELATED BLOGS (SEO INTERNAL LINKING)
+// RELATED BLOGS (SEO BOOST)
 // ==========================================
-export const getRelatedBlogs = async (req, res) => {
+const getRelatedBlogs = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -246,7 +251,8 @@ export const getRelatedBlogs = async (req, res) => {
       status: "published",
     })
       .limit(4)
-      .sort("-createdAt");
+      .sort("-createdAt")
+      .lean();
 
     res.json({
       success: true,
@@ -255,4 +261,14 @@ export const getRelatedBlogs = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
+};
+
+module.exports = {
+  createBlogPost,
+  getBlogPosts,
+  getBlogBySlug,
+  getBlogById,
+  updateBlogPost,
+  deleteBlogPost,
+  getRelatedBlogs,
 };

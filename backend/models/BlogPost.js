@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const blogPostSchema = new mongoose.Schema(
   {
@@ -113,6 +113,4 @@ blogPostSchema.pre("validate", function (next) {
   next();
 });
 
-const BlogPost = mongoose.model("BlogPost", blogPostSchema);
-
-export default BlogPost;
+module.exports = mongoose.model("BlogPost", blogPostSchema);

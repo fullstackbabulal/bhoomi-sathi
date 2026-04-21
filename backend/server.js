@@ -1,31 +1,33 @@
-import express from "express";
-import dotenv from "dotenv";
-import morgan from "morgan";
-import helmet from "helmet";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-
-// DB
-import connectDB from "./config/db.js";
-
-// Routes
-import propertyRoutes from "./routes/propertyRoutes.js";
-import blogRoutes from "./routes/blogRoutes.js";
-import commentRoutes from "./routes/commentRoutes.js";
-
-// Middleware
-import { globalLimiter } from "./middleware/rateLimiter.js";
-import { errorHandler, notFound } from "./middleware/errorHandler.js";
+const express = require("express");
+const dotenv = require("dotenv");
+const morgan = require("morgan");
+const helmet = require("helmet");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 // ==========================================
-// LOAD ENV
+// LOAD ENV FIRST
 // ==========================================
 dotenv.config();
 
 // ==========================================
-// CONNECT DATABASE
+// DB + REDIS
 // ==========================================
-connectDB();
+const connectDB = require("./config/db");
+const { connectRedis } = require("./config/redis");
+
+// ==========================================
+// ROUTES
+// ==========================================
+const propertyRoutes = require("./routes/propertyRoutes");
+const blogRoutes = require("./routes/blogRoutes");
+const commentRoutes = require("./routes/commentRoutes");
+
+// ==========================================
+// MIDDLEWARE
+// ==========================================
+const { globalLimiter } = require("./middleware/rateLimiter");
+const { errorHandler, notFound } = require("./middleware/errorHandler");
 
 // ==========================================
 // INIT APP
@@ -89,10 +91,27 @@ app.use(notFound);
 app.use(errorHandler);
 
 // ==========================================
-// START SERVER
+// START SERVER (PROPER ORDER)
 // ==========================================
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    console.log("🔄 Starting server...");
+
+    // ✅ Connect MongoDB
+    await connectDB();
+
+    // ✅ Connect Redis (non-blocking safe)
+    await connectRedis();
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ Server startup failed:", error.message);
+    process.exit(1);
+  }
+};
+
+startServer();

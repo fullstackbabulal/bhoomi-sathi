@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const propertySchema = new mongoose.Schema(
   {
@@ -193,6 +193,4 @@ propertySchema.pre("validate", function (next) {
   next();
 });
 
-const Property = mongoose.model("Property", propertySchema);
-
-export default Property;
+module.exports = mongoose.model("Property", propertySchema);

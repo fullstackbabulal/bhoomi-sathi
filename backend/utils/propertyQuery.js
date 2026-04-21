@@ -1,6 +1,6 @@
 const Property = require("../models/Property");
 
-// Build MongoDB query
+// Build query
 const buildPropertyQuery = (params) => {
   const { minPrice, maxPrice, type, city, keyword } = params;
 
@@ -22,7 +22,7 @@ const buildPropertyQuery = (params) => {
   return query;
 };
 
-// Execute search with pagination
+// Execute search
 const executePropertySearch = async ({
   query,
   page = 1,

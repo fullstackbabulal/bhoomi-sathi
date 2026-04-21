@@ -1,5 +1,6 @@
-import express from "express";
-import {
+const express = require("express");
+
+const {
   createProperty,
   getProperties,
   getPropertyBySlug,
@@ -8,9 +9,9 @@ import {
   deleteProperty,
   getNearbyProperties,
   getFeaturedProperties,
-} from "../controllers/propertyController.js";
+} = require("../controllers/propertyController");
 
-import { protect, authorize } from "../middleware/authMiddleware.js";
+const { protect, authorize } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -46,4 +47,4 @@ router.put("/:id", protect, authorize("admin", "agent"), updateProperty);
 // Delete property
 router.delete("/:id", protect, authorize("admin", "agent"), deleteProperty);
 
-export default router;
+module.exports = router;

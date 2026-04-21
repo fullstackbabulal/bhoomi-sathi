@@ -1,105 +1,155 @@
-import redisClient from "../config/redis.js";
+const { getRedisClient } = require("../config/redis");
 
 // ==========================================
-// GENERATE CACHE KEY (CONSISTENT)
+// CONFIG
 // ==========================================
-export const generateCacheKey = (prefix, params = {}) => {
+const DEFAULT_TTL = 60;
+const SCAN_COUNT = 100;
+const DEBUG = process.env.NODE_ENV === "development";
+
+// ==========================================
+// GENERATE CACHE KEY
+// ==========================================
+const generateCacheKey = (prefix, params = {}) => {
   return `${prefix}:${JSON.stringify(params)}`;
+};
+
+// ==========================================
+// SAFE REDIS GETTER
+// ==========================================
+const getRedis = () => {
+  const client = getRedisClient();
+  return client || null;
 };
 
 // ==========================================
 // GET CACHE
 // ==========================================
-export const getCache = async (key) => {
-  try {
-    const data = await redisClient.get(key);
-    if (!data) return null;
+const getCache = async (key) => {
+  const redis = getRedis();
+  if (!redis) return null;
 
-    return JSON.parse(data);
-  } catch (error) {
-    console.error("Cache GET error:", error.message);
-    return null; // fail silently
+  try {
+    const data = await redis.get(key);
+    return data ? JSON.parse(data) : null;
+  } catch (err) {
+    if (DEBUG) console.error("❌ Cache GET:", err.message);
+    return null;
   }
 };
 
 // ==========================================
 // SET CACHE
 // ==========================================
-export const setCache = async (key, data, ttl = 60) => {
+const setCache = async (key, data, ttl = DEFAULT_TTL) => {
+  const redis = getRedis();
+  if (!redis) return;
+
   try {
-    await redisClient.set(key, JSON.stringify(data), "EX", ttl);
-  } catch (error) {
-    console.error("Cache SET error:", error.message);
+    await redis.set(key, JSON.stringify(data), { EX: ttl });
+  } catch (err) {
+    if (DEBUG) console.error("❌ Cache SET:", err.message);
   }
 };
 
 // ==========================================
-// DELETE SINGLE KEY
+// DELETE CACHE KEY
 // ==========================================
-export const deleteCache = async (key) => {
+const deleteCache = async (key) => {
+  const redis = getRedis();
+  if (!redis) return;
+
   try {
-    await redisClient.del(key);
-  } catch (error) {
-    console.error("Cache DELETE error:", error.message);
+    await redis.del(key);
+  } catch (err) {
+    if (DEBUG) console.error("❌ Cache DELETE:", err.message);
   }
 };
 
 // ==========================================
-// CLEAR CACHE BY PATTERN (IMPORTANT)
+// CLEAR CACHE USING SCAN (NON-BLOCKING)
 // ==========================================
-export const clearCacheByPattern = async (pattern) => {
-  try {
-    const keys = await redisClient.keys(pattern);
+const clearCacheByPattern = async (pattern) => {
+  const redis = getRedis();
+  if (!redis) return;
 
-    if (keys.length > 0) {
-      await redisClient.del(keys);
-      console.log(`🧹 Cleared cache: ${pattern}`);
-    }
-  } catch (error) {
-    console.error("Cache CLEAR error:", error.message);
+  try {
+    let cursor = "0";
+
+    do {
+      const { cursor: nextCursor, keys } = await redis.scan(cursor, {
+        MATCH: pattern,
+        COUNT: SCAN_COUNT,
+      });
+
+      cursor = nextCursor;
+
+      if (keys.length) {
+        await redis.del(keys);
+      }
+    } while (cursor !== "0");
+
+    if (DEBUG) console.log(`🧹 Cache cleared: ${pattern}`);
+  } catch (err) {
+    console.error("❌ Cache CLEAR:", err.message);
   }
 };
 
 // ==========================================
-// PROPERTY CACHE HELPERS
+// DOMAIN CACHE HELPERS
 // ==========================================
-export const clearPropertyCache = async () => {
-  await clearCacheByPattern("properties:*");
-  await clearCacheByPattern("geo:*");
-  await clearCacheByPattern("featured:*");
+const clearPropertyCache = async () => {
+  await Promise.all([
+    clearCacheByPattern("properties:*"),
+    clearCacheByPattern("geo:*"),
+    clearCacheByPattern("featured:*"),
+  ]);
+};
+
+const clearBlogCache = async () => {
+  await Promise.all([
+    clearCacheByPattern("blogs:*"),
+    clearCacheByPattern("blog:*"),
+  ]);
 };
 
 // ==========================================
-// BLOG CACHE HELPERS
+// CACHE WRAPPER (CORE LOGIC)
 // ==========================================
-export const clearBlogCache = async () => {
-  await clearCacheByPattern("blogs:*");
-  await clearCacheByPattern("blog:*");
-};
+const cacheWrapper = async ({ key, ttl = DEFAULT_TTL, fetchFunction }) => {
+  // 1. Try cache
+  const cached = await getCache(key);
+  if (cached) {
+    return { source: "cache", data: cached };
+  }
 
-// ==========================================
-// SMART CACHE WRAPPER (BEST PRACTICE)
-// ==========================================
-export const cacheWrapper = async ({ key, ttl = 60, fetchFunction }) => {
   try {
-    // 1. Check cache
-    const cached = await getCache(key);
-    if (cached) {
-      return { source: "cache", data: cached };
-    }
-
-    // 2. Fetch from DB
+    // 2. Fetch fresh data
     const freshData = await fetchFunction();
 
-    // 3. Store in cache
-    await setCache(key, freshData, ttl);
+    // 3. Store in cache (non-blocking mindset)
+    setCache(key, freshData, ttl);
 
     return { source: "database", data: freshData };
-  } catch (error) {
-    console.error("Cache Wrapper error:", error.message);
+  } catch (err) {
+    console.error("❌ Cache Wrapper:", err.message);
 
-    // fallback (never break app)
-    const freshData = await fetchFunction();
-    return { source: "database", data: freshData };
+    // fallback (never break API)
+    const fallbackData = await fetchFunction();
+    return { source: "database", data: fallbackData };
   }
+};
+
+// ==========================================
+// EXPORTS
+// ==========================================
+module.exports = {
+  generateCacheKey,
+  getCache,
+  setCache,
+  deleteCache,
+  clearCacheByPattern,
+  clearPropertyCache,
+  clearBlogCache,
+  cacheWrapper,
 };

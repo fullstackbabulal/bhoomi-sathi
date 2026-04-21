@@ -1,10 +1,11 @@
-import Comment from "../models/Comment.js";
-import BlogPost from "../models/BlogPost.js";
+const Comment = require("../models/Comment");
+const BlogPost = require("../models/BlogPost");
+const xss = require("xss");
 
 // ==========================================
-// CREATE COMMENT (USER / GUEST)
+// CREATE COMMENT
 // ==========================================
-export const createComment = async (req, res) => {
+const createComment = async (req, res) => {
   try {
     const { blogPost, content, parent, name, email } = req.body;
 
@@ -15,12 +16,17 @@ export const createComment = async (req, res) => {
       });
     }
 
+    // ✅ XSS Sanitization
+    const safeContent = xss(content);
+    const safeName = name ? xss(name) : undefined;
+    const safeEmail = email ? xss(email) : undefined;
+
     const comment = new Comment({
       blogPost,
-      content,
+      content: safeContent,
       parent: parent || null,
-      name: req.user ? undefined : name,
-      email: req.user ? undefined : email,
+      name: req.user ? undefined : safeName,
+      email: req.user ? undefined : safeEmail,
       user: req.user ? req.user._id : null,
       ipAddress: req.ip,
       userAgent: req.headers["user-agent"],
@@ -28,8 +34,13 @@ export const createComment = async (req, res) => {
 
     await comment.save();
 
-    // Increment comment count (only for root comments or approved later)
-    await BlogPost.updateOne({ _id: blogPost }, { $inc: { commentsCount: 1 } });
+    // ✅ Only root comments counted
+    if (!parent) {
+      await BlogPost.updateOne(
+        { _id: blogPost },
+        { $inc: { commentsCount: 1 } },
+      );
+    }
 
     res.status(201).json({
       success: true,
@@ -37,17 +48,14 @@ export const createComment = async (req, res) => {
       data: comment,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
 // ==========================================
-// GET COMMENTS (NESTED TREE)
+// GET COMMENTS (TREE STRUCTURE)
 // ==========================================
-export const getCommentsByBlog = async (req, res) => {
+const getCommentsByBlog = async (req, res) => {
   try {
     const { blogId } = req.params;
 
@@ -58,41 +66,42 @@ export const getCommentsByBlog = async (req, res) => {
       .sort({ createdAt: -1 })
       .lean();
 
-    // ===============================
-    // BUILD TREE STRUCTURE
-    // ===============================
     const map = {};
     const roots = [];
 
-    comments.forEach((comment) => {
-      map[comment._id] = { ...comment, replies: [] };
+    // Build map
+    comments.forEach((c) => {
+      map[c._id] = { ...c, replies: [] };
     });
 
-    comments.forEach((comment) => {
-      if (comment.parent) {
-        if (map[comment.parent]) {
-          map[comment.parent].replies.push(map[comment._id]);
-        }
+    // Build tree
+    comments.forEach((c) => {
+      if (c.parent && map[c.parent]) {
+        map[c.parent].replies.push(map[c._id]);
       } else {
-        roots.push(map[comment._id]);
+        roots.push(map[c._id]);
       }
     });
 
-    res.json({
-      success: true,
-      data: roots,
-    });
+    res.json({ success: true, data: roots });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
 // ==========================================
-// MODERATE COMMENT (ADMIN)
+// UPDATE COMMENT STATUS (ADMIN)
 // ==========================================
-export const updateCommentStatus = async (req, res) => {
+const updateCommentStatus = async (req, res) => {
   try {
-    const { status } = req.body; // approved / spam / pending
+    const { status } = req.body;
+
+    if (!["pending", "approved", "rejected"].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid status value",
+      });
+    }
 
     const comment = await Comment.findById(req.params.id);
 
@@ -119,7 +128,7 @@ export const updateCommentStatus = async (req, res) => {
 // ==========================================
 // DELETE COMMENT
 // ==========================================
-export const deleteComment = async (req, res) => {
+const deleteComment = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
 
@@ -142,9 +151,9 @@ export const deleteComment = async (req, res) => {
 };
 
 // ==========================================
-// GET ALL COMMENTS (ADMIN PANEL)
+// GET ALL COMMENTS (ADMIN)
 // ==========================================
-export const getAllComments = async (req, res) => {
+const getAllComments = async (req, res) => {
   try {
     const { status, page = 1, limit = 20 } = req.query;
 
@@ -156,7 +165,8 @@ export const getAllComments = async (req, res) => {
       .populate("user", "name email")
       .sort("-createdAt")
       .skip((page - 1) * limit)
-      .limit(Number(limit));
+      .limit(Number(limit))
+      .lean();
 
     const total = await Comment.countDocuments(query);
 
@@ -173,9 +183,9 @@ export const getAllComments = async (req, res) => {
 };
 
 // ==========================================
-// LIKE COMMENT (ENGAGEMENT)
+// LIKE COMMENT
 // ==========================================
-export const likeComment = async (req, res) => {
+const likeComment = async (req, res) => {
   try {
     const comment = await Comment.findByIdAndUpdate(
       req.params.id,
@@ -197,4 +207,13 @@ export const likeComment = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
+};
+
+module.exports = {
+  createComment,
+  getCommentsByBlog,
+  updateCommentStatus,
+  deleteComment,
+  getAllComments,
+  likeComment,
 };

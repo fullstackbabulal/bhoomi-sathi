@@ -1,7 +1,7 @@
 // ==========================================
 // GLOBAL ERROR HANDLER (LAST MIDDLEWARE)
 // ==========================================
-export const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, next) => {
   console.error("❌ Error:", err);
 
   let statusCode = err.statusCode || 500;
@@ -64,8 +64,13 @@ export const errorHandler = (err, req, res, next) => {
 // ==========================================
 // 404 NOT FOUND HANDLER
 // ==========================================
-export const notFound = (req, res, next) => {
+const notFound = (req, res, next) => {
   const error = new Error(`Not Found - ${req.originalUrl}`);
   res.status(404);
   next(error);
+};
+
+module.exports = {
+  errorHandler,
+  notFound,
 };

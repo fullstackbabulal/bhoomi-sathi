@@ -1,13 +1,21 @@
-import Property from "../models/Property.js";
-import mongoose from "mongoose";
+const Property = require("../models/Property");
+const mongoose = require("mongoose");
 
-// OPTIONAL: Redis (plug when ready)
-// import redisClient from "../config/redis.js";
+const {
+  buildPropertyQuery,
+  executePropertySearch,
+} = require("../utils/propertyQuery");
+
+const {
+  cacheWrapper,
+  generateCacheKey,
+  clearPropertyCache,
+} = require("../utils/cache");
 
 // ==========================================
-// CREATE PROPERTY (ADMIN / AGENT)
+// CREATE PROPERTY
 // ==========================================
-export const createProperty = async (req, res) => {
+const createProperty = async (req, res) => {
   try {
     const property = new Property({
       ...req.body,
@@ -16,128 +24,113 @@ export const createProperty = async (req, res) => {
 
     await property.save();
 
+    // 🔥 Clear cache after mutation
+    await clearPropertyCache();
+
     res.status(201).json({
       success: true,
       message: "Property created successfully",
       data: property,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
-// ==========================================
-// GET ALL PROPERTIES (ADVANCED SEARCH)
-// ==========================================
-export const getProperties = async (req, res) => {
-  try {
-    const {
-      page = 1,
-      limit = 10,
-      minPrice,
-      maxPrice,
-      type,
-      city,
-      keyword,
-      sort = "-createdAt",
-    } = req.query;
-
-    const query = {};
-
-    // ===============================
-    // FILTERS
-    // ===============================
-    if (minPrice || maxPrice) {
-      query.price = {};
-      if (minPrice) query.price.$gte = Number(minPrice);
-      if (maxPrice) query.price.$lte = Number(maxPrice);
-    }
-
-    if (type) query.type = type;
-    if (city) query["location.city"] = city;
-
-    // TEXT SEARCH
-    if (keyword) {
-      query.$text = { $search: keyword };
-    }
-
-    // ===============================
-    // CACHE KEY (REDIS READY)
-    // ===============================
-    const cacheKey = `properties:${JSON.stringify(req.query)}`;
-
-    // if (redisClient) {
-    //   const cached = await redisClient.get(cacheKey);
-    //   if (cached) {
-    //     return res.json(JSON.parse(cached));
-    //   }
-    // }
-
-    const properties = await Property.find(query)
-      .populate("postedBy", "name email")
-      .sort(sort)
-      .skip((page - 1) * limit)
-      .limit(Number(limit));
-
-    const total = await Property.countDocuments(query);
-
-    const response = {
-      success: true,
-      total,
-      page: Number(page),
-      pages: Math.ceil(total / limit),
-      data: properties,
-    };
-
-    // if (redisClient) {
-    //   await redisClient.set(cacheKey, JSON.stringify(response), "EX", 60);
-    // }
-
-    res.json(response);
-  } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
 // ==========================================
-// GET SINGLE PROPERTY (BY SLUG - SEO)
+// GET PROPERTIES (SEARCH + CACHE)
 // ==========================================
-export const getPropertyBySlug = async (req, res) => {
+const getProperties = async (req, res) => {
   try {
-    const { slug } = req.params;
+    const { page = 1, limit = 10, sort } = req.query;
 
-    const property = await Property.findOne({ slug }).populate(
-      "postedBy",
-      "name phone",
-    );
+    const query = buildPropertyQuery(req.query);
 
-    if (!property) {
-      return res.status(404).json({
-        success: false,
-        message: "Property not found",
-      });
-    }
+    const sortOption =
+      sort === "low"
+        ? { price: 1 }
+        : sort === "high"
+          ? { price: -1 }
+          : { createdAt: -1 };
 
-    // Increment views (async, non-blocking)
-    Property.updateOne({ _id: property._id }, { $inc: { views: 1 } }).exec();
+    const cacheKey = generateCacheKey("properties", req.query);
+
+    const result = await cacheWrapper({
+      key: cacheKey,
+      ttl: 120,
+      fetchFunction: async () => {
+        return await executePropertySearch({
+          query,
+          page: Number(page),
+          limit: Number(limit),
+          sort: sortOption,
+        });
+      },
+    });
 
     res.json({
       success: true,
-      data: property,
+      source: result.source, // 🔥 debug (cache/db)
+      ...result.data,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// ==========================================
+// GET PROPERTY BY SLUG (SEO)
+// ==========================================
+const getPropertyBySlug = async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    const cacheKey = `property:${slug}`;
+
+    const result = await cacheWrapper({
+      key: cacheKey,
+      ttl: 300,
+      fetchFunction: async () => {
+        const property = await Property.findOne({ slug }).populate(
+          "postedBy",
+          "name phone",
+        );
+
+        if (!property) {
+          throw new Error("Property not found");
+        }
+
+        // Increment views async
+        Property.updateOne(
+          { _id: property._id },
+          { $inc: { views: 1 } },
+        ).exec();
+
+        return property;
+      },
+    });
+
+    res.json({
+      success: true,
+      data: result.data,
+    });
+  } catch (error) {
+    res.status(404).json({ success: false, message: error.message });
   }
 };
 
 // ==========================================
 // GET PROPERTY BY ID
 // ==========================================
-export const getPropertyById = async (req, res) => {
+const getPropertyById = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid property ID",
+      });
+    }
+
     const property = await Property.findById(req.params.id).populate(
       "postedBy",
       "name email",
@@ -159,7 +152,7 @@ export const getPropertyById = async (req, res) => {
 // ==========================================
 // UPDATE PROPERTY
 // ==========================================
-export const updateProperty = async (req, res) => {
+const updateProperty = async (req, res) => {
   try {
     const property = await Property.findById(req.params.id);
 
@@ -170,7 +163,6 @@ export const updateProperty = async (req, res) => {
       });
     }
 
-    // Authorization check (basic)
     if (
       property.postedBy.toString() !== req.user._id.toString() &&
       req.user.role !== "admin"
@@ -182,8 +174,9 @@ export const updateProperty = async (req, res) => {
     }
 
     Object.assign(property, req.body);
-
     await property.save();
+
+    await clearPropertyCache();
 
     res.json({
       success: true,
@@ -198,7 +191,7 @@ export const updateProperty = async (req, res) => {
 // ==========================================
 // DELETE PROPERTY
 // ==========================================
-export const deleteProperty = async (req, res) => {
+const deleteProperty = async (req, res) => {
   try {
     const property = await Property.findById(req.params.id);
 
@@ -221,6 +214,8 @@ export const deleteProperty = async (req, res) => {
 
     await property.deleteOne();
 
+    await clearPropertyCache();
+
     res.json({
       success: true,
       message: "Property deleted successfully",
@@ -231,9 +226,9 @@ export const deleteProperty = async (req, res) => {
 };
 
 // ==========================================
-// NEARBY PROPERTIES (MAP FEATURE)
+// NEARBY PROPERTIES (GEO SEARCH)
 // ==========================================
-export const getNearbyProperties = async (req, res) => {
+const getNearbyProperties = async (req, res) => {
   try {
     const { lat, lng, distance = 5000 } = req.query;
 
@@ -251,15 +246,12 @@ export const getNearbyProperties = async (req, res) => {
             type: "Point",
             coordinates: [parseFloat(lng), parseFloat(lat)],
           },
-          $maxDistance: Number(distance), // meters
+          $maxDistance: Number(distance),
         },
       },
     }).limit(20);
 
-    res.json({
-      success: true,
-      data: properties,
-    });
+    res.json({ success: true, data: properties });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -268,17 +260,36 @@ export const getNearbyProperties = async (req, res) => {
 // ==========================================
 // FEATURED PROPERTIES
 // ==========================================
-export const getFeaturedProperties = async (req, res) => {
+const getFeaturedProperties = async (req, res) => {
   try {
-    const properties = await Property.find({ isFeatured: true })
-      .sort("-createdAt")
-      .limit(10);
+    const cacheKey = "featured:properties";
+
+    const result = await cacheWrapper({
+      key: cacheKey,
+      ttl: 300,
+      fetchFunction: async () => {
+        return await Property.find({ isFeatured: true })
+          .sort("-createdAt")
+          .limit(10);
+      },
+    });
 
     res.json({
       success: true,
-      data: properties,
+      data: result.data,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
+};
+
+module.exports = {
+  createProperty,
+  getProperties,
+  getPropertyBySlug,
+  getPropertyById,
+  updateProperty,
+  deleteProperty,
+  getNearbyProperties,
+  getFeaturedProperties,
 };

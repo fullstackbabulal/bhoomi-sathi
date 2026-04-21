@@ -1,5 +1,6 @@
-import express from "express";
-import {
+const express = require("express");
+
+const {
   createBlogPost,
   getBlogPosts,
   getBlogBySlug,
@@ -7,9 +8,9 @@ import {
   updateBlogPost,
   deleteBlogPost,
   getRelatedBlogs,
-} from "../controllers/blogController.js";
+} = require("../controllers/blogController");
 
-import { protect, authorize } from "../middleware/authMiddleware.js";
+const { protect, authorize } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -47,4 +48,4 @@ router.put("/:id", protect, authorize("admin", "agent"), updateBlogPost);
 // Delete blog
 router.delete("/:id", protect, authorize("admin", "agent"), deleteBlogPost);
 
-export default router;
+module.exports = router;

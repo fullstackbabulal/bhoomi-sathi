@@ -1,10 +1,10 @@
-import jwt from "jsonwebtoken";
-import User from "../models/User.js";
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
 // ==========================================
 // VERIFY TOKEN (PROTECT ROUTES)
 // ==========================================
-export const protect = async (req, res, next) => {
+const protect = async (req, res, next) => {
   try {
     let token;
 
@@ -59,7 +59,7 @@ export const protect = async (req, res, next) => {
 
     next();
   } catch (error) {
-    res.status(401).json({
+    return res.status(401).json({
       success: false,
       message: "Not authorized, invalid token",
     });
@@ -69,7 +69,7 @@ export const protect = async (req, res, next) => {
 // ==========================================
 // ROLE-BASED AUTHORIZATION
 // ==========================================
-export const authorize = (...roles) => {
+const authorize = (...roles) => {
   return (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({
@@ -90,9 +90,9 @@ export const authorize = (...roles) => {
 };
 
 // ==========================================
-// OPTIONAL: OPTIONAL AUTH (FOR MIXED ROUTES)
+// OPTIONAL AUTH (FOR MIXED ROUTES)
 // ==========================================
-export const optionalAuth = async (req, res, next) => {
+const optionalAuth = async (req, res, next) => {
   try {
     let token;
 
@@ -128,7 +128,7 @@ export const optionalAuth = async (req, res, next) => {
 // ==========================================
 // ADMIN ONLY (SHORTCUT)
 // ==========================================
-export const adminOnly = (req, res, next) => {
+const adminOnly = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     return next();
   }
@@ -137,4 +137,11 @@ export const adminOnly = (req, res, next) => {
     success: false,
     message: "Admin access required",
   });
+};
+
+module.exports = {
+  protect,
+  authorize,
+  optionalAuth,
+  adminOnly,
 };

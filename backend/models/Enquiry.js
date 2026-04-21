@@ -1,44 +1,31 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const enquirySchema = new mongoose.Schema(
   {
-    // ===============================
-    // USER INFO (LEAD CAPTURE)
-    // ===============================
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    name: { type: String, required: true, trim: true },
+
     phone: {
-      type: String, // IMPORTANT: always string (10-digit)
+      type: String,
       required: true,
       match: /^[0-9]{10}$/,
       index: true,
     },
+
     email: {
       type: String,
       lowercase: true,
       trim: true,
+      match: [/^\S+@\S+\.\S+$/, "Invalid email"],
     },
 
-    message: {
-      type: String,
-      trim: true,
-    },
+    message: { type: String, trim: true },
 
-    // ===============================
-    // PROPERTY RELATION
-    // ===============================
     property: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Property",
       index: true,
     },
 
-    // ===============================
-    // SOURCE TRACKING (MARKETING)
-    // ===============================
     source: {
       type: String,
       enum: ["website", "facebook", "whatsapp", "call", "other"],
@@ -46,12 +33,9 @@ const enquirySchema = new mongoose.Schema(
       index: true,
     },
 
-    campaign: String, // FB Ad Campaign Name
-    medium: String, // cpc, organic, etc.
+    campaign: String,
+    medium: String,
 
-    // ===============================
-    // STATUS (SALES PIPELINE)
-    // ===============================
     status: {
       type: String,
       enum: ["new", "contacted", "visited", "closed", "rejected"],
@@ -67,32 +51,31 @@ const enquirySchema = new mongoose.Schema(
     notes: [
       {
         text: String,
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
+        createdAt: { type: Date, default: Date.now },
       },
     ],
 
-    // ===============================
-    // ANTI-SPAM
-    // ===============================
-    isSpam: {
-      type: Boolean,
-      default: false,
-    },
+    isRead: { type: Boolean, default: false, index: true },
+    followUpDate: Date,
+
+    isSpam: { type: Boolean, default: false },
     ipAddress: String,
     userAgent: String,
   },
   { timestamps: true },
 );
 
-// ===============================
 // INDEXES
-// ===============================
 enquirySchema.index({ createdAt: -1 });
 enquirySchema.index({ phone: 1, createdAt: -1 });
+enquirySchema.index({ phone: 1, property: 1, createdAt: -1 });
 
-const Enquiry = mongoose.model("Enquiry", enquirySchema);
+// Normalize phone
+enquirySchema.pre("save", function (next) {
+  if (this.phone) {
+    this.phone = this.phone.replace(/\D/g, "").slice(-10);
+  }
+  next();
+});
 
-export default Enquiry;
+module.exports = mongoose.model("Enquiry", enquirySchema);

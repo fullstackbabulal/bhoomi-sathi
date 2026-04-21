@@ -1,26 +1,41 @@
-import AppNavbar from "@/components/Navbar";
-import PropertyCard from "@/components/PropertyCard";
+import Navbar from "@/components/layout/Navbar";
+import Hero from "@/components/home/Hero";
+import FeaturedProperties from "@/components/home/FeaturedProperties";
+import Gallery from "@/components/home/Gallery";
+import Testimonials from "@/components/home/Testimonials";
 import { getProperties } from "@/lib/api";
 
 export default async function HomePage() {
-  const res = await getProperties({ limit: 6 });
-  const properties = res.data.data;
+  let properties: any[] = [];
+
+try {
+  const res = await getProperties();
+
+  console.log("API RESPONSE:", res);
+
+  // 🔥 FORCE ARRAY EXTRACTION
+  const data = res?.data;
+
+  if (Array.isArray(data)) {
+    properties = data;
+  } else if (Array.isArray(data?.data)) {
+    properties = data.data;
+  } else if (Array.isArray(data?.properties)) {
+    properties = data.properties;
+  } else {
+    properties = [];
+  }
+} catch (err) {
+  console.error(err);
+}
 
   return (
     <>
-      <AppNavbar />
-
-      <div className="container mt-4">
-        <h1>Find Your Dream Property</h1>
-
-        <div className="row">
-          {properties.map((p: any) => (
-            <div className="col-md-4 mb-4" key={p._id}>
-              <PropertyCard property={p} />
-            </div>
-          ))}
-        </div>
-      </div>
+      <Navbar />
+      <Hero />
+      <FeaturedProperties properties={properties} />
+      <Gallery />
+      <Testimonials />
     </>
   );
 }

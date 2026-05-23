@@ -1,117 +1,128 @@
+// ======================================================
+// File: backend/server.js
+// Description: Server Entry Point
+// ======================================================
+
+require("dotenv").config();
+
 const express = require("express");
-const dotenv = require("dotenv");
-const morgan = require("morgan");
-const helmet = require("helmet");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
+const morgan = require("morgan");
 
-// ==========================================
-// LOAD ENV FIRST
-// ==========================================
-dotenv.config();
+// ======================================================
+// DATABASE
+// ======================================================
+const connectDB = require("./config/db.config.js");
 
-// ==========================================
-// DB + REDIS
-// ==========================================
-const connectDB = require("./config/db");
-const { connectRedis } = require("./config/redis");
-
-// ==========================================
+// ======================================================
 // ROUTES
-// ==========================================
-const propertyRoutes = require("./routes/propertyRoutes");
-const blogRoutes = require("./routes/blogRoutes");
-const commentRoutes = require("./routes/commentRoutes");
+// ======================================================
+const authRoutes = require("./routes/auth.route.js");
 
-// ==========================================
-// MIDDLEWARE
-// ==========================================
-const { globalLimiter } = require("./middleware/rateLimiter");
-const { errorHandler, notFound } = require("./middleware/errorHandler");
+const propertyRoutes = require("./routes/property.route.js");
 
-// ==========================================
-// INIT APP
-// ==========================================
+const blogRoutes = require("./routes/blog.route.js");
+
+const commentRoutes = require("./routes/comment.route.js");
+
+// ======================================================
+// APP CONFIG
+// ======================================================
 const app = express();
 
-// ==========================================
+const PORT = process.env.PORT || 4000;
+
+// ======================================================
+// CONNECT DATABASE
+// ======================================================
+connectDB();
+
+// ======================================================
 // SECURITY MIDDLEWARE
-// ==========================================
+// ======================================================
 app.use(helmet());
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "*",
-    credentials: true,
-  }),
-);
-
-app.use(cookieParser());
-
-// ==========================================
-// BODY PARSER
-// ==========================================
-app.use(express.json({ limit: "10kb" }));
-app.use(express.urlencoded({ extended: true }));
-
-// ==========================================
-// LOGGING (DEV ONLY)
-// ==========================================
+// ======================================================
+// LOGGER
+// ======================================================
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-// ==========================================
-// RATE LIMITING (GLOBAL)
-// ==========================================
-app.use(globalLimiter);
+// ======================================================
+// CORS
+// HttpOnly Cookie Support
+// ======================================================
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
 
-// ==========================================
+    credentials: true,
+  }),
+);
+
+// ======================================================
+// BODY PARSER
+// ======================================================
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// ======================================================
+// COOKIE PARSER
+// Required for JWT HttpOnly Cookies
+// ======================================================
+app.use(cookieParser());
+
+// ======================================================
 // HEALTH CHECK
-// ==========================================
+// ======================================================
 app.get("/", (req, res) => {
-  res.send("🚀 API is running...");
+  res.status(200).json({
+    success: true,
+    message: "Bhoomi Sathi API Running",
+  });
 });
 
-// ==========================================
-// ROUTES
-// ==========================================
+// ======================================================
+// API ROUTES
+// ======================================================
+app.use("/api/auth", authRoutes);
+
 app.use("/api/properties", propertyRoutes);
+
 app.use("/api/blogs", blogRoutes);
+
 app.use("/api/comments", commentRoutes);
 
-// ==========================================
+// ======================================================
 // 404 HANDLER
-// ==========================================
-app.use(notFound);
+// Express 5 Compatible
+// ======================================================
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Route not found",
+  });
+});
 
-// ==========================================
-// ERROR HANDLER (LAST)
-// ==========================================
-app.use(errorHandler);
+// ======================================================
+// GLOBAL ERROR HANDLER
+// ======================================================
+app.use((err, req, res, next) => {
+  console.error("Server Error:", err);
 
-// ==========================================
-// START SERVER (PROPER ORDER)
-// ==========================================
-const PORT = process.env.PORT || 5000;
+  res.status(500).json({
+    success: false,
+    message: "Internal Server Error",
+    error: process.env.NODE_ENV === "development" ? err.message : undefined,
+  });
+});
 
-const startServer = async () => {
-  try {
-    console.log("🔄 Starting server...");
-
-    // ✅ Connect MongoDB
-    await connectDB();
-
-    // ✅ Connect Redis (non-blocking safe)
-    await connectRedis();
-
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error("❌ Server startup failed:", error.message);
-    process.exit(1);
-  }
-};
-
-startServer();
+// ======================================================
+// START SERVER
+// ======================================================
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});

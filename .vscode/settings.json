@@ -1,0 +1,9 @@
+{
+  "files.autoSave": "onFocusChange",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.wordWrap": "on",
+  "editor.tabSize": 2,
+  "workbench.colorTheme": "Dark Modern",
+  "editor.fontSize": 20,
+  "editor.formatOnSave": true
+}

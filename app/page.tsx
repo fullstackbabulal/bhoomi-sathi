@@ -1,41 +1,40 @@
-import Navbar from "@/components/layout/Navbar";
-import Hero from "@/components/home/Hero";
-import FeaturedProperties from "@/components/home/FeaturedProperties";
-import Gallery from "@/components/home/Gallery";
-import Testimonials from "@/components/home/Testimonials";
-import { getProperties } from "@/lib/api";
+// ======================================================
+// File: app/page.tsx
+// Description: Home Route Entry
+// Public landing page
+// ======================================================
 
-export default async function HomePage() {
-  let properties: any[] = [];
+import Home from "@/pages/home";
 
-try {
-  const res = await getProperties();
+import { fetchProperties } from "@/services/propertyApi";
 
-  console.log("API RESPONSE:", res);
+// ======================================================
+// PAGE
+// ======================================================
+export default async function Page() {
+  let properties: unknown[] = [];
 
-  // 🔥 FORCE ARRAY EXTRACTION
-  const data = res?.data;
+  try {
+    const res = await fetchProperties();
 
-  if (Array.isArray(data)) {
-    properties = data;
-  } else if (Array.isArray(data?.data)) {
-    properties = data.data;
-  } else if (Array.isArray(data?.properties)) {
-    properties = data.properties;
-  } else {
-    properties = [];
+    const data = res?.data;
+
+    // ==============================================
+    // API RESPONSE NORMALIZATION
+    // ==============================================
+    if (Array.isArray(data)) {
+      properties = data;
+    } else if (Array.isArray(data?.data)) {
+      properties = data.data;
+    } else if (Array.isArray(data?.properties)) {
+      properties = data.properties;
+    }
+  } catch (error) {
+    console.error("Failed to fetch properties:", error);
   }
-} catch (err) {
-  console.error(err);
-}
 
-  return (
-    <>
-      <Navbar />
-      <Hero />
-      <FeaturedProperties properties={properties} />
-      <Gallery />
-      <Testimonials />
-    </>
-  );
+  // ==============================================
+  // PUBLIC HOME PAGE
+  // ==============================================
+  return <Home properties={properties} />;
 }

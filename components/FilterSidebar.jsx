@@ -1,130 +1,209 @@
-import React from "react";
+"use client";
+
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilters, resetFilters } from "../store/filterSlice";
+import { resetFilters, setFilters } from "../store/filterSlice";
 
-const propertyTypes = ["plot", "flat", "house"];
+const PROPERTY_TYPES = [
+  {
+    label: "Plot",
+    value: "plot",
+  },
+  {
+    label: "Flat",
+    value: "flat",
+  },
+  {
+    label: "House",
+    value: "house",
+  },
+];
 
-const FilterSidebar = () => {
+const MAX_PRICE = 10000000;
+const PRICE_STEP = 50000;
+
+export default function FilterSidebar() {
   const dispatch = useDispatch();
-  const filters = useSelector((state) => state.filters);
 
-  const update = (data) => {
-    dispatch(setFilters(data));
-  };
+  const filters = useSelector((state) => state?.filters ?? {});
+
+  const updateFilters = useCallback(
+    (payload) => {
+      dispatch(setFilters(payload));
+    },
+    [dispatch],
+  );
+
+  const handleReset = useCallback(() => {
+    dispatch(resetFilters());
+  }, [dispatch]);
+
+  const handleInputChange = useCallback(
+    (field, value) => {
+      updateFilters({
+        [field]: value,
+      });
+    },
+    [updateFilters],
+  );
+
+  const handlePropertyType = useCallback(
+    (type) => {
+      const selectedType = filters?.type === type ? "" : type;
+
+      updateFilters({
+        type: selectedType,
+      });
+    },
+    [filters?.type, updateFilters],
+  );
 
   return (
-    <div className="bg-white p-3 rounded-4 shadow-sm">
-      {/* HEADER */}
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h6 className="fw-bold m-0">Filters</h6>
+    <aside
+      className="bg-white p-4 rounded-4 shadow-sm border"
+      aria-label="Property filters"
+    >
+      {/* Header */}
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h5 className="fw-bold mb-1">Filters</h5>
+
+          <p className="text-muted small mb-0">Refine your property search</p>
+        </div>
+
         <button
-          className="btn btn-sm btn-outline-secondary"
-          onClick={() => dispatch(resetFilters())}
+          type="button"
+          className="btn btn-sm btn-outline-secondary rounded-pill"
+          onClick={handleReset}
         >
           Reset
         </button>
       </div>
 
-      {/* LOCATION */}
-      <div className="mb-3">
-        <label className="form-label small fw-semibold">Location</label>
+      {/* Location */}
+      <div className="mb-4">
+        <label className="form-label fw-semibold small">Location</label>
+
         <input
           type="text"
           className="form-control rounded-pill"
           placeholder="e.g. Ratua"
-          value={filters.location}
-          onChange={(e) => update({ location: e.target.value })}
+          value={filters?.location ?? ""}
+          onChange={(e) => handleInputChange("location", e.target.value)}
         />
       </div>
 
-      {/* PROPERTY TYPE (TOUCH PILLS) */}
-      <div className="mb-3">
-        <label className="form-label small fw-semibold">Property Type</label>
+      {/* Property Type */}
+      <div className="mb-4">
+        <label className="form-label fw-semibold small">Property Type</label>
+
         <div className="d-flex flex-wrap gap-2">
-          {propertyTypes.map((type) => (
-            <button
-              key={type}
-              className={`btn rounded-pill px-3 ${
-                filters.type === type ? "btn-dark" : "btn-outline-dark"
-              }`}
-              onClick={() => update({ type })}
-            >
-              {type}
-            </button>
-          ))}
+          {PROPERTY_TYPES.map(({ label, value }) => {
+            const isActive = filters?.type === value;
+
+            return (
+              <button
+                key={value}
+                type="button"
+                className={`btn rounded-pill px-3 text-capitalize ${
+                  isActive ? "btn-dark" : "btn-outline-dark"
+                }`}
+                onClick={() => handlePropertyType(value)}
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* PRICE RANGE (TOUCH SLIDER STYLE) */}
-      <div className="mb-3">
-        <label className="form-label small fw-semibold">Price Range</label>
+      {/* Price Range */}
+      <div className="mb-4">
+        <label className="form-label fw-semibold small">Price Range</label>
 
-        <div className="d-flex gap-2 mb-2">
-          <input
-            type="number"
-            className="form-control"
-            placeholder="Min"
-            value={filters.priceMin}
-            onChange={(e) => update({ priceMin: e.target.value })}
-          />
-          <input
-            type="number"
-            className="form-control"
-            placeholder="Max"
-            value={filters.priceMax}
-            onChange={(e) => update({ priceMax: e.target.value })}
-          />
+        <div className="row g-2 mb-3">
+          <div className="col-6">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Min Price"
+              min="0"
+              value={filters?.priceMin ?? ""}
+              onChange={(e) => handleInputChange("priceMin", e.target.value)}
+            />
+          </div>
+
+          <div className="col-6">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Max Price"
+              min="0"
+              value={filters?.priceMax ?? ""}
+              onChange={(e) => handleInputChange("priceMax", e.target.value)}
+            />
+          </div>
         </div>
 
-        {/* RANGE SLIDER */}
         <input
           type="range"
           className="form-range"
           min="0"
-          max="10000000"
-          step="50000"
-          value={filters.priceMax || 0}
-          onChange={(e) => update({ priceMax: e.target.value })}
+          max={MAX_PRICE}
+          step={PRICE_STEP}
+          value={filters?.priceMax || 0}
+          onChange={(e) => handleInputChange("priceMax", e.target.value)}
         />
-      </div>
 
-      {/* AREA RANGE */}
-      <div className="mb-3">
-        <label className="form-label small fw-semibold">Area (sqft)</label>
-
-        <div className="d-flex gap-2">
-          <input
-            type="number"
-            className="form-control"
-            placeholder="Min"
-            value={filters.areaMin}
-            onChange={(e) => update({ areaMin: e.target.value })}
-          />
-          <input
-            type="number"
-            className="form-control"
-            placeholder="Max"
-            value={filters.areaMax}
-            onChange={(e) => update({ areaMax: e.target.value })}
-          />
+        <div className="d-flex justify-content-between small text-muted">
+          <span>₹0</span>
+          <span>₹{MAX_PRICE.toLocaleString("en-IN")}</span>
         </div>
       </div>
 
-      {/* SORT */}
-      <div className="mb-2">
-        <label className="form-label small fw-semibold">Sort By</label>
+      {/* Area Range */}
+      <div className="mb-4">
+        <label className="form-label fw-semibold small">Area (sqft)</label>
+
+        <div className="row g-2">
+          <div className="col-6">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Min Area"
+              min="0"
+              value={filters?.areaMin ?? ""}
+              onChange={(e) => handleInputChange("areaMin", e.target.value)}
+            />
+          </div>
+
+          <div className="col-6">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Max Area"
+              min="0"
+              value={filters?.areaMax ?? ""}
+              onChange={(e) => handleInputChange("areaMax", e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Sort */}
+      <div>
+        <label className="form-label fw-semibold small">Sort By</label>
+
         <select
           className="form-select rounded-pill"
-          value={filters.sort}
-          onChange={(e) => update({ sort: e.target.value })}
+          value={filters?.sort ?? ""}
+          onChange={(e) => handleInputChange("sort", e.target.value)}
         >
           <option value="">Default</option>
           <option value="low">Price Low → High</option>
           <option value="high">Price High → Low</option>
         </select>
       </div>
-    </div>
+    </aside>
   );
-};
-
-export default FilterSidebar;
+}

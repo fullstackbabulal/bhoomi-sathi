@@ -2,84 +2,73 @@
 
 import styles from "./MissionVision.module.css";
 
-/**
- * MissionVision
- * -----------------------------------
- * Production-ready
- * API-driven
- * SEO optimized
- * Accessible
- * Backward compatible
- *
- * Rules:
- * - Dynamic content via props
- * - Never crashes on missing data
- * - H2 reserved for major section heading
- * - H3 used for mission/vision cards
- */
+import { Target, Binoculars } from "lucide-react";
+
+const iconMap = {
+  target: Target,
+  vision: Binoculars,
+};
 
 export default function MissionVision({ data = {}, loading = false }) {
-  const {
-    mission = {
-      title: "Simplify Real Estate for Everyone",
-      description:
-        "Our mission is to make property discovery, buying, and selling simple, transparent, and accessible for everyone.",
-      icon: "🎯",
-    },
+  const mission = data?.mission || {};
 
-    vision = {
-      title: "Building India's Most Trusted Property Platform",
-      description:
-        "Our vision is to become India's most trusted real estate ecosystem through transparency, innovation, and customer satisfaction.",
-      icon: "👁️",
-    },
-  } = data || {};
+  const vision = data?.vision || {};
+
+  const missionIcon = iconMap[mission?.icon] || Target;
+
+  const visionIcon = iconMap[vision?.icon] || Binoculars;
 
   return (
     <section className={styles.section} aria-label="Mission and Vision">
       <div className={styles.container}>
-        {/* SEO: H2 */}
-        <div className={styles.heading}>
-          <span className={styles.badge}>Mission & Vision</span>
-
-          <h2 className={styles.title}>What Drives Bhoomi Sathi</h2>
-
-          <p className={styles.description}>
-            We are building a trustworthy, transparent, and technology-driven
-            real estate experience for buyers, sellers, and investors.
-          </p>
-        </div>
-
         <div className={styles.grid}>
-          <article className={styles.card}>
-            <div className={styles.icon} aria-hidden="true">
-              {mission?.icon || "🎯"}
+          {/* Mission Card */}
+          <article className={`${styles.card} ${styles.missionCard}`}>
+            <div className={`${styles.iconWrapper} ${styles.missionIcon}`}>
+              {missionIcon && <missionIcon size={38} strokeWidth={2.2} />}
             </div>
 
             <div className={styles.content}>
-              <span className={styles.cardBadge}>Our Mission</span>
+              <span className={`${styles.cardBadge} ${styles.missionBadge}`}>
+                OUR MISSION
+              </span>
 
-              {/* SEO: H3 */}
-              <h3 className={styles.cardTitle}>{mission?.title}</h3>
+              <h2 className={styles.cardTitle}>
+                {mission?.title || "Simplify Real Estate for Everyone"}
+              </h2>
 
-              <p className={styles.cardDescription}>{mission?.description}</p>
+              <p className={styles.cardDescription}>
+                {mission?.description ||
+                  "Our mission is to make property discovery, buying, and selling simple, transparent, and accessible for everyone."}
+              </p>
             </div>
           </article>
 
-          <article className={styles.card}>
-            <div className={styles.icon} aria-hidden="true">
-              {vision?.icon || "👁️"}
+          {/* Vision Card */}
+          <article className={`${styles.card} ${styles.visionCard}`}>
+            <div className={`${styles.iconWrapper} ${styles.visionIcon}`}>
+              {visionIcon && <visionIcon size={38} strokeWidth={2.2} />}
             </div>
 
             <div className={styles.content}>
-              <span className={styles.cardBadge}>Our Vision</span>
+              <span className={`${styles.cardBadge} ${styles.visionBadge}`}>
+                OUR VISION
+              </span>
 
-              {/* SEO: H3 */}
-              <h3 className={styles.cardTitle}>{vision?.title}</h3>
+              <h2 className={styles.cardTitle}>
+                {vision?.title ||
+                  "Building India's Most Trusted Property Platform"}
+              </h2>
 
-              <p className={styles.cardDescription}>{vision?.description}</p>
+              <p className={styles.cardDescription}>
+                {vision?.description ||
+                  "Our vision is to become India's most trusted real estate ecosystem through transparency, innovation, and customer satisfaction."}
+              </p>
             </div>
           </article>
+
+          {/* Backward compatibility */}
+          {!loading && !mission?.title && !vision?.title && null}
         </div>
       </div>
     </section>

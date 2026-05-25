@@ -1,7 +1,7 @@
 .section {
   position: relative;
-  padding: 100px 0;
-  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  padding: 48px 0 70px;
+  background: #ffffff;
 }
 
 .container {
@@ -11,76 +11,33 @@
   padding: 0 24px;
 }
 
-.heading {
-  max-width: 760px;
-  margin: 0 auto 64px;
-  text-align: center;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 18px;
-  padding: 10px 18px;
-
-  border-radius: 999px;
-
-  background: rgba(37, 99, 235, 0.08);
-
-  color: #2563eb;
-
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-}
-
-.title {
-  margin: 0 0 18px;
-
-  font-size: clamp(2rem, 4vw, 3.2rem);
-
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
-
-  color: #0f172a;
-}
-
-.description {
-  margin: 0 auto;
-
-  max-width: 720px;
-
-  font-size: 1.05rem;
-  line-height: 1.9;
-
-  color: #64748b;
-}
+/* ==================================
+   Grid
+================================== */
 
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-
-  gap: 32px;
+  gap: 18px;
 }
 
+/* ==================================
+   Card
+================================== */
+
 .card {
+  position: relative;
+
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 22px;
 
-  padding: 40px;
+  min-height: 140px;
+  padding: 22px 26px;
 
-  border-radius: 32px;
-
-  background: #ffffff;
+  border-radius: 22px;
 
   border: 1px solid rgba(15, 23, 42, 0.08);
-
-  box-shadow: 0 16px 50px rgba(15, 23, 42, 0.06);
 
   transition:
     transform 0.25s ease,
@@ -89,31 +46,59 @@
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
 
   border-color: rgba(37, 99, 235, 0.14);
 
-  box-shadow: 0 26px 60px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
 }
 
-.icon {
+/* ==================================
+   Mission / Vision Background
+================================== */
+
+.missionCard {
+  background: #f3f7fc;
+}
+
+.visionCard {
+  background: #eef6f0;
+}
+
+/* ==================================
+   Icon
+================================== */
+
+.iconWrapper {
   flex-shrink: 0;
 
-  width: 72px;
-  height: 72px;
+  width: 94px;
+  height: 94px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 22px;
+  border-radius: 999px;
 
-  font-size: 32px;
+  background: #ffffff;
 
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-
-  color: #ffffff;
+  box-shadow:
+    0 6px 16px rgba(15, 23, 42, 0.06),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.06);
 }
+
+.missionIcon {
+  color: #2563eb;
+}
+
+.visionIcon {
+  color: #2f855a;
+}
+
+/* ==================================
+   Content
+================================== */
 
 .content {
   flex: 1;
@@ -122,112 +107,121 @@
 .cardBadge {
   display: inline-block;
 
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+}
 
+.missionBadge {
   color: #2563eb;
 }
 
-.cardTitle {
-  margin: 0 0 14px;
+.visionBadge {
+  color: #2f855a;
+}
 
-  font-size: 1.65rem;
-  font-weight: 800;
-  line-height: 1.3;
+.cardTitle {
+  margin: 0 0 10px;
 
   color: #0f172a;
+
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
 }
 
 .cardDescription {
   margin: 0;
 
-  font-size: 1rem;
-  line-height: 1.9;
+  max-width: 440px;
 
-  color: #64748b;
+  color: #475569;
+
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.7;
 }
 
-.card:focus-within {
-  outline: 3px solid rgba(37, 99, 235, 0.2);
+/* ==================================
+   Accessibility
+================================== */
 
+.card:focus-within {
+  outline: 3px solid rgba(37, 99, 235, 0.15);
   outline-offset: 4px;
 }
 
-/* ==========================
-   Large Tablets
-========================== */
+/* ==================================
+   Large Tablet
+================================== */
 
 @media (max-width: 1200px) {
-  .card {
-    padding: 32px;
+  .cardTitle {
+    font-size: 1.7rem;
+  }
+
+  .iconWrapper {
+    width: 82px;
+    height: 82px;
   }
 }
 
-/* ==========================
-   Tablets
-========================== */
+/* ==================================
+   Tablet
+================================== */
 
 @media (max-width: 992px) {
   .section {
-    padding: 80px 0;
+    padding: 40px 0 60px;
   }
 
   .grid {
     grid-template-columns: 1fr;
   }
-
-  .heading {
-    margin-bottom: 48px;
-  }
 }
 
-/* ==========================
+/* ==================================
    Mobile
-========================== */
+================================== */
 
 @media (max-width: 768px) {
-  .section {
-    padding: 72px 0;
-  }
-
   .container {
     padding: 0 20px;
   }
 
   .card {
-    padding: 28px;
-    border-radius: 24px;
+    gap: 18px;
+    padding: 22px;
+    border-radius: 20px;
   }
 
-  .icon {
-    width: 58px;
-    height: 58px;
-
-    font-size: 26px;
+  .iconWrapper {
+    width: 72px;
+    height: 72px;
   }
 
   .cardTitle {
-    font-size: 1.35rem;
+    font-size: 1.45rem;
   }
 
-  .description,
   .cardDescription {
-    font-size: 0.98rem;
-    line-height: 1.8;
+    font-size: 14px;
   }
 }
 
-/* ==========================
+/* ==================================
    Small Mobile
-========================== */
+================================== */
 
 @media (max-width: 480px) {
   .section {
-    padding: 60px 0;
+    padding: 36px 0 54px;
   }
 
   .container {
@@ -236,24 +230,23 @@
 
   .card {
     flex-direction: column;
-    gap: 18px;
+    align-items: flex-start;
 
-    padding: 24px;
+    gap: 18px;
+    padding: 20px;
   }
 
-  .badge {
-    font-size: 12px;
-    padding: 8px 14px;
+  .iconWrapper {
+    width: 64px;
+    height: 64px;
   }
 
   .cardTitle {
     font-size: 1.2rem;
   }
 
-  .icon {
-    width: 54px;
-    height: 54px;
-
-    border-radius: 18px;
+  .cardDescription {
+    font-size: 13px;
+    line-height: 1.65;
   }
 }

@@ -1,81 +1,90 @@
 "use client";
 
-import Image from "next/image";
-import styles from "./WhoWeAre.module.css";
+import styles from "./WhyChooseUs.module.css";
 
-/**
- * WhoWeAre
- * -----------------------------------
- * Production-ready
- * API-driven
- * SEO optimized
- * Accessible
- * Backward compatible
- *
- * Rules:
- * - Uses dynamic props
- * - Never crashes on missing data
- * - H2 for SEO hierarchy
- * - next/image for performance
- */
+import {
+  ShieldCheck,
+  Users,
+  Lock,
+  Headphones,
+  Search,
+  Sparkles,
+} from "lucide-react";
 
-export default function WhoWeAre({ data = {}, loading = false }) {
+const iconMap = {
+  shield: ShieldCheck,
+  users: Users,
+  lock: Lock,
+  support: Headphones,
+  search: Search,
+  experience: Sparkles,
+};
+
+export default function WhyChooseUs({ data = {}, loading = false }) {
   const {
-    badge = "Who We Are",
+    badge = "Why Choose Us",
+    title = "Why Thousands Trust Bhoomi Sathi?",
+    items = [],
+  } = data;
 
-    title = "Your Trusted Real Estate Partner",
-
-    description = "We are passionate about helping people find the right property with confidence. Bhoomi Sathi combines transparency, technology, and trust to simplify the property journey.",
-
-    image = {
-      url: "/images/about/who-we-are.webp",
-      alt: "Modern residential living space representing Bhoomi Sathi services",
-    },
-
-    features = [],
-  } = data || {};
+  const safeItems = Array.isArray(items) ? items : [];
 
   return (
-    <section className={styles.section} aria-label="Who We Are">
+    <section className={styles.section} aria-labelledby="why-choose-us-title">
       <div className={styles.container}>
-        <div className={styles.imageWrapper}>
-          <Image
-            src={image?.url || "/images/about/who-we-are.webp"}
-            alt={image?.alt || "Who We Are"}
-            fill
-            quality={90}
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className={styles.image}
-          />
+        {/* Heading */}
+        <div className={styles.heading}>
+          {badge ? <span className={styles.badge}>{badge}</span> : null}
+
+          <h2 id="why-choose-us-title" className={styles.title}>
+            {title}
+          </h2>
         </div>
 
-        <div className={styles.content}>
-          {badge && <span className={styles.badge}>{badge}</span>}
+        {/* Cards */}
+        <div className={styles.grid}>
+          {safeItems.map((item, index) => {
+            const { id, title, description, icon } = item || {};
 
-          {/* SEO: H2 */}
-          <h2 className={styles.title}>{title}</h2>
+            const IconComponent = iconMap[icon] || ShieldCheck;
 
-          {description && <p className={styles.description}>{description}</p>}
+            return (
+              <article key={id || index} className={styles.card}>
+                <div className={styles.icon}>
+                  <IconComponent size={28} strokeWidth={2} />
+                </div>
 
-          {features?.length > 0 && (
-            <ul className={styles.featureList}>
-              {features.map((item, index) => (
-                <li key={item?.id || index} className={styles.featureItem}>
-                  <div className={styles.icon} aria-hidden="true">
-                    ✓
-                  </div>
+                <div className={styles.content}>
+                  <h3 className={styles.cardTitle}>
+                    {title || "Feature Title"}
+                  </h3>
 
-                  <div>
-                    <h3 className={styles.featureTitle}>{item?.title}</h3>
+                  <p className={styles.cardDescription}>
+                    {description || "Feature description unavailable."}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
 
-                    <p className={styles.featureDescription}>
-                      {item?.description}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
+          {/* Backward compatibility */}
+          {!safeItems.length &&
+            !loading &&
+            Array.from({ length: 6 }).map((_, index) => (
+              <article key={index} className={styles.card}>
+                <div className={styles.icon}>
+                  <ShieldCheck size={28} strokeWidth={2} />
+                </div>
+
+                <div className={styles.content}>
+                  <h3 className={styles.cardTitle}>Verified Listings</h3>
+
+                  <p className={styles.cardDescription}>
+                    Properties are verified for authenticity.
+                  </p>
+                </div>
+              </article>
+            ))}
         </div>
       </div>
     </section>

@@ -2,93 +2,107 @@
 
 import styles from "./HowItWorks.module.css";
 
-/**
- * HowItWorks
- * -----------------------------------
- * Production-ready
- * API-driven
- * SEO optimized
- * Accessible
- * Backward compatible
- *
- * Rules:
- * - Dynamic content via props
- * - Never crashes on missing data
- * - H2 for section title
- * - H3 for step title
- */
+import { Search, Scale, PhoneCall, CircleCheckBig } from "lucide-react";
+
+const iconMap = {
+  search: Search,
+  compare: Scale,
+  contact: PhoneCall,
+  check: CircleCheckBig,
+};
 
 export default function HowItWorks({ data = {}, loading = false }) {
-  const {
-    badge = "Our Process",
+  const { badge = "Our Process", title = "How It Works?", steps = [] } = data;
 
-    title = "How It Works?",
+  const safeSteps = Array.isArray(steps) ? steps : [];
 
-    steps = [],
-  } = data || {};
+  const fallbackSteps = [
+    {
+      id: 1,
+      step: "01",
+      title: "Search Property",
+      description: "Browse verified properties using filters and preferences.",
+      icon: "search",
+    },
+    {
+      id: 2,
+      step: "02",
+      title: "Compare Listings",
+      description: "Compare prices, locations, and features easily.",
+      icon: "compare",
+    },
+    {
+      id: 3,
+      step: "03",
+      title: "Contact Seller",
+      description: "Connect with sellers or agents directly.",
+      icon: "contact",
+    },
+    {
+      id: 4,
+      step: "04",
+      title: "Finalize Property",
+      description: "Close the deal and make it yours.",
+      icon: "check",
+    },
+  ];
+
+  const renderSteps = safeSteps.length > 0 ? safeSteps : fallbackSteps;
 
   return (
-    <section className={styles.section} aria-label="How Bhoomi Sathi Works">
+    <section className={styles.section} aria-labelledby="how-it-works-title">
       <div className={styles.container}>
+        {/* Heading */}
         <div className={styles.heading}>
-          {badge && <span className={styles.badge}>{badge}</span>}
+          {badge ? <span className={styles.badge}>{badge}</span> : null}
 
-          {/* SEO: H2 */}
-          <h2 className={styles.title}>{title}</h2>
+          <h2 id="how-it-works-title" className={styles.title}>
+            {title}
+          </h2>
         </div>
 
-        {steps?.length > 0 && (
-          <div className={styles.timeline}>
-            {steps.map((step, index) => (
-              <article key={step?.id || index} className={styles.card}>
-                <div className={styles.stepTop}>
-                  <div className={styles.icon} aria-hidden="true">
-                    {getIcon(step?.icon)}
+        {/* Timeline */}
+        <div className={styles.timeline}>
+          {renderSteps.map((stepItem, index) => {
+            const { id, step, title, description, icon } = stepItem || {};
+
+            const IconComponent = iconMap[icon] || Search;
+
+            return (
+              <article key={id || index} className={styles.card}>
+                {/* Connector */}
+                {index !== renderSteps.length - 1 && (
+                  <span className={styles.connector} aria-hidden="true" />
+                )}
+
+                <div className={styles.cardInner}>
+                  {/* Icon */}
+                  <div className={styles.iconWrapper}>
+                    <div className={styles.icon}>
+                      <IconComponent size={30} strokeWidth={2.2} />
+                    </div>
                   </div>
 
-                  <span className={styles.stepNumber}>
-                    {step?.step || `0${index + 1}`}
-                  </span>
+                  {/* Content */}
+                  <div className={styles.content}>
+                    <span className={styles.stepNumber}>
+                      {step || `0${index + 1}`}
+                    </span>
+
+                    <h3 className={styles.cardTitle}>
+                      {title || "Step Title"}
+                    </h3>
+
+                    <p className={styles.cardDescription}>
+                      {description || "Description unavailable."}
+                    </p>
+                  </div>
                 </div>
-
-                <div className={styles.content}>
-                  {/* SEO: H3 */}
-                  <h3 className={styles.cardTitle}>{step?.title}</h3>
-
-                  <p className={styles.cardDescription}>{step?.description}</p>
-                </div>
-
-                {index !== steps.length - 1 && (
-                  <div className={styles.connector} aria-hidden="true" />
-                )}
               </article>
-            ))}
-          </div>
-        )}
+            );
+          })}
+        </div>
       </div>
     </section>
   );
-}
-
-/**
- * Icon Resolver
- * Future-ready for API values
- */
-function getIcon(icon) {
-  switch (icon) {
-    case "search":
-      return "🔍";
-
-    case "compare":
-      return "⚖️";
-
-    case "contact":
-      return "📞";
-
-    case "check":
-      return "✅";
-
-    default:
-      return "✔️";
-  }
 }

@@ -1,7 +1,7 @@
 .section {
   position: relative;
-  padding: 100px 0;
-  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  padding: 48px 0 56px;
+  background: #ffffff;
 }
 
 .container {
@@ -11,209 +11,177 @@
   padding: 0 24px;
 }
 
+/* ==================================
+   Heading
+================================== */
+
 .heading {
   text-align: center;
-  max-width: 760px;
-  margin: 0 auto 64px;
+  margin-bottom: 34px;
 }
 
 .badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
 
-  margin-bottom: 18px;
-  padding: 10px 18px;
-
-  border-radius: 999px;
-
-  background: rgba(37, 99, 235, 0.08);
+  margin-bottom: 8px;
 
   color: #2563eb;
 
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .title {
   margin: 0;
 
-  font-size: clamp(2rem, 4vw, 3.2rem);
-
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
-
   color: #0f172a;
+
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
 }
 
-.timeline {
-  position: relative;
+/* ==================================
+   Timeline
+================================== */
 
+.timeline {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-
   gap: 28px;
 }
 
+/* ==================================
+   Card
+================================== */
+
 .card {
+  position: relative;
+}
+
+.cardInner {
   position: relative;
 
   display: flex;
-  flex-direction: column;
-
-  padding: 36px 28px;
-
-  min-height: 280px;
-
-  border-radius: 30px;
-
-  background: #ffffff;
-
-  border: 1px solid rgba(15, 23, 42, 0.08);
-
-  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.05);
-
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
+  align-items: flex-start;
+  gap: 18px;
 }
 
-.card:hover {
-  transform: translateY(-6px);
+/* ==================================
+   Connector
+================================== */
 
-  border-color: rgba(37, 99, 235, 0.15);
+.connector {
+  position: absolute;
 
-  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.1);
+  top: 42px;
+  left: calc(100% - 12px);
+
+  width: 78px;
+  border-top: 2px dotted rgba(37, 99, 235, 0.3);
+
+  z-index: 1;
 }
 
-.stepTop {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+/* ==================================
+   Icon
+================================== */
 
-  margin-bottom: 28px;
+.iconWrapper {
+  position: relative;
+  z-index: 2;
+
+  flex-shrink: 0;
 }
 
 .icon {
-  width: 72px;
-  height: 72px;
+  width: 78px;
+  height: 78px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 22px;
+  border-radius: 999px;
 
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-
+  background: #1d4ed8;
   color: #ffffff;
 
-  font-size: 32px;
+  border: 4px solid #dbeafe;
 
-  flex-shrink: 0;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+}
+
+/* ==================================
+   Content
+================================== */
+
+.content {
+  padding-top: 6px;
 }
 
 .stepNumber {
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  display: block;
+
+  margin-bottom: 8px;
 
   color: #2563eb;
-}
 
-.content {
-  flex: 1;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .cardTitle {
-  margin: 0 0 14px;
-
-  font-size: 1.3rem;
-  font-weight: 800;
-  line-height: 1.35;
+  margin: 0 0 8px;
 
   color: #0f172a;
+
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 .cardDescription {
   margin: 0;
 
-  font-size: 1rem;
-  line-height: 1.8;
+  max-width: 190px;
 
-  color: #64748b;
+  color: #475569;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
-.connector {
-  position: absolute;
-  top: 68px;
-  left: calc(100% - 10px);
-
-  width: 48px;
-  height: 2px;
-
-  background: linear-gradient(
-    90deg,
-    rgba(37, 99, 235, 0.4) 0%,
-    rgba(37, 99, 235, 0.1) 100%
-  );
-
-  z-index: 2;
-}
-
-.card:focus-within {
-  outline: 3px solid rgba(37, 99, 235, 0.2);
-
-  outline-offset: 4px;
-}
-
-/* ==========================
-   Large Tablets
-========================== */
+/* ==================================
+   Tablet
+================================== */
 
 @media (max-width: 1200px) {
   .timeline {
     grid-template-columns: repeat(2, 1fr);
+
+    row-gap: 36px;
   }
 
   .connector {
     display: none;
   }
-
-  .card {
-    min-height: 260px;
-  }
 }
 
-/* ==========================
-   Tablets
-========================== */
-
-@media (max-width: 992px) {
-  .section {
-    padding: 80px 0;
-  }
-
-  .heading {
-    margin-bottom: 48px;
-  }
-
-  .timeline {
-    gap: 24px;
-  }
-}
-
-/* ==========================
+/* ==================================
    Mobile
-========================== */
+================================== */
 
 @media (max-width: 768px) {
   .section {
-    padding: 72px 0;
+    padding: 42px 0 52px;
   }
 
   .container {
@@ -222,69 +190,50 @@
 
   .timeline {
     grid-template-columns: 1fr;
+    gap: 28px;
   }
 
-  .card {
-    min-height: auto;
-    padding: 28px;
-    border-radius: 24px;
+  .cardInner {
+    gap: 16px;
   }
 
   .icon {
-    width: 60px;
-    height: 60px;
-
-    border-radius: 18px;
-
-    font-size: 28px;
+    width: 64px;
+    height: 64px;
   }
 
   .cardTitle {
-    font-size: 1.2rem;
+    font-size: 20px;
   }
 
   .cardDescription {
-    font-size: 0.98rem;
-    line-height: 1.75;
+    max-width: unset;
   }
 }
 
-/* ==========================
+/* ==================================
    Small Mobile
-========================== */
+================================== */
 
 @media (max-width: 480px) {
-  .section {
-    padding: 60px 0;
-  }
-
   .container {
     padding: 0 16px;
   }
 
-  .badge {
-    font-size: 12px;
-    padding: 8px 14px;
-  }
-
-  .card {
-    padding: 24px;
+  .cardInner {
+    align-items: flex-start;
   }
 
   .icon {
-    width: 54px;
-    height: 54px;
-
-    border-radius: 16px;
-
-    font-size: 24px;
+    width: 58px;
+    height: 58px;
   }
 
   .cardTitle {
-    font-size: 1.1rem;
+    font-size: 18px;
   }
 
   .cardDescription {
-    font-size: 0.95rem;
+    font-size: 13px;
   }
 }

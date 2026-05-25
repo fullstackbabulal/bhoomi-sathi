@@ -25,7 +25,7 @@ export default function AboutHero({ data = {} }) {
     href: data?.secondaryButton?.href || "/contact",
   };
 
-  const imageUrl = data?.image?.url?.trim() || "/about-hero.png";
+  const imageUrl = data?.image?.url?.trim() || "images/about/about-hero.png";
 
   const imageAlt =
     data?.image?.alt || "Luxury residential property showcased by Bhoomi Sathi";

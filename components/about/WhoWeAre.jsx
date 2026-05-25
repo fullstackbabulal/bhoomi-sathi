@@ -28,7 +28,7 @@ export default function WhoWeAre({ data = {}, loading = false }) {
     description = "We are passionate about helping people find the right property with confidence. Bhoomi Sathi combines transparency, technology, and trust to simplify the property journey.",
 
     image = {
-      url: "/images/about/who-we-are.webp",
+      url: "/images/about/who-we-are.png",
       alt: "Modern residential living space representing Bhoomi Sathi services",
     },
 

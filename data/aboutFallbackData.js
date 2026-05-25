@@ -46,7 +46,7 @@ const aboutFallbackData = {
     },
 
     image: {
-      url: "/about-hero.png",
+      url: "/images/about/about-hero.png",
       alt: "Luxury residential property showcased by Bhoomi Sathi",
     },
   },
@@ -237,7 +237,7 @@ const aboutFallbackData = {
     title: "Meet the People Behind Bhoomi Sathi",
 
     founderMessage: {
-      name: "Rajesh Kumar",
+      name: "Babulal Mandal",
 
       designation: "Founder & CEO",
 
@@ -245,7 +245,7 @@ const aboutFallbackData = {
         "At Bhoomi Sathi, our goal is to build a platform people can trust for all their real estate needs with transparency, innovation, and long-term value.",
 
       image: {
-        url: "/images/about/founder.webp",
+        url: "/images/about/founder.jpg",
         alt: "Founder of Bhoomi Sathi",
       },
     },

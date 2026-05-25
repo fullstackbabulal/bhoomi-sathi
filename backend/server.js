@@ -27,6 +27,9 @@ const blogRoutes = require("./routes/blog.route.js");
 
 const commentRoutes = require("./routes/comment.route.js");
 
+const aboutRoutes = require("./routes/about.route.js");
+
+const contactRoutes = require("./routes/contact/contact.routes.js");
 // ======================================================
 // APP CONFIG
 // ======================================================
@@ -95,7 +98,8 @@ app.use("/api/properties", propertyRoutes);
 app.use("/api/blogs", blogRoutes);
 
 app.use("/api/comments", commentRoutes);
-
+app.use("/api/about", aboutRoutes);
+app.use("/api/contact", contactRoutes);
 // ======================================================
 // 404 HANDLER
 // Express 5 Compatible

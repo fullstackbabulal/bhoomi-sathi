@@ -1,0 +1,396 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  width: 280px;
+  height: 100vh;
+
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-right: 1px solid #e5e7eb;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  overflow: hidden;
+
+  transition:
+    width 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* ===================================
+   COLLAPSED
+=================================== */
+
+.collapsed {
+  width: 92px;
+}
+
+/* ===================================
+   MOBILE OPEN
+=================================== */
+
+.open {
+  transform: translateX(0);
+}
+
+/* ===================================
+   OVERLAY
+=================================== */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(3px);
+}
+
+/* ===================================
+   TOP SECTION
+=================================== */
+
+.topSection {
+  padding: 22px 18px;
+  border-bottom: 1px solid #f1f5f9;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.logoWrapper {
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  text-decoration: none;
+}
+
+.logo {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 800;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.22);
+}
+
+.brandText {
+  overflow: hidden;
+  min-width: 0;
+}
+
+.brandText h2 {
+  margin: 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.brandText p {
+  margin: 4px 0 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 0.84rem;
+  color: #64748b;
+}
+
+.mobileCloseBtn {
+  display: none;
+
+  width: 44px;
+  height: 44px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: transparent;
+  color: #475569;
+
+  cursor: pointer;
+
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.mobileCloseBtn:hover {
+  background: #f8fafc;
+}
+
+.mobileCloseBtn:active {
+  transform: scale(0.98);
+}
+
+/* ===================================
+   NAVIGATION
+=================================== */
+
+.navigation {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 20px 14px;
+}
+
+.navigation::-webkit-scrollbar {
+  width: 6px;
+}
+
+.navigation::-webkit-scrollbar-thumb {
+  background: #dbe4ee;
+  border-radius: 999px;
+}
+
+/* ===================================
+   NAV ITEM
+=================================== */
+
+.navItem {
+  width: 100%;
+  min-height: 58px;
+
+  margin-bottom: 10px;
+  padding: 0 18px;
+
+  border-radius: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  text-decoration: none;
+  color: #475569;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.navItem:hover {
+  background: #eff6ff;
+  color: #2563eb;
+  transform: translateX(3px);
+}
+
+.active {
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.14),
+    rgba(59, 130, 246, 0.08)
+  );
+
+  color: #1d4ed8;
+  font-weight: 700;
+
+  box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.08);
+}
+
+.navLeft {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.navLeft span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* ===================================
+   COLLAPSED NAV
+=================================== */
+
+.collapsed .navItem {
+  justify-content: center;
+  padding: 0;
+}
+
+.collapsed .navLeft {
+  justify-content: center;
+}
+
+.collapsed .navLeft span {
+  display: none;
+}
+
+/* ===================================
+   EMPTY / LOADING / ERROR
+=================================== */
+
+.emptyState {
+  min-height: 120px;
+
+  border: 1px dashed #dbe4ee;
+  border-radius: 20px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(248, 250, 252, 0.9),
+    rgba(241, 245, 249, 0.95)
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 20px;
+
+  color: #64748b;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+/* ===================================
+   BOTTOM SECTION
+=================================== */
+
+.bottomSection {
+  padding: 18px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.collapseButton {
+  width: 100%;
+  height: 56px;
+
+  border: none;
+  border-radius: 18px;
+
+  background: #f8fafc;
+  color: #334155;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  cursor: pointer;
+
+  font-size: 0.94rem;
+  font-weight: 700;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.collapseButton:hover {
+  background: #eff6ff;
+  transform: translateY(-2px);
+
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.collapseButton:active {
+  transform: scale(0.98);
+}
+
+.collapsed .collapseButton {
+  justify-content: center;
+}
+
+/* ===================================
+   TABLET / MOBILE
+=================================== */
+
+@media (max-width: 1024px) {
+  .sidebar {
+    transform: translateX(-100%);
+
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.16);
+  }
+
+  .mobileCloseBtn {
+    display: flex;
+  }
+
+  .collapsed {
+    width: 280px;
+  }
+}
+
+/* ===================================
+   SMALL MOBILE
+=================================== */
+
+@media (max-width: 640px) {
+  .sidebar {
+    width: 88%;
+    max-width: 320px;
+  }
+
+  .collapsed {
+    width: 88%;
+  }
+
+  .topSection {
+    padding: 18px 16px;
+  }
+
+  .navigation {
+    padding: 18px 12px;
+  }
+
+  .bottomSection {
+    padding: 16px;
+  }
+
+  .navItem {
+    min-height: 54px;
+    border-radius: 16px;
+  }
+
+  .collapseButton {
+    height: 52px;
+    border-radius: 16px;
+  }
+}

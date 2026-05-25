@@ -1,0 +1,323 @@
+.card {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  width: 100%;
+  min-height: 92px;
+
+  padding: 18px 20px;
+
+  border: 1px solid #edf1f5;
+  border-radius: 24px;
+
+  background: #ffffff;
+  text-decoration: none;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  transition:
+    transform 0.24s ease,
+    border-color 0.24s ease,
+    box-shadow 0.24s ease,
+    background 0.24s ease;
+
+  box-shadow:
+    0 4px 10px rgba(15, 23, 42, 0.03),
+    0 12px 30px rgba(15, 23, 42, 0.04);
+}
+
+.card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+
+  border-color: #dde6ef;
+
+  box-shadow:
+    0 12px 26px rgba(15, 23, 42, 0.08),
+    0 20px 48px rgba(15, 23, 42, 0.08);
+}
+
+.card:active {
+  transform: scale(0.99);
+}
+
+/* ===================================
+   ICON
+=================================== */
+
+.iconWrapper {
+  width: 52px;
+  height: 52px;
+
+  border-radius: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  transition:
+    transform 0.24s ease,
+    background 0.24s ease;
+}
+
+.iconWrapper svg {
+  width: 22px;
+  height: 22px;
+}
+
+.card:hover .iconWrapper {
+  transform: scale(1.05);
+}
+
+/* ===================================
+   CONTENT
+=================================== */
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.content h4 {
+  margin: 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 0.96rem;
+  font-weight: 700;
+  line-height: 1.25;
+
+  color: #0f172a;
+}
+
+.content p {
+  margin: 6px 0 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  font-size: 0.85rem;
+  line-height: 1.5;
+
+  color: #64748b;
+}
+
+/* ===================================
+   ARROW
+=================================== */
+
+.arrow {
+  width: 38px;
+  height: 38px;
+
+  border-radius: 14px;
+
+  background: rgba(248, 250, 252, 0.96);
+  color: #64748b;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  transition:
+    transform 0.24s ease,
+    background 0.24s ease,
+    color 0.24s ease;
+}
+
+.card:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* ===================================
+   BLUE
+=================================== */
+
+.blue {
+  background: rgba(239, 246, 255, 0.58);
+}
+
+.blue::before {
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 1),
+    rgba(59, 130, 246, 1)
+  );
+}
+
+.blue .iconWrapper {
+  background: rgba(37, 99, 235, 0.12);
+  color: #2563eb;
+}
+
+.blue:hover .arrow {
+  background: rgba(37, 99, 235, 0.12);
+  color: #2563eb;
+}
+
+/* ===================================
+   GREEN
+=================================== */
+
+.green {
+  background: rgba(240, 253, 244, 0.62);
+}
+
+.green::before {
+  background: linear-gradient(
+    135deg,
+    rgba(22, 163, 74, 1),
+    rgba(34, 197, 94, 1)
+  );
+}
+
+.green .iconWrapper {
+  background: rgba(22, 163, 74, 0.12);
+  color: #16a34a;
+}
+
+.green:hover .arrow {
+  background: rgba(22, 163, 74, 0.12);
+  color: #16a34a;
+}
+
+/* ===================================
+   PURPLE
+=================================== */
+
+.purple {
+  background: rgba(250, 245, 255, 0.72);
+}
+
+.purple::before {
+  background: linear-gradient(
+    135deg,
+    rgba(147, 51, 234, 1),
+    rgba(168, 85, 247, 1)
+  );
+}
+
+.purple .iconWrapper {
+  background: rgba(168, 85, 247, 0.14);
+  color: #9333ea;
+}
+
+.purple:hover .arrow {
+  background: rgba(168, 85, 247, 0.14);
+  color: #9333ea;
+}
+
+/* ===================================
+   ORANGE
+=================================== */
+
+.orange {
+  background: rgba(255, 247, 237, 0.72);
+}
+
+.orange::before {
+  background: linear-gradient(
+    135deg,
+    rgba(234, 88, 12, 1),
+    rgba(249, 115, 22, 1)
+  );
+}
+
+.orange .iconWrapper {
+  background: rgba(249, 115, 22, 0.14);
+  color: #ea580c;
+}
+
+.orange:hover .arrow {
+  background: rgba(249, 115, 22, 0.14);
+  color: #ea580c;
+}
+
+/* ===================================
+   RED
+=================================== */
+
+.red {
+  background: rgba(254, 242, 242, 0.72);
+}
+
+.red::before {
+  background: linear-gradient(
+    135deg,
+    rgba(220, 38, 38, 1),
+    rgba(239, 68, 68, 1)
+  );
+}
+
+.red .iconWrapper {
+  background: rgba(239, 68, 68, 0.14);
+  color: #dc2626;
+}
+
+.red:hover .arrow {
+  background: rgba(239, 68, 68, 0.14);
+  color: #dc2626;
+}
+
+/* ===================================
+   RESPONSIVE
+=================================== */
+
+@media (max-width: 768px) {
+  .card {
+    min-height: auto;
+    padding: 16px;
+    border-radius: 22px;
+    gap: 12px;
+  }
+
+  .iconWrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+  }
+
+  .arrow {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 540px) {
+  .card {
+    border-radius: 20px;
+  }
+
+  .content h4 {
+    font-size: 0.92rem;
+  }
+
+  .content p {
+    font-size: 0.82rem;
+  }
+}

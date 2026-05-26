@@ -1,31 +1,24 @@
 "use client";
 
+// ======================================================
+// File: AdminSidebar.jsx
+// Description: Responsive Admin Sidebar
+// ======================================================
+
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Building2,
-  ChevronLeft,
-  ChevronRight,
-  FileText,
-  LayoutDashboard,
-  Mail,
-  Menu,
-  Settings,
-  Users,
-  X,
-} from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, X } from "lucide-react";
 
 import styles from "./AdminSidebar.module.css";
 
-export default function AdminSidebar({
-  navItems = null,
+import ADMIN_SIDEBAR_CONFIG from "@/utils/AdminSidebarConfig";
 
+export default function AdminSidebar({
   collapsed = false,
   isOpen = false,
-
   loading = false,
   error = null,
-
   onClose,
   onToggleCollapse,
 }) {
@@ -33,87 +26,42 @@ export default function AdminSidebar({
 
   /*
   ===================================
-  MOCK / STATIC FALLBACK
+  OPEN SUBMENU
+  Mobile / Tablet Click
   ===================================
   */
 
-  const mockNavItems = [
-    {
-      label: "Dashboard",
-      href: "/admin/dashboard",
-      icon: "layout-dashboard",
-    },
-    {
-      label: "Properties",
-      href: "/admin/properties",
-      icon: "building-2",
-    },
-    {
-      label: "Agents",
-      href: "/admin/agents",
-      icon: "users",
-    },
-    {
-      label: "Enquiries",
-      href: "/admin/enquiries",
-      icon: "mail",
-    },
-    {
-      label: "Blogs",
-      href: "/admin/blogs",
-      icon: "file-text",
-    },
-    {
-      label: "Settings",
-      href: "/admin/settings",
-      icon: "settings",
-    },
-  ];
+  const [openMenu, setOpenMenu] = useState(null);
 
   /*
   ===================================
-  SAFE DATA
-  API → STATIC FALLBACK
+  TOGGLE MENU
   ===================================
   */
 
-  const safeNavItems = navItems?.length > 0 ? navItems : mockNavItems;
-
-  /*
-  ===================================
-  ICON MAPPER
-  ===================================
-  */
-
-  const iconMap = {
-    "layout-dashboard": LayoutDashboard,
-    "building-2": Building2,
-    users: Users,
-    mail: Mail,
-    "file-text": FileText,
-    settings: Settings,
-  };
-
-  const renderIcon = (iconName) => {
-    const IconComponent = iconMap[iconName] || LayoutDashboard;
-
-    return <IconComponent size={22} />;
+  const toggleMenu = (label) => {
+    setOpenMenu((prev) => (prev === label ? null : label));
   };
 
   /*
   ===================================
-  EMPTY SAFE
+  EMPTY STATE
   ===================================
   */
 
-  const showEmptyState = !loading && !error && safeNavItems.length === 0;
+  const showEmptyState =
+    !loading && !error && ADMIN_SIDEBAR_CONFIG.length === 0;
 
   return (
     <>
-      {/* Mobile Overlay */}
+      {/* ===================================
+          MOBILE OVERLAY
+      =================================== */}
       {isOpen && <div className={styles.overlay} onClick={onClose} />}
 
-      {/* Sidebar */}
+      {/* ===================================
+          SIDEBAR
+      =================================== */}
       <aside
         className={`
           ${styles.sidebar}
@@ -121,7 +69,9 @@ export default function AdminSidebar({
           ${isOpen ? styles.open : ""}
         `}
       >
-        {/* TOP */}
+        {/* ===================================
+            TOP SECTION
+        =================================== */}
         <div className={styles.topSection}>
           <Link href="/admin/dashboard" className={styles.logoWrapper}>
             <div className={styles.logo}>A</div>
@@ -129,7 +79,8 @@ export default function AdminSidebar({
             {!collapsed && (
               <div className={styles.brandText}>
                 <h2>Admin Panel</h2>
-                <p>Property Management</p>
+
+                <p>Bhoomi Sathi</p>
               </div>
             )}
           </Link>
@@ -144,7 +95,9 @@ export default function AdminSidebar({
           </button>
         </div>
 
-        {/* NAVIGATION */}
+        {/* ===================================
+            NAVIGATION
+        =================================== */}
         <nav className={styles.navigation}>
           {/* Loading */}
           {loading && <div className={styles.emptyState}>Loading menu...</div>}
@@ -159,32 +112,113 @@ export default function AdminSidebar({
             <div className={styles.emptyState}>No navigation found.</div>
           )}
 
-          {/* Menu */}
+          {/* MENU */}
           {!loading &&
             !error &&
-            safeNavItems.map((item) => {
-              const isActive = pathname === item.href;
+            ADMIN_SIDEBAR_CONFIG.map((item) => {
+              const hasChildren = item.children?.length > 0;
+
+              const isOpenMenu = openMenu === item.label;
+
+              const Icon = item.icon;
+
+              /*
+                ======================
+                ACTIVE STATES
+                ======================
+                */
+
+              const isParentActive =
+                item.path === pathname ||
+                item.children?.some((child) => child.path === pathname);
 
               return (
-                <Link
-                  key={item.href}
-                  href={item.href || "/admin/dashboard"}
-                  className={`
-                    ${styles.navItem}
-                    ${isActive ? styles.active : ""}
-                  `}
-                >
-                  <div className={styles.navLeft}>
-                    {renderIcon(item.icon)}
+                <div key={item.label} className={styles.menuGroup}>
+                  {/* =====================
+                        NORMAL LINK
+                    ===================== */}
+                  {!hasChildren ? (
+                    <Link
+                      href={item.path}
+                      className={`
+                          ${styles.navItem}
+                          ${isParentActive ? styles.active : ""}
+                        `}
+                    >
+                      <div className={styles.navLeft}>
+                        <Icon size={22} />
 
-                    {!collapsed && <span>{item.label || "Menu"}</span>}
-                  </div>
-                </Link>
+                        {!collapsed && <span>{item.label}</span>}
+                      </div>
+                    </Link>
+                  ) : (
+                    <>
+                      {/* =====================
+                            PARENT MENU
+                        ===================== */}
+                      <button
+                        type="button"
+                        onClick={() => toggleMenu(item.label)}
+                        className={`
+                            ${styles.navItem}
+                            ${isParentActive ? styles.active : ""}
+                          `}
+                      >
+                        <div className={styles.navLeft}>
+                          <Icon size={22} />
+
+                          {!collapsed && <span>{item.label}</span>}
+                        </div>
+
+                        {!collapsed && (
+                          <ChevronDown
+                            size={18}
+                            className={`
+                                ${styles.chevron}
+                                ${isOpenMenu ? styles.rotate : ""}
+                              `}
+                          />
+                        )}
+                      </button>
+
+                      {/* =====================
+                            SUB MENU
+                        ===================== */}
+                      {!collapsed && (
+                        <div
+                          className={`
+                              ${styles.subMenu}
+                              ${isOpenMenu ? styles.subMenuOpen : ""}
+                            `}
+                        >
+                          {item.children.map((child) => {
+                            const isChildActive = pathname === child.path;
+
+                            return (
+                              <Link
+                                key={child.path}
+                                href={child.path}
+                                className={`
+                                      ${styles.subMenuItem}
+                                      ${isChildActive ? styles.activeSubMenu : ""}
+                                    `}
+                              >
+                                {child.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
               );
             })}
         </nav>
 
-        {/* BOTTOM */}
+        {/* ===================================
+            BOTTOM
+        =================================== */}
         <div className={styles.bottomSection}>
           <button
             type="button"
@@ -192,13 +226,10 @@ export default function AdminSidebar({
             onClick={onToggleCollapse}
           >
             {collapsed ? (
-              <>
-                <ChevronRight size={18} />
-              </>
+              <ChevronRight size={18} />
             ) : (
               <>
                 <ChevronLeft size={18} />
-
                 <span>Collapse</span>
               </>
             )}

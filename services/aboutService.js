@@ -1,27 +1,14 @@
+// ======================================================
+// File: frontend/services/aboutService.js
+// Description: About Page Service
+// ======================================================
+
+import API from "../utils/api";
 import aboutFallbackData from "../data/aboutFallbackData";
 
 /**
- * About Page Service
- * -----------------------------------------
- * Production-ready
- * API-driven
- * Backward compatible
- * SEO-ready
- *
- * Rule:
- * - Never break UI if API fails
- * - Always return normalized data
- * - Use fallback data during development
- * - Future-ready for CMS/Admin Panel
- */
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
-
-const ABOUT_API_ENDPOINT = `${API_BASE_URL}/about`;
-
-/**
  * Normalize API response
- * Ensures missing fields don't break UI
+ * Prevent UI crashes from missing fields
  */
 const normalizeAboutData = (apiData = {}) => {
   return {
@@ -85,51 +72,13 @@ const normalizeAboutData = (apiData = {}) => {
 
 /**
  * Fetch About Page Data
- *
- * Priority:
- * API → Fallback Data
+ * API → fallback
  */
 export const getAboutPageData = async () => {
   try {
-    /**
-     * Development fallback
-     * If API URL not configured,
-     * return fallback immediately
-     */
-    if (!API_BASE_URL) {
-      console.warn(
-        "NEXT_PUBLIC_API_BASE_URL missing. Using fallback about data.",
-      );
+    const response = await API.get("/about");
 
-      return normalizeAboutData(aboutFallbackData);
-    }
-
-    const response = await fetch(ABOUT_API_ENDPOINT, {
-      method: "GET",
-
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      console.error(`About API failed: ${response.status}`);
-
-      return normalizeAboutData(aboutFallbackData);
-    }
-
-    const result = await response.json();
-
-    /**
-     * Flexible API structure
-     *
-     * Supports:
-     * { success: true, data: {} }
-     * OR direct object {}
-     */
-    const apiData = result?.data || result;
+    const apiData = response?.data?.data || {};
 
     return normalizeAboutData(apiData);
   } catch (error) {
@@ -140,10 +89,7 @@ export const getAboutPageData = async () => {
 };
 
 /**
- * Get About SEO Data
- *
- * Used for:
- * generateMetadata()
+ * SEO
  */
 export const getAboutSeoData = async () => {
   const data = await getAboutPageData();
@@ -152,10 +98,7 @@ export const getAboutSeoData = async () => {
 };
 
 /**
- * Get Structured Data
- *
- * Used for:
- * JSON-LD schema injection
+ * Structured Data
  */
 export const getAboutStructuredData = async () => {
   const data = await getAboutPageData();

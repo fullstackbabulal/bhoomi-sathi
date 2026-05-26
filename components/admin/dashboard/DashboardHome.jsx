@@ -58,7 +58,7 @@ export default function DashboardHome({
       {
         title: "Add Property",
         description: "Create and publish a new property listing",
-        href: "/admin/properties/new",
+        href: "/admin/properties/add",
         icon: "property",
         variant: "blue",
       },

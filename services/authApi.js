@@ -9,8 +9,7 @@ import axios from "axios";
 // ======================================================
 // ENVIRONMENT CONFIG
 // ======================================================
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 // ======================================================
 // AXIOS INSTANCE
@@ -111,7 +110,7 @@ const validateResponse = (response) => {
 // POST /api/auth/login
 // ======================================================
 export const loginUser = async ({ email, password }) => {
-  const response = await authApi.post("/auth/login", {
+  const response = await authApi.post("/api/auth/login", {
     email,
     password,
   });
@@ -130,7 +129,7 @@ export const loginUser = async ({ email, password }) => {
 // ======================================================
 export const getCurrentUser = async () => {
   try {
-    const response = await authApi.get("/auth/me");
+    const response = await authApi.get("api/auth/me");
 
     return validateResponse(response);
   } catch (error) {

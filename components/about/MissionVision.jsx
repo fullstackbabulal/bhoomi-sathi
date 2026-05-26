@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "./MissionVision.module.css";
-
 import { Target, Binoculars } from "lucide-react";
 
 const iconMap = {
@@ -11,12 +10,12 @@ const iconMap = {
 
 export default function MissionVision({ data = {}, loading = false }) {
   const mission = data?.mission || {};
-
   const vision = data?.vision || {};
 
-  const missionIcon = iconMap[mission?.icon] || Target;
+  // React component variables must be PascalCase
+  const MissionIcon = iconMap[mission?.icon] || Target;
 
-  const visionIcon = iconMap[vision?.icon] || Binoculars;
+  const VisionIcon = iconMap[vision?.icon] || Binoculars;
 
   return (
     <section className={styles.section} aria-label="Mission and Vision">
@@ -25,7 +24,7 @@ export default function MissionVision({ data = {}, loading = false }) {
           {/* Mission Card */}
           <article className={`${styles.card} ${styles.missionCard}`}>
             <div className={`${styles.iconWrapper} ${styles.missionIcon}`}>
-              {missionIcon && <missionIcon size={38} strokeWidth={2.2} />}
+              <MissionIcon size={38} strokeWidth={2.2} />
             </div>
 
             <div className={styles.content}>
@@ -47,7 +46,7 @@ export default function MissionVision({ data = {}, loading = false }) {
           {/* Vision Card */}
           <article className={`${styles.card} ${styles.visionCard}`}>
             <div className={`${styles.iconWrapper} ${styles.visionIcon}`}>
-              {visionIcon && <visionIcon size={38} strokeWidth={2.2} />}
+              <VisionIcon size={38} strokeWidth={2.2} />
             </div>
 
             <div className={styles.content}>

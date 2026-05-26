@@ -4,7 +4,7 @@
 // ======================================================
 
 const express = require("express");
-
+const uploadMulter = require("../middleware/uploadMulter.js");
 const router = express.Router();
 
 // ======================================================
@@ -57,6 +57,18 @@ router.post(
   "/",
   authMiddleware,
   roleMiddleware("admin", "agent"),
+
+  uploadMulter.fields([
+    {
+      name: "thumbnail",
+      maxCount: 1,
+    },
+    {
+      name: "images",
+      maxCount: 20,
+    },
+  ]),
+
   createProperty,
 );
 

@@ -1,5 +1,5 @@
 // ======================================================
-// File: models/BlogPost.js
+// File: models/BlogPost.model.js
 // Description: Blog Post Model
 // ======================================================
 
@@ -130,7 +130,7 @@ const blogPostSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // ======================================================
@@ -153,7 +153,7 @@ blogPostSchema.index({
 // ======================================================
 // AUTO GENERATE SLUG
 // ======================================================
-blogPostSchema.pre("validate", function (next) {
+blogPostSchema.pre("validate", function () {
   if (this.title && !this.slug) {
     this.slug = this.title
       .toLowerCase()
@@ -161,28 +161,64 @@ blogPostSchema.pre("validate", function (next) {
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)+/g, "");
   }
-
-  next();
 });
 
 // ======================================================
 // AUTO SET PUBLISHED DATE
+// (save / create)
 // ======================================================
-blogPostSchema.pre("save", function (next) {
-  if (
-    this.status === "published" &&
-    !this.publishedAt
-  ) {
+blogPostSchema.pre("save", function () {
+  const isPublishing = this.status === "published";
+
+  const noPublishedDate = !this.publishedAt;
+
+  if (isPublishing && noPublishedDate) {
     this.publishedAt = new Date();
   }
-
-  next();
 });
+
+// ======================================================
+// AUTO SET PUBLISHED DATE
+// (findByIdAndUpdate / findOneAndUpdate / updateOne)
+// ======================================================
+const autoSetPublishedDate = function () {
+  const update = this.getUpdate();
+
+  if (!update) return;
+
+  const status = update.status;
+
+  const setStatus = update?.$set?.status;
+
+  const hasPublishedAt = update.publishedAt;
+
+  const setPublishedAt = update?.$set?.publishedAt;
+
+  const shouldPublish = status === "published" || setStatus === "published";
+
+  const noPublishedDate = !hasPublishedAt && !setPublishedAt;
+
+  if (shouldPublish && noPublishedDate) {
+    // direct update
+    if (update.status) {
+      update.publishedAt = new Date();
+    }
+
+    // $set update
+    if (update.$set) {
+      update.$set.publishedAt = new Date();
+    }
+  }
+};
+
+// ======================================================
+// APPLY UPDATE MIDDLEWARE
+// ======================================================
+blogPostSchema.pre("findOneAndUpdate", autoSetPublishedDate);
+
+blogPostSchema.pre("updateOne", autoSetPublishedDate);
 
 // ======================================================
 // EXPORT MODEL
 // ======================================================
-module.exports = mongoose.model(
-  "BlogPost",
-  blogPostSchema
-);
+module.exports = mongoose.model("BlogPost", blogPostSchema);

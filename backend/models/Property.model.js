@@ -1,5 +1,5 @@
 // ======================================================
-// File: models/Property.js
+// File: models/Property.model.js
 // Description: Property Model
 // ======================================================
 
@@ -45,24 +45,14 @@ const propertySchema = new mongoose.Schema(
     // ==================================================
     type: {
       type: String,
-      enum: [
-        "plot",
-        "apartment",
-        "house",
-        "commercial",
-        "villa",
-      ],
+      enum: ["plot", "apartment", "house", "commercial", "villa"],
       required: true,
       index: true,
     },
 
     status: {
       type: String,
-      enum: [
-        "available",
-        "sold",
-        "pending",
-      ],
+      enum: ["available", "sold", "pending"],
       default: "available",
       index: true,
     },
@@ -82,12 +72,7 @@ const propertySchema = new mongoose.Schema(
 
       unit: {
         type: String,
-        enum: [
-          "sqft",
-          "sqm",
-          "bigha",
-          "acre",
-        ],
+        enum: ["sqft", "sqm", "bigha", "acre"],
         default: "sqft",
       },
     },
@@ -133,7 +118,6 @@ const propertySchema = new mongoose.Schema(
         default: "",
       },
 
-      // GEO LOCATION
       coordinates: {
         type: {
           type: String,
@@ -142,8 +126,8 @@ const propertySchema = new mongoose.Schema(
         },
 
         coordinates: {
-          type: [Number], // [lng, lat]
-          default: [0, 0],
+          type: [Number],
+          default: [0, 0], // [lng, lat]
         },
       },
     },
@@ -256,7 +240,7 @@ const propertySchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // ======================================================
@@ -284,8 +268,9 @@ propertySchema.index({
 
 // ======================================================
 // AUTO GENERATE SLUG
+// (save / create)
 // ======================================================
-propertySchema.pre("validate", function (next) {
+propertySchema.pre("validate", function () {
   if (this.title && !this.slug) {
     this.slug = this.title
       .toLowerCase()
@@ -293,14 +278,58 @@ propertySchema.pre("validate", function (next) {
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)+/g, "");
   }
-
-  next();
 });
+
+// ======================================================
+// AUTO UPDATE SLUG
+// (findByIdAndUpdate /
+// findOneAndUpdate /
+// updateOne)
+// ======================================================
+const autoUpdateSlug = function () {
+  const update = this.getUpdate();
+
+  if (!update) return;
+
+  const title = update.title;
+
+  const setTitle = update?.$set?.title;
+
+  const slug = update.slug;
+
+  const setSlug = update?.$set?.slug;
+
+  const finalTitle = title || setTitle;
+
+  const hasSlug = slug || setSlug;
+
+  if (finalTitle && !hasSlug) {
+    const generatedSlug = finalTitle
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "");
+
+    // direct update
+    if (update.title) {
+      update.slug = generatedSlug;
+    }
+
+    // $set update
+    if (update.$set) {
+      update.$set.slug = generatedSlug;
+    }
+  }
+};
+
+// ======================================================
+// APPLY UPDATE MIDDLEWARE
+// ======================================================
+propertySchema.pre("findOneAndUpdate", autoUpdateSlug);
+
+propertySchema.pre("updateOne", autoUpdateSlug);
 
 // ======================================================
 // EXPORT MODEL
 // ======================================================
-module.exports = mongoose.model(
-  "Property",
-  propertySchema
-);
+module.exports = mongoose.model("Property", propertySchema);

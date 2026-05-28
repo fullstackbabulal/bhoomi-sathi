@@ -10,6 +10,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const path = require("path");
 
 // ======================================================
 // DATABASE
@@ -20,22 +21,20 @@ const connectDB = require("./config/db.config.js");
 // ROUTES
 // ======================================================
 const authRoutes = require("./routes/auth.route.js");
-
 const propertyRoutes = require("./routes/property.route.js");
-
 const blogRoutes = require("./routes/blog.route.js");
-
 const commentRoutes = require("./routes/comment.route.js");
-
 const aboutRoutes = require("./routes/about.route.js");
-
 const contactRoutes = require("./routes/contact/contact.routes.js");
+
 // ======================================================
 // APP CONFIG
 // ======================================================
 const app = express();
 
 const PORT = process.env.PORT || 4000;
+
+const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3000";
 
 // ======================================================
 // CONNECT DATABASE
@@ -44,8 +43,16 @@ connectDB();
 
 // ======================================================
 // SECURITY MIDDLEWARE
+// Fix:
+// ERR_BLOCKED_BY_RESPONSE.NotSameOrigin
 // ======================================================
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: {
+      policy: "cross-origin",
+    },
+  }),
+);
 
 // ======================================================
 // LOGGER
@@ -60,8 +67,7 @@ if (process.env.NODE_ENV === "development") {
 // ======================================================
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
-
+    origin: CLIENT_URL,
     credentials: true,
   }),
 );
@@ -70,21 +76,42 @@ app.use(
 // BODY PARSER
 // ======================================================
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  express.urlencoded({
+    extended: true,
+  }),
+);
 
 // ======================================================
 // COOKIE PARSER
-// Required for JWT HttpOnly Cookies
 // ======================================================
 app.use(cookieParser());
+
+// ======================================================
+// STATIC FILES
+// Serve Uploaded Images/Videos
+// Example:
+// http://localhost:4000/uploads/file.png
+// ======================================================
+app.use(
+  "/uploads",
+  express.static(path.join(process.cwd(), "uploads"), {
+    setHeaders: (res) => {
+      res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    },
+  }),
+);
 
 // ======================================================
 // HEALTH CHECK
 // ======================================================
 app.get("/", (req, res) => {
-  res.status(200).json({
+  return res.status(200).json({
     success: true,
-    message: "Bhoomi Sathi API Running",
+    message: "✅ Bhoomi Sathi API is running successfully.",
+    server: `http://localhost:${PORT}`,
+    environment: process.env.NODE_ENV || "development",
   });
 });
 
@@ -98,16 +125,20 @@ app.use("/api/properties", propertyRoutes);
 app.use("/api/blogs", blogRoutes);
 
 app.use("/api/comments", commentRoutes);
+
 app.use("/api/about", aboutRoutes);
+
 app.use("/api/contact", contactRoutes);
+
 // ======================================================
 // 404 HANDLER
-// Express 5 Compatible
 // ======================================================
 app.use((req, res) => {
-  res.status(404).json({
+  return res.status(404).json({
     success: false,
-    message: "Route not found",
+    message: "❌ API route not found.",
+    path: req.originalUrl,
+    method: req.method,
   });
 });
 
@@ -115,11 +146,11 @@ app.use((req, res) => {
 // GLOBAL ERROR HANDLER
 // ======================================================
 app.use((err, req, res, next) => {
-  console.error("Server Error:", err);
+  console.error("❌ Server Error:", err);
 
-  res.status(500).json({
+  return res.status(500).json({
     success: false,
-    message: "Internal Server Error",
+    message: "Something went wrong on the server.",
     error: process.env.NODE_ENV === "development" ? err.message : undefined,
   });
 });
@@ -128,5 +159,12 @@ app.use((err, req, res, next) => {
 // START SERVER
 // ======================================================
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log("");
+  console.log("====================================");
+  console.log("🚀 Bhoomi Sathi Backend Started");
+  console.log(`🌐 Server URL: http://localhost:${PORT}`);
+  console.log(`🖥️ Client URL: ${CLIENT_URL}`);
+  console.log(`📦 Environment: ${process.env.NODE_ENV || "development"}`);
+  console.log("====================================");
+  console.log("");
 });

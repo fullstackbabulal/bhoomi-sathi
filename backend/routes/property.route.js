@@ -4,8 +4,14 @@
 // ======================================================
 
 const express = require("express");
-const uploadMulter = require("../middleware/uploadMulter.js");
 const router = express.Router();
+
+// ======================================================
+// MIDDLEWARE
+// ======================================================
+const authMiddleware = require("../middleware/auth.middleware");
+const roleMiddleware = require("../middleware/role.middleware");
+const uploadMulter = require("../middleware/uploadMulter.js");
 
 // ======================================================
 // CONTROLLERS
@@ -19,14 +25,22 @@ const {
   deleteProperty,
   getNearbyProperties,
   getFeaturedProperties,
+  uploadPropertyMedia,
 } = require("../controllers/property.controller");
 
 // ======================================================
-// MIDDLEWARE
+// SHARED MULTER CONFIG
 // ======================================================
-const authMiddleware = require("../middleware/auth.middleware");
-
-const roleMiddleware = require("../middleware/role.middleware");
+const propertyUploadFields = uploadMulter.fields([
+  {
+    name: "thumbnail",
+    maxCount: 1,
+  },
+  {
+    name: "images",
+    maxCount: 20,
+  },
+]);
 
 // ======================================================
 // PUBLIC ROUTES
@@ -57,19 +71,17 @@ router.post(
   "/",
   authMiddleware,
   roleMiddleware("admin", "agent"),
-
-  uploadMulter.fields([
-    {
-      name: "thumbnail",
-      maxCount: 1,
-    },
-    {
-      name: "images",
-      maxCount: 20,
-    },
-  ]),
-
+  propertyUploadFields,
   createProperty,
+);
+
+// Upload media manually
+router.post(
+  "/upload-media",
+  authMiddleware,
+  roleMiddleware("admin", "agent"),
+  propertyUploadFields,
+  uploadPropertyMedia,
 );
 
 // Update property
@@ -77,6 +89,7 @@ router.put(
   "/:id",
   authMiddleware,
   roleMiddleware("admin", "agent"),
+  propertyUploadFields,
   updateProperty,
 );
 

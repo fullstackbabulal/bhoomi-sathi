@@ -1,0 +1,241 @@
+/* ======================================================
+   File: components/property/details/PropertyTrustCard.module.css
+   Description: Property Trust Card Styles
+   UI Match: Bhoomi Sathi Property Details Design
+   Styling: CSS Modules (No Tailwind)
+====================================================== */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  width: 100%;
+}
+
+/* ===================================
+   Header
+=================================== */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.heading {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.subText {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+/* ===================================
+   Grid
+=================================== */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* ===================================
+   Card
+=================================== */
+
+.card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+
+  padding: 24px;
+
+  border-radius: 28px;
+  border: 1px solid #e5e7eb;
+
+  background: #ffffff;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.06);
+}
+
+.active {
+  border-color: #dcfce7;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fff9 100%);
+}
+
+.disabled {
+  opacity: 0.75;
+  background: #fafafa;
+}
+
+/* ===================================
+   Icon
+=================================== */
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 58px;
+  height: 58px;
+
+  flex-shrink: 0;
+
+  border-radius: 18px;
+
+  background: #dcfce7;
+}
+
+.iconBox svg {
+  color: #15803d;
+  stroke-width: 2.2;
+}
+
+/* ===================================
+   Content
+=================================== */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.description {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;
+
+  margin-top: 6px;
+
+  padding: 8px 14px;
+
+  border-radius: 999px;
+
+  background: #dcfce7;
+  color: #15803d;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ===================================
+   Responsive
+=================================== */
+
+@media (max-width: 992px) {
+  .heading {
+    font-size: 28px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    gap: 20px;
+  }
+
+  .heading {
+    font-size: 26px;
+  }
+
+  .subText {
+    font-size: 14px;
+  }
+
+  .card {
+    padding: 20px;
+    border-radius: 24px;
+    gap: 16px;
+  }
+
+  .iconBox {
+    width: 52px;
+    height: 52px;
+
+    border-radius: 16px;
+  }
+
+  .title {
+    font-size: 17px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    font-size: 24px;
+  }
+
+  .card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .description {
+    font-size: 12px;
+  }
+
+  .status {
+    font-size: 11px;
+    padding: 7px 12px;
+  }
+}

@@ -8,14 +8,13 @@ import axios from "axios";
 // ======================================================
 // API BASE URL
 // ======================================================
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 // ======================================================
 // AXIOS INSTANCE
 // ======================================================
 const API = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: `${API_BASE_URL}/api`,
 
   headers: {
     "Content-Type": "application/json",
@@ -25,6 +24,8 @@ const API = axios.create({
   // REQUIRED FOR HTTPONLY COOKIE AUTH
   // ==================================================
   withCredentials: true,
+
+  timeout: 30000,
 });
 
 // ======================================================
@@ -34,6 +35,7 @@ API.interceptors.request.use(
   (config) => {
     return config;
   },
+
   (error) => {
     return Promise.reject(error);
   },
@@ -46,12 +48,15 @@ API.interceptors.response.use(
   (response) => response,
 
   (error) => {
-    const message = error.response?.data?.message || error.message;
+    const message =
+      error?.response?.data?.message || error.message || "Something went wrong";
 
     console.error("API Error:", message);
 
-    // Future auth redirect support
-    if (error.response?.status === 401) {
+    // ==========================================
+    // AUTH ERROR
+    // ==========================================
+    if (error?.response?.status === 401) {
       console.warn("Unauthorized request.");
     }
 

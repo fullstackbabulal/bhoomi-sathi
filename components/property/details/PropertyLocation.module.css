@@ -1,0 +1,376 @@
+/* ======================================================
+   File: components/property/details/PropertyLocation.module.css
+   Description: Property Location Styles
+   UI Match: Bhoomi Sathi Property Details Design
+   Styling: CSS Modules (No Tailwind)
+====================================================== */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  width: 100%;
+}
+
+/* ===================================
+   Header
+=================================== */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.heading {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.subText {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* ===================================
+   Shared Card
+=================================== */
+
+.card,
+.mapCard {
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 28px;
+
+  padding: 28px;
+
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* ===================================
+   Address Card
+=================================== */
+
+.addressRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 58px;
+  height: 58px;
+
+  flex-shrink: 0;
+
+  border-radius: 18px;
+
+  background: #dcfce7;
+}
+
+.iconBox svg {
+  color: #15803d;
+  stroke-width: 2.2;
+}
+
+.cardTitle {
+  margin: 0 0 10px;
+
+  color: #111827;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.address {
+  margin: 0 0 8px;
+
+  color: #374151;
+
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+.locationText {
+  display: inline-block;
+
+  color: #6b7280;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ===================================
+   Map Card
+=================================== */
+
+.mapHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  margin-bottom: 24px;
+}
+
+.mapSubText {
+  margin: 6px 0 0;
+
+  color: #6b7280;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.directionButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  border: none;
+  outline: none;
+
+  cursor: pointer;
+
+  background: #15803d;
+  color: #ffffff;
+
+  padding: 12px 18px;
+
+  border-radius: 14px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.directionButton:hover {
+  background: #166534;
+
+  box-shadow: 0 10px 24px rgba(21, 128, 61, 0.18);
+}
+
+.directionButton:active {
+  transform: scale(0.98);
+}
+
+.mapWrapper {
+  position: relative;
+
+  overflow: hidden;
+
+  width: 100%;
+  height: 420px;
+
+  border-radius: 24px;
+
+  border: 1px solid #e5e7eb;
+
+  background: #f9fafb;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+
+  border: none;
+}
+
+/* ===================================
+   Nearby Places
+=================================== */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.placeCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding: 20px;
+
+  border-radius: 22px;
+
+  border: 1px solid #f3f4f6;
+  background: #f9fafb;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.placeCard:hover {
+  transform: translateY(-2px);
+
+  border-color: #dcfce7;
+
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+}
+
+.placeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 54px;
+  height: 54px;
+
+  flex-shrink: 0;
+
+  border-radius: 16px;
+
+  background: #dcfce7;
+}
+
+.placeIcon svg {
+  color: #15803d;
+  stroke-width: 2.2;
+}
+
+.placeContent {
+  min-width: 0;
+}
+
+.placeName {
+  margin: 0 0 6px;
+
+  color: #111827;
+
+  font-size: 17px;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.distance {
+  color: #6b7280;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ===================================
+   Responsive
+=================================== */
+
+@media (max-width: 992px) {
+  .heading {
+    font-size: 28px;
+  }
+
+  .card,
+  .mapCard {
+    padding: 24px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mapWrapper {
+    height: 360px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    gap: 20px;
+  }
+
+  .heading {
+    font-size: 26px;
+  }
+
+  .subText {
+    font-size: 14px;
+  }
+
+  .card,
+  .mapCard {
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  .mapHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .directionButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .addressRow,
+  .placeCard {
+    gap: 14px;
+  }
+
+  .mapWrapper {
+    height: 320px;
+    border-radius: 20px;
+  }
+
+  .iconBox,
+  .placeIcon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .cardTitle {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    font-size: 24px;
+  }
+
+  .card,
+  .mapCard {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .cardTitle {
+    font-size: 18px;
+  }
+
+  .address {
+    font-size: 15px;
+  }
+
+  .placeName {
+    font-size: 15px;
+  }
+
+  .mapWrapper {
+    height: 280px;
+  }
+}

@@ -1,14 +1,60 @@
 "use client";
 
-import { useRef } from "react";
-import { ImageIcon, Video, UploadCloud, Plus, Trash2, X } from "lucide-react";
+// ======================================================
+// File: components/property/add/PropertyMediaCard.jsx
+// Description: Property Media Upload Card
+// ======================================================
 
+import { useRef, useState } from "react";
+import axios from "axios";
+import {
+  ImageIcon,
+  Video,
+  UploadCloud,
+  Plus,
+  Trash2,
+  X,
+  Loader2,
+} from "lucide-react";
+
+import styles from "./PropertyMediaCard.module.css";
+
+// ======================================================
+// CONFIG
+// ======================================================
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
+// ======================================================
+// COMPONENT
+// ======================================================
 const PropertyMediaCard = ({ formData, updateField }) => {
   const thumbnailRef = useRef(null);
+
   const galleryRef = useRef(null);
 
+  const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
+
+  const [uploadingGallery, setUploadingGallery] = useState(false);
+
   // ======================================================
-  // THUMBNAIL UPLOAD
+  // SLUG GENERATOR
+  // ======================================================
+  const getSlug = () => {
+    if (formData?.slug?.trim()) {
+      return formData.slug.trim();
+    }
+
+    return (
+      formData?.title
+        ?.toLowerCase()
+        ?.trim()
+        ?.replace(/[^a-z0-9]+/g, "-")
+        ?.replace(/(^-|-$)+/g, "") || "property"
+    );
+  };
+
+  // ======================================================
+  // THUMBNAIL PICK
   // ======================================================
   const handleThumbnailUpload = (e) => {
     const file = e.target.files?.[0];
@@ -26,37 +72,144 @@ const PropertyMediaCard = ({ formData, updateField }) => {
   };
 
   // ======================================================
-  // GALLERY IMAGES
+  // GALLERY PICK
   // ======================================================
   const handleGalleryUpload = (e) => {
     const files = Array.from(e.target.files || []);
 
     if (!files.length) return;
 
-    const uploadedImages = files.map((file) => ({
+    const newImages = files.map((file) => ({
       file,
       preview: URL.createObjectURL(file),
     }));
 
-    updateField("images", [...(formData.images || []), ...uploadedImages]);
+    updateField("images", [...(formData.images || []), ...newImages]);
   };
 
   const removeImage = (index) => {
     updateField(
       "images",
-      formData.images.filter((_, i) => i !== index),
+      (formData.images || []).filter((_, i) => i !== index),
     );
+  };
+
+  // ======================================================
+  // UPLOAD THUMBNAIL
+  // ======================================================
+  const uploadThumbnail = async () => {
+    try {
+      if (!formData?.thumbnail?.file) {
+        alert("Please select thumbnail.");
+        return;
+      }
+
+      const slug = getSlug();
+
+      setUploadingThumbnail(true);
+
+      const form = new FormData();
+
+      form.append("title", formData.title || "");
+
+      form.append("slug", slug);
+
+      form.append("thumbnail", formData.thumbnail.file);
+
+      const response = await axios.post(
+        `${API_URL}/api/properties/upload-media`,
+        form,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      if (response.data.success) {
+        updateField("slug", slug);
+
+        updateField("uploadedThumbnail", response.data.data.thumbnail);
+
+        alert("Thumbnail uploaded successfully");
+      }
+    } catch (error) {
+      console.error(error);
+
+      alert(error?.response?.data?.message || "Thumbnail upload failed");
+    } finally {
+      setUploadingThumbnail(false);
+    }
+  };
+
+  // ======================================================
+  // UPLOAD GALLERY
+  // ======================================================
+  const uploadGallery = async () => {
+    try {
+      if (!formData?.images?.length) {
+        alert("Please select gallery images.");
+        return;
+      }
+
+      const slug = getSlug();
+
+      setUploadingGallery(true);
+
+      const form = new FormData();
+
+      form.append("title", formData.title || "");
+
+      form.append("slug", slug);
+
+      (formData.images || []).forEach((image) => {
+        if (image.file) {
+          form.append("images", image.file);
+        }
+      });
+
+      const response = await axios.post(
+        `${API_URL}/api/properties/upload-media`,
+        form,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      if (response.data.success) {
+        updateField("slug", slug);
+
+        updateField("uploadedImages", response.data.data.images);
+
+        alert("Gallery uploaded successfully");
+      }
+    } catch (error) {
+      console.error(error);
+
+      alert(error?.response?.data?.message || "Gallery upload failed");
+    } finally {
+      setUploadingGallery(false);
+    }
   };
 
   // ======================================================
   // VIDEOS
   // ======================================================
   const addVideo = () => {
-    updateField("videos", [...(formData.videos || []), { url: "" }]);
+    updateField("videos", [
+      ...(formData.videos || []),
+      {
+        url: "",
+      },
+    ]);
   };
 
   const updateVideo = (index, value) => {
-    const updatedVideos = [...formData.videos];
+    const updatedVideos = [...(formData.videos || [])];
 
     updatedVideos[index].url = value;
 
@@ -66,54 +219,54 @@ const PropertyMediaCard = ({ formData, updateField }) => {
   const removeVideo = (index) => {
     updateField(
       "videos",
-      formData.videos.filter((_, i) => i !== index),
+      (formData.videos || []).filter((_, i) => i !== index),
     );
   };
 
   return (
-    <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-      {/* HEADER */}
-      <div className="mb-6">
-        <h2 className="text-lg font-bold text-slate-900">Media Gallery</h2>
+    <section className={styles.card}>
+      <div className={styles.cardHeader}>
+        <div className={styles.headerContent}>
+          <div className={styles.iconWrapper}>
+            <ImageIcon size={28} />
+          </div>
 
-        <p className="text-sm text-slate-500">
-          Upload thumbnail and gallery images
-        </p>
+          <div className={styles.headingArea}>
+            <h2 className={styles.title}>Media Gallery</h2>
+
+            <p className={styles.subtitle}>
+              Upload thumbnail and gallery images.
+            </p>
+          </div>
+        </div>
       </div>
 
-      <div className="space-y-8">
-        {/* ===================================
-            THUMBNAIL
-        =================================== */}
-        <div>
-          <label className="mb-4 block text-sm font-semibold text-slate-700">
-            Thumbnail Image
-          </label>
+      <div className={styles.cardBody}>
+        {/* Thumbnail */}
+        <div className={styles.section}>
+          <label className={styles.label}>Thumbnail</label>
 
           {!formData.thumbnail ? (
             <button
               type="button"
               onClick={() => thumbnailRef.current?.click()}
-              className="flex h-44 w-full flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-slate-50 transition hover:border-violet-500"
+              className={styles.uploadBoxLarge}
             >
-              <UploadCloud size={36} className="mb-3 text-violet-600" />
-
-              <span className="font-semibold">Upload Thumbnail</span>
-
-              <span className="text-xs text-slate-500">JPG, PNG, WEBP</span>
+              <UploadCloud size={42} />
+              <h4>Upload Thumbnail</h4>
             </button>
           ) : (
-            <div className="relative overflow-hidden rounded-3xl border">
+            <div className={styles.thumbnailWrapper}>
               <img
                 src={formData.thumbnail.preview}
                 alt="thumbnail"
-                className="h-60 w-full object-cover"
+                className={styles.thumbnailImage}
               />
 
               <button
                 type="button"
                 onClick={removeThumbnail}
-                className="absolute right-3 top-3 rounded-full bg-white p-2 shadow"
+                className={styles.removeButton}
               >
                 <Trash2 size={16} />
               </button>
@@ -121,47 +274,59 @@ const PropertyMediaCard = ({ formData, updateField }) => {
           )}
 
           <input
-            ref={thumbnailRef}
             hidden
             type="file"
             accept="image/*"
+            ref={thumbnailRef}
             onChange={handleThumbnailUpload}
           />
+
+          <button
+            type="button"
+            onClick={uploadThumbnail}
+            disabled={uploadingThumbnail}
+            className={styles.addVideoButton}
+          >
+            {uploadingThumbnail ? (
+              <>
+                <Loader2 size={16} />
+                Uploading...
+              </>
+            ) : (
+              <>
+                <UploadCloud size={16} />
+                Upload Thumbnail
+              </>
+            )}
+          </button>
         </div>
 
-        {/* ===================================
-            GALLERY
-        =================================== */}
-        <div>
-          <label className="mb-4 block text-sm font-semibold text-slate-700">
-            Gallery Images
-          </label>
+        {/* Gallery */}
+        <div className={styles.section}>
+          <label className={styles.label}>Gallery Images</label>
 
-          <div className="flex flex-wrap gap-4">
-            {/* Upload Box */}
+          <div className={styles.galleryGrid}>
             <button
               type="button"
               onClick={() => galleryRef.current?.click()}
-              className="flex h-28 w-44 flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-slate-50 transition hover:border-violet-500"
+              className={styles.uploadCard}
             >
-              <UploadCloud size={24} className="mb-2 text-violet-600" />
-
-              <span className="text-sm font-semibold">Upload Images</span>
+              <UploadCloud size={24} />
+              <span>Add Images</span>
             </button>
 
-            {/* Preview */}
-            {formData.images?.map((image, index) => (
-              <div key={index} className="relative">
+            {(formData.images || []).map((image, index) => (
+              <div key={index} className={styles.galleryItem}>
                 <img
                   src={image.preview}
-                  alt=""
-                  className="h-28 w-44 rounded-3xl object-cover"
+                  alt="gallery"
+                  className={styles.galleryImage}
                 />
 
                 <button
                   type="button"
                   onClick={() => removeImage(index)}
-                  className="absolute right-2 top-2 rounded-full bg-white p-1 shadow"
+                  className={styles.removeImageButton}
                 >
                   <X size={14} />
                 </button>
@@ -177,47 +342,65 @@ const PropertyMediaCard = ({ formData, updateField }) => {
             accept="image/*"
             onChange={handleGalleryUpload}
           />
+
+          <button
+            type="button"
+            onClick={uploadGallery}
+            disabled={uploadingGallery}
+            className={styles.addVideoButton}
+          >
+            {uploadingGallery ? (
+              <>
+                <Loader2 size={16} />
+                Uploading...
+              </>
+            ) : (
+              <>
+                <UploadCloud size={16} />
+                Upload Gallery
+              </>
+            )}
+          </button>
         </div>
 
-        {/* ===================================
-            VIDEOS
-        =================================== */}
-        <div>
-          <div className="mb-4 flex items-center justify-between">
-            <label className="text-sm font-semibold text-slate-700">
-              Videos (Optional)
-            </label>
+        {/* Videos */}
+        <div className={styles.section}>
+          <div className={styles.videoHeader}>
+            <div className={styles.videoTitleRow}>
+              <Video size={18} />
+
+              <label className={styles.label}>Videos</label>
+            </div>
 
             <button
               type="button"
               onClick={addVideo}
-              className="rounded-xl border px-4 py-2 text-sm"
+              className={styles.addVideoButton}
             >
               <Plus size={16} />
+              Add Video
             </button>
           </div>
 
-          <div className="space-y-3">
-            {formData.videos?.map((video, index) => (
-              <div key={index} className="flex gap-3">
-                <input
-                  type="text"
-                  value={video.url}
-                  onChange={(e) => updateVideo(index, e.target.value)}
-                  placeholder="YouTube / Vimeo URL"
-                  className="h-12 flex-1 rounded-xl border px-4"
-                />
+          {(formData.videos || []).map((video, index) => (
+            <div key={index} className={styles.videoRow}>
+              <input
+                type="text"
+                value={video.url}
+                placeholder="YouTube URL"
+                onChange={(e) => updateVideo(index, e.target.value)}
+                className={styles.input}
+              />
 
-                <button
-                  type="button"
-                  onClick={() => removeVideo(index)}
-                  className="rounded-xl border px-4"
-                >
-                  <Trash2 size={16} />
-                </button>
-              </div>
-            ))}
-          </div>
+              <button
+                type="button"
+                onClick={() => removeVideo(index)}
+                className={styles.deleteButton}
+              >
+                <Trash2 size={16} />
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </section>

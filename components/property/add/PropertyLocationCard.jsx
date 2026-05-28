@@ -7,43 +7,49 @@
 
 import {
   MapPin,
-  Globe,
-  Building,
-  Landmark,
   Navigation,
+  Building2,
+  Landmark,
+  Globe,
+  Hash,
   LocateFixed,
 } from "lucide-react";
 
-const PropertyLocationCard = ({ formData, updateNestedField }) => {
+import styles from "./PropertyLocationCard.module.css";
+
+const PropertyLocationCard = ({
+  formData,
+  updateNestedField,
+  updateDeepField,
+}) => {
+  const location = formData?.location || {};
+
+  const coordinates = location?.coordinates || {};
+
+  const coordinateValues = coordinates?.coordinates || [0, 0];
+
   return (
-    <section className="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-sm">
+    <section className={styles.card}>
       {/* =====================================
           HEADER
       ===================================== */}
-      <div className="border-b border-slate-200 px-8 py-6">
-        <div className="flex items-start gap-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-emerald-50 text-emerald-600">
+      <div className={styles.cardHeader}>
+        <div className={styles.headerContent}>
+          <div className={styles.iconWrapper}>
             <MapPin size={28} />
           </div>
 
-          <div>
-            <div className="mb-2 flex items-center gap-3">
-              <span className="rounded-full bg-emerald-100 px-4 py-1 text-xs font-bold uppercase tracking-wider text-emerald-700">
-                Section 03
-              </span>
+          <div className={styles.headingArea}>
+            <div className={styles.badges}>
+              <span className={styles.sectionBadge}>Section 03</span>
 
-              <span className="rounded-full bg-sky-100 px-4 py-1 text-xs font-semibold text-sky-700">
-                Location
-              </span>
+              <span className={styles.infoBadge}>Location</span>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900">
-              Property Location
-            </h2>
+            <h2 className={styles.title}>Property Location</h2>
 
-            <p className="mt-1 text-sm text-slate-500">
-              Add property address, city, pincode and geo-location for map
-              visibility and local SEO.
+            <p className={styles.subtitle}>
+              Add precise property address, city, pincode and map coordinates.
             </p>
           </div>
         </div>
@@ -52,174 +58,149 @@ const PropertyLocationCard = ({ formData, updateNestedField }) => {
       {/* =====================================
           BODY
       ===================================== */}
-      <div className="space-y-8 p-8">
-        {/* =====================================
-            FULL ADDRESS
-        ===================================== */}
-        <div>
-          <label className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
-            <Navigation size={16} className="text-emerald-600" />
-            Full Address *
+      <div className={styles.cardBody}>
+        {/* ADDRESS */}
+        <div className={styles.field}>
+          <label className={styles.label}>
+            <Navigation size={16} className={styles.labelIcon} />
+            Full Address
+            <span className={styles.required}>*</span>
           </label>
 
           <textarea
             rows={4}
-            value={formData.location.address}
+            value={location.address}
+            placeholder="Street address, landmark, locality"
             onChange={(e) =>
               updateNestedField("location", "address", e.target.value)
             }
-            placeholder="Enter full property address..."
-            className="w-full rounded-2xl border border-slate-300 bg-slate-50 p-5 text-sm text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+            className={styles.textarea}
           />
 
-          <p className="mt-2 text-xs text-slate-500">
-            Accurate address improves discoverability and Google Maps
-            visibility.
+          <p className={styles.helperText}>
+            Add full address for better listing visibility.
           </p>
         </div>
 
-        {/* =====================================
-            CITY + STATE
-        ===================================== */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {/* CITY */}
-          <div>
-            <label className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
-              <Building size={16} className="text-emerald-600" />
-              City *
+        {/* CITY + STATE */}
+        <div className={styles.grid}>
+          <div className={styles.field}>
+            <label className={styles.label}>
+              <Building2 size={16} className={styles.labelIcon} />
+              City
+              <span className={styles.required}>*</span>
             </label>
 
             <input
               type="text"
-              value={formData.location.city}
+              value={location.city}
+              placeholder="Patna"
               onChange={(e) =>
                 updateNestedField("location", "city", e.target.value)
               }
-              placeholder="Patna"
-              className="h-14 w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 text-sm text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+              className={styles.input}
             />
           </div>
 
-          {/* STATE */}
-          <div>
-            <label className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
-              <Landmark size={16} className="text-emerald-600" />
-              State *
+          <div className={styles.field}>
+            <label className={styles.label}>
+              <Landmark size={16} className={styles.labelIcon} />
+              State
             </label>
 
             <input
               type="text"
-              value={formData.location.state}
+              value={location.state}
+              placeholder="Bihar"
               onChange={(e) =>
                 updateNestedField("location", "state", e.target.value)
               }
-              placeholder="Bihar"
-              className="h-14 w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 text-sm text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+              className={styles.input}
             />
           </div>
         </div>
 
-        {/* =====================================
-            COUNTRY + PINCODE
-        ===================================== */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {/* COUNTRY */}
-          <div>
-            <label className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
-              <Globe size={16} className="text-emerald-600" />
+        {/* COUNTRY + PINCODE */}
+        <div className={styles.grid}>
+          <div className={styles.field}>
+            <label className={styles.label}>
+              <Globe size={16} className={styles.labelIcon} />
               Country
             </label>
 
             <input
               type="text"
-              value={formData.location.country}
+              value={location.country}
+              placeholder="India"
               onChange={(e) =>
                 updateNestedField("location", "country", e.target.value)
               }
-              placeholder="India"
-              className="h-14 w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 text-sm text-slate-900 outline-none transition-all duration-200 focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+              className={styles.input}
             />
           </div>
 
-          {/* PINCODE */}
-          <div>
-            <label className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
-              <LocateFixed size={16} className="text-emerald-600" />
+          <div className={styles.field}>
+            <label className={styles.label}>
+              <Hash size={16} className={styles.labelIcon} />
               Pincode
             </label>
 
             <input
               type="text"
-              value={formData.location.pincode}
+              value={location.pincode}
+              placeholder="800001"
               onChange={(e) =>
                 updateNestedField("location", "pincode", e.target.value)
               }
-              placeholder="800001"
-              className="h-14 w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 text-sm text-slate-900 outline-none transition-all duration-200 focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+              className={styles.input}
             />
           </div>
         </div>
 
-        {/* =====================================
-            LATITUDE + LONGITUDE
-        ===================================== */}
-        <div>
-          <div className="mb-5">
-            <h3 className="text-base font-semibold text-slate-900">
-              Geo Coordinates
-            </h3>
+        {/* COORDINATES */}
+        <div className={styles.coordinateBox}>
+          <div className={styles.coordinateHeader}>
+            <LocateFixed size={18} />
 
-            <p className="mt-1 text-sm text-slate-500">
-              Used for maps, nearby search and geo-indexing.
-            </p>
+            <h3 className={styles.coordinateTitle}>Map Coordinates</h3>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className={styles.grid}>
             {/* LATITUDE */}
-            <div>
-              <label className="mb-3 block text-sm font-semibold text-slate-800">
-                Latitude
-              </label>
+            <div className={styles.field}>
+              <label className={styles.label}>Latitude</label>
 
               <input
                 type="number"
                 step="any"
-                value={formData.location.coordinates.coordinates?.[1]}
-                onChange={(e) => {
-                  const lng =
-                    formData.location.coordinates.coordinates?.[0] || 0;
-
-                  updateNestedField("location", "coordinates", {
-                    type: "Point",
-                    coordinates: [lng, Number(e.target.value)],
-                  });
-                }}
                 placeholder="25.5941"
-                className="h-14 w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 text-sm text-slate-900 outline-none transition-all duration-200 focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+                value={coordinateValues[1]}
+                onChange={(e) =>
+                  updateDeepField("location", "coordinates", "coordinates", [
+                    coordinateValues[0],
+                    Number(e.target.value),
+                  ])
+                }
+                className={styles.input}
               />
             </div>
 
             {/* LONGITUDE */}
-            <div>
-              <label className="mb-3 block text-sm font-semibold text-slate-800">
-                Longitude
-              </label>
+            <div className={styles.field}>
+              <label className={styles.label}>Longitude</label>
 
               <input
                 type="number"
                 step="any"
-                value={formData.location.coordinates.coordinates?.[0]}
-                onChange={(e) => {
-                  const lat =
-                    formData.location.coordinates.coordinates?.[1] || 0;
-
-                  updateNestedField("location", "coordinates", {
-                    type: "Point",
-                    coordinates: [Number(e.target.value), lat],
-                  });
-                }}
                 placeholder="85.1376"
-                className="h-14 w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 text-sm text-slate-900 outline-none transition-all duration-200 focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+                value={coordinateValues[0]}
+                onChange={(e) =>
+                  updateDeepField("location", "coordinates", "coordinates", [
+                    Number(e.target.value),
+                    coordinateValues[1],
+                  ])
+                }
+                className={styles.input}
               />
             </div>
           </div>

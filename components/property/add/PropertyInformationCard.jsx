@@ -6,6 +6,8 @@
 // ======================================================
 
 import { FileText, Link2, Type, AlignLeft, BadgeInfo } from "lucide-react";
+import RichTextEditor from "@/components/editor/RichTextEditor";
+import styles from "./PropertyInformationCard.module.css";
 
 const PropertyInformationCard = ({ formData, updateField }) => {
   // ======================================================
@@ -24,32 +26,26 @@ const PropertyInformationCard = ({ formData, updateField }) => {
   };
 
   return (
-    <section className="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-sm">
+    <section className={styles.card}>
       {/* =====================================
           HEADER
       ===================================== */}
-      <div className="border-b border-slate-200 px-8 py-6">
-        <div className="flex items-start gap-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-indigo-50 text-indigo-600">
+      <div className={styles.cardHeader}>
+        <div className={styles.headerContent}>
+          <div className={styles.iconWrapper}>
             <FileText size={28} />
           </div>
 
-          <div>
-            <div className="mb-2 flex items-center gap-3">
-              <span className="rounded-full bg-indigo-100 px-4 py-1 text-xs font-bold uppercase tracking-wider text-indigo-700">
-                Section 01
-              </span>
+          <div className={styles.headingArea}>
+            <div className={styles.badges}>
+              <span className={styles.sectionBadge}>Section 01</span>
 
-              <span className="rounded-full bg-emerald-100 px-4 py-1 text-xs font-semibold text-emerald-700">
-                Required
-              </span>
+              <span className={styles.requiredBadge}>Required</span>
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-900">
-              Property Information
-            </h2>
+            <h2 className={styles.title}>Property Information</h2>
 
-            <p className="mt-1 text-sm text-slate-500">
+            <p className={styles.subtitle}>
               Add your property details, title, description and custom listing
               URL.
             </p>
@@ -60,14 +56,15 @@ const PropertyInformationCard = ({ formData, updateField }) => {
       {/* =====================================
           BODY
       ===================================== */}
-      <div className="space-y-8 p-8">
+      <div className={styles.cardBody}>
         {/* =====================================
             PROPERTY TITLE
         ===================================== */}
-        <div>
-          <label className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
-            <Type size={16} className="text-indigo-600" />
-            Property Title *
+        <div className={styles.field}>
+          <label className={styles.label}>
+            <Type size={16} className={styles.labelIcon} />
+            Property Title
+            <span className={styles.required}>*</span>
           </label>
 
           <input
@@ -75,57 +72,56 @@ const PropertyInformationCard = ({ formData, updateField }) => {
             value={formData.title}
             onChange={(e) => handleTitleChange(e.target.value)}
             placeholder="Luxury Villa in Patna with Garden"
-            className="h-14 w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 text-sm text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
+            className={styles.input}
           />
 
-          <p className="mt-2 text-xs text-slate-500">
+          <p className={styles.helperText}>
             Use a descriptive SEO-friendly title.
           </p>
         </div>
 
         {/* =====================================
-            CUSTOM URL + TYPE
+            SLUG + TYPE
         ===================================== */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className={styles.grid}>
           {/* SLUG */}
-          <div>
-            <label className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
-              <Link2 size={16} className="text-indigo-600" />
+          <div className={styles.field}>
+            <label className={styles.label}>
+              <Link2 size={16} className={styles.labelIcon} />
               Custom URL Slug
             </label>
 
-            <div className="overflow-hidden rounded-2xl border border-slate-300 bg-slate-50 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-100">
-              <div className="flex items-center">
-                <span className="border-r border-slate-200 bg-slate-100 px-4 py-4 text-sm text-slate-500">
-                  bhoomisathi.com/property/
-                </span>
+            <div className={styles.slugBox}>
+              <span className={styles.slugPrefix}>
+                bhoomisathi.com/property/
+              </span>
 
-                <input
-                  type="text"
-                  value={formData.slug}
-                  onChange={(e) => updateField("slug", e.target.value)}
-                  placeholder="luxury-villa-patna"
-                  className="h-14 flex-1 bg-transparent px-4 text-sm outline-none"
-                />
-              </div>
+              <input
+                type="text"
+                value={formData.slug}
+                onChange={(e) => updateField("slug", e.target.value)}
+                placeholder="luxury-villa-patna"
+                className={styles.slugInput}
+              />
             </div>
 
-            <p className="mt-2 text-xs text-slate-500">
+            <p className={styles.helperText}>
               SEO-friendly custom listing URL.
             </p>
           </div>
 
           {/* TYPE */}
-          <div>
-            <label className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
-              <BadgeInfo size={16} className="text-indigo-600" />
-              Property Type *
+          <div className={styles.field}>
+            <label className={styles.label}>
+              <BadgeInfo size={16} className={styles.labelIcon} />
+              Property Type
+              <span className={styles.required}>*</span>
             </label>
 
             <select
               value={formData.type}
               onChange={(e) => updateField("type", e.target.value)}
-              className="h-14 w-full rounded-2xl border border-slate-300 bg-slate-50 px-5 text-sm text-slate-900 outline-none transition-all duration-200 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
+              className={styles.select}
             >
               <option value="plot">Plot</option>
 
@@ -143,21 +139,20 @@ const PropertyInformationCard = ({ formData, updateField }) => {
         {/* =====================================
             OVERVIEW
         ===================================== */}
-        <div>
-          <label className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
-            <AlignLeft size={16} className="text-indigo-600" />
-            Overview *
+        <div className={styles.field}>
+          <label className={styles.label}>
+            <AlignLeft size={16} className={styles.labelIcon} />
+            Overview
+            <span className={styles.required}>*</span>
           </label>
 
-          <textarea
-            rows={4}
+          <RichTextEditor
+            height={220}
             value={formData.overview}
-            onChange={(e) => updateField("overview", e.target.value)}
-            placeholder="Short summary of property that appears in cards and previews..."
-            className="w-full rounded-2xl border border-slate-300 bg-slate-50 p-5 text-sm text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
+            onChange={(value) => updateField("overview", value)}
           />
 
-          <p className="mt-2 text-xs text-slate-500">
+          <p className={styles.helperText}>
             Short description for cards, previews and SEO snippets.
           </p>
         </div>
@@ -165,26 +160,25 @@ const PropertyInformationCard = ({ formData, updateField }) => {
         {/* =====================================
             DESCRIPTION
         ===================================== */}
-        <div>
-          <label className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-800">
-            <FileText size={16} className="text-indigo-600" />
-            Full Description *
+        <div className={styles.field}>
+          <label className={styles.label}>
+            <FileText size={16} className={styles.labelIcon} />
+            Full Description
+            <span className={styles.required}>*</span>
           </label>
 
-          <textarea
-            rows={8}
+          <RichTextEditor
+            height={420}
             value={formData.description}
-            onChange={(e) => updateField("description", e.target.value)}
-            placeholder="Write complete property details, amenities, locality advantages, investment benefits, nearby places etc..."
-            className="w-full rounded-2xl border border-slate-300 bg-slate-50 p-5 text-sm text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
+            onChange={(value) => updateField("description", value)}
           />
 
-          <div className="mt-3 flex items-center justify-between">
-            <p className="text-xs text-slate-500">
+          <div className={styles.footerInfo}>
+            <p className={styles.helperText}>
               Detailed content improves conversions and search ranking.
             </p>
 
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+            <span className={styles.counter}>
               {formData.description.length} characters
             </span>
           </div>

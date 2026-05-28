@@ -1,163 +1,172 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+// ======================================================
+// CONFIG
+// ======================================================
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/";
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
-// 🔷 Fetch Property Data (SSR)
+// ======================================================
+// FETCH PROPERTY
+// ======================================================
 async function getProperty(slug: string) {
-  const res = await fetch(`${API_URL}/properties/${slug}`, {
+  const response = await fetch(`${API_URL}/api/properties/slug/${slug}`, {
     cache: "no-store",
   });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch property");
+  if (!response.ok) {
+    throw new Error(`Failed to fetch property: ${response.status}`);
   }
 
-  return res.json();
+  const data = await response.json();
+
+  return data?.property || data;
 }
 
-// 🔷 SEO Metadata
+// ======================================================
+// SEO METADATA
+// ======================================================
 export async function generateMetadata({ params }: Props) {
-  const property = await getProperty(params.slug);
+  const { slug } = await params;
 
-  return {
-    title: `${property.title} | Bhoomi Sathi`,
-    description: property.description?.slice(0, 150),
-    openGraph: {
-      title: property.title,
-      description: property.description,
-      images: [property.images?.[0]],
-    },
-  };
+  try {
+    const property = await getProperty(slug);
+
+    return {
+      title: `${property?.title || "Property"} | Bhoomi Sathi`,
+
+      description:
+        property?.description?.replace(/<[^>]*>/g, "")?.slice(0, 160) ||
+        "Find premium properties on Bhoomi Sathi.",
+
+      openGraph: {
+        title: property?.title || "Property",
+
+        description: property?.description?.replace(/<[^>]*>/g, "") || "",
+
+        images: property?.images?.length > 0 ? property.images : [],
+      },
+    };
+  } catch {
+    return {
+      title: "Property Not Found | Bhoomi Sathi",
+    };
+  }
 }
 
-// 🔷 Page Component
+// ======================================================
+// PAGE COMPONENT
+// ======================================================
 export default async function PropertyDetailPage({ params }: Props) {
-  const property = await getProperty(params.slug);
+  const { slug } = await params;
+
+  const property = await getProperty(slug);
+
+  const images = property?.images || [];
 
   return (
     <div className="container py-4">
-      {/* 🔷 Title */}
-      <h1 className="mb-3">{property.title}</h1>
+      {/* Title */}
+      <h1 className="mb-4">{property?.title}</h1>
 
-      {/* 🔷 Image Gallery */}
+      {/* Image Gallery */}
       <div className="row mb-4">
-        {property.images?.map((img: string, i: number) => (
-          <div key={i} className="col-md-4 mb-3">
-            <Image
-              src={img}
-              alt={property.title}
-              width={400}
-              height={300}
-              className="img-fluid rounded"
-            />
-          </div>
-        ))}
+        {images.length > 0 ? (
+          images.map((img: string, index: number) => (
+            <div key={index} className="col-md-4 mb-3">
+              <Image
+                src={img}
+                alt={property?.title}
+                width={400}
+                height={300}
+                className="img-fluid rounded"
+                unoptimized
+              />
+            </div>
+          ))
+        ) : (
+          <p>No images available</p>
+        )}
       </div>
 
-      {/* 🔷 Price + Info */}
-      <div className="card p-3 mb-4">
-        <h3 className="text-primary">₹ {property.price}</h3>
+      {/* Property Info */}
+      <div className="card p-4 mb-4">
+        <h3 className="text-primary">
+          ₹ {property?.price?.toLocaleString?.() || 0}
+        </h3>
+
         <p>
-          <strong>Location:</strong> {property.city}
+          <strong>Type:</strong> {property?.type || "N/A"}
         </p>
+
         <p>
-          <strong>Type:</strong> {property.type}
+          <strong>Status:</strong> {property?.status || "N/A"}
         </p>
+
         <p>
-          <strong>Area:</strong> {property.area} sq.ft
+          <strong>Bedrooms:</strong> {property?.bedrooms ?? 0}
+        </p>
+
+        <p>
+          <strong>Bathrooms:</strong> {property?.bathrooms ?? 0}
         </p>
       </div>
 
-      {/* 🔷 Description */}
+      {/* Description */}
       <div className="mb-4">
         <h4>Description</h4>
-        <p>{property.description}</p>
+
+        <div
+          dangerouslySetInnerHTML={{
+            __html: property?.description || "",
+          }}
+        />
       </div>
 
-      {/* 🔷 CTA Buttons */}
+      {/* CTA */}
       <div className="d-flex gap-3 mb-4">
         <a
-          href={`https://wa.me/91${property.contactNumber}?text=I am interested in ${property.title}`}
+          href={`https://wa.me/91${
+            property?.contactNumber || ""
+          }?text=I am interested in ${property?.title}`}
           target="_blank"
           className="btn btn-success"
         >
           WhatsApp
         </a>
 
-        <a href={`tel:${property.contactNumber}`} className="btn btn-primary">
+        <a
+          href={`tel:${property?.contactNumber || ""}`}
+          className="btn btn-primary"
+        >
           Call Now
         </a>
       </div>
 
-      {/* 🔷 Enquiry Form */}
-      <div className="card p-3">
-        <h4>Send Enquiry</h4>
-
-        <form method="POST" action={`${API_URL}/enquiry`}>
-          <input
-            type="hidden"
-            name="propertyId"
-            value={property._id}
-          />
-
-          <div className="mb-3">
-            <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
-              className="form-control"
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Phone Number"
-              className="form-control"
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <textarea
-              name="message"
-              placeholder="Message"
-              className="form-control"
-              rows={3}
-            />
-          </div>
-
-          <button className="btn btn-dark w-100">Submit</button>
-        </form>
-      </div>
-
-      {/* 🔷 Back Link */}
+      {/* Back */}
       <div className="mt-4">
         <Link href="/properties">← Back to Properties</Link>
       </div>
 
-      {/* 🔷 Structured Data (SEO Boost) */}
+      {/* Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            name: property.title,
-            description: property.description,
-            image: property.images,
+            name: property?.title,
+            description: property?.description,
+            image: property?.images,
             offers: {
               "@type": "Offer",
-              price: property.price,
+              price: property?.price,
               priceCurrency: "INR",
               availability: "https://schema.org/InStock",
             },

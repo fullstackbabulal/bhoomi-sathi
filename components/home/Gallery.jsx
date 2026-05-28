@@ -1,118 +1,117 @@
-/* frontend/components/home/Gallery.jsx */
-
 "use client";
 
 import Image from "next/image";
 import styles from "./Gallery.module.css";
 
+// ======================================================
+// FALLBACK IMAGES
+// ======================================================
 const FALLBACK_IMAGES = [
   {
     id: 1,
     image: "https://placehold.co/1200x800?text=Luxury+Living+Room",
-  },
-  {
-    id: 2,
-    image: "https://placehold.co/1200x800?text=Modern+Villa",
-  },
-  {
-    id: 3,
-    image: "https://placehold.co/1200x800?text=Premium+Interior",
+    title: "Luxury Living Room",
   },
 ];
 
+// ======================================================
+// HELPERS
+// ======================================================
+const isValidImageUrl = (value) => {
+  if (!value || typeof value !== "string") {
+    return false;
+  }
+
+  // local uploads path
+  if (value.startsWith("/")) {
+    return true;
+  }
+
+  // external URL
+  try {
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+// ======================================================
+// COMPONENT
+// ======================================================
 export default function Gallery({
   images = [],
   title = "Property Gallery",
   description = "Explore premium property visuals and discover beautiful living spaces.",
 }) {
-  const galleryImages =
-    Array.isArray(images) && images.length > 0
-      ? images.filter(Boolean)
-      : FALLBACK_IMAGES;
+  // ====================================================
+  // SAFE IMAGES
+  // ====================================================
+  const galleryImages = Array.isArray(images)
+    ? images
+        .map((item, index) => {
+          const imageUrl =
+            typeof item === "string" ? item : item?.image || item?.url || "";
 
-  const hasImages = galleryImages.length > 0;
+          const imageTitle = item?.title || `Property View ${index + 1}`;
 
+          return {
+            id: item?.id || index,
+
+            image: imageUrl,
+
+            title: imageTitle,
+          };
+        })
+        .filter((item) => isValidImageUrl(item.image))
+    : [];
+
+  const finalImages =
+    galleryImages.length > 0 ? galleryImages : FALLBACK_IMAGES;
+
+  // ====================================================
+  // RENDER
+  // ====================================================
   return (
-    <section
-      className={styles.gallerySection}
-      aria-labelledby="gallery-heading"
-    >
+    <section className={styles.gallerySection}>
       <div className="container">
         {/* Header */}
         <div className={styles.header}>
           <span className={styles.badge}>Gallery</span>
 
-          <h2 id="gallery-heading" className={styles.title}>
-            {title}
-          </h2>
+          <h2 className={styles.title}>{title}</h2>
 
           <p className={styles.description}>{description}</p>
         </div>
 
-        {/* Empty State */}
-        {!hasImages ? (
-          <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>🖼️</div>
+        {/* Gallery */}
+        <div className={styles.galleryGrid}>
+          {finalImages.map((item, index) => (
+            <article key={item.id} className={styles.card}>
+              <div className={styles.imageWrapper}>
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  priority={index < 2}
+                  className={styles.image}
+                  sizes="
+                      (max-width:768px) 100vw,
+                      (max-width:1200px) 50vw,
+                      33vw
+                    "
+                  unoptimized
+                />
 
-            <h3 className={styles.emptyTitle}>No Images Available</h3>
+                <div className={styles.overlay} />
 
-            <p className={styles.emptyDescription}>
-              Gallery images will appear here once property photos are uploaded.
-            </p>
-          </div>
-        ) : (
-          <div className={styles.galleryGrid}>
-            {galleryImages.map((item, index) => {
-              const imageUrl = typeof item === "string" ? item : item?.image;
-
-              const imageTitle = typeof item === "object" ? item?.title : null;
-
-              return (
-                <article
-                  key={item?.id || imageUrl || index}
-                  className={styles.card}
-                >
-                  {/* Image */}
-                  <div className={styles.imageWrapper}>
-                    <Image
-                      src={imageUrl || FALLBACK_IMAGES[0].image}
-                      alt={imageTitle || `Property gallery image ${index + 1}`}
-                      fill
-                      priority={index < 2}
-                      className={styles.image}
-                      sizes="
-                        (max-width: 768px) 100vw,
-                        (max-width: 1200px) 50vw,
-                        33vw
-                      "
-                      unoptimized
-                    />
-
-                    {/* Overlay */}
-                    <div className={styles.overlay} />
-
-                    <div className={styles.overlayContent}>
-                      <h4 className={styles.overlayTitle}>
-                        {imageTitle || `Property View ${index + 1}`}
-                      </h4>
-
-                      <p className={styles.overlayText}>
-                        Explore premium property visuals
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Footer */}
-                  <div className={styles.cardFooter}>
-                    <span className={styles.imageLabel}>
-                      {imageTitle || `Image ${index + 1}`}
-                    </span>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        )}
+                <div className={styles.overlayContent}>
+                  <h4 className={styles.overlayTitle}>{item.title}</h4>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -2,211 +2,150 @@
 
 // ======================================================
 // File: components/property/add/PropertyPreviewSidebar.jsx
-// Description: Premium Live Property Preview Sidebar
+// Description: Premium Property Preview Sidebar
 // ======================================================
 
 import {
+  Eye,
+  MapPin,
   BedDouble,
   Bath,
-  MapPin,
-  IndianRupee,
-  Star,
+  Expand,
   BadgeCheck,
-  Building2,
-  ImageIcon,
+  Star,
+  Home,
 } from "lucide-react";
 
-const PropertyPreviewSidebar = ({ formData }) => {
-  const formatPrice = (price) => {
-    if (!price) return "₹ 0";
+import styles from "./PropertyPreviewSidebar.module.css";
 
-    return new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
-      maximumFractionDigits: 0,
-    }).format(price);
-  };
+const PropertyPreviewSidebar = ({ formData }) => {
+  const {
+    title,
+    overview,
+    price,
+    type,
+    bedrooms,
+    bathrooms,
+    thumbnail,
+    isFeatured,
+    isVerified,
+    area,
+    location,
+  } = formData;
+
+  const imagePreview = thumbnail?.preview || thumbnail || "";
 
   return (
-    <aside className="space-y-6">
+    <aside className={styles.card}>
       {/* =====================================
-          LIVE PREVIEW CARD
+          HEADER
       ===================================== */}
-      <section className="overflow-hidden rounded-[34px] border border-slate-200 bg-white shadow-sm">
-        {/* HEADER */}
-        <div className="border-b border-slate-200 px-6 py-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-bold text-slate-900">Live Preview</h2>
+      <div className={styles.header}>
+        <div className={styles.headerLeft}>
+          <div className={styles.iconWrapper}>
+            <Eye size={22} />
+          </div>
 
-              <p className="text-sm text-slate-500">
-                Real-time listing preview
-              </p>
-            </div>
+          <div>
+            <h3 className={styles.title}>Live Preview</h3>
 
-            <span className="rounded-full bg-emerald-100 px-4 py-2 text-xs font-semibold text-emerald-700">
-              {formData.status}
-            </span>
+            <p className={styles.subtitle}>Real-time property card</p>
           </div>
         </div>
+      </div>
 
-        {/* THUMBNAIL */}
-        <div className="relative h-[280px] overflow-hidden bg-slate-100">
-          {formData.thumbnail ? (
+      {/* =====================================
+          PROPERTY CARD PREVIEW
+      ===================================== */}
+      <div className={styles.previewCard}>
+        {/* IMAGE */}
+        <div className={styles.imageWrapper}>
+          {imagePreview ? (
             <img
-              src={formData.thumbnail}
-              alt="Property"
-              className="h-full w-full object-cover"
+              src={imagePreview}
+              alt="property preview"
+              className={styles.image}
             />
           ) : (
-            <div className="flex h-full w-full flex-col items-center justify-center gap-4 text-slate-400">
-              <div className="flex h-20 w-20 items-center justify-center rounded-[30px] bg-slate-200">
-                <ImageIcon size={36} />
-              </div>
-
-              <p className="text-sm font-medium">Thumbnail Preview</p>
+            <div className={styles.placeholder}>
+              <Home size={42} />
+              <span>Property Preview</span>
             </div>
           )}
 
-          {/* FEATURED */}
-          {formData.isFeatured && (
-            <div className="absolute left-5 top-5">
-              <span className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-4 py-2 text-xs font-semibold text-white shadow-lg">
+          {/* BADGES */}
+          <div className={styles.badges}>
+            <span className={styles.typeBadge}>{type || "Property"}</span>
+
+            {isFeatured && (
+              <span className={styles.featuredBadge}>
                 <Star size={14} />
                 Featured
               </span>
-            </div>
-          )}
+            )}
 
-          {/* VERIFIED */}
-          {formData.isVerified && (
-            <div className="absolute right-5 top-5">
-              <span className="inline-flex items-center gap-2 rounded-full bg-emerald-500 px-4 py-2 text-xs font-semibold text-white shadow-lg">
+            {isVerified && (
+              <span className={styles.verifiedBadge}>
                 <BadgeCheck size={14} />
                 Verified
               </span>
-            </div>
-          )}
-        </div>
-
-        {/* BODY */}
-        <div className="space-y-6 p-6">
-          {/* TITLE */}
-          <div>
-            <h3 className="line-clamp-2 text-2xl font-bold leading-tight text-slate-900">
-              {formData.title || "Luxury Villa in Patna"}
-            </h3>
-
-            <p className="mt-2 text-sm leading-6 text-slate-500">
-              {formData.overview ||
-                "Your property overview preview will appear here."}
-            </p>
-          </div>
-
-          {/* PRICE */}
-          <div className="rounded-[28px] bg-gradient-to-r from-indigo-600 to-violet-600 p-5 text-white shadow-lg">
-            <div className="flex items-center gap-3">
-              <IndianRupee size={22} />
-
-              <div>
-                <p className="text-xs uppercase tracking-wider text-indigo-100">
-                  Property Price
-                </p>
-
-                <h3 className="text-3xl font-bold">
-                  {formatPrice(formData.price)}
-                </h3>
-              </div>
-            </div>
-          </div>
-
-          {/* LOCATION */}
-          <div className="flex items-start gap-3 rounded-[28px] border border-slate-200 bg-slate-50 p-5">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-100 text-red-500">
-              <MapPin size={20} />
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-slate-900">
-                Property Location
-              </h4>
-
-              <p className="mt-1 text-sm leading-6 text-slate-500">
-                {formData.location.address || "Property address"}
-                {formData.location.city && `, ${formData.location.city}`}
-                {formData.location.state && `, ${formData.location.state}`}
-              </p>
-            </div>
-          </div>
-
-          {/* PROPERTY INFO */}
-          <div className="grid grid-cols-3 gap-3">
-            <div className="rounded-[28px] border border-slate-200 bg-slate-50 p-4 text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-100 text-indigo-600">
-                <BedDouble size={20} />
-              </div>
-
-              <h4 className="mt-3 text-xl font-bold text-slate-900">
-                {formData.bedrooms}
-              </h4>
-
-              <p className="text-xs text-slate-500">Bedrooms</p>
-            </div>
-
-            <div className="rounded-[28px] border border-slate-200 bg-slate-50 p-4 text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
-                <Bath size={20} />
-              </div>
-
-              <h4 className="mt-3 text-xl font-bold text-slate-900">
-                {formData.bathrooms}
-              </h4>
-
-              <p className="text-xs text-slate-500">Bathrooms</p>
-            </div>
-
-            <div className="rounded-[28px] border border-slate-200 bg-slate-50 p-4 text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-100 text-violet-600">
-                <Building2 size={20} />
-              </div>
-
-              <h4 className="mt-3 text-lg font-bold text-slate-900">
-                {formData.area.value || 0}
-              </h4>
-
-              <p className="text-xs text-slate-500">{formData.area.unit}</p>
-            </div>
-          </div>
-
-          {/* AMENITIES */}
-          <div>
-            <div className="mb-3 flex items-center justify-between">
-              <h4 className="font-semibold text-slate-900">Amenities</h4>
-
-              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
-                {formData.amenities.length}
-              </span>
-            </div>
-
-            {formData.amenities.length === 0 ? (
-              <div className="rounded-[28px] border border-dashed border-slate-300 p-5 text-center text-sm text-slate-500">
-                No amenities selected
-              </div>
-            ) : (
-              <div className="flex flex-wrap gap-2">
-                {formData.amenities.map((amenity, index) => (
-                  <span
-                    key={index}
-                    className="rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-xs font-semibold text-indigo-700"
-                  >
-                    {amenity}
-                  </span>
-                ))}
-              </div>
             )}
           </div>
         </div>
-      </section>
+
+        {/* CONTENT */}
+        <div className={styles.content}>
+          <h4 className={styles.propertyTitle}>
+            {title || "Luxury Property Title"}
+          </h4>
+
+          <p className={styles.overview}>
+            {overview ||
+              "Property overview will appear here in real-time preview..."}
+          </p>
+
+          {/* LOCATION */}
+          <div className={styles.location}>
+            <MapPin size={16} />
+
+            <span>
+              {location?.city || "Patna"}
+              {location?.state ? `, ${location.state}` : ""}
+            </span>
+          </div>
+
+          {/* STATS */}
+          <div className={styles.stats}>
+            <div className={styles.stat}>
+              <BedDouble size={16} />
+              <span>{bedrooms || 0} Beds</span>
+            </div>
+
+            <div className={styles.stat}>
+              <Bath size={16} />
+              <span>{bathrooms || 0} Baths</span>
+            </div>
+
+            <div className={styles.stat}>
+              <Expand size={16} />
+              <span>
+                {area?.value || 0} {area?.unit || "sqft"}
+              </span>
+            </div>
+          </div>
+
+          {/* PRICE */}
+          <div className={styles.footer}>
+            <div>
+              <span className={styles.priceLabel}>Starting Price</span>
+
+              <h3 className={styles.price}>
+                ₹{price ? Number(price).toLocaleString("en-IN") : "0"}
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
     </aside>
   );
 };

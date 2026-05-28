@@ -1,0 +1,231 @@
+/* ======================================================
+   File: components/property/details/PropertyFAQ.module.css
+   Description: Property FAQ Styles
+   UI Match: Bhoomi Sathi Property Details Design
+   Styling: CSS Modules (No Tailwind)
+====================================================== */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  width: 100%;
+}
+
+/* ===================================
+   Header
+=================================== */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.headingRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.headingRow svg {
+  color: #15803d;
+  stroke-width: 2.2;
+}
+
+.heading {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.subText {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+/* ===================================
+   FAQ List
+=================================== */
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ===================================
+   Card
+=================================== */
+
+.card {
+  overflow: hidden;
+
+  border-radius: 28px;
+  border: 1px solid #e5e7eb;
+
+  background: #ffffff;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.card:hover {
+  border-color: #dcfce7;
+
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+}
+
+.open {
+  border-color: #dcfce7;
+
+  box-shadow: 0 12px 30px rgba(21, 128, 61, 0.06);
+}
+
+/* ===================================
+   Question
+=================================== */
+
+.questionButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  cursor: pointer;
+
+  background: transparent;
+
+  padding: 26px 28px;
+
+  text-align: left;
+}
+
+.question {
+  color: #111827;
+
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 700;
+}
+
+.questionButton svg {
+  flex-shrink: 0;
+
+  color: #15803d;
+  stroke-width: 2.4;
+}
+
+/* ===================================
+   Answer
+=================================== */
+
+.answerWrapper {
+  padding: 0 28px 28px;
+
+  animation: fadeIn 0.25s ease;
+}
+
+.answer {
+  margin: 0;
+
+  color: #4b5563;
+
+  font-size: 15px;
+  line-height: 1.9;
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===================================
+   Responsive
+=================================== */
+
+@media (max-width: 768px) {
+  .section {
+    gap: 20px;
+  }
+
+  .heading {
+    font-size: 26px;
+  }
+
+  .subText {
+    font-size: 14px;
+  }
+
+  .card {
+    border-radius: 24px;
+  }
+
+  .questionButton {
+    padding: 22px;
+  }
+
+  .question {
+    font-size: 16px;
+  }
+
+  .answerWrapper {
+    padding: 0 22px 22px;
+  }
+
+  .answer {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    font-size: 24px;
+  }
+
+  .card {
+    border-radius: 22px;
+  }
+
+  .questionButton {
+    padding: 18px;
+  }
+
+  .question {
+    font-size: 15px;
+  }
+
+  .answerWrapper {
+    padding: 0 18px 18px;
+  }
+
+  .answer {
+    font-size: 13px;
+  }
+}

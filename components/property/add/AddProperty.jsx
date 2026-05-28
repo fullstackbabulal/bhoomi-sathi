@@ -2,11 +2,20 @@
 
 // ======================================================
 // File: components/property/add/AddProperty.jsx
-// Description: Premium Add Property Layout Shell
 // ======================================================
 
 import { useMemo, useState } from "react";
 
+import styles from "./AddProperty.module.css";
+
+// ======================================================
+// ADMIN
+// ======================================================
+import AdminSidebar from "@/components/admin/AdminSidebar";
+
+// ======================================================
+// PROPERTY COMPONENTS
+// ======================================================
 import AddPropertyHeader from "./AddPropertyHeader";
 import PropertyInformationCard from "./PropertyInformationCard";
 import PropertySpecificationCard from "./PropertySpecificationCard";
@@ -19,65 +28,65 @@ import PropertyPreviewSidebar from "./PropertyPreviewSidebar";
 import PropertyProgressCard from "./PropertyProgressCard";
 import PropertyStickyFooter from "./PropertyStickyFooter";
 
+// ======================================================
+// INITIAL STATE
+// ======================================================
+const initialFormData = {
+  title: "",
+  slug: "",
+  overview: "",
+  description: "",
+
+  type: "plot",
+  status: "available",
+
+  price: "",
+  bedrooms: 0,
+  bathrooms: 0,
+
+  area: {
+    value: "",
+    unit: "sqft",
+  },
+
+  location: {
+    address: "",
+    city: "",
+    state: "",
+    country: "India",
+    pincode: "",
+
+    coordinates: {
+      type: "Point",
+      coordinates: [0, 0],
+    },
+  },
+
+  thumbnail: null,
+  images: [],
+  videos: [],
+
+  amenities: [],
+
+  seo: {
+    metaTitle: "",
+    metaDescription: "",
+    keywords: [],
+    canonicalUrl: "",
+    ogImage: "",
+  },
+
+  isFeatured: false,
+  isVerified: false,
+};
+
 const AddProperty = () => {
   // ======================================================
-  // FORM STATE
+  // STATE
   // ======================================================
   const [loading, setLoading] = useState(false);
 
-  const [formData, setFormData] = useState({
-    // BASIC INFO
-    title: "",
-    slug: "",
-    overview: "",
-    description: "",
-
-    // PROPERTY DETAILS
-    type: "plot",
-    status: "available",
-    price: "",
-    bedrooms: 0,
-    bathrooms: 0,
-
-    area: {
-      value: "",
-      unit: "sqft",
-    },
-
-    // LOCATION
-    location: {
-      address: "",
-      city: "",
-      state: "",
-      country: "India",
-      pincode: "",
-      coordinates: {
-        type: "Point",
-        coordinates: [0, 0],
-      },
-    },
-
-    // MEDIA
-    thumbnail: "",
-    images: [],
-    videos: [],
-
-    // FEATURES
-    amenities: [],
-
-    // SEO
-    seo: {
-      metaTitle: "",
-      metaDescription: "",
-      keywords: [],
-      canonicalUrl: "",
-      ogImage: "",
-    },
-
-    // FLAGS
-    isFeatured: false,
-    isVerified: false,
-  });
+  const [formData, setFormData] = useState(initialFormData);
 
   // ======================================================
   // HELPERS
@@ -121,8 +130,8 @@ const AddProperty = () => {
       formData.overview,
       formData.description,
       formData.price,
-      formData.location.city,
       formData.location.address,
+      formData.location.city,
       formData.thumbnail,
       formData.seo.metaTitle,
       formData.seo.metaDescription,
@@ -140,88 +149,190 @@ const AddProperty = () => {
     try {
       setLoading(true);
 
-      console.log("Submitting Property", formData);
+      console.log("STEP 1: submitting property", formData);
 
-      // TODO:
-      // API.post("/properties", formData)
+      const submitData = new FormData();
 
-      // router.push("/admin/properties");
+      // ==================================================
+      // BASIC
+      // ==================================================
+      submitData.append("title", formData.title);
+      submitData.append("slug", formData.slug);
+      submitData.append("overview", formData.overview);
+      submitData.append("description", formData.description);
+
+      // ==================================================
+      // SPECIFICATION
+      // ==================================================
+      submitData.append("type", formData.type);
+      submitData.append("status", formData.status);
+
+      submitData.append("price", String(formData.price));
+
+      submitData.append("bedrooms", String(formData.bedrooms));
+
+      submitData.append("bathrooms", String(formData.bathrooms));
+
+      // ==================================================
+      // JSON DATA
+      // ==================================================
+      submitData.append("area", JSON.stringify(formData.area));
+
+      submitData.append("location", JSON.stringify(formData.location));
+
+      submitData.append("amenities", JSON.stringify(formData.amenities));
+
+      submitData.append("seo", JSON.stringify(formData.seo));
+
+      // ==================================================
+      // FLAGS
+      // ==================================================
+      submitData.append("isFeatured", String(formData.isFeatured));
+
+      submitData.append("isVerified", String(formData.isVerified));
+
+      // ==================================================
+      // THUMBNAIL
+      // ==================================================
+      if (formData.thumbnail?.file) {
+        console.log("Uploading thumbnail:", formData.thumbnail.file.name);
+
+        submitData.append("thumbnail", formData.thumbnail.file);
+      }
+
+      // ==================================================
+      // IMAGES
+      // ==================================================
+      if (formData.images?.length > 0) {
+        formData.images.forEach((image) => {
+          const file = image?.file || image;
+
+          if (file instanceof File) {
+            console.log("Uploading image:", file.name);
+
+            submitData.append("images", file);
+          }
+        });
+      }
+
+      console.log("STEP 2: sending request");
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/properties`,
+        {
+          method: "POST",
+          credentials: "include",
+          body: submitData,
+        },
+      );
+
+      console.log("STEP 3: response status", response.status);
+
+      const data = await response.json();
+
+      console.log("STEP 4: api response", data);
+
+      // ==================================================
+      // SUCCESS
+      // ==================================================
+      if (response.ok && data.success) {
+        alert(data.message || "Property created successfully");
+
+        console.log("SUCCESS: property created");
+
+        // RESET FORM
+        setFormData(initialFormData);
+
+        // SCROLL TOP
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      } else {
+        alert(data.message || "Failed to create property");
+
+        console.error("FAILED RESPONSE:", data);
+      }
     } catch (error) {
-      console.error(error);
+      console.error("SUBMIT ERROR:", error);
+
+      alert("Something went wrong");
     } finally {
       setLoading(false);
     }
   };
 
+  // ======================================================
+  // RENDER
+  // ======================================================
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* ============================================
-          HEADER
-      ============================================ */}
-      <AddPropertyHeader loading={loading} onSubmit={handleSubmit} />
+    <div className={styles.dashboardWrapper}>
+      <AdminSidebar />
 
-      {/* ============================================
-          BODY
-      ============================================ */}
-      <div className="mx-auto max-w-[1700px] px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 xl:grid-cols-12">
-          {/* ======================================
-              LEFT FORM
-          ====================================== */}
-          <div className="space-y-6 xl:col-span-8">
-            <PropertyInformationCard
-              formData={formData}
-              updateField={updateField}
-            />
+      <div className={styles.mainContent}>
+        <div className={styles.pageWrapper}>
+          <AddPropertyHeader loading={loading} onSubmit={handleSubmit} />
 
-            <PropertySpecificationCard
-              formData={formData}
-              updateField={updateField}
-              updateNestedField={updateNestedField}
-            />
+          <main className={styles.pageBody}>
+            <div className={styles.pageContainer}>
+              <div className={styles.contentGrid}>
+                <section className={styles.formSection}>
+                  <PropertyInformationCard
+                    formData={formData}
+                    updateField={updateField}
+                  />
 
-            <PropertyLocationCard
-              formData={formData}
-              updateNestedField={updateNestedField}
-              updateDeepField={updateDeepField}
-            />
+                  <PropertySpecificationCard
+                    formData={formData}
+                    updateField={updateField}
+                    updateNestedField={updateNestedField}
+                  />
 
-            <PropertyMediaCard formData={formData} updateField={updateField} />
+                  <PropertyLocationCard
+                    formData={formData}
+                    updateNestedField={updateNestedField}
+                    updateDeepField={updateDeepField}
+                  />
 
-            <PropertyAmenitiesCard
-              formData={formData}
-              updateField={updateField}
-            />
+                  <PropertyMediaCard
+                    formData={formData}
+                    updateField={updateField}
+                  />
 
-            <PropertySEOCard
-              formData={formData}
-              updateNestedField={updateNestedField}
-            />
+                  <PropertyAmenitiesCard
+                    formData={formData}
+                    updateField={updateField}
+                  />
 
-            <PropertyStatusCard formData={formData} updateField={updateField} />
-          </div>
+                  <PropertySEOCard
+                    formData={formData}
+                    updateNestedField={updateNestedField}
+                  />
 
-          {/* ======================================
-              RIGHT SIDEBAR
-          ====================================== */}
-          <div className="space-y-6 xl:col-span-4">
-            <div className="sticky top-6 space-y-6">
-              <PropertyProgressCard progress={progress} />
+                  <PropertyStatusCard
+                    formData={formData}
+                    updateField={updateField}
+                  />
+                </section>
 
-              <PropertyPreviewSidebar formData={formData} />
+                <aside className={styles.sidebarSection}>
+                  <div className={styles.sidebarSticky}>
+                    <PropertyPreviewSidebar formData={formData} />
+
+                    <PropertyProgressCard progress={progress} />
+                  </div>
+                </aside>
+              </div>
             </div>
-          </div>
+          </main>
         </div>
-      </div>
 
-      {/* ============================================
-          FOOTER ACTION BAR
-      ============================================ */}
-      <PropertyStickyFooter
-        loading={loading}
-        progress={progress}
-        onSubmit={handleSubmit}
-      />
+        <PropertyStickyFooter
+          loading={loading}
+          progress={progress}
+          onSubmit={handleSubmit}
+        />
+      </div>
     </div>
   );
 };

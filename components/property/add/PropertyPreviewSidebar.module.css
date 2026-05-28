@@ -1,0 +1,410 @@
+/* ======================================================
+   File: components/property/add/PropertyPreviewSidebar.module.css
+   Description: Premium Property Preview Sidebar
+====================================================== */
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e8ebf3;
+  border-radius: 30px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.04),
+    0 4px 12px rgba(15, 23, 42, 0.03);
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.header {
+  padding: 24px 24px 18px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.iconWrapper {
+  width: 56px;
+  height: 56px;
+
+  flex-shrink: 0;
+
+  border-radius: 18px;
+
+  background: linear-gradient(135deg, #5b45ff, #7b61ff);
+
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 12px 24px rgba(91, 69, 255, 0.22);
+}
+
+.title {
+  margin: 0;
+
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.2;
+
+  color: #0f172a;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+
+  font-size: 14px;
+  font-weight: 500;
+  color: #667085;
+}
+
+/* ==========================================
+   PREVIEW CARD
+========================================== */
+
+.previewCard {
+  padding: 20px;
+}
+
+/* ==========================================
+   IMAGE
+========================================== */
+
+.imageWrapper {
+  position: relative;
+
+  width: 100%;
+  height: 280px;
+
+  overflow: hidden;
+
+  border-radius: 26px;
+
+  background: linear-gradient(180deg, #f7f8fd 0%, #eef2ff 100%);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+  object-fit: cover;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  color: #98a2b3;
+}
+
+.placeholder span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ==========================================
+   BADGES
+========================================== */
+
+.badges {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.typeBadge,
+.featuredBadge,
+.verifiedBadge {
+  min-height: 38px;
+
+  padding: 0 14px;
+
+  border-radius: 999px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  backdrop-filter: blur(10px);
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.typeBadge {
+  background: rgba(255, 255, 255, 0.95);
+  color: #111827;
+}
+
+.featuredBadge {
+  background: rgba(245, 158, 11, 0.92);
+  color: #ffffff;
+}
+
+.verifiedBadge {
+  background: rgba(16, 185, 129, 0.92);
+  color: #ffffff;
+}
+
+/* ==========================================
+   CONTENT
+========================================== */
+
+.content {
+  padding-top: 22px;
+}
+
+.propertyTitle {
+  margin: 0;
+
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 800;
+
+  color: #0f172a;
+}
+
+.overview {
+  margin: 12px 0 0;
+
+  font-size: 14px;
+  line-height: 1.8;
+  font-weight: 500;
+
+  color: #667085;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+/* ==========================================
+   LOCATION
+========================================== */
+
+.location {
+  margin-top: 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #5b6475;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ==========================================
+   STATS
+========================================== */
+
+.stats {
+  margin-top: 22px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.stat {
+  min-height: 78px;
+
+  border-radius: 20px;
+
+  background: #f7f8fc;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  text-align: center;
+
+  color: #5b45ff;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.stat:hover {
+  transform: translateY(-2px);
+}
+
+.stat span {
+  font-size: 13px;
+  font-weight: 700;
+
+  color: #475467;
+}
+
+/* ==========================================
+   FOOTER / PRICE
+========================================== */
+
+.footer {
+  margin-top: 24px;
+
+  padding-top: 22px;
+
+  border-top: 1px solid #edf0f6;
+}
+
+.priceLabel {
+  display: inline-block;
+
+  margin-bottom: 8px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #98a2b3;
+}
+
+.price {
+  margin: 0;
+
+  font-size: 32px;
+  line-height: 1;
+
+  font-weight: 800;
+
+  color: #5b45ff;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1200px) {
+  .imageWrapper {
+    height: 320px;
+  }
+}
+
+@media (max-width: 992px) {
+  .header,
+  .previewCard {
+    padding: 22px;
+  }
+
+  .propertyTitle {
+    font-size: 22px;
+  }
+
+  .imageWrapper {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    border-radius: 24px;
+  }
+
+  .header,
+  .previewCard {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .imageWrapper {
+    height: 240px;
+    border-radius: 22px;
+  }
+
+  .propertyTitle {
+    font-size: 20px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stat {
+    min-height: 64px;
+
+    flex-direction: row;
+    justify-content: flex-start;
+
+    padding: 0 18px;
+  }
+
+  .footer {
+    margin-top: 20px;
+    padding-top: 18px;
+  }
+
+  .price {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    border-radius: 22px;
+  }
+
+  .header,
+  .previewCard {
+    padding: 18px;
+  }
+
+  .iconWrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .subtitle,
+  .overview,
+  .location,
+  .priceLabel {
+    font-size: 13px;
+  }
+
+  .propertyTitle {
+    font-size: 18px;
+  }
+
+  .imageWrapper {
+    height: 220px;
+  }
+
+  .price {
+    font-size: 24px;
+  }
+}

@@ -5,62 +5,72 @@
 // Description: Premium Sticky Footer Action Bar
 // ======================================================
 
-import { Save, Eye, ArrowRight, Loader2 } from "lucide-react";
+import { Save, Eye, Send, Loader2 } from "lucide-react";
 
-const PropertyStickyFooter = ({ loading = false, progress = 0, onSubmit }) => {
+import styles from "./PropertyStickyFooter.module.css";
+
+const PropertyStickyFooter = ({
+  loading = false,
+  progress = 0,
+  onSubmit,
+  onSaveDraft,
+  onPreview,
+}) => {
   return (
-    <div className="sticky bottom-0 z-50 border-t border-slate-200 bg-white/95 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-[1700px] flex-col gap-5 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+    <footer className={styles.footer}>
+      <div className={styles.container}>
         {/* =====================================
             LEFT CONTENT
         ===================================== */}
-        <div className="flex flex-col">
-          <div className="flex items-center gap-3">
-            <h3 className="text-lg font-bold text-slate-900">
-              Property Completion
-            </h3>
+        <div className={styles.leftSection}>
+          <div className={styles.headingRow}>
+            <h3 className={styles.title}>Property Completion</h3>
 
-            <span className="rounded-full bg-indigo-100 px-4 py-1 text-xs font-semibold text-indigo-700">
-              {progress}% Complete
-            </span>
+            <span className={styles.badge}>{progress}% Complete</span>
           </div>
 
-          <p className="mt-1 text-sm text-slate-500">
+          <p className={styles.description}>
             Complete all required information before publishing your property
             listing.
           </p>
 
           {/* PROGRESS BAR */}
-          <div className="mt-4 h-3 w-full max-w-md overflow-hidden rounded-full bg-slate-100">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 transition-all duration-700"
-              style={{
-                width: `${progress}%`,
-              }}
-            />
+          <div className={styles.progressWrapper}>
+            <div className={styles.progressTrack}>
+              <div
+                className={styles.progressFill}
+                style={{
+                  width: `${progress}%`,
+                }}
+              />
+            </div>
+
+            <span className={styles.progressText}>{progress}/100</span>
           </div>
         </div>
 
         {/* =====================================
             ACTION BUTTONS
         ===================================== */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className={styles.actions}>
           {/* SAVE DRAFT */}
           <button
             type="button"
-            className="inline-flex h-14 items-center gap-2 rounded-[22px] border border-slate-300 bg-white px-6 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
+            onClick={onSaveDraft}
+            className={styles.secondaryButton}
           >
             <Save size={18} />
-            Save Draft
+            <span>Save Draft</span>
           </button>
 
           {/* PREVIEW */}
           <button
             type="button"
-            className="inline-flex h-14 items-center gap-2 rounded-[22px] border border-indigo-200 bg-indigo-50 px-6 text-sm font-semibold text-indigo-700 transition hover:bg-indigo-100"
+            onClick={onPreview}
+            className={styles.previewButton}
           >
             <Eye size={18} />
-            Preview Listing
+            <span>Preview Listing</span>
           </button>
 
           {/* PUBLISH */}
@@ -68,23 +78,23 @@ const PropertyStickyFooter = ({ loading = false, progress = 0, onSubmit }) => {
             type="button"
             onClick={onSubmit}
             disabled={loading}
-            className="inline-flex h-14 items-center gap-2 rounded-[22px] bg-gradient-to-r from-indigo-600 to-violet-600 px-7 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
+            className={styles.publishButton}
           >
             {loading ? (
               <>
-                <Loader2 size={18} className="animate-spin" />
-                Publishing...
+                <Loader2 size={18} className={styles.loader} />
+                <span>Publishing...</span>
               </>
             ) : (
               <>
-                Publish Property
-                <ArrowRight size={18} />
+                <Send size={18} />
+                <span>Publish Property</span>
               </>
             )}
           </button>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

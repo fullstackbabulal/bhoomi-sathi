@@ -1,141 +1,168 @@
 "use client";
 
+// ======================================================
+// File: components/home/FeaturedProperties.jsx
+// Description: Featured Properties Section
+// ======================================================
+
 import Link from "next/link";
 import styles from "./FeaturedProperties.module.css";
 
-export default function FeaturedProperties({ properties = [] }) {
-  const safeProperties = Array.isArray(properties) ? properties : [];
+// ======================================================
+// COMPONENT
+// ======================================================
+const FeaturedProperties = ({ properties = [] }) => {
+  // ==========================================
+  // FILTER FEATURED PROPERTIES
+  // ==========================================
+  const featuredProperties = Array.isArray(properties)
+    ? properties.filter((property) => property?.isFeatured)
+    : [];
 
-  const featuredProperties = safeProperties.slice(0, 6);
+  // ==========================================
+  // EMPTY STATE
+  // ==========================================
+  if (!featuredProperties.length) {
+    return (
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <span className={styles.badge}>Featured Properties</span>
 
-  const hasProperties = featuredProperties.length > 0;
+            <h2 className={styles.title}>Explore Premium Properties</h2>
 
+            <p className={styles.subtitle}>
+              No featured properties are available at the moment.
+            </p>
+          </div>
+
+          <div className={styles.emptyState}>
+            <div className={styles.emptyIcon}>🏡</div>
+
+            <h3 className={styles.emptyTitle}>No Featured Properties</h3>
+
+            <p className={styles.emptyText}>
+              Featured properties will appear here once available.
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ==========================================
+  // RENDER
+  // ==========================================
   return (
     <section className={styles.section}>
       <div className={styles.container}>
         {/* Header */}
         <div className={styles.header}>
-          <div className={styles.headingBlock}>
-            <div className={styles.badge}>Featured Listings</div>
+          <span className={styles.badge}>Featured Properties</span>
 
-            <h2 className={styles.title}>Featured Properties</h2>
+          <h2 className={styles.title}>Explore Premium Properties</h2>
 
-            <p className={styles.subtitle}>
-              Explore handpicked plots, flats, homes, and premium property
-              listings curated for you.
-            </p>
-          </div>
-
-          <Link href="/properties" className={styles.viewAllButton}>
-            View All Properties →
-          </Link>
+          <p className={styles.subtitle}>
+            Discover handpicked premium properties with modern amenities and
+            prime locations.
+          </p>
         </div>
 
-        {/* Properties */}
-        {hasProperties ? (
-          <div className={styles.grid}>
-            {featuredProperties.map((property) => {
-              const {
-                _id,
-                title,
-                city,
-                state,
-                location,
-                images,
-                image,
-                price,
-                category,
-                propertyType,
-                bedrooms,
-                bathrooms,
-                area,
-                isFeatured,
-                verified,
-              } = property;
+        {/* Grid */}
+        <div className={styles.grid}>
+          {featuredProperties.map((property) => {
+            const {
+              _id,
+              slug,
+              title,
+              type,
+              price,
+              bedrooms,
+              bathrooms,
+              area,
+              location,
+              images,
+              thumbnail,
+              isFeatured,
+              isVerified,
+            } = property;
 
-              const propertyImage =
-                Array.isArray(images) && images.length > 0
-                  ? images[0]
-                  : image || "/images/property-placeholder.jpg";
+            // =====================
+            // IMAGE
+            // =====================
+            const propertyImage =
+              thumbnail ||
+              images?.[0]?.url ||
+              "/images/property-placeholder.jpg";
 
-              const propertyName = title || propertyType || "Premium Property";
+            // =====================
+            // LOCATION
+            // =====================
+            const propertyLocation = [location?.city, location?.state]
+              .filter(Boolean)
+              .join(", ");
 
-              const propertyCategory =
-                category || propertyType || "Residential Property";
+            return (
+              <article key={_id} className={styles.card}>
+                {/* Image */}
+                <div className={styles.imageWrapper}>
+                  <img
+                    src={propertyImage}
+                    alt={title}
+                    className={styles.image}
+                  />
 
-              const propertyLocation =
-                [city, state, location].filter(Boolean).join(", ") ||
-                "Location unavailable";
+                  <div className={styles.cardBadgeWrapper}>
+                    {isFeatured && (
+                      <span className={styles.featuredBadge}>Featured</span>
+                    )}
 
-              return (
-                <article key={_id || propertyName} className={styles.card}>
-                  {/* Image */}
-                  <div className={styles.imageWrapper}>
-                    <img
-                      src={propertyImage}
-                      alt={propertyName}
-                      className={styles.image}
-                    />
+                    {isVerified && (
+                      <span className={styles.verifiedBadge}>Verified</span>
+                    )}
+                  </div>
+                </div>
 
-                    <div className={styles.cardBadgeWrapper}>
-                      {(isFeatured ?? true) && (
-                        <span className={styles.featuredBadge}>Featured</span>
-                      )}
+                {/* Content */}
+                <div className={styles.content}>
+                  <h3 className={styles.price}>
+                    {price ? `₹ ${price.toLocaleString()}` : "Price on request"}
+                  </h3>
 
-                      {(verified ?? true) && (
-                        <span className={styles.verifiedBadge}>Verified</span>
-                      )}
-                    </div>
+                  <h4 className={styles.propertyTitle}>{title}</h4>
+
+                  <p className={styles.location}>
+                    📍 {propertyLocation || "Location unavailable"}
+                  </p>
+
+                  <div className={styles.meta}>
+                    <span>🏠 {type}</span>
+
+                    {!!bedrooms && <span>🛏 {bedrooms} Beds</span>}
+
+                    {!!bathrooms && <span>🚿 {bathrooms} Baths</span>}
+
+                    {!!area?.value && (
+                      <span>
+                        📐 {area.value} {area.unit}
+                      </span>
+                    )}
                   </div>
 
-                  {/* Content */}
-                  <div className={styles.content}>
-                    <h3 className={styles.price}>
-                      {price ? `₹ ${price}` : "Price on request"}
-                    </h3>
-
-                    <h4 className={styles.propertyTitle}>{propertyName}</h4>
-
-                    <p className={styles.location}>📍 {propertyLocation}</p>
-
-                    <div className={styles.meta}>
-                      <span>🏠 {propertyCategory}</span>
-
-                      {bedrooms ? <span>🛏 {bedrooms} Beds</span> : null}
-
-                      {bathrooms ? <span>🚿 {bathrooms} Baths</span> : null}
-
-                      {area ? <span>📐 {area} sq.ft</span> : null}
-                    </div>
-
-                    <Link
-                      href={`/properties/${_id || ""}`}
-                      className={styles.ctaButton}
-                    >
-                      View Details
-                    </Link>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        ) : (
-          <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>🏠</div>
-
-            <h3 className={styles.emptyTitle}>No Featured Properties</h3>
-
-            <p className={styles.emptyText}>
-              Featured properties will appear here once premium listings are
-              available on Bhoomi Sathi.
-            </p>
-
-            <Link href="/properties" className={styles.emptyButton}>
-              Browse Properties
-            </Link>
-          </div>
-        )}
+                  <Link
+                    href={`/properties/${slug}`}
+                    className={styles.ctaButton}
+                  >
+                    View Details
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
-}
+};
+
+export default FeaturedProperties;

@@ -1,0 +1,279 @@
+/* ======================================================
+   File: components/property/details/PropertyMediaTabs.module.css
+   Description: Property Media Tabs Styles
+   UI Match: Bhoomi Sathi Property Details Design
+   Styling: CSS Modules (No Tailwind)
+====================================================== */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  width: 100%;
+}
+
+/* ===================================
+   Header
+=================================== */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.heading {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.subText {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+/* ===================================
+   Tabs
+=================================== */
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  overflow-x: auto;
+
+  padding-bottom: 6px;
+
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tabButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  flex-shrink: 0;
+
+  border: none;
+  outline: none;
+
+  cursor: pointer;
+
+  padding: 14px 20px;
+
+  border-radius: 18px;
+
+  background: #f9fafb;
+  color: #4b5563;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.tabButton svg {
+  stroke-width: 2.2;
+}
+
+.tabButton:hover {
+  background: #ecfdf5;
+  color: #15803d;
+}
+
+.active {
+  background: #15803d;
+  color: #ffffff;
+
+  box-shadow: 0 10px 24px rgba(21, 128, 61, 0.18);
+}
+
+/* ===================================
+   Content
+=================================== */
+
+.content {
+  border: 1px solid #e5e7eb;
+  border-radius: 32px;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+
+  padding: 24px;
+}
+
+/* ===================================
+   Grid
+=================================== */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.mediaCard,
+.videoCard,
+.singleCard {
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 24px;
+
+  background: #f9fafb;
+}
+
+.mediaCard,
+.videoCard {
+  min-height: 240px;
+}
+
+.singleCard {
+  min-height: 500px;
+}
+
+/* ===================================
+   Media
+=================================== */
+
+.image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+
+  border: none;
+
+  min-height: 500px;
+}
+
+/* ===================================
+   Hover Effects
+=================================== */
+
+.mediaCard img,
+.singleCard img {
+  transition: transform 0.35s ease;
+}
+
+.mediaCard:hover img,
+.singleCard:hover img {
+  transform: scale(1.04);
+}
+
+/* ===================================
+   Responsive
+=================================== */
+
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    gap: 20px;
+  }
+
+  .heading {
+    font-size: 26px;
+  }
+
+  .subText {
+    font-size: 14px;
+  }
+
+  .tabs {
+    gap: 10px;
+  }
+
+  .tabButton {
+    padding: 12px 16px;
+    border-radius: 16px;
+
+    font-size: 13px;
+  }
+
+  .content {
+    padding: 18px;
+    border-radius: 26px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .mediaCard,
+  .videoCard {
+    min-height: 220px;
+    border-radius: 20px;
+  }
+
+  .singleCard,
+  .video {
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    font-size: 24px;
+  }
+
+  .content {
+    padding: 14px;
+    border-radius: 22px;
+  }
+
+  .tabButton {
+    padding: 10px 14px;
+
+    border-radius: 14px;
+
+    font-size: 12px;
+  }
+
+  .mediaCard,
+  .videoCard {
+    min-height: 180px;
+    border-radius: 18px;
+  }
+
+  .singleCard,
+  .video {
+    min-height: 280px;
+  }
+}

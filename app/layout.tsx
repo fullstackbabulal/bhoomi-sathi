@@ -12,6 +12,8 @@ import "./globals.css";
 
 import BootstrapClient from "@/components/common/BootstrapClient";
 import ToastProvider from "@/components/providers/ToastProvider";
+import ReduxProvider from "@/components/providers/ReduxProvider";
+
 import { AuthProvider } from "@/context/AuthContext";
 
 // ======================================================
@@ -52,15 +54,20 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <BootstrapClient />
 
         {/* ==========================================
-            GLOBAL TOAST PROVIDER
+            REDUX PROVIDER
         ========================================== */}
-        <ToastProvider />
+        <ReduxProvider>
+          {/* ==========================================
+              GLOBAL TOAST PROVIDER
+          ========================================== */}
+          <ToastProvider />
 
-        {/* ==========================================
-            AUTH PROVIDER
-            Cookie-based session auth
-        ========================================== */}
-        <AuthProvider>{children}</AuthProvider>
+          {/* ==========================================
+              AUTH PROVIDER
+              Cookie-based session auth
+          ========================================== */}
+          <AuthProvider>{children}</AuthProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

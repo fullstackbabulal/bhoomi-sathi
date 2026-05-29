@@ -21,6 +21,7 @@ import PropertyInformationCard from "./PropertyInformationCard";
 import PropertySpecificationCard from "./PropertySpecificationCard";
 import PropertyLocationCard from "./PropertyLocationCard";
 import PropertyNearbyPlacesCard from "./PropertyNearbyPlacesCard";
+import PropertyFAQCard from "./PropertyFAQCard";
 import PropertyMediaCard from "./PropertyMediaCard";
 import PropertyAmenitiesCard from "./PropertyAmenitiesCard";
 import PropertySEOCard from "./PropertySEOCard";
@@ -362,6 +363,11 @@ const AddProperty = () => {
                   />
 
                   <PropertyNearbyPlacesCard
+                    formData={formData}
+                    updateField={updateField}
+                  />
+
+                  <PropertyFAQCard
                     formData={formData}
                     updateField={updateField}
                   />

@@ -27,6 +27,9 @@ import PropertyTrustCard from "./PropertyTrustCard";
 import PropertyBottomCTA from "./PropertyBottomCTA";
 import Navbar from "../../layout/Navbar";
 const PropertyDetailsPage = ({ property }) => {
+  /*Similar Property*/
+  const similarProperties = property?.similarProperties || [];
+
   return (
     <div className={styles.page}>
       <Navbar />
@@ -56,7 +59,7 @@ const PropertyDetailsPage = ({ property }) => {
 
             <PropertyFAQ property={property} />
 
-            <SimilarProperties property={property} />
+            <SimilarProperties properties={similarProperties} />
           </main>
 
           {/* Right Sidebar */}

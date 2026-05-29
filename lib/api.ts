@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
 });
 
 export const getProperties = (params = {}) =>
@@ -12,5 +12,4 @@ export const getPropertyBySlug = (slug: string) =>
 
 export const getBlogs = () => API.get("/blogs");
 
-export const getBlogBySlug = (slug: string) =>
-  API.get(`/blogs/slug/${slug}`);
+export const getBlogBySlug = (slug: string) => API.get(`/blogs/slug/${slug}`);

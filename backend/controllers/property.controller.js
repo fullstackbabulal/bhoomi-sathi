@@ -17,7 +17,8 @@ const {
 } = require("../utils/cache.utils.js");
 
 // ======================================================
-// CREATE PROPERTY
+// Controller: createProperty
+// Description: Create Property
 // ======================================================
 const createProperty = async (req, res) => {
   try {
@@ -36,8 +37,11 @@ const createProperty = async (req, res) => {
 
     const toNumber = (value, fallback = 0) => {
       const parsed = Number(value);
+
       return Number.isNaN(parsed) ? fallback : parsed;
     };
+
+    const safeArray = (value) => (Array.isArray(value) ? value : []);
 
     // ==========================================
     // BASIC DATA
@@ -48,14 +52,16 @@ const createProperty = async (req, res) => {
       req.body.slug?.trim() ||
       title
         .toLowerCase()
+        .trim()
         .replace(/[^a-z0-9\s-]/g, "")
         .replace(/\s+/g, "-");
 
     // ==========================================
-    // PARSE JSON STRINGS (multipart/form-data)
+    // PARSE JSON STRINGS
+    // (multipart/form-data)
     // ==========================================
     const area = safeJSONParse(req.body.area, {
-      value: "",
+      value: 0,
       unit: "sqft",
     });
 
@@ -64,6 +70,10 @@ const createProperty = async (req, res) => {
     const amenities = safeJSONParse(req.body.amenities, []);
 
     const seo = safeJSONParse(req.body.seo, {});
+
+    const faq = safeJSONParse(req.body.faq, []);
+
+    const nearbyPlaces = safeJSONParse(req.body.nearbyPlaces, []);
 
     // ==========================================
     // LOCATION NORMALIZATION
@@ -74,14 +84,19 @@ const createProperty = async (req, res) => {
 
     const normalizedLocation = {
       address: location?.address || "",
+
       city: location?.city || "",
+
       state: location?.state || "",
+
       country: location?.country || "India",
+
       pincode: location?.pincode || "",
 
       coordinates: {
         type: "Point",
-        coordinates: [longitude, latitude], // [lng, lat]
+
+        coordinates: [longitude, latitude],
       },
     };
 
@@ -95,14 +110,46 @@ const createProperty = async (req, res) => {
     const images =
       req.files?.images?.map((file, index) => ({
         url: `/uploads/images/property/${slug}/${file.filename}`,
-        alt: `${title} Image ${index + 1}`,
+
         public_id: "",
+
+        alt: `${title} Image ${index + 1}`,
       })) || [];
+
+    const videos =
+      req.files?.videos?.map((file) => ({
+        url: `/uploads/videos/property/${slug}/${file.filename}`,
+      })) || [];
+
+    // ==========================================
+    // FAQ NORMALIZATION
+    // ==========================================
+    const normalizedFaq = safeArray(faq).map((item) => ({
+      question: item?.question || "",
+
+      answer: item?.answer || "",
+    }));
+
+    // ==========================================
+    // NEARBY PLACES NORMALIZATION
+    // ==========================================
+    const normalizedNearbyPlaces = safeArray(nearbyPlaces).map((item) => ({
+      name: item?.name || "",
+
+      type: item?.type || "other",
+
+      distance: toNumber(item?.distance),
+
+      unit: item?.unit || "km",
+    }));
 
     // ==========================================
     // PROPERTY PAYLOAD
     // ==========================================
     const propertyData = {
+      // ======================================
+      // BASIC INFO
+      // ======================================
       title,
 
       slug,
@@ -111,43 +158,95 @@ const createProperty = async (req, res) => {
 
       description: req.body.description || "",
 
+      // ======================================
+      // PROPERTY DETAILS
+      // ======================================
+      listingType: req.body.listingType || "sale",
+
       type: req.body.type || "apartment",
 
       status: req.body.status || "available",
 
       price: toNumber(req.body.price),
 
+      emi: toNumber(req.body.emi),
+
+      area: {
+        value: toNumber(area?.value),
+
+        unit: area?.unit || "sqft",
+      },
+
+      carpetArea: toNumber(req.body.carpetArea),
+
+      superBuiltUpArea: toNumber(req.body.superBuiltUpArea),
+
       bedrooms: toNumber(req.body.bedrooms),
 
       bathrooms: toNumber(req.body.bathrooms),
 
-      area: {
-        value: toNumber(area?.value),
-        unit: area?.unit || "sqft",
-      },
+      parking: toNumber(req.body.parking),
 
+      facing: req.body.facing || "",
+
+      floor: toNumber(req.body.floor),
+
+      totalFloors: toNumber(req.body.totalFloors),
+
+      ownershipType: req.body.ownershipType || "freehold",
+
+      constructionYear: toNumber(req.body.constructionYear, null),
+
+      possession: req.body.possession || "",
+
+      // ======================================
+      // LOCATION
+      // ======================================
       location: normalizedLocation,
 
-      amenities: Array.isArray(amenities) ? amenities : [],
-
-      seo: {
-        metaTitle: seo?.metaTitle || "",
-        metaDescription: seo?.metaDescription || "",
-        keywords: Array.isArray(seo?.keywords) ? seo.keywords : [],
-        canonicalUrl: seo?.canonicalUrl || "",
-        ogImage: seo?.ogImage || "",
-      },
-
+      // ======================================
+      // MEDIA
+      // ======================================
       thumbnail,
 
       images,
 
-      videos: [],
+      videos,
 
+      // ======================================
+      // FEATURES
+      // ======================================
+      amenities: safeArray(amenities),
+
+      faq: normalizedFaq,
+
+      nearbyPlaces: normalizedNearbyPlaces,
+
+      // ======================================
+      // SEO
+      // ======================================
+      seo: {
+        metaTitle: seo?.metaTitle || "",
+
+        metaDescription: seo?.metaDescription || "",
+
+        keywords: safeArray(seo?.keywords),
+
+        canonicalUrl: seo?.canonicalUrl || "",
+
+        ogImage: seo?.ogImage || "",
+      },
+
+      // ======================================
+      // FLAGS
+      // ======================================
       isFeatured: toBoolean(req.body.isFeatured),
 
       isVerified: toBoolean(req.body.isVerified),
 
+      // ======================================
+      // USER
+      // ======================================
       postedBy: req.user._id,
     };
 
@@ -166,7 +265,9 @@ const createProperty = async (req, res) => {
     // ==========================================
     return res.status(201).json({
       success: true,
+
       message: "Property created successfully",
+
       data: property,
     });
   } catch (error) {
@@ -174,6 +275,7 @@ const createProperty = async (req, res) => {
 
     return res.status(500).json({
       success: false,
+
       message: error.message || "Failed to create property",
     });
   }
@@ -237,6 +339,11 @@ const getProperties = async (req, res) => {
 // ======================================================
 // GET PROPERTY BY SLUG
 // ======================================================
+// ======================================================
+// Controller: getPropertyBySlug
+// Description: Get Single Property Details by Slug
+// ======================================================
+
 const getPropertyBySlug = async (req, res) => {
   try {
     const { slug } = req.params;
@@ -247,7 +354,7 @@ const getPropertyBySlug = async (req, res) => {
       fetchFunction: async () => {
         const property = await Property.findOne({
           slug,
-        }).populate("postedBy", "name email phone");
+        }).populate("postedBy", "name email phone avatar rating reviewCount");
 
         if (!property) {
           throw new Error("Property not found");
@@ -264,7 +371,96 @@ const getPropertyBySlug = async (req, res) => {
           },
         ).exec();
 
-        return property;
+        const formattedProperty = {
+          _id: property._id,
+
+          propertyId:
+            property.propertyId || `BS${String(property._id).slice(-6)}`,
+
+          title: property.title,
+
+          slug: property.slug,
+
+          overview: property.overview,
+
+          description: property.description,
+
+          listingType: property.listingType || "sale",
+
+          type: property.type,
+
+          status: property.status,
+
+          isFeatured: property.isFeatured,
+
+          isVerified: property.isVerified,
+
+          price: property.price || 0,
+
+          emi: property.emi || null,
+
+          area: {
+            value: property.area?.value || 0,
+
+            unit: property.area?.unit || "sqft",
+          },
+
+          bedrooms: property.bedrooms || 0,
+
+          bathrooms: property.bathrooms || 0,
+
+          location: {
+            address: property.location?.address || "",
+
+            city: property.location?.city || "",
+
+            state: property.location?.state || "",
+
+            country: property.location?.country || "India",
+
+            pincode: property.location?.pincode || "",
+
+            coordinates: property.location?.coordinates?.coordinates || [],
+          },
+
+          images: property.images || [],
+
+          videos: property.videos || [],
+
+          thumbnail: property.thumbnail || "",
+
+          amenities: property.amenities || [],
+
+          postedBy: {
+            _id: property.postedBy?._id,
+
+            name: property.postedBy?.name || "",
+
+            email: property.postedBy?.email || "",
+
+            phone: property.postedBy?.phone || "",
+
+            avatar: property.postedBy?.avatar || "",
+
+            rating: property.postedBy?.rating || 0,
+
+            reviewCount: property.postedBy?.reviewCount || 0,
+          },
+
+          engagement: {
+            views: property.views || 0,
+
+            favoritesCount: property.favoritesCount || 0,
+          },
+
+          seo: property.seo || {},
+
+          createdAt: property.createdAt,
+
+          updatedAt: property.updatedAt,
+        };
+
+        return formattedProperty;
       },
     });
 

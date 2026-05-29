@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const path = require("path");
-
+const enquiryRoutes = require("./routes/enquiry.routes.js");
 // ======================================================
 // DATABASE
 // ======================================================
@@ -129,6 +129,8 @@ app.use("/api/comments", commentRoutes);
 app.use("/api/about", aboutRoutes);
 
 app.use("/api/contact", contactRoutes);
+
+app.use("/api/enquiries", enquiryRoutes);
 
 // ======================================================
 // 404 HANDLER

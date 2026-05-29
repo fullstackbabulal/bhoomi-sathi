@@ -13,6 +13,13 @@ const propertySchema = new mongoose.Schema(
     // ==================================================
     // BASIC INFO
     // ==================================================
+    propertyId: {
+      type: String,
+      unique: true,
+      trim: true,
+      index: true,
+    },
+
     title: {
       type: String,
       required: [true, "Title is required"],
@@ -43,6 +50,13 @@ const propertySchema = new mongoose.Schema(
     // ==================================================
     // PROPERTY DETAILS
     // ==================================================
+    listingType: {
+      type: String,
+      enum: ["sale", "rent", "lease"],
+      default: "sale",
+      index: true,
+    },
+
     type: {
       type: String,
       enum: ["plot", "apartment", "house", "commercial", "villa"],
@@ -64,6 +78,12 @@ const propertySchema = new mongoose.Schema(
       index: true,
     },
 
+    emi: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
     area: {
       value: {
         type: Number,
@@ -72,19 +92,83 @@ const propertySchema = new mongoose.Schema(
 
       unit: {
         type: String,
-        enum: ["sqft", "sqm", "bigha", "acre"],
-        default: "sqft",
+        enum: ["kattha", "sqft", "sqm", "bigha", "acre"],
+        default: "kattha",
       },
+    },
+
+    carpetArea: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    superBuiltUpArea: {
+      type: Number,
+      default: 0,
+      min: 0,
     },
 
     bedrooms: {
       type: Number,
       default: 0,
+      min: 0,
     },
 
     bathrooms: {
       type: Number,
       default: 0,
+      min: 0,
+    },
+
+    parking: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    facing: {
+      type: String,
+      enum: [
+        "North",
+        "South",
+        "East",
+        "West",
+        "North-East",
+        "North-West",
+        "South-East",
+        "South-West",
+      ],
+      default: "",
+    },
+
+    floor: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    totalFloors: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    ownershipType: {
+      type: String,
+      enum: ["freehold", "leasehold", "co-operative", "power-of-attorney"],
+      default: "freehold",
+    },
+
+    constructionYear: {
+      type: Number,
+      default: null,
+    },
+
+    possession: {
+      type: String,
+      default: "",
+      trim: true,
     },
 
     // ==================================================
@@ -170,6 +254,60 @@ const propertySchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+
+    nearbyPlaces: [
+      {
+        name: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+
+        type: {
+          type: String,
+          enum: [
+            "school",
+            "hospital",
+            "market",
+            "mall",
+            "railway_station",
+            "airport",
+            "metro",
+            "bus_stop",
+            "park",
+            "other",
+          ],
+          default: "other",
+        },
+
+        distance: {
+          type: Number,
+          default: 0,
+        },
+
+        unit: {
+          type: String,
+          enum: ["km", "m"],
+          default: "km",
+        },
+      },
+    ],
+
+    faq: [
+      {
+        question: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+
+        answer: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+      },
+    ],
 
     // ==================================================
     // USER RELATION
@@ -257,6 +395,8 @@ propertySchema.index({
 propertySchema.index({
   price: 1,
   type: 1,
+  listingType: 1,
+  status: 1,
   "location.city": 1,
   createdAt: -1,
 });
@@ -281,10 +421,20 @@ propertySchema.pre("validate", function () {
 });
 
 // ======================================================
+// AUTO GENERATE PROPERTY ID
+// ======================================================
+propertySchema.pre("save", function (next) {
+  if (!this.propertyId) {
+    const random = Math.floor(100000 + Math.random() * 900000);
+
+    this.propertyId = `BS${random}`;
+  }
+
+  next();
+});
+
+// ======================================================
 // AUTO UPDATE SLUG
-// (findByIdAndUpdate /
-// findOneAndUpdate /
-// updateOne)
 // ======================================================
 const autoUpdateSlug = function () {
   const update = this.getUpdate();
@@ -310,12 +460,10 @@ const autoUpdateSlug = function () {
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)+/g, "");
 
-    // direct update
     if (update.title) {
       update.slug = generatedSlug;
     }
 
-    // $set update
     if (update.$set) {
       update.$set.slug = generatedSlug;
     }

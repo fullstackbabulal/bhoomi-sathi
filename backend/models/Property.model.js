@@ -423,14 +423,12 @@ propertySchema.pre("validate", function () {
 // ======================================================
 // AUTO GENERATE PROPERTY ID
 // ======================================================
-propertySchema.pre("save", function (next) {
+propertySchema.pre("save", function () {
   if (!this.propertyId) {
     const random = Math.floor(100000 + Math.random() * 900000);
 
     this.propertyId = `BS${random}`;
   }
-
-  next();
 });
 
 // ======================================================

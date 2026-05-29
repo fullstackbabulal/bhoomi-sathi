@@ -5,37 +5,69 @@
 // Description: Property Title / Price / Meta Card
 // UI Match: Bhoomi Sathi Property Details Design
 // Styling: CSS Modules + Lucide React
+// Data Source: getPropertyBySlug()
 // ======================================================
 
 import styles from "./PropertyTitleCard.module.css";
 
 import { MapPin, Share2, Heart, BadgeCheck, IndianRupee } from "lucide-react";
 
-export default function PropertyTitleCard({ property = {}, onShare, onSave }) {
+export default function PropertyTitleCard({ property, onShare, onSave }) {
+  // ==================================================
+  // SAFE PROPERTY
+  // ==================================================
+  const safeProperty = property || {};
+
+  // ==================================================
+  // PROPERTY DATA
+  // ==================================================
   const {
-    propertyId = "BS123456",
+    propertyId,
+    title,
+    location,
+    price,
+    emi,
+    listingType,
+    isVerified,
+    status,
+    type,
+  } = safeProperty;
 
-    title = "Luxury 3 BHK Apartment",
+  // ==================================================
+  // FORMAT LOCATION
+  // ==================================================
+  const formattedLocation = [
+    location?.address,
+    location?.city,
+    location?.state,
+    location?.country,
+    location?.pincode,
+  ]
+    .filter(Boolean)
+    .join(", ");
 
-    location = "Sevoke Road, Siliguri, West Bengal 734001",
+  // ==================================================
+  // FORMATTERS
+  // ==================================================
+  const formattedPrice = Number(price || 0).toLocaleString("en-IN");
 
-    price = 8500000,
+  const formattedEmi = Number(emi || 0).toLocaleString("en-IN");
 
-    emi = 42354,
+  const formattedListingType = listingType
+    ? listingType.charAt(0).toUpperCase() + listingType.slice(1)
+    : "Sale";
 
-    listingType = "For Sale",
+  const formattedStatus = status
+    ? status.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase())
+    : "Available";
 
-    verified = true,
+  const formattedType = type
+    ? type.charAt(0).toUpperCase() + type.slice(1)
+    : "Property";
 
-    propertyStatus = "Ready to Move",
-
-    propertyType = "Apartment",
-  } = property;
-
-  const formattedPrice = new Intl.NumberFormat("en-IN").format(price);
-
-  const formattedEmi = new Intl.NumberFormat("en-IN").format(emi);
-
+  // ==================================================
+  // RENDER
+  // ==================================================
   return (
     <section className={styles.card}>
       {/* ===================== */}
@@ -43,9 +75,9 @@ export default function PropertyTitleCard({ property = {}, onShare, onSave }) {
       {/* ===================== */}
       <div className={styles.topRow}>
         <div className={styles.badges}>
-          <span className={styles.saleBadge}>{listingType}</span>
+          <span className={styles.saleBadge}>For {formattedListingType}</span>
 
-          {verified && (
+          {isVerified && (
             <span className={styles.verifiedBadge}>
               <BadgeCheck size={14} />
               Verified
@@ -67,7 +99,7 @@ export default function PropertyTitleCard({ property = {}, onShare, onSave }) {
       {/* ===================== */}
       {/* Title */}
       {/* ===================== */}
-      <h1 className={styles.title}>{title}</h1>
+      <h1 className={styles.title}>{title || "Untitled Property"}</h1>
 
       {/* ===================== */}
       {/* Location */}
@@ -75,7 +107,7 @@ export default function PropertyTitleCard({ property = {}, onShare, onSave }) {
       <div className={styles.location}>
         <MapPin size={18} />
 
-        <span>{location}</span>
+        <span>{formattedLocation || "Location unavailable"}</span>
       </div>
 
       {/* ===================== */}
@@ -89,13 +121,15 @@ export default function PropertyTitleCard({ property = {}, onShare, onSave }) {
             <h2 className={styles.price}>{formattedPrice}</h2>
           </div>
 
-          <p className={styles.emi}>EMI starts at ₹{formattedEmi} / month</p>
+          {emi > 0 && (
+            <p className={styles.emi}>EMI starts at ₹{formattedEmi} / month</p>
+          )}
         </div>
 
         <div className={styles.propertyMeta}>
-          <span className={styles.metaBadge}>{propertyStatus}</span>
+          <span className={styles.metaBadge}>{formattedStatus}</span>
 
-          <span className={styles.metaBadge}>{propertyType}</span>
+          <span className={styles.metaBadge}>{formattedType}</span>
         </div>
       </div>
 
@@ -104,8 +138,7 @@ export default function PropertyTitleCard({ property = {}, onShare, onSave }) {
       {/* ===================== */}
       <div className={styles.footer}>
         <span className={styles.propertyId}>
-          Property ID:
-          {propertyId}
+          Property ID: {propertyId || "N/A"}
         </span>
       </div>
     </section>

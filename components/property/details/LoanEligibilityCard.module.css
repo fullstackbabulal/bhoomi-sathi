@@ -1,0 +1,128 @@
+/* ======================================================
+   File: components/property/details/LoanEligibilityCard.module.css
+   Description: Property Loan Eligibility Card Styles
+====================================================== */
+
+.card {
+  width: 100%;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #111827;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #6b7280;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+}
+
+.label {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.value {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #111827;
+  word-break: break-word;
+}
+
+/* ========================================
+   Tablet
+======================================== */
+
+@media (max-width: 768px) {
+  .card {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .title {
+    font-size: 1.125rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .infoGrid {
+    gap: 14px;
+  }
+
+  .infoItem {
+    padding: 16px;
+    border-radius: 16px;
+  }
+}
+
+/* ========================================
+   Mobile
+======================================== */
+
+@media (max-width: 576px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+
+  .subtitle {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .infoItem {
+    padding: 14px;
+    gap: 6px;
+  }
+
+  .value {
+    font-size: 0.95rem;
+  }
+}

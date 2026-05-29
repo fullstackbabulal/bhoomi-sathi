@@ -6,8 +6,9 @@
 ====================================================== */
 
 .card {
-  position: sticky;
-  top: 100px;
+  position: relative;
+
+  margin-top: -10px;
 
   display: flex;
   flex-direction: column;

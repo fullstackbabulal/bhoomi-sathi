@@ -5,6 +5,7 @@
 // Description: Property Amenities Section
 // UI Match: Bhoomi Sathi Property Details Design
 // Styling: CSS Modules + Lucide React
+// Data Source: getPropertyBySlug()
 // ======================================================
 
 import styles from "./PropertyAmenities.module.css";
@@ -22,77 +23,83 @@ import {
   Droplets,
   DoorOpen,
   BadgeCheck,
+  ParkingCircle,
+  Home,
 } from "lucide-react";
 
-export default function PropertyAmenities({ property = {} }) {
-  const {
-    amenities = [
-      {
-        name: "24x7 Security",
-        icon: "security",
-      },
-      {
-        name: "Covered Parking",
-        icon: "parking",
-      },
-      {
-        name: "Gymnasium",
-        icon: "gym",
-      },
-      {
-        name: "Garden Area",
-        icon: "garden",
-      },
-      {
-        name: "Lift Facility",
-        icon: "lift",
-      },
-      {
-        name: "Power Backup",
-        icon: "power",
-      },
-      {
-        name: "WiFi Connectivity",
-        icon: "wifi",
-      },
-      {
-        name: "CCTV Surveillance",
-        icon: "cctv",
-      },
-      {
-        name: "Swimming Pool",
-        icon: "pool",
-      },
-      {
-        name: "24 Hour Water",
-        icon: "water",
-      },
-      {
-        name: "Club House",
-        icon: "club",
-      },
-      {
-        name: "Verified Property",
-        icon: "verified",
-      },
-    ],
-  } = property;
+export default function PropertyAmenities({ property }) {
+  // ==================================================
+  // SAFE PROPERTY
+  // ==================================================
+  const safeProperty = property || {};
 
+  // ==================================================
+  // AMENITIES
+  // Backend:
+  // amenities: ["Gym", "Parking"]
+  // ==================================================
+  const amenities = Array.isArray(safeProperty.amenities)
+    ? safeProperty.amenities
+    : [];
+
+  // ==================================================
+  // ICON MAP
+  // ==================================================
   const iconMap = {
     security: ShieldCheck,
-    parking: Car,
+    "24x7 security": ShieldCheck,
+    parking: ParkingCircle,
+    "covered parking": Car,
     gym: Dumbbell,
+    gymnasium: Dumbbell,
     garden: Trees,
+    park: Trees,
     lift: Building2,
+    elevator: Building2,
     power: Zap,
+    "power backup": Zap,
     wifi: Wifi,
+    internet: Wifi,
     cctv: Camera,
+    surveillance: Camera,
     pool: Waves,
+    "swimming pool": Waves,
     water: Droplets,
+    clubhouse: DoorOpen,
     club: DoorOpen,
     verified: BadgeCheck,
+    house: Home,
   };
 
+  // ==================================================
+  // GET ICON
+  // ==================================================
+  const getIcon = (amenityName) => {
+    const key = amenityName?.toLowerCase().trim();
+
+    return iconMap[key] || BadgeCheck;
+  };
+
+  // ==================================================
+  // EMPTY STATE
+  // ==================================================
+  if (!amenities.length) {
+    return (
+      <section className={styles.section}>
+        <div className={styles.header}>
+          <h2 className={styles.heading}>Amenities & Features</h2>
+
+          <p className={styles.subText}>
+            No amenities available for this property.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  // ==================================================
+  // RENDER
+  // ==================================================
   return (
     <section className={styles.section}>
       {/* ===================== */}
@@ -111,16 +118,16 @@ export default function PropertyAmenities({ property = {} }) {
       {/* ===================== */}
       <div className={styles.grid}>
         {amenities.map((amenity, index) => {
-          const Icon = iconMap[amenity.icon] || BadgeCheck;
+          const Icon = getIcon(amenity);
 
           return (
-            <div key={index} className={styles.card}>
+            <div key={`${amenity}-${index}`} className={styles.card}>
               <div className={styles.iconBox}>
                 <Icon size={22} />
               </div>
 
               <div className={styles.content}>
-                <h3 className={styles.title}>{amenity.name}</h3>
+                <h3 className={styles.title}>{amenity}</h3>
 
                 <span className={styles.available}>Available</span>
               </div>

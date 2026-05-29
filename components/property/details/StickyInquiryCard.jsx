@@ -4,10 +4,13 @@
 // File: components/property/details/StickyInquiryCard.jsx
 // Description: Sticky Inquiry / Contact Sidebar Card
 // UI Match: Bhoomi Sathi Property Details Design
-// Styling: CSS Modules + Lucide React
+// API: POST /api/enquiries
+// Anti Spam:
+// - Honeypot
+// - Submit Timing
 // ======================================================
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "./StickyInquiryCard.module.css";
 
@@ -25,30 +28,59 @@ export default function StickyInquiryCard({
   property = {},
   onCall,
   onWhatsApp,
-  onSubmit,
 }) {
+  // ==================================================
+  // PROPERTY DATA
+  // ==================================================
   const {
-    title = "Luxury 3 BHK Apartment",
-
-    price = 8500000,
-
-    phone = "+91 9876543210",
-
-    agentName = "Rahul Sharma",
-
-    verified = true,
+    _id,
+    title = "",
+    price = 0,
+    isVerified = false,
+    postedBy = {},
   } = property;
 
+  const { name: agentName = "Property Owner", phone = "" } = postedBy;
+
+  // ==================================================
+  // FORM START TIME
+  // Bot timing protection
+  // ==================================================
+  const [formLoadedAt, setFormLoadedAt] = useState(Date.now());
+
+  // ==================================================
+  // LOADING
+  // ==================================================
+  const [loading, setLoading] = useState(false);
+
+  // ==================================================
+  // FORM STATE
+  // ==================================================
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: `Hi, I am interested in "${title}". Please contact me.`,
+    phone: "",
+    message: `Hi, I am interested in "${
+      title || "this property"
+    }". Please contact me.`,
+
+    // Honeypot
+    website: "",
   });
 
-  const [loading, setLoading] = useState(false);
+  // Reset timing when page loads
+  useEffect(() => {
+    setFormLoadedAt(Date.now());
+  }, []);
 
-  const formattedPrice = new Intl.NumberFormat("en-IN").format(price);
+  // ==================================================
+  // FORMAT PRICE
+  // ==================================================
+  const formattedPrice = Number(price || 0).toLocaleString("en-IN");
 
+  // ==================================================
+  // INPUT CHANGE
+  // ==================================================
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -58,52 +90,131 @@ export default function StickyInquiryCard({
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      setLoading(true);
-
-      if (onSubmit) {
-        await onSubmit(formData);
-      } else {
-        console.log("Inquiry submitted:", formData);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // ==================================================
+  // CALL
+  // ==================================================
   const handleCall = () => {
     if (onCall) {
       onCall(property);
       return;
     }
 
+    if (!phone) return;
+
     window.location.href = `tel:${phone}`;
   };
 
+  // ==================================================
+  // WHATSAPP
+  // ==================================================
   const handleWhatsApp = () => {
     if (onWhatsApp) {
       onWhatsApp(property);
       return;
     }
 
+    if (!phone) return;
+
     const cleanedPhone = phone.replace(/\D/g, "");
 
-    window.open(`https://wa.me/${cleanedPhone}`, "_blank");
+    const text = encodeURIComponent(
+      `Hi, I am interested in "${title}". Please share more details.`,
+    );
+
+    window.open(`https://wa.me/${cleanedPhone}?text=${text}`, "_blank");
+  };
+
+  // ==================================================
+  // SUBMIT ENQUIRY
+  // ==================================================
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      // ==========================
+      // HONEYPOT CHECK
+      // ==========================
+      if (formData.website?.trim()) {
+        console.warn("Bot detected (honeypot)");
+
+        return;
+      }
+
+      // ==========================
+      // BOT TIMING CHECK
+      // ==========================
+      const timeTaken = Date.now() - formLoadedAt;
+
+      // Under 3 sec = suspicious
+      if (timeTaken < 3000) {
+        alert("Please wait a moment before submitting.");
+
+        return;
+      }
+
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
+      const response = await fetch(`${apiUrl}/api/enquiries`, {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          name: formData.name.trim(),
+
+          email: formData.email.trim(),
+
+          phone: formData.phone.trim(),
+
+          message: formData.message.trim(),
+
+          property: _id || null,
+
+          source: "website",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.message || "Failed to submit enquiry");
+      }
+
+      alert(data?.message || "Enquiry submitted successfully");
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: `Hi, I am interested in "${
+          title || "this property"
+        }". Please contact me.`,
+
+        website: "",
+      });
+
+      // Reset timer
+      setFormLoadedAt(Date.now());
+    } catch (error) {
+      console.error("Enquiry submit error:", error);
+
+      alert(error.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <aside className={styles.card}>
-      {/* ===================== */}
       {/* Header */}
-      {/* ===================== */}
       <div className={styles.header}>
         <div className={styles.badgeRow}>
-          {verified && (
+          {isVerified && (
             <span className={styles.badge}>
               <BadgeCheck size={14} />
               Verified
@@ -120,14 +231,13 @@ export default function StickyInquiryCard({
         </div>
       </div>
 
-      {/* ===================== */}
-      {/* Quick CTA */}
-      {/* ===================== */}
+      {/* CTA Buttons */}
       <div className={styles.actions}>
         <button
           type="button"
           onClick={handleCall}
           className={styles.callButton}
+          disabled={!phone}
         >
           <Phone size={18} />
           Call Now
@@ -137,16 +247,28 @@ export default function StickyInquiryCard({
           type="button"
           onClick={handleWhatsApp}
           className={styles.whatsappButton}
+          disabled={!phone}
         >
           <MessageCircle size={18} />
           WhatsApp
         </button>
       </div>
 
-      {/* ===================== */}
       {/* Form */}
-      {/* ===================== */}
       <form onSubmit={handleSubmit} className={styles.form}>
+        {/* Honeypot */}
+        <input
+          type="text"
+          name="website"
+          autoComplete="off"
+          value={formData.website}
+          onChange={handleChange}
+          tabIndex={-1}
+          style={{
+            display: "none",
+          }}
+        />
+
         <div className={styles.inputBox}>
           <User size={18} />
 
@@ -155,6 +277,20 @@ export default function StickyInquiryCard({
             name="name"
             placeholder="Full Name"
             value={formData.name}
+            onChange={handleChange}
+            className={styles.input}
+            required
+          />
+        </div>
+
+        <div className={styles.inputBox}>
+          <Phone size={18} />
+
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Phone Number"
+            value={formData.phone}
             onChange={handleChange}
             className={styles.input}
             required
@@ -193,9 +329,7 @@ export default function StickyInquiryCard({
         </button>
       </form>
 
-      {/* ===================== */}
       {/* Trust */}
-      {/* ===================== */}
       <div className={styles.trust}>
         <ShieldCheck size={18} />
 

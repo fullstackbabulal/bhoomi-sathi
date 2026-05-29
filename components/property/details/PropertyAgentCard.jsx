@@ -2,7 +2,7 @@
 
 // ======================================================
 // File: components/property/details/PropertyAgentCard.jsx
-// Description: Property Agent / Owner Contact Card
+// Description: Dynamic Property Agent / Owner Card
 // UI Match: Bhoomi Sathi Property Details Design
 // Styling: CSS Modules + Lucide React
 // ======================================================
@@ -26,45 +26,80 @@ export default function PropertyAgentCard({
   onWhatsApp,
   onEnquiry,
 }) {
-  const {
-    listedBy = "Agent",
+  // ======================================================
+  // AGENT SOURCE
+  // Priority:
+  // assignedAgent -> postedBy
+  // ======================================================
+  const agent = property?.assignedAgent || property?.postedBy || {};
 
-    agent = {
-      name: "Rahul Sharma",
-      role: "Senior Property Consultant",
-      company: "Bhoomi Sathi Realty",
-      image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43?w=400&q=80",
-      phone: "+91 9876543210",
-      email: "rahul@bhoomisathi.com",
-      verified: true,
-      responseTime: "Usually responds in 15 mins",
-    },
-  } = property;
+  // ======================================================
+  // SAFE DATA
+  // ======================================================
+  const agentName = agent?.name || "Property Consultant";
 
+  const agentPhone = agent?.phone || "";
+
+  const agentEmail = agent?.email || "";
+
+  const agentAvatar =
+    agent?.avatar?.trim() ||
+    "https://ui-avatars.com/api/?name=Agent&background=15803d&color=fff";
+
+  const agentRole =
+    agent?.role === "admin"
+      ? "Property Administrator"
+      : agent?.role === "agent"
+        ? "Property Consultant"
+        : "Property Owner";
+
+  const isVerified = property?.isVerified || agent?.isVerified || false;
+
+  const listedBy =
+    agent?.role === "admin"
+      ? "Administrator"
+      : agent?.role === "agent"
+        ? "Agent"
+        : "Owner";
+
+  // ======================================================
+  // HANDLERS
+  // ======================================================
   const handleCall = () => {
+    if (!agentPhone) return;
+
     if (onCall) {
       onCall(agent);
       return;
     }
 
-    window.location.href = `tel:${agent.phone}`;
+    window.location.href = `tel:${agentPhone}`;
   };
 
   const handleWhatsApp = () => {
+    if (!agentPhone) return;
+
     if (onWhatsApp) {
       onWhatsApp(agent);
       return;
     }
 
-    const phone = agent.phone?.replace(/\D/g, "") || "";
+    const cleanedPhone = agentPhone.replace(/\D/g, "");
 
-    window.open(`https://wa.me/${phone}`, "_blank");
+    window.open(
+      `https://wa.me/${cleanedPhone}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
   };
 
   const handleEnquiry = () => {
     if (onEnquiry) {
-      onEnquiry(agent);
+      onEnquiry({
+        propertyId: property?._id,
+        property,
+        agent,
+      });
     }
   };
 
@@ -76,10 +111,10 @@ export default function PropertyAgentCard({
       <div className={styles.topSection}>
         <span className={styles.listedBadge}>Listed by {listedBy}</span>
 
-        {agent.verified && (
+        {isVerified && (
           <div className={styles.verified}>
             <BadgeCheck size={16} />
-            Verified Agent
+            Verified
           </div>
         )}
       </div>
@@ -90,8 +125,8 @@ export default function PropertyAgentCard({
       <div className={styles.profile}>
         <div className={styles.avatarWrapper}>
           <Image
-            src={agent.image}
-            alt={agent.name}
+            src={agentAvatar}
+            alt={agentName}
             width={90}
             height={90}
             className={styles.avatar}
@@ -99,11 +134,11 @@ export default function PropertyAgentCard({
         </div>
 
         <div className={styles.info}>
-          <h3 className={styles.name}>{agent.name}</h3>
+          <h3 className={styles.name}>{agentName}</h3>
 
-          <p className={styles.role}>{agent.role}</p>
+          <p className={styles.role}>{agentRole}</p>
 
-          <p className={styles.company}>{agent.company}</p>
+          {agentEmail && <p className={styles.company}>{agentEmail}</p>}
         </div>
       </div>
 
@@ -113,29 +148,31 @@ export default function PropertyAgentCard({
       <div className={styles.responseCard}>
         <Clock3 size={18} />
 
-        <span>{agent.responseTime}</span>
+        <span>Usually responds quickly to enquiries</span>
       </div>
 
       {/* ===================== */}
-      {/* Buttons */}
+      {/* Actions */}
       {/* ===================== */}
       <div className={styles.actions}>
         <button
           type="button"
           className={styles.callButton}
           onClick={handleCall}
+          disabled={!agentPhone}
         >
           <Phone size={18} />
-          Call Now
+          {agentPhone ? "Call Now" : "Phone Not Available"}
         </button>
 
         <button
           type="button"
           className={styles.whatsappButton}
           onClick={handleWhatsApp}
+          disabled={!agentPhone}
         >
           <MessageCircle size={18} />
-          WhatsApp
+          {agentPhone ? "WhatsApp" : "WhatsApp Unavailable"}
         </button>
 
         <button
@@ -155,7 +192,7 @@ export default function PropertyAgentCard({
         <ShieldCheck size={18} />
 
         <p>
-          Verified profile with trusted property support and secure
+          Verified profile with trusted property assistance and secure
           communication.
         </p>
       </div>

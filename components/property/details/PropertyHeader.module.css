@@ -2,42 +2,40 @@
    File: components/property/details/PropertyHeader.module.css
    Description: Property Header Styles
    UI Match: Bhoomi Sathi Property Details Design
-   Styling: CSS Modules (No Tailwind)
 ====================================================== */
 
 .header {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
   width: 100%;
-  padding: 8px 0 0;
+  padding: 12px 0 18px;
 }
 
-/* ===================================
-   Top Bar
-=================================== */
-
-.topBar {
+.container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 20px;
   flex-wrap: wrap;
 }
+
+/* ===================================
+   Back Button
+=================================== */
 
 .backButton {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+
   border: none;
   background: transparent;
   cursor: pointer;
 
-  color: #4b5563;
+  padding: 0;
+
+  color: #6b7280;
   font-size: 14px;
   font-weight: 500;
 
-  padding: 0;
   transition: all 0.2s ease;
 }
 
@@ -45,7 +43,11 @@
   color: #15803d;
 }
 
-.topRight {
+/* ===================================
+   Right Section
+=================================== */
+
+.rightSection {
   display: flex;
   align-items: center;
   gap: 20px;
@@ -53,12 +55,16 @@
 }
 
 .propertyId {
-  font-size: 14px;
   color: #6b7280;
+  font-size: 14px;
   font-weight: 500;
 }
 
-.actionButton {
+/* ===================================
+   Action Buttons
+=================================== */
+
+.iconButton {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -67,6 +73,8 @@
   background: transparent;
   cursor: pointer;
 
+  padding: 0;
+
   color: #374151;
   font-size: 14px;
   font-weight: 500;
@@ -74,271 +82,35 @@
   transition: all 0.2s ease;
 }
 
-.actionButton:hover {
+.iconButton:hover {
   color: #15803d;
-}
-
-/* ===================================
-   Badges
-=================================== */
-
-.badges {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.saleBadge {
-  background: #15803d;
-  color: #ffffff;
-
-  padding: 8px 16px;
-  border-radius: 8px;
-
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.verifiedBadge {
-  background: #111827;
-  color: #ffffff;
-
-  padding: 8px 16px;
-  border-radius: 8px;
-
-  font-size: 13px;
-  font-weight: 600;
-}
-
-/* ===================================
-   Title + Location
-=================================== */
-
-.title {
-  margin: 0;
-
-  color: #111827;
-  font-size: 42px;
-  line-height: 1.2;
-  font-weight: 700;
-}
-
-.location {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  color: #6b7280;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-/* ===================================
-   Price Section
-=================================== */
-
-.priceSection {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.priceWrapper {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.price {
-  margin: 0;
-
-  font-size: 42px;
-  line-height: 1;
-
-  font-weight: 700;
-  color: #15803d;
-}
-
-.negotiable {
-  display: inline-flex;
-  align-items: center;
-
-  padding: 7px 14px;
-  border-radius: 999px;
-
-  background: #dcfce7;
-  color: #15803d;
-
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.emiText {
-  margin: 0;
-
-  color: #6b7280;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-/* ===================================
-   Meta Badges
-=================================== */
-
-.metaBadges {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.metaBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #eef2ff;
-  color: #4f46e5;
-
-  padding: 10px 16px;
-  border-radius: 10px;
-
-  font-size: 13px;
-  font-weight: 600;
-}
-
-/* ===================================
-   Stats Card
-=================================== */
-
-.statsCard {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 18px;
-
-  overflow: hidden;
-}
-
-.statItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  gap: 14px;
-  text-align: center;
-
-  min-height: 150px;
-  padding: 24px 16px;
-
-  border-right: 1px solid #e5e7eb;
-
-  transition: background 0.2s ease;
-}
-
-.statItem:last-child {
-  border-right: none;
-}
-
-.statItem:hover {
-  background: #f9fafb;
-}
-
-.statItem svg {
-  color: #15803d;
-  stroke-width: 1.8;
-}
-
-.statItem h4 {
-  margin: 0 0 6px;
-
-  color: #111827;
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.statItem span {
-  color: #6b7280;
-  font-size: 14px;
-  font-weight: 500;
 }
 
 /* ===================================
    Responsive
 =================================== */
 
-@media (max-width: 1200px) {
-  .statsCard {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .statItem:nth-child(3n) {
-    border-right: none;
-  }
-}
-
 @media (max-width: 768px) {
-  .header {
-    gap: 18px;
-  }
-
-  .topBar {
-    flex-direction: column;
+  .container {
     align-items: flex-start;
+    flex-direction: column;
   }
 
-  .topRight {
-    gap: 14px;
-  }
-
-  .title {
-    font-size: 30px;
-  }
-
-  .price {
-    font-size: 32px;
-  }
-
-  .statsCard {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .statItem {
-    min-height: 130px;
-    border-right: 1px solid #e5e7eb;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .statItem:nth-child(even) {
-    border-right: none;
+  .rightSection {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
   }
 }
 
 @media (max-width: 480px) {
-  .title {
-    font-size: 26px;
-  }
-
-  .price {
-    font-size: 28px;
-  }
-
   .backButton,
   .propertyId,
-  .actionButton {
+  .iconButton {
     font-size: 13px;
   }
 
-  .statsCard {
-    grid-template-columns: 1fr;
-  }
-
-  .statItem {
-    border-right: none;
+  .rightSection {
+    gap: 10px;
   }
 }

@@ -25,10 +25,11 @@ import PropertyAgentCard from "./PropertyAgentCard";
 import PropertyTrustCard from "./PropertyTrustCard";
 
 import PropertyBottomCTA from "./PropertyBottomCTA";
-
+import Navbar from "../../layout/Navbar";
 const PropertyDetailsPage = ({ property }) => {
   return (
     <div className={styles.page}>
+      <Navbar />
       {/* Header */}
       <PropertyHeader property={property} />
 

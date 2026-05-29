@@ -5,6 +5,7 @@
 // Description: Property Highlights Section
 // UI Match: Bhoomi Sathi Property Details Design
 // Styling: CSS Modules + Lucide React
+// Data Source: getPropertyBySlug()
 // ======================================================
 
 import styles from "./PropertyHighlights.module.css";
@@ -13,93 +14,134 @@ import {
   BedDouble,
   Bath,
   Square,
-  Car,
-  Compass,
-  Building2,
-  Sofa,
+  Home,
+  BadgeIndianRupee,
   ShieldCheck,
+  Building2,
   Sparkles,
 } from "lucide-react";
 
-export default function PropertyHighlights({ property = {} }) {
-  const {
-    highlights = {
-      bedrooms: 3,
-      bathrooms: 2,
-      area: "1650 Sq. Ft.",
-      parking: "1 Covered",
-      facing: "East",
-      floor: "5th of 8",
-      furnishing: "Semi Furnished",
-      security: "24x7 Security",
-      premium: "Premium Property",
-    },
-  } = property;
+export default function PropertyHighlights({ property }) {
+  // ==================================================
+  // SAFE PROPERTY
+  // ==================================================
+  const safeProperty = property || {};
 
+  // ==================================================
+  // PROPERTY DATA
+  // Matches getPropertyBySlug()
+  // ==================================================
+  const {
+    bedrooms,
+    bathrooms,
+    area,
+    type,
+    status,
+    listingType,
+    isVerified,
+    price,
+    emi,
+  } = safeProperty;
+
+  // ==================================================
+  // FORMATTERS
+  // ==================================================
+  const formattedType = type
+    ? type.replace(/\b\w/g, (char) => char.toUpperCase())
+    : "N/A";
+
+  const formattedStatus = status
+    ? status.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase())
+    : "N/A";
+
+  const formattedListingType = listingType
+    ? listingType.replace(/\b\w/g, (char) => char.toUpperCase())
+    : "N/A";
+
+  const formattedArea = area?.value
+    ? `${area.value} ${area.unit || "sqft"}`
+    : "N/A";
+
+  const formattedPrice =
+    price > 0 ? `₹${Number(price).toLocaleString("en-IN")}` : "N/A";
+
+  const formattedEmi =
+    emi > 0 ? `₹${Number(emi).toLocaleString("en-IN")}/month` : "N/A";
+
+  // ==================================================
+  // HIGHLIGHT ITEMS
+  // ==================================================
   const items = [
     {
       label: "Bedrooms",
-      value: highlights.bedrooms,
+      value: bedrooms || 0,
       icon: BedDouble,
     },
+
     {
       label: "Bathrooms",
-      value: highlights.bathrooms,
+      value: bathrooms || 0,
       icon: Bath,
     },
+
     {
       label: "Area",
-      value: highlights.area,
+      value: formattedArea,
       icon: Square,
     },
+
     {
-      label: "Parking",
-      value: highlights.parking,
-      icon: Car,
+      label: "Property Type",
+      value: formattedType,
+      icon: Home,
     },
+
     {
-      label: "Facing",
-      value: highlights.facing,
-      icon: Compass,
-    },
-    {
-      label: "Floor",
-      value: highlights.floor,
+      label: "Property Status",
+      value: formattedStatus,
       icon: Building2,
     },
+
     {
-      label: "Furnishing",
-      value: highlights.furnishing,
-      icon: Sofa,
-    },
-    {
-      label: "Security",
-      value: highlights.security,
-      icon: ShieldCheck,
-    },
-    {
-      label: "Category",
-      value: highlights.premium,
+      label: "Listing Type",
+      value: formattedListingType,
       icon: Sparkles,
+    },
+
+    {
+      label: "Price",
+      value: formattedPrice,
+      icon: BadgeIndianRupee,
+    },
+
+    {
+      label: "EMI",
+      value: formattedEmi,
+      icon: BadgeIndianRupee,
+    },
+
+    {
+      label: "Verification",
+      value: isVerified ? "Verified" : "Not Verified",
+      icon: ShieldCheck,
     },
   ];
 
+  // ==================================================
+  // RENDER
+  // ==================================================
   return (
     <section className={styles.section}>
-      {/* ===================== */}
       {/* Header */}
-      {/* ===================== */}
       <div className={styles.header}>
         <h2 className={styles.heading}>Property Highlights</h2>
 
         <p className={styles.subText}>
-          Quick overview of key property information and premium features.
+          Quick overview of key property information and important details.
         </p>
       </div>
 
-      {/* ===================== */}
-      {/* Highlights Grid */}
-      {/* ===================== */}
+      {/* Grid */}
       <div className={styles.grid}>
         {items.map((item, index) => {
           const Icon = item.icon;

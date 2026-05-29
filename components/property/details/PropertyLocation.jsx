@@ -4,7 +4,7 @@
 // File: components/property/details/PropertyLocation.jsx
 // Description: Property Location Section
 // UI Match: Bhoomi Sathi Property Details Design
-// Styling: CSS Modules + Lucide React
+// Data Source: getPropertyBySlug()
 // ======================================================
 
 import styles from "./PropertyLocation.module.css";
@@ -20,47 +20,28 @@ import {
 } from "lucide-react";
 
 export default function PropertyLocation({ property = {} }) {
+  // ==================================================
+  // PROPERTY DATA
+  // ==================================================
+  const { location = {}, nearbyPlaces = [] } = property;
+
   const {
-    address = "Sevoke Road, Siliguri, West Bengal 734001",
-
-    city = "Siliguri",
-    state = "West Bengal",
+    address = "",
+    city = "",
+    state = "",
     country = "India",
+    coordinates = [],
+  } = location;
 
-    coordinates = {
-      lat: 26.7271,
-      lng: 88.3953,
-    },
+  // Mongo GeoJSON
+  // [longitude, latitude]
+  const longitude = coordinates?.[0] || 0;
 
-    nearbyPlaces = [
-      {
-        name: "Delhi Public School",
-        type: "school",
-        distance: "1.5 km",
-      },
-      {
-        name: "Neotia Hospital",
-        type: "hospital",
-        distance: "2 km",
-      },
-      {
-        name: "City Centre Mall",
-        type: "mall",
-        distance: "2.8 km",
-      },
-      {
-        name: "Siliguri Junction",
-        type: "station",
-        distance: "4 km",
-      },
-      {
-        name: "Main Market",
-        type: "landmark",
-        distance: "1 km",
-      },
-    ],
-  } = property;
+  const latitude = coordinates?.[1] || 0;
 
+  // ==================================================
+  // ICON MAP
+  // ==================================================
   const iconMap = {
     school: School,
     hospital: Hospital,
@@ -69,7 +50,25 @@ export default function PropertyLocation({ property = {} }) {
     landmark: Landmark,
   };
 
-  const mapUrl = `https://maps.google.com/maps?q=${coordinates.lat},${coordinates.lng}&z=15&output=embed`;
+  // ==================================================
+  // MAP URL
+  // ==================================================
+  const mapUrl =
+    latitude && longitude
+      ? `https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`
+      : "";
+
+  const directionUrl =
+    latitude && longitude
+      ? `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`
+      : "#";
+
+  // ==================================================
+  // FULL ADDRESS
+  // ==================================================
+  const fullAddress = [address, city, state, country]
+    .filter(Boolean)
+    .join(", ");
 
   return (
     <section className={styles.section}>
@@ -96,10 +95,12 @@ export default function PropertyLocation({ property = {} }) {
           <div>
             <h3 className={styles.cardTitle}>Property Address</h3>
 
-            <p className={styles.address}>{address}</p>
+            <p className={styles.address}>
+              {address || "Address not available"}
+            </p>
 
             <span className={styles.locationText}>
-              {city}, {state}, {country}
+              {fullAddress || "Location not available"}
             </span>
           </div>
         </div>
@@ -108,58 +109,71 @@ export default function PropertyLocation({ property = {} }) {
       {/* ===================== */}
       {/* Map */}
       {/* ===================== */}
-      <div className={styles.mapCard}>
-        <div className={styles.mapHeader}>
-          <div>
-            <h3 className={styles.cardTitle}>Map Location</h3>
+      {mapUrl && (
+        <div className={styles.mapCard}>
+          <div className={styles.mapHeader}>
+            <div>
+              <h3 className={styles.cardTitle}>Map Location</h3>
 
-            <p className={styles.mapSubText}>Explore property surroundings</p>
+              <p className={styles.mapSubText}>Explore property surroundings</p>
+            </div>
+
+            <a
+              href={directionUrl}
+              target="_blank"
+              rel="noreferrer"
+              className={styles.directionButton}
+            >
+              <Navigation size={18} />
+              Get Direction
+            </a>
           </div>
 
-          <button type="button" className={styles.directionButton}>
-            <Navigation size={18} />
-            Get Direction
-          </button>
+          <div className={styles.mapWrapper}>
+            <iframe
+              title="Property Location"
+              src={mapUrl}
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+              className={styles.map}
+            />
+          </div>
         </div>
-
-        <div className={styles.mapWrapper}>
-          <iframe
-            title="Property Location"
-            src={mapUrl}
-            loading="lazy"
-            allowFullScreen
-            referrerPolicy="no-referrer-when-downgrade"
-            className={styles.map}
-          />
-        </div>
-      </div>
+      )}
 
       {/* ===================== */}
       {/* Nearby Places */}
       {/* ===================== */}
-      <div className={styles.card}>
-        <h3 className={styles.cardTitle}>Nearby Places</h3>
+      {nearbyPlaces.length > 0 && (
+        <div className={styles.card}>
+          <h3 className={styles.cardTitle}>Nearby Places</h3>
 
-        <div className={styles.grid}>
-          {nearbyPlaces.map((item, index) => {
-            const Icon = iconMap[item.type] || Landmark;
+          <div className={styles.grid}>
+            {nearbyPlaces.map((item, index) => {
+              const Icon = iconMap[item?.type] || Landmark;
 
-            return (
-              <div key={index} className={styles.placeCard}>
-                <div className={styles.placeIcon}>
-                  <Icon size={20} />
+              return (
+                <div key={index} className={styles.placeCard}>
+                  <div className={styles.placeIcon}>
+                    <Icon size={20} />
+                  </div>
+
+                  <div className={styles.placeContent}>
+                    <h4 className={styles.placeName}>
+                      {item?.name || "Unknown Place"}
+                    </h4>
+
+                    <span className={styles.distance}>
+                      {item?.distance || "N/A"} away
+                    </span>
+                  </div>
                 </div>
-
-                <div className={styles.placeContent}>
-                  <h4 className={styles.placeName}>{item.name}</h4>
-
-                  <span className={styles.distance}>{item.distance} away</span>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

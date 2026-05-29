@@ -150,7 +150,7 @@ const FeaturedProperties = ({ properties = [] }) => {
                   </div>
 
                   <Link
-                    href={`/properties/${slug}`}
+                    href={`/properties/${property.slug}`}
                     className={styles.ctaButton}
                   >
                     View Details

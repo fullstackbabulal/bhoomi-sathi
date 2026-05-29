@@ -2,25 +2,15 @@
    File: components/property/details/PropertyMediaTabs.module.css
    Description: Property Media Tabs Styles
    UI Match: Bhoomi Sathi Property Details Design
-   Styling: CSS Modules (No Tailwind)
 ====================================================== */
 
 .section {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-
   width: 100%;
+  margin-top: 28px;
 }
 
-/* ===================================
-   Header
-=================================== */
-
 .header {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  margin-bottom: 18px;
 }
 
 .heading {
@@ -28,19 +18,18 @@
 
   color: #111827;
 
-  font-size: 32px;
-  line-height: 1.2;
+  font-size: 28px;
   font-weight: 700;
+  line-height: 1.2;
 }
 
 .subText {
-  margin: 0;
+  margin-top: 6px;
 
   color: #6b7280;
 
-  font-size: 15px;
-  line-height: 1.7;
-  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 /* ===================================
@@ -52,9 +41,9 @@
   align-items: center;
   gap: 12px;
 
-  overflow-x: auto;
+  margin-bottom: 20px;
 
-  padding-bottom: 6px;
+  overflow-x: auto;
 
   scrollbar-width: none;
 }
@@ -66,46 +55,36 @@
 .tabButton {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 
-  flex-shrink: 0;
-
-  border: none;
-  outline: none;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
 
   cursor: pointer;
 
-  padding: 14px 20px;
+  flex-shrink: 0;
 
-  border-radius: 18px;
+  padding: 12px 18px;
 
-  background: #f9fafb;
-  color: #4b5563;
+  border-radius: 12px;
+
+  color: #374151;
 
   font-size: 14px;
   font-weight: 600;
 
-  transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.tabButton svg {
-  stroke-width: 2.2;
+  transition: all 0.2s ease;
 }
 
 .tabButton:hover {
-  background: #ecfdf5;
+  border-color: #15803d;
   color: #15803d;
 }
 
 .active {
+  border-color: #15803d;
   background: #15803d;
   color: #ffffff;
-
-  box-shadow: 0 10px 24px rgba(21, 128, 61, 0.18);
 }
 
 /* ===================================
@@ -113,61 +92,42 @@
 =================================== */
 
 .content {
-  border: 1px solid #e5e7eb;
-  border-radius: 32px;
-
-  overflow: hidden;
-
-  background: #ffffff;
-
-  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
-
-  padding: 24px;
+  width: 100%;
 }
 
 /* ===================================
-   Grid
+   Photo Grid
 =================================== */
 
-.grid {
+.photoGrid,
+.videoGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.mediaCard,
-.videoCard,
-.singleCard {
-  position: relative;
-
-  overflow: hidden;
-
-  border-radius: 24px;
-
-  background: #f9fafb;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
 }
 
 .mediaCard,
 .videoCard {
-  min-height: 240px;
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 16px;
+
+  background: #f3f4f6;
+
+  min-height: 180px;
+
+  border: 1px solid #e5e7eb;
 }
 
-.singleCard {
-  min-height: 500px;
+.image {
+  object-fit: cover;
 }
 
 /* ===================================
-   Media
+   Video
 =================================== */
-
-.image {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  display: block;
-}
 
 .video {
   width: 100%;
@@ -175,20 +135,18 @@
 
   border: none;
 
-  min-height: 500px;
+  min-height: 180px;
 }
 
 /* ===================================
-   Hover Effects
+   Hover
 =================================== */
 
-.mediaCard img,
-.singleCard img {
-  transition: transform 0.35s ease;
+.mediaCard img {
+  transition: transform 0.3s ease;
 }
 
-.mediaCard:hover img,
-.singleCard:hover img {
+.mediaCard:hover img {
   transform: scale(1.04);
 }
 
@@ -197,83 +155,47 @@
 =================================== */
 
 @media (max-width: 1200px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
+  .photoGrid,
+  .videoGrid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 768px) {
-  .section {
-    gap: 20px;
-  }
-
   .heading {
-    font-size: 26px;
-  }
-
-  .subText {
-    font-size: 14px;
-  }
-
-  .tabs {
-    gap: 10px;
+    font-size: 24px;
   }
 
   .tabButton {
-    padding: 12px 16px;
-    border-radius: 16px;
-
+    padding: 10px 14px;
     font-size: 13px;
   }
 
-  .content {
-    padding: 18px;
-    border-radius: 26px;
+  .photoGrid,
+  .videoGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 
-  .grid {
+  .mediaCard,
+  .videoCard {
+    min-height: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .photoGrid,
+  .videoGrid {
     grid-template-columns: 1fr;
-    gap: 16px;
   }
 
   .mediaCard,
   .videoCard {
     min-height: 220px;
-    border-radius: 20px;
-  }
-
-  .singleCard,
-  .video {
-    min-height: 360px;
-  }
-}
-
-@media (max-width: 480px) {
-  .heading {
-    font-size: 24px;
-  }
-
-  .content {
-    padding: 14px;
-    border-radius: 22px;
   }
 
   .tabButton {
-    padding: 10px 14px;
-
-    border-radius: 14px;
-
     font-size: 12px;
-  }
-
-  .mediaCard,
-  .videoCard {
-    min-height: 180px;
-    border-radius: 18px;
-  }
-
-  .singleCard,
-  .video {
-    min-height: 280px;
+    padding: 10px 12px;
   }
 }

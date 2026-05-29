@@ -20,6 +20,7 @@ import AddPropertyHeader from "./AddPropertyHeader";
 import PropertyInformationCard from "./PropertyInformationCard";
 import PropertySpecificationCard from "./PropertySpecificationCard";
 import PropertyLocationCard from "./PropertyLocationCard";
+import PropertyNearbyPlacesCard from "./PropertyNearbyPlacesCard";
 import PropertyMediaCard from "./PropertyMediaCard";
 import PropertyAmenitiesCard from "./PropertyAmenitiesCard";
 import PropertySEOCard from "./PropertySEOCard";
@@ -32,23 +33,42 @@ import PropertyStickyFooter from "./PropertyStickyFooter";
 // INITIAL STATE
 // ======================================================
 const initialFormData = {
+  // BASIC
   title: "",
   slug: "",
   overview: "",
   description: "",
 
+  // PROPERTY DETAILS
   type: "plot",
   status: "available",
 
+  listingType: "sale",
+  facing: "North",
+
   price: "",
+  emi: "",
+
   bedrooms: 0,
   bathrooms: 0,
+
+  parking: 0,
+  floor: 0,
+  totalFloors: 0,
+
+  ownershipType: "freehold",
+  constructionYear: "",
+  possession: "",
+
+  carpetArea: "",
+  superBuiltUpArea: "",
 
   area: {
     value: "",
     unit: "sqft",
   },
 
+  // LOCATION
   location: {
     address: "",
     city: "",
@@ -62,12 +82,17 @@ const initialFormData = {
     },
   },
 
+  // MEDIA
   thumbnail: null,
   images: [],
   videos: [],
 
+  // FEATURES
   amenities: [],
+  nearbyPlaces: [],
+  faq: [],
 
+  // SEO
   seo: {
     metaTitle: "",
     metaDescription: "",
@@ -76,6 +101,7 @@ const initialFormData = {
     ogImage: "",
   },
 
+  // FLAGS
   isFeatured: false,
   isVerified: false,
 };
@@ -101,6 +127,7 @@ const AddProperty = () => {
   const updateNestedField = (parent, field, value) => {
     setFormData((prev) => ({
       ...prev,
+
       [parent]: {
         ...prev[parent],
         [field]: value,
@@ -111,10 +138,13 @@ const AddProperty = () => {
   const updateDeepField = (parent, child, field, value) => {
     setFormData((prev) => ({
       ...prev,
+
       [parent]: {
         ...prev[parent],
+
         [child]: {
           ...prev[parent][child],
+
           [field]: value,
         },
       },
@@ -153,56 +183,95 @@ const AddProperty = () => {
 
       const submitData = new FormData();
 
-      // ==================================================
+      // ==============================================
       // BASIC
-      // ==================================================
+      // ==============================================
       submitData.append("title", formData.title);
+
       submitData.append("slug", formData.slug);
+
       submitData.append("overview", formData.overview);
+
       submitData.append("description", formData.description);
 
-      // ==================================================
+      // ==============================================
       // SPECIFICATION
-      // ==================================================
+      // ==============================================
+      // ==============================================
+      // SPECIFICATION
+      // ==============================================
       submitData.append("type", formData.type);
+
       submitData.append("status", formData.status);
 
+      submitData.append("listingType", formData.listingType || "sale");
+
+      submitData.append("facing", formData.facing || "North");
+
       submitData.append("price", String(formData.price));
+
+      submitData.append("emi", String(formData.emi || ""));
 
       submitData.append("bedrooms", String(formData.bedrooms));
 
       submitData.append("bathrooms", String(formData.bathrooms));
 
-      // ==================================================
+      submitData.append("parking", String(formData.parking || 0));
+
+      submitData.append("floor", String(formData.floor || 0));
+
+      submitData.append("totalFloors", String(formData.totalFloors || 0));
+
+      submitData.append("ownershipType", formData.ownershipType || "freehold");
+
+      submitData.append(
+        "constructionYear",
+        String(formData.constructionYear || ""),
+      );
+
+      submitData.append("possession", formData.possession || "");
+
+      submitData.append("carpetArea", String(formData.carpetArea || ""));
+
+      submitData.append(
+        "superBuiltUpArea",
+        String(formData.superBuiltUpArea || ""),
+      );
+
+      // ==============================================
       // JSON DATA
-      // ==================================================
+      // ==============================================
       submitData.append("area", JSON.stringify(formData.area));
 
       submitData.append("location", JSON.stringify(formData.location));
 
       submitData.append("amenities", JSON.stringify(formData.amenities));
 
+      submitData.append("nearbyPlaces", JSON.stringify(formData.nearbyPlaces));
+
+      submitData.append("faq", JSON.stringify(formData.faq));
+
       submitData.append("seo", JSON.stringify(formData.seo));
 
-      // ==================================================
+      // ==============================================
       // FLAGS
-      // ==================================================
+      // ==============================================
       submitData.append("isFeatured", String(formData.isFeatured));
 
       submitData.append("isVerified", String(formData.isVerified));
 
-      // ==================================================
+      // ==============================================
       // THUMBNAIL
-      // ==================================================
+      // ==============================================
       if (formData.thumbnail?.file) {
         console.log("Uploading thumbnail:", formData.thumbnail.file.name);
 
         submitData.append("thumbnail", formData.thumbnail.file);
       }
 
-      // ==================================================
+      // ==============================================
       // IMAGES
-      // ==================================================
+      // ==============================================
       if (formData.images?.length > 0) {
         formData.images.forEach((image) => {
           const file = image?.file || image;
@@ -232,18 +301,16 @@ const AddProperty = () => {
 
       console.log("STEP 4: api response", data);
 
-      // ==================================================
+      // ==============================================
       // SUCCESS
-      // ==================================================
+      // ==============================================
       if (response.ok && data.success) {
         alert(data.message || "Property created successfully");
 
         console.log("SUCCESS: property created");
 
-        // RESET FORM
         setFormData(initialFormData);
 
-        // SCROLL TOP
         window.scrollTo({
           top: 0,
           behavior: "smooth",
@@ -292,6 +359,11 @@ const AddProperty = () => {
                     formData={formData}
                     updateNestedField={updateNestedField}
                     updateDeepField={updateDeepField}
+                  />
+
+                  <PropertyNearbyPlacesCard
+                    formData={formData}
+                    updateField={updateField}
                   />
 
                   <PropertyMediaCard

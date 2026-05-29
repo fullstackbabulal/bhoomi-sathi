@@ -1,14 +1,12 @@
 /* ======================================================
    File: components/property/details/PropertyLocation.module.css
-   Description: Property Location Styles
-   UI Match: Bhoomi Sathi Property Details Design
-   Styling: CSS Modules (No Tailwind)
+   UI Match: Bhoomi Sathi Property Detail Design
 ====================================================== */
 
 .section {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 
   width: 100%;
 }
@@ -20,26 +18,22 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .heading {
   margin: 0;
 
-  color: #111827;
-
-  font-size: 32px;
-  line-height: 1.2;
+  font-size: 24px;
   font-weight: 700;
+  color: #111827;
 }
 
 .subText {
   margin: 0;
 
+  font-size: 14px;
   color: #6b7280;
-
-  font-size: 15px;
-  font-weight: 500;
 }
 
 /* ===================================
@@ -51,21 +45,19 @@
   background: #ffffff;
 
   border: 1px solid #e5e7eb;
-  border-radius: 28px;
+  border-radius: 16px;
 
-  padding: 28px;
-
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  padding: 20px;
 }
 
 /* ===================================
-   Address Card
+   Address
 =================================== */
 
 .addressRow {
   display: flex;
   align-items: flex-start;
-  gap: 18px;
+  gap: 14px;
 }
 
 .iconBox {
@@ -73,51 +65,48 @@
   align-items: center;
   justify-content: center;
 
-  width: 58px;
-  height: 58px;
+  width: 48px;
+  height: 48px;
 
   flex-shrink: 0;
 
-  border-radius: 18px;
-
-  background: #dcfce7;
+  border-radius: 12px;
+  background: #ecfdf3;
 }
 
 .iconBox svg {
-  color: #15803d;
-  stroke-width: 2.2;
+  color: #16a34a;
 }
 
 .cardTitle {
-  margin: 0 0 10px;
+  margin: 0 0 6px;
+
+  font-size: 16px;
+  font-weight: 600;
 
   color: #111827;
-
-  font-size: 22px;
-  font-weight: 700;
 }
 
 .address {
-  margin: 0 0 8px;
+  margin: 0;
+
+  font-size: 14px;
+  line-height: 1.6;
 
   color: #374151;
-
-  font-size: 16px;
-  line-height: 1.7;
-  font-weight: 500;
 }
 
 .locationText {
-  display: inline-block;
+  display: block;
 
+  margin-top: 4px;
+
+  font-size: 13px;
   color: #6b7280;
-
-  font-size: 14px;
-  font-weight: 500;
 }
 
 /* ===================================
-   Map Card
+   Map
 =================================== */
 
 .mapHeader {
@@ -125,69 +114,51 @@
   align-items: center;
   justify-content: space-between;
 
-  gap: 16px;
-
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 .mapSubText {
-  margin: 6px 0 0;
+  margin: 2px 0 0;
 
+  font-size: 13px;
   color: #6b7280;
-
-  font-size: 14px;
-  font-weight: 500;
 }
 
 .directionButton {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 
-  border: none;
-  outline: none;
+  height: 40px;
 
-  cursor: pointer;
+  padding: 0 16px;
 
-  background: #15803d;
+  border-radius: 10px;
+
+  background: #16a34a;
   color: #ffffff;
-
-  padding: 12px 18px;
-
-  border-radius: 14px;
 
   font-size: 14px;
   font-weight: 600;
 
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease,
-    box-shadow 0.2s ease;
+  text-decoration: none;
+
+  transition: 0.2s ease;
 }
 
 .directionButton:hover {
-  background: #166534;
-
-  box-shadow: 0 10px 24px rgba(21, 128, 61, 0.18);
-}
-
-.directionButton:active {
-  transform: scale(0.98);
+  background: #15803d;
 }
 
 .mapWrapper {
-  position: relative;
-
   overflow: hidden;
 
   width: 100%;
-  height: 420px;
+  height: 280px;
 
-  border-radius: 24px;
+  border-radius: 14px;
 
   border: 1px solid #e5e7eb;
-
-  background: #f9fafb;
 }
 
 .map {
@@ -203,34 +174,22 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 12px;
 }
 
 .placeCard {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 
-  padding: 20px;
-
-  border-radius: 22px;
+  padding: 14px;
 
   border: 1px solid #f3f4f6;
-  background: #f9fafb;
+  border-radius: 14px;
 
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.placeCard:hover {
-  transform: translateY(-2px);
-
-  border-color: #dcfce7;
-
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+  background: #fafafa;
 }
 
 .placeIcon {
@@ -238,19 +197,18 @@
   align-items: center;
   justify-content: center;
 
-  width: 54px;
-  height: 54px;
+  width: 42px;
+  height: 42px;
 
   flex-shrink: 0;
 
-  border-radius: 16px;
+  border-radius: 10px;
 
-  background: #dcfce7;
+  background: #ecfdf3;
 }
 
 .placeIcon svg {
-  color: #15803d;
-  stroke-width: 2.2;
+  color: #16a34a;
 }
 
 .placeContent {
@@ -258,20 +216,17 @@
 }
 
 .placeName {
-  margin: 0 0 6px;
+  margin: 0 0 4px;
+
+  font-size: 14px;
+  font-weight: 600;
 
   color: #111827;
-
-  font-size: 17px;
-  line-height: 1.4;
-  font-weight: 700;
 }
 
 .distance {
+  font-size: 12px;
   color: #6b7280;
-
-  font-size: 14px;
-  font-weight: 500;
 }
 
 /* ===================================
@@ -279,46 +234,24 @@
 =================================== */
 
 @media (max-width: 992px) {
-  .heading {
-    font-size: 28px;
-  }
-
-  .card,
-  .mapCard {
-    padding: 24px;
-  }
-
   .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .mapWrapper {
-    height: 360px;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 768px) {
   .section {
-    gap: 20px;
+    gap: 16px;
   }
 
   .heading {
-    font-size: 26px;
-  }
-
-  .subText {
-    font-size: 14px;
-  }
-
-  .card,
-  .mapCard {
-    padding: 22px;
-    border-radius: 24px;
+    font-size: 22px;
   }
 
   .mapHeader {
     flex-direction: column;
     align-items: flex-start;
+    gap: 12px;
   }
 
   .directionButton {
@@ -326,51 +259,11 @@
     justify-content: center;
   }
 
-  .addressRow,
-  .placeCard {
-    gap: 14px;
+  .grid {
+    grid-template-columns: 1fr;
   }
 
   .mapWrapper {
-    height: 320px;
-    border-radius: 20px;
-  }
-
-  .iconBox,
-  .placeIcon {
-    width: 52px;
-    height: 52px;
-  }
-
-  .cardTitle {
-    font-size: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .heading {
-    font-size: 24px;
-  }
-
-  .card,
-  .mapCard {
-    padding: 18px;
-    border-radius: 20px;
-  }
-
-  .cardTitle {
-    font-size: 18px;
-  }
-
-  .address {
-    font-size: 15px;
-  }
-
-  .placeName {
-    font-size: 15px;
-  }
-
-  .mapWrapper {
-    height: 280px;
+    height: 220px;
   }
 }

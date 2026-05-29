@@ -2,7 +2,7 @@
 
 // ======================================================
 // File: components/property/details/PropertyGallery.jsx
-// Description: Property Details Gallery
+// Description: Dynamic Property Gallery
 // UI Match: Bhoomi Sathi Property Details Design
 // Styling: CSS Modules + Lucide React
 // ======================================================
@@ -14,30 +14,71 @@ import { ChevronLeft, ChevronRight, Camera } from "lucide-react";
 
 import styles from "./PropertyGallery.module.css";
 
-export default function PropertyGallery({ images = [] }) {
-  const fallbackImages = useMemo(
-    () => [
-      "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&q=80",
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80",
-      "https://images.unsplash.com/photo-1600585154526-990dced4db55?w=1200&q=80",
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80",
-      "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&q=80",
-    ],
-    [],
-  );
-
-  const galleryImages = images?.length > 0 ? images : fallbackImages;
-
+export default function PropertyGallery({ property = {} }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const currentImage = galleryImages[selectedIndex];
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
-  const totalImages = galleryImages.length;
+  // ==========================================
+  // Normalize Image URL
+  // ==========================================
+  const normalizeImageUrl = (image) => {
+    if (!image) return "/images/placeholder-property.jpg";
+
+    const imageUrl =
+      typeof image === "string" ? image : image?.url || image?.src || "";
+
+    if (!imageUrl) {
+      return "/images/placeholder-property.jpg";
+    }
+
+    // Already external URL
+    if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
+      return imageUrl;
+    }
+
+    // Backend upload path
+    return `${apiUrl}${imageUrl}`;
+  };
+
+  // ==========================================
+  // Gallery Images
+  // ==========================================
+  const galleryImages = useMemo(() => {
+    const propertyImages = property?.images?.length > 0 ? property.images : [];
+
+    const thumbnail = property?.thumbnail ? [property.thumbnail] : [];
+
+    const mergedImages = [...thumbnail, ...propertyImages];
+
+    const uniqueImages = mergedImages.filter((image, index, self) => {
+      const current = typeof image === "string" ? image : image?.url;
+
+      return (
+        current &&
+        index ===
+          self.findIndex((item) => {
+            const compare = typeof item === "string" ? item : item?.url;
+
+            return compare === current;
+          })
+      );
+    });
+
+    return uniqueImages;
+  }, [property]);
+
+  const totalImages = galleryImages.length || 1;
+
+  const currentImage = galleryImages[selectedIndex] || galleryImages[0];
 
   const visibleThumbnails = galleryImages.slice(0, 5);
 
   const remainingImages = totalImages - 5;
 
+  // ==========================================
+  // Navigation
+  // ==========================================
   const handlePrev = () => {
     setSelectedIndex((prev) => (prev === 0 ? totalImages - 1 : prev - 1));
   };
@@ -49,15 +90,16 @@ export default function PropertyGallery({ images = [] }) {
   return (
     <section className={styles.gallery}>
       {/* ===================== */}
-      {/* Main Image */}
+      {/* Hero Image */}
       {/* ===================== */}
       <div className={styles.heroWrapper}>
         <div className={styles.imageContainer}>
           <Image
-            src={currentImage}
-            alt={`Property Image ${selectedIndex + 1}`}
+            src={normalizeImageUrl(currentImage)}
+            alt={property?.title || `Property Image ${selectedIndex + 1}`}
             fill
             priority
+            unoptimized
             className={styles.heroImage}
             sizes="100vw"
           />
@@ -66,64 +108,74 @@ export default function PropertyGallery({ images = [] }) {
           <div className={styles.photoBadge}>
             <Camera size={16} />
 
-            <span>{totalImages} Photos</span>
+            <span>
+              {totalImages} Photo
+              {totalImages > 1 ? "s" : ""}
+            </span>
           </div>
 
-          {/* Prev */}
-          <button
-            type="button"
-            onClick={handlePrev}
-            className={styles.navLeft}
-            aria-label="Previous image"
-          >
-            <ChevronLeft size={24} />
-          </button>
+          {/* Previous */}
+          {totalImages > 1 && (
+            <button
+              type="button"
+              onClick={handlePrev}
+              className={styles.navLeft}
+              aria-label="Previous image"
+            >
+              <ChevronLeft size={24} />
+            </button>
+          )}
 
           {/* Next */}
-          <button
-            type="button"
-            onClick={handleNext}
-            className={styles.navRight}
-            aria-label="Next image"
-          >
-            <ChevronRight size={24} />
-          </button>
+          {totalImages > 1 && (
+            <button
+              type="button"
+              onClick={handleNext}
+              className={styles.navRight}
+              aria-label="Next image"
+            >
+              <ChevronRight size={24} />
+            </button>
+          )}
         </div>
       </div>
 
       {/* ===================== */}
-      {/* Thumbnails */}
+      {/* Thumbnail Grid */}
       {/* ===================== */}
-      <div className={styles.thumbnailGrid}>
-        {visibleThumbnails.map((image, index) => {
-          const isActive = selectedIndex === index;
+      {visibleThumbnails.length > 0 && (
+        <div className={styles.thumbnailGrid}>
+          {visibleThumbnails.map((image, index) => {
+            const isActive = selectedIndex === index;
 
-          const isLast = index === 4 && remainingImages > 0;
+            const isLast = index === 4 && remainingImages > 0;
 
-          return (
-            <button
-              key={index}
-              type="button"
-              className={`${styles.thumbnailButton} ${
-                isActive ? styles.active : ""
-              }`}
-              onClick={() => setSelectedIndex(index)}
-            >
-              <Image
-                src={image}
-                alt={`Thumbnail ${index + 1}`}
-                fill
-                className={styles.thumbnailImage}
-                sizes="200px"
-              />
+            return (
+              <button
+                key={index}
+                type="button"
+                onClick={() => setSelectedIndex(index)}
+                className={`${styles.thumbnailButton} ${
+                  isActive ? styles.active : ""
+                }`}
+              >
+                <Image
+                  src={normalizeImageUrl(image)}
+                  alt={`Thumbnail ${index + 1}`}
+                  fill
+                  unoptimized
+                  className={styles.thumbnailImage}
+                  sizes="200px"
+                />
 
-              {isLast && (
-                <div className={styles.overlay}>+{remainingImages}</div>
-              )}
-            </button>
-          );
-        })}
-      </div>
+                {isLast && (
+                  <div className={styles.overlay}>+{remainingImages}</div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 }

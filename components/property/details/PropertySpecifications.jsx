@@ -4,7 +4,7 @@
 // File: components/property/details/PropertySpecifications.jsx
 // Description: Property Specifications Section
 // UI Match: Bhoomi Sathi Property Details Design
-// Styling: CSS Modules + Lucide React
+// Data Source: getPropertyBySlug()
 // ======================================================
 
 import { useState } from "react";
@@ -15,64 +15,83 @@ import {
   Home,
   Building2,
   Ruler,
-  Compass,
+  BedDouble,
+  Bath,
+  MapPin,
+  IndianRupee,
   CalendarDays,
-  Layers3,
 } from "lucide-react";
 
-export default function PropertySpecifications({ property = {} }) {
+export default function PropertySpecifications({ property }) {
+  // ==================================================
+  // SAFE PROPERTY
+  // ==================================================
+  const safeProperty = property || {};
+
+  // ==================================================
+  // PROPERTY DATA
+  // Matches getPropertyBySlug()
+  // ==================================================
   const {
-    specifications = {
-      basicDetails: {
-        propertyType: "Apartment",
-        ownershipType: "Freehold",
-        propertyStatus: "Ready to Move",
-        constructionYear: "2020",
-        superBuiltupArea: "1650 Sq. Ft.",
-        carpetArea: "1250 Sq. Ft.",
-        floor: "5th Floor out of 8",
-        totalFloors: "8",
-        facing: "East",
-        possession: "Immediate",
-      },
+    propertyId,
+    listingType,
+    type,
+    status,
+    price,
+    emi,
+    bedrooms,
+    bathrooms,
+    area,
+    location,
+    createdAt,
+  } = safeProperty;
 
-      interiorDetails: {
-        furnishing: "Semi Furnished",
-        flooring: "Vitrified Tiles",
-        modularKitchen: "Available",
-        wardrobes: "Built-in",
-      },
+  // ==================================================
+  // SPECIFICATIONS
+  // EXACT MATCH TO API
+  // ==================================================
+  const specifications = {
+    basicDetails: {
+      propertyId: propertyId || "N/A",
 
-      utilities: {
-        electricity: "24 Hours",
-        waterSupply: "24 Hours",
-        internet: "Fiber Ready",
-      },
+      listingType:
+        listingType?.replace(/\b\w/g, (char) => char.toUpperCase()) || "N/A",
 
-      legalInformation: {
-        reraApproved: "Yes",
-        loanApproved: "Yes",
-        propertyTax: "Paid",
-      },
+      propertyType:
+        type?.replace(/\b\w/g, (char) => char.toUpperCase()) || "N/A",
+
+      propertyStatus:
+        status
+          ?.replace(/-/g, " ")
+          .replace(/\b\w/g, (char) => char.toUpperCase()) || "N/A",
+
+      price: price > 0 ? `₹${Number(price).toLocaleString("en-IN")}` : "N/A",
+
+      emi: emi > 0 ? `₹${Number(emi).toLocaleString("en-IN")}/month` : "N/A",
+
+      bedrooms: bedrooms || 0,
+
+      bathrooms: bathrooms || 0,
+
+      area: area?.value ? `${area.value} ${area.unit || "sqft"}` : "N/A",
+
+      city: location?.city || "N/A",
+
+      state: location?.state || "N/A",
+
+      createdAt: createdAt
+        ? new Date(createdAt).toLocaleDateString("en-IN")
+        : "N/A",
     },
-  } = property;
+  };
 
+  // ==================================================
+  // TABS
+  // ==================================================
   const tabs = [
     {
       id: "basicDetails",
       label: "Basic Details",
-    },
-    {
-      id: "interiorDetails",
-      label: "Interior Details",
-    },
-    {
-      id: "utilities",
-      label: "Utilities",
-    },
-    {
-      id: "legalInformation",
-      label: "Legal Information",
     },
   ];
 
@@ -80,25 +99,47 @@ export default function PropertySpecifications({ property = {} }) {
 
   const currentData = specifications[activeTab] || {};
 
+  // ==================================================
+  // ICON MAP
+  // ==================================================
   const iconMap = {
+    propertyId: Building2,
+
+    listingType: Home,
+
     propertyType: Home,
-    ownershipType: Building2,
-    superBuiltupArea: Ruler,
-    carpetArea: Ruler,
-    facing: Compass,
-    constructionYear: CalendarDays,
-    floor: Layers3,
-    totalFloors: Layers3,
+
+    propertyStatus: Building2,
+
+    price: IndianRupee,
+
+    emi: IndianRupee,
+
+    bedrooms: BedDouble,
+
+    bathrooms: Bath,
+
+    area: Ruler,
+
+    city: MapPin,
+
+    state: MapPin,
+
+    createdAt: CalendarDays,
   };
 
+  // ==================================================
+  // FORMAT LABEL
+  // ==================================================
   const formatLabel = (label) =>
     label.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
 
+  // ==================================================
+  // RENDER
+  // ==================================================
   return (
     <section className={styles.section}>
-      {/* ===================== */}
       {/* Header */}
-      {/* ===================== */}
       <div className={styles.header}>
         <h2 className={styles.heading}>Property Specifications</h2>
 
@@ -107,9 +148,7 @@ export default function PropertySpecifications({ property = {} }) {
         </p>
       </div>
 
-      {/* ===================== */}
-      {/* Specification Card */}
-      {/* ===================== */}
+      {/* Card */}
       <div className={styles.card}>
         {/* Tabs */}
         <div className={styles.tabs}>

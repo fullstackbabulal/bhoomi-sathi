@@ -2,31 +2,41 @@
 
 // ======================================================
 // File: components/property/details/PropertyBottomCTA.jsx
-// Description: Property Bottom Call To Action
-// UI Match: Bhoomi Sathi Property Details Design
+// Description: Property Bottom CTA
+// UI Match: Target Property Details Design
 // Styling: CSS Modules + Lucide React
 // ======================================================
 
-import Link from "next/link";
-
 import styles from "./PropertyBottomCTA.module.css";
 
-import { Phone, MessageCircle, ArrowRight, BadgeCheck } from "lucide-react";
+import { Phone, MessageCircle, CalendarDays } from "lucide-react";
 
 export default function PropertyBottomCTA({
   property = {},
   onCall,
   onWhatsApp,
+  onBookVisit,
 }) {
-  const {
-    title = "Luxury 3 BHK Apartment",
+  // ======================================================
+  // AGENT SOURCE
+  // ======================================================
+  const agent = property?.assignedAgent || property?.postedBy || {};
 
-    phone = "+91 9876543210",
+  // ======================================================
+  // SAFE DATA
+  // ======================================================
+  const propertyTitle = property?.title || "this property";
 
-    verified = true,
-  } = property;
+  const phone = agent?.phone?.trim() || "";
 
+  const verified = property?.isVerified || false;
+
+  // ======================================================
+  // HANDLERS
+  // ======================================================
   const handleCall = () => {
+    if (!phone) return;
+
     if (onCall) {
       onCall(property);
       return;
@@ -36,6 +46,8 @@ export default function PropertyBottomCTA({
   };
 
   const handleWhatsApp = () => {
+    if (!phone) return;
+
     if (onWhatsApp) {
       onWhatsApp(property);
       return;
@@ -43,7 +55,20 @@ export default function PropertyBottomCTA({
 
     const cleanedPhone = phone.replace(/\D/g, "");
 
-    window.open(`https://wa.me/${cleanedPhone}`, "_blank");
+    window.open(
+      `https://wa.me/${cleanedPhone}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
+  };
+
+  const handleBookVisit = () => {
+    if (onBookVisit) {
+      onBookVisit(property);
+      return;
+    }
+
+    console.log("Book site visit:", propertyTitle);
   };
 
   return (
@@ -53,31 +78,23 @@ export default function PropertyBottomCTA({
         {/* Content */}
         {/* ===================== */}
         <div className={styles.content}>
-          <div className={styles.badgeRow}>
-            {verified && (
-              <span className={styles.verifiedBadge}>
-                <BadgeCheck size={16} />
-                Verified Property
-              </span>
-            )}
-          </div>
-
-          <h2 className={styles.heading}>Interested in {title}?</h2>
+          <h3 className={styles.heading}>Interested in this Property?</h3>
 
           <p className={styles.description}>
-            Connect instantly with the property owner or verified agent to get
-            pricing, schedule a visit, or ask questions.
+            Connect with the verified agent or owner to know pricing,
+            availability, site visit details, and more.
           </p>
         </div>
 
         {/* ===================== */}
-        {/* CTA Buttons */}
+        {/* Actions */}
         {/* ===================== */}
         <div className={styles.actions}>
           <button
             type="button"
             onClick={handleCall}
             className={styles.callButton}
+            disabled={!phone}
           >
             <Phone size={18} />
             Call Now
@@ -87,15 +104,20 @@ export default function PropertyBottomCTA({
             type="button"
             onClick={handleWhatsApp}
             className={styles.whatsappButton}
+            disabled={!phone}
           >
             <MessageCircle size={18} />
             WhatsApp
           </button>
 
-          <Link href="/properties" className={styles.exploreButton}>
-            Explore More
-            <ArrowRight size={18} />
-          </Link>
+          <button
+            type="button"
+            onClick={handleBookVisit}
+            className={styles.exploreButton}
+          >
+            <CalendarDays size={18} />
+            Book Site Visit
+          </button>
         </div>
       </div>
     </section>

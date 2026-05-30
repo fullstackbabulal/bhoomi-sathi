@@ -7,6 +7,8 @@
 
 import styles from "./PropertyDetailsPage.module.css";
 
+import Navbar from "../../layout/Navbar";
+
 import PropertyHeader from "./PropertyHeader";
 import PropertyGallery from "./PropertyGallery";
 import PropertyTitleCard from "./PropertyTitleCard";
@@ -20,26 +22,36 @@ import PropertyFAQ from "./PropertyFAQ";
 import SimilarProperties from "./SimilarProperties";
 
 import StickyInquiryCard from "./StickyInquiryCard";
+import PropertyContactForm from "./PropertyContactForm";
 import LoanEligibilityCard from "./LoanEligibilityCard";
 import PropertyAgentCard from "./PropertyAgentCard";
 import PropertyTrustCard from "./PropertyTrustCard";
 
 import PropertyBottomCTA from "./PropertyBottomCTA";
-import Navbar from "../../layout/Navbar";
+
 const PropertyDetailsPage = ({ property }) => {
-  /*Similar Property*/
+  // ======================================================
+  // SIMILAR PROPERTIES
+  // ======================================================
   const similarProperties = property?.similarProperties || [];
 
   return (
     <div className={styles.page}>
       <Navbar />
+
+      {/* ====================================== */}
       {/* Header */}
+      {/* ====================================== */}
       <PropertyHeader property={property} />
 
+      {/* ====================================== */}
       {/* Main Layout */}
+      {/* ====================================== */}
       <div className={styles.container}>
         <div className={styles.grid}>
+          {/* ====================================== */}
           {/* Left Content */}
+          {/* ====================================== */}
           <main className={styles.leftContent}>
             <PropertyGallery property={property} />
 
@@ -59,14 +71,18 @@ const PropertyDetailsPage = ({ property }) => {
 
             <PropertyFAQ property={property} />
 
-            <SimilarProperties properties={similarProperties} />
+            <SimilarProperties property={property} />
           </main>
 
+          {/* ====================================== */}
           {/* Right Sidebar */}
+          {/* ====================================== */}
           <aside className={styles.sidebar}>
             <StickyInquiryCard property={property} />
-
             <LoanEligibilityCard property={property} />
+
+            {/* CONTACT FORM */}
+            <PropertyContactForm property={property} />
 
             <PropertyAgentCard property={property} />
 
@@ -75,7 +91,9 @@ const PropertyDetailsPage = ({ property }) => {
         </div>
       </div>
 
+      {/* ====================================== */}
       {/* Mobile Sticky Bottom CTA */}
+      {/* ====================================== */}
       <PropertyBottomCTA property={property} />
     </div>
   );

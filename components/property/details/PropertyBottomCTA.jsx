@@ -29,10 +29,8 @@ export default function PropertyBottomCTA({
 
   const phone = agent?.phone?.trim() || "";
 
-  const verified = property?.isVerified || false;
-
   // ======================================================
-  // HANDLERS
+  // CALL
   // ======================================================
   const handleCall = () => {
     if (!phone) return;
@@ -45,6 +43,9 @@ export default function PropertyBottomCTA({
     window.location.href = `tel:${phone}`;
   };
 
+  // ======================================================
+  // WHATSAPP
+  // ======================================================
   const handleWhatsApp = () => {
     if (!phone) return;
 
@@ -55,20 +56,48 @@ export default function PropertyBottomCTA({
 
     const cleanedPhone = phone.replace(/\D/g, "");
 
+    const message = encodeURIComponent(
+      `Hi, I am interested in "${propertyTitle}". Please share more details.`,
+    );
+
     window.open(
-      `https://wa.me/${cleanedPhone}`,
+      `https://wa.me/${cleanedPhone}?text=${message}`,
       "_blank",
       "noopener,noreferrer",
     );
   };
 
+  // ======================================================
+  // BOOK SITE VISIT
+  // ======================================================
   const handleBookVisit = () => {
+    // Parent override
     if (onBookVisit) {
       onBookVisit(property);
       return;
     }
 
-    console.log("Book site visit:", propertyTitle);
+    const scrollToForm = () => {
+      const inquirySection = document.querySelector("#property-contact-form");
+
+      if (!inquirySection) {
+        console.warn("Property contact form not found.");
+        return;
+      }
+
+      inquirySection.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      // Auto-check schedule visit
+      window.dispatchEvent(new Event("book-site-visit"));
+    };
+
+    // Wait for render/hydration
+    requestAnimationFrame(() => {
+      scrollToForm();
+    });
   };
 
   return (

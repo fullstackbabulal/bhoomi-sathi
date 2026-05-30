@@ -1,0 +1,135 @@
+/* ======================================================
+   File: frontend/pages/Home.module.css
+   Description: Home Page Layout System
+====================================================== */
+
+.page {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: #ffffff;
+}
+
+.main {
+  position: relative;
+}
+
+/* ==========================================
+   DEFAULT SECTION SPACING
+========================================== */
+
+.section {
+  position: relative;
+}
+
+/* ==========================================
+   CONTAINER
+========================================== */
+
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ==========================================
+   2 COLUMN LAYOUT
+   Category + Gallery
+   Testimonials + Blog
+========================================== */
+
+.splitSection {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 28px;
+
+  align-items: start;
+
+  max-width: 1320px;
+  margin: 0 auto;
+
+  padding: 0 24px;
+}
+
+/* balanced split */
+
+.equalSplit {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+
+  align-items: stretch;
+
+  max-width: 1320px;
+  margin: 0 auto;
+
+  padding: 0 24px;
+}
+
+/* ==========================================
+   SURFACES
+========================================== */
+
+.surface {
+  background: #ffffff;
+}
+
+.surfaceMuted {
+  background: #f8fafc;
+}
+
+/* ==========================================
+   SPACING HELPERS
+========================================== */
+
+.spacingSm {
+  margin-top: 2rem;
+}
+
+.spacingMd {
+  margin-top: 4rem;
+}
+
+.spacingLg {
+  margin-top: 5rem;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1100px) {
+  .splitSection,
+  .equalSplit {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .container,
+  .splitSection,
+  .equalSplit {
+    padding: 0 18px;
+  }
+
+  .splitSection,
+  .equalSplit {
+    gap: 22px;
+  }
+
+  .spacingMd {
+    margin-top: 3rem;
+  }
+
+  .spacingLg {
+    margin-top: 4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container,
+  .splitSection,
+  .equalSplit {
+    padding: 0 16px;
+  }
+}

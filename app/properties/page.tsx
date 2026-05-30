@@ -16,15 +16,42 @@ import {
 
 import { fetchProperties } from "@/services/propertyApi";
 
-export default async function PropertiesPage() {
+type SearchParams = {
+  city?: string;
+  type?: string;
+  keyword?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  sort?: string;
+};
+
+type PageProps = {
+  searchParams: Promise<SearchParams>;
+};
+
+export default async function PropertiesPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+
   let properties: any[] = [];
 
   try {
-    const response = await fetchProperties();
+    // ==========================================
+    // BACKEND FILTERS
+    // ==========================================
+    const response = await fetchProperties({
+      city: params?.city || "",
 
-    // ==================================================
-    // SAFE PROPERTY ACCESS
-    // ==================================================
+      type: params?.type || "",
+
+      keyword: params?.keyword || "",
+
+      minPrice: params?.minPrice || "",
+
+      maxPrice: params?.maxPrice || "",
+
+      sort: params?.sort || "",
+    });
+
     properties =
       response?.properties ||
       response?.data?.properties ||
@@ -34,30 +61,43 @@ export default async function PropertiesPage() {
     console.error("Property fetch error:", error);
   }
 
-  // ====================================================
-  // GROUP BY PROPERTY TYPE
-  // ====================================================
-  const plotProperties =
-    properties.filter((item: any) => item?.type?.toLowerCase() === "plot") ||
-    [];
+  // ==========================================
+  // CATEGORY GROUPING
+  // Only when no type filter
+  // ==========================================
+  const groupedProperties = {
+    plot:
+      properties.filter((item: any) => item?.type?.toLowerCase() === "plot") ||
+      [],
 
-  const apartmentProperties =
-    properties.filter(
-      (item: any) => item?.type?.toLowerCase() === "apartment",
-    ) || [];
+    apartment:
+      properties.filter(
+        (item: any) => item?.type?.toLowerCase() === "apartment",
+      ) || [],
 
-  const houseProperties =
-    properties.filter((item: any) => item?.type?.toLowerCase() === "house") ||
-    [];
+    house:
+      properties.filter((item: any) => item?.type?.toLowerCase() === "house") ||
+      [],
 
-  const villaProperties =
-    properties.filter((item: any) => item?.type?.toLowerCase() === "villa") ||
-    [];
+    villa:
+      properties.filter((item: any) => item?.type?.toLowerCase() === "villa") ||
+      [],
 
-  const commercialProperties =
-    properties.filter(
-      (item: any) => item?.type?.toLowerCase() === "commercial",
-    ) || [];
+    commercial:
+      properties.filter(
+        (item: any) => item?.type?.toLowerCase() === "commercial",
+      ) || [],
+  };
+
+  const selectedType = params?.type?.toLowerCase();
+
+  const isFiltered = Boolean(
+    params?.city ||
+    params?.keyword ||
+    params?.minPrice ||
+    params?.maxPrice ||
+    params?.type,
+  );
 
   return (
     <>
@@ -71,48 +111,62 @@ export default async function PropertiesPage() {
         {/* FILTERS */}
         <PropertyListingFilters />
 
-        {/* CATEGORIES */}
-        <PropertyListingCategories />
+        {/* CATEGORY NAV */}
+        {!isFiltered && <PropertyListingCategories />}
 
-        {/* PLOT */}
-        <PropertyListingSection
-          title="Plot Properties"
-          subtitle="Explore verified residential and commercial plots for investment and development."
-          properties={plotProperties}
-          type="plot"
-        />
+        {/* ===================================== */}
+        {/* FILTERED RESULT */}
+        {/* ===================================== */}
+        {isFiltered ? (
+          <PropertyListingSection
+            title="Search Results"
+            subtitle={`${properties.length} properties found`}
+            properties={properties}
+            type={selectedType || "all"}
+          />
+        ) : (
+          <>
+            {/* PLOT */}
+            <PropertyListingSection
+              title="Plot Properties"
+              subtitle="Explore verified residential and commercial plots for investment and development."
+              properties={groupedProperties.plot}
+              type="plot"
+            />
 
-        {/* APARTMENT */}
-        <PropertyListingSection
-          title="Apartment Properties"
-          subtitle="Discover premium apartments designed for modern and comfortable living."
-          properties={apartmentProperties}
-          type="apartment"
-        />
+            {/* APARTMENT */}
+            <PropertyListingSection
+              title="Apartment Properties"
+              subtitle="Discover premium apartments designed for modern and comfortable living."
+              properties={groupedProperties.apartment}
+              type="apartment"
+            />
 
-        {/* HOUSE */}
-        <PropertyListingSection
-          title="House Properties"
-          subtitle="Browse independent houses and family homes in prime locations."
-          properties={houseProperties}
-          type="house"
-        />
+            {/* HOUSE */}
+            <PropertyListingSection
+              title="House Properties"
+              subtitle="Browse independent houses and family homes in prime locations."
+              properties={groupedProperties.house}
+              type="house"
+            />
 
-        {/* VILLA */}
-        <PropertyListingSection
-          title="Villa Properties"
-          subtitle="Luxury villas with premium amenities and spacious living."
-          properties={villaProperties}
-          type="villa"
-        />
+            {/* VILLA */}
+            <PropertyListingSection
+              title="Villa Properties"
+              subtitle="Luxury villas with premium amenities and spacious living."
+              properties={groupedProperties.villa}
+              type="villa"
+            />
 
-        {/* COMMERCIAL */}
-        <PropertyListingSection
-          title="Commercial Properties"
-          subtitle="Explore shops, office spaces, and business-ready commercial properties."
-          properties={commercialProperties}
-          type="commercial"
-        />
+            {/* COMMERCIAL */}
+            <PropertyListingSection
+              title="Commercial Properties"
+              subtitle="Explore shops, office spaces, and business-ready commercial properties."
+              properties={groupedProperties.commercial}
+              type="commercial"
+            />
+          </>
+        )}
 
         {/* HIGHLIGHTS */}
         <PropertyHighlights />

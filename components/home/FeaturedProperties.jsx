@@ -3,154 +3,145 @@
 // ======================================================
 // File: components/home/FeaturedProperties.jsx
 // Description: Featured Properties Section
+// UI Match: Bhoomi Sathi Target Homepage
 // ======================================================
 
+import Image from "next/image";
 import Link from "next/link";
+
 import styles from "./FeaturedProperties.module.css";
 
-// ======================================================
-// COMPONENT
-// ======================================================
-const FeaturedProperties = ({ properties = [] }) => {
-  // ==========================================
-  // FILTER FEATURED PROPERTIES
-  // ==========================================
+export default function FeaturedProperties({ properties = [] }) {
+  // ======================================================
+  // FEATURED DATA
+  // ======================================================
   const featuredProperties = Array.isArray(properties)
-    ? properties.filter((property) => property?.isFeatured)
+    ? properties.filter((property) => property?.isFeatured).slice(0, 6)
     : [];
 
-  // ==========================================
-  // EMPTY STATE
-  // ==========================================
+  // ======================================================
+  // FORMAT PRICE
+  // ======================================================
+  const formatPrice = (price = 0) => {
+    return new Intl.NumberFormat("en-IN").format(price);
+  };
+
+  // ======================================================
+  // EMPTY
+  // ======================================================
   if (!featuredProperties.length) {
-    return (
-      <section className={styles.section}>
-        <div className={styles.container}>
-          <div className={styles.header}>
-            <span className={styles.badge}>Featured Properties</span>
-
-            <h2 className={styles.title}>Explore Premium Properties</h2>
-
-            <p className={styles.subtitle}>
-              No featured properties are available at the moment.
-            </p>
-          </div>
-
-          <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>🏡</div>
-
-            <h3 className={styles.emptyTitle}>No Featured Properties</h3>
-
-            <p className={styles.emptyText}>
-              Featured properties will appear here once available.
-            </p>
-          </div>
-        </div>
-      </section>
-    );
+    return null;
   }
 
-  // ==========================================
+  // ======================================================
   // RENDER
-  // ==========================================
+  // ======================================================
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        {/* Header */}
+        {/* HEADER */}
         <div className={styles.header}>
-          <span className={styles.badge}>Featured Properties</span>
+          <div className={styles.headingBlock}>
+            <span className={styles.badge}>Featured Properties</span>
 
-          <h2 className={styles.title}>Explore Premium Properties</h2>
+            <h2 className={styles.title}>Featured Properties</h2>
 
-          <p className={styles.subtitle}>
-            Discover handpicked premium properties with modern amenities and
-            prime locations.
-          </p>
+            <p className={styles.subtitle}>
+              Explore handpicked properties just for you.
+            </p>
+          </div>
+
+          <Link href="/properties" className={styles.viewAllButton}>
+            View All Properties →
+          </Link>
         </div>
 
-        {/* Grid */}
+        {/* GRID */}
         <div className={styles.grid}>
           {featuredProperties.map((property) => {
-            const {
-              _id,
-              slug,
-              title,
-              type,
-              price,
-              bedrooms,
-              bathrooms,
-              area,
-              location,
-              images,
-              thumbnail,
-              isFeatured,
-              isVerified,
-            } = property;
-
-            // =====================
-            // IMAGE
-            // =====================
-            const propertyImage =
-              thumbnail ||
-              images?.[0]?.url ||
+            const image =
+              property?.thumbnail ||
+              property?.images?.[0]?.url ||
               "/images/property-placeholder.jpg";
 
-            // =====================
-            // LOCATION
-            // =====================
-            const propertyLocation = [location?.city, location?.state]
+            const location = [
+              property?.location?.city,
+
+              property?.location?.state,
+            ]
               .filter(Boolean)
               .join(", ");
 
             return (
-              <article key={_id} className={styles.card}>
-                {/* Image */}
+              <article key={property?._id} className={styles.card}>
+                {/* IMAGE */}
                 <div className={styles.imageWrapper}>
-                  <img
-                    src={propertyImage}
-                    alt={title}
+                  <Image
+                    src={image}
+                    alt={property?.title || "Property"}
+                    fill
                     className={styles.image}
+                    sizes="
+                      (max-width:768px) 100vw,
+                      (max-width:1200px) 50vw,
+                      33vw
+                    "
+                    priority={false}
+                    unoptimized
                   />
 
+                  {/* BADGES */}
                   <div className={styles.cardBadgeWrapper}>
-                    {isFeatured && (
+                    {property?.isFeatured && (
                       <span className={styles.featuredBadge}>Featured</span>
                     )}
 
-                    {isVerified && (
+                    {property?.isVerified && (
                       <span className={styles.verifiedBadge}>Verified</span>
                     )}
                   </div>
                 </div>
 
-                {/* Content */}
+                {/* CONTENT */}
                 <div className={styles.content}>
+                  {/* PRICE */}
                   <h3 className={styles.price}>
-                    {price ? `₹ ${price.toLocaleString()}` : "Price on request"}
+                    ₹{" "}
+                    {property?.price
+                      ? formatPrice(property.price)
+                      : "Price on request"}
                   </h3>
 
-                  <h4 className={styles.propertyTitle}>{title}</h4>
+                  {/* TITLE */}
+                  <h4 className={styles.propertyTitle}>
+                    {property?.title || "Untitled Property"}
+                  </h4>
 
+                  {/* LOCATION */}
                   <p className={styles.location}>
-                    📍 {propertyLocation || "Location unavailable"}
+                    📍 {location || "Location unavailable"}
                   </p>
 
+                  {/* META */}
                   <div className={styles.meta}>
-                    <span>🏠 {type}</span>
+                    {!!property?.bedrooms && (
+                      <span>{property.bedrooms} Beds</span>
+                    )}
 
-                    {!!bedrooms && <span>🛏 {bedrooms} Beds</span>}
+                    {!!property?.bathrooms && (
+                      <span>{property.bathrooms} Baths</span>
+                    )}
 
-                    {!!bathrooms && <span>🚿 {bathrooms} Baths</span>}
-
-                    {!!area?.value && (
+                    {!!property?.area?.value && (
                       <span>
-                        📐 {area.value} {area.unit}
+                        {property.area.value} {property.area.unit}
                       </span>
                     )}
                   </div>
 
+                  {/* CTA */}
                   <Link
-                    href={`/properties/${property.slug}`}
+                    href={`/properties/${property?.slug || property?._id}`}
                     className={styles.ctaButton}
                   >
                     View Details
@@ -163,6 +154,4 @@ const FeaturedProperties = ({ properties = [] }) => {
       </div>
     </section>
   );
-};
-
-export default FeaturedProperties;
+}

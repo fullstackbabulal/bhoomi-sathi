@@ -1,25 +1,35 @@
-/* frontend/components/home/Category.module.css */
+/* ======================================================
+   File: components/home/Category.module.css
+   Description: Category Section
+====================================================== */
 
 .section {
-  position: relative;
-  padding: 5rem 0;
+  padding: 4rem 0;
   background: #ffffff;
 }
 
 .container {
   width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-/* =========================
-   Header
-========================= */
+/* ==========================================
+   HEADER
+========================================== */
 
 .header {
-  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+
+  margin-bottom: 2rem;
 }
 
 .headingBlock {
-  max-width: 720px;
+  max-width: 620px;
 }
 
 .badge {
@@ -27,183 +37,122 @@
   align-items: center;
   justify-content: center;
 
-  padding: 0.55rem 1rem;
-  margin-bottom: 1rem;
+  min-height: 36px;
+  padding: 0 14px;
+
+  margin-bottom: 0.8rem;
 
   border-radius: 999px;
 
   background: rgba(37, 99, 235, 0.08);
   color: #2563eb;
 
-  font-size: 0.875rem;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.02em;
 }
 
 .title {
-  margin: 0 0 0.85rem;
+  margin: 0 0 10px;
 
   color: #0f172a;
 
-  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-size: clamp(2rem, 3vw, 2.5rem);
+
   font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.1;
+  letter-spacing: -1px;
 }
 
 .subtitle {
   margin: 0;
 
-  max-width: 620px;
-
   color: #64748b;
 
-  font-size: 1rem;
+  font-size: 15px;
   line-height: 1.75;
 }
 
-/* =========================
-   Grid
-========================= */
+.viewAllButton {
+  display: inline-flex;
+  align-items: center;
+
+  color: #2563eb;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+/* ==========================================
+   GRID
+========================================== */
 
 .grid {
   display: grid;
+
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem;
+
+  gap: 18px;
 }
 
-/* =========================
-   Card
-========================= */
+/* ==========================================
+   CARD
+========================================== */
 
 .card {
-  position: relative;
-
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 16px;
 
-  min-height: 210px;
-  padding: 2rem 1.5rem;
+  padding: 22px;
 
-  border-radius: 28px;
-  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
 
   background: #ffffff;
 
-  text-align: center;
-
-  overflow: hidden;
+  text-decoration: none;
 
   transition:
-    transform 0.35s ease,
-    border-color 0.35s ease,
-    box-shadow 0.35s ease;
-  box-shadow:
-    0 6px 20px rgba(15, 23, 42, 0.05),
-    0 2px 6px rgba(15, 23, 42, 0.04);
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
 .card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-3px);
 
-  border-color: rgba(37, 99, 235, 0.2);
-
-  box-shadow:
-    0 28px 60px rgba(15, 23, 42, 0.1),
-    0 10px 20px rgba(37, 99, 235, 0.08);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
 }
-
-/* subtle top glow */
-
-.card::before {
-  content: "";
-
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 4px;
-
-  background: linear-gradient(90deg, #2563eb, #3b82f6);
-
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.card:hover::before {
-  opacity: 1;
-}
-
-/* =========================
-   Icon
-========================= */
 
 .iconWrapper {
-  width: 76px;
-  height: 76px;
+  flex-shrink: 0;
 
-  margin-bottom: 1.25rem;
+  width: 62px;
+  height: 62px;
 
-  border-radius: 999px;
+  border-radius: 18px;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
-  transition:
-    transform 0.35s ease,
-    box-shadow 0.35s ease;
-}
-
-.card:hover .iconWrapper {
-  transform: scale(1.08);
 }
 
 .icon {
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
-/* color variants */
-
-.blue {
-  background: rgba(37, 99, 235, 0.12);
+.cardContent {
+  flex: 1;
 }
-
-.green {
-  background: rgba(34, 197, 94, 0.12);
-}
-
-.lime {
-  background: rgba(132, 204, 22, 0.12);
-}
-
-.red {
-  background: rgba(239, 68, 68, 0.12);
-}
-
-.purple {
-  background: rgba(139, 92, 246, 0.12);
-}
-
-.orange {
-  background: rgba(249, 115, 22, 0.12);
-}
-
-/* =========================
-   Content
-========================= */
 
 .cardTitle {
-  margin: 0 0 0.45rem;
+  margin: 0 0 6px;
 
-  color: #0f172a;
+  color: #111827;
 
-  font-size: 1.15rem;
+  font-size: 17px;
   font-weight: 700;
-  line-height: 1.4;
 }
 
 .cardCount {
@@ -211,182 +160,75 @@
 
   color: #64748b;
 
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-size: 14px;
 }
 
-/* =========================
-   Footer CTA
-========================= */
+/* COLORS */
 
-.footer {
-  display: flex;
-  justify-content: center;
-
-  margin-top: 2.5rem;
+.blue {
+  background: rgba(37, 99, 235, 0.1);
 }
 
-.viewAllButton {
-  min-height: 56px;
-  padding: 0 2rem;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 999px;
-  border: 1px solid #dbe4f0;
-
-  background: #ffffff;
-  color: #2563eb;
-
-  font-size: 0.95rem;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    background 0.25s ease;
+.green {
+  background: rgba(34, 197, 94, 0.1);
 }
 
-.viewAllButton:hover {
-  transform: translateY(-3px);
-
-  border-color: #2563eb;
-
-  background: #eff6ff;
+.lime {
+  background: rgba(132, 204, 22, 0.1);
 }
 
-/* =========================
-   Empty State
-========================= */
-
-.emptyState {
-  min-height: 320px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-
-  padding: 3rem 2rem;
-
-  border-radius: 28px;
-  border: 1px solid rgba(226, 232, 240, 0.9);
-
-  background: linear-gradient(
-    180deg,
-    rgba(248, 250, 252, 0.95) 0%,
-    rgba(241, 245, 249, 1) 100%
-  );
-
-  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.05);
+.red {
+  background: rgba(239, 68, 68, 0.1);
 }
 
-.emptyIcon {
-  width: 88px;
-  height: 88px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 1.25rem;
-
-  border-radius: 50%;
-
-  background: rgba(37, 99, 235, 0.08);
-
-  font-size: 2.5rem;
+.purple {
+  background: rgba(139, 92, 246, 0.1);
 }
 
-.emptyTitle {
-  margin: 0 0 0.5rem;
-
-  color: #0f172a;
-
-  font-size: 1.5rem;
-  font-weight: 700;
+.orange {
+  background: rgba(249, 115, 22, 0.1);
 }
 
-.emptyText {
-  margin: 0;
+/* ==========================================
+   RESPONSIVE
+========================================== */
 
-  max-width: 460px;
-
-  color: #64748b;
-
-  font-size: 1rem;
-  line-height: 1.75;
-}
-
-/* =========================
-   Responsive
-========================= */
-
-@media (max-width: 1199px) {
+@media (max-width: 1100px) {
   .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 768px) {
   .section {
-    padding: 4rem 0;
+    padding: 3rem 0;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .grid {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
   }
 
   .card {
-    min-height: 180px;
-    border-radius: 24px;
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .subtitle {
-    font-size: 0.95rem;
-  }
-
-  .footer {
-    margin-top: 2rem;
-  }
-
-  .emptyState {
-    min-height: 280px;
-    border-radius: 24px;
-    padding: 2rem 1.5rem;
+    padding: 18px;
   }
 }
 
 @media (max-width: 480px) {
-  .section {
-    padding: 3.25rem 0;
+  .container {
+    padding: 0 16px;
   }
 
   .iconWrapper {
-    width: 68px;
-    height: 68px;
-  }
-
-  .icon {
-    font-size: 1.75rem;
+    width: 56px;
+    height: 56px;
   }
 
   .cardTitle {
-    font-size: 1.05rem;
-  }
-
-  .cardCount {
-    font-size: 0.9rem;
+    font-size: 16px;
   }
 }

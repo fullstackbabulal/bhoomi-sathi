@@ -1,33 +1,41 @@
 "use client";
 
+// ======================================================
+// File: components/home/Gallery.jsx
+// Description: Property Gallery
+// UI Match: Bhoomi Sathi Target Homepage
+// ======================================================
+
 import Image from "next/image";
 import styles from "./Gallery.module.css";
 
-// ======================================================
-// FALLBACK IMAGES
-// ======================================================
 const FALLBACK_IMAGES = [
   {
     id: 1,
-    image: "https://placehold.co/1200x800?text=Luxury+Living+Room",
-    title: "Luxury Living Room",
+    image: "https://placehold.co/1200x900?text=Luxury+Villa",
+    title: "Luxury Villa",
+  },
+  {
+    id: 2,
+    image: "https://placehold.co/1200x900?text=Modern+Apartment",
+    title: "Modern Apartment",
+  },
+  {
+    id: 3,
+    image: "https://placehold.co/1200x900?text=Commercial+Space",
+    title: "Commercial Space",
   },
 ];
 
-// ======================================================
-// HELPERS
-// ======================================================
 const isValidImageUrl = (value) => {
   if (!value || typeof value !== "string") {
     return false;
   }
 
-  // local uploads path
   if (value.startsWith("/")) {
     return true;
   }
 
-  // external URL
   try {
     new URL(value);
     return true;
@@ -36,46 +44,35 @@ const isValidImageUrl = (value) => {
   }
 };
 
-// ======================================================
-// COMPONENT
-// ======================================================
 export default function Gallery({
   images = [],
   title = "Property Gallery",
-  description = "Explore premium property visuals and discover beautiful living spaces.",
+  description = "Explore beautiful spaces from premium verified properties.",
 }) {
-  // ====================================================
-  // SAFE IMAGES
-  // ====================================================
   const galleryImages = Array.isArray(images)
     ? images
         .map((item, index) => {
-          const imageUrl =
+          const image =
             typeof item === "string" ? item : item?.image || item?.url || "";
-
-          const imageTitle = item?.title || `Property View ${index + 1}`;
 
           return {
             id: item?.id || index,
 
-            image: imageUrl,
+            image,
 
-            title: imageTitle,
+            title: item?.title || `Property View ${index + 1}`,
           };
         })
         .filter((item) => isValidImageUrl(item.image))
     : [];
 
   const finalImages =
-    galleryImages.length > 0 ? galleryImages : FALLBACK_IMAGES;
+    galleryImages.length > 0 ? galleryImages.slice(0, 6) : FALLBACK_IMAGES;
 
-  // ====================================================
-  // RENDER
-  // ====================================================
   return (
-    <section className={styles.gallerySection}>
-      <div className="container">
-        {/* Header */}
+    <section className={styles.section}>
+      <div className={styles.container}>
+        {/* HEADER */}
         <div className={styles.header}>
           <span className={styles.badge}>Gallery</span>
 
@@ -84,10 +81,15 @@ export default function Gallery({
           <p className={styles.description}>{description}</p>
         </div>
 
-        {/* Gallery */}
+        {/* GRID */}
         <div className={styles.galleryGrid}>
           {finalImages.map((item, index) => (
-            <article key={item.id} className={styles.card}>
+            <article
+              key={item.id}
+              className={`${styles.card} ${
+                index % 3 === 0 ? styles.large : ""
+              }`}
+            >
               <div className={styles.imageWrapper}>
                 <Image
                   src={item.image}
@@ -96,17 +98,19 @@ export default function Gallery({
                   priority={index < 2}
                   className={styles.image}
                   sizes="
-                      (max-width:768px) 100vw,
-                      (max-width:1200px) 50vw,
-                      33vw
-                    "
+                    (max-width:768px) 100vw,
+                    (max-width:1200px) 50vw,
+                    33vw
+                  "
                   unoptimized
                 />
 
                 <div className={styles.overlay} />
 
-                <div className={styles.overlayContent}>
-                  <h4 className={styles.overlayTitle}>{item.title}</h4>
+                <div className={styles.content}>
+                  <span className={styles.caption}>Premium Property</span>
+
+                  <h3 className={styles.imageTitle}>{item.title}</h3>
                 </div>
               </div>
             </article>

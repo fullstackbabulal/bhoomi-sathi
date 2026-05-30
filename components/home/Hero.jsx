@@ -1,7 +1,14 @@
 "use client";
 
+// ======================================================
+// File: components/home/Hero.jsx
+// Description: Bhoomi Sathi Premium Hero
+// Target UI Match
+// ======================================================
+
 import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+
 import styles from "./Hero.module.css";
 
 const POPULAR_LOCATIONS = [
@@ -42,13 +49,17 @@ const HERO_IMAGE =
 export default function Hero() {
   const router = useRouter();
 
-  const [location, setLocation] = useState("");
+  const [city, setCity] = useState("");
+
   const [propertyType, setPropertyType] = useState("");
-  const [budget, setBudget] = useState("");
+
   const [loading, setLoading] = useState(false);
 
-  const trimmedLocation = useMemo(() => location.trim(), [location]);
+  const trimmedCity = useMemo(() => city.trim(), [city]);
 
+  // ======================================================
+  // SEARCH
+  // ======================================================
   const handleSearch = useCallback(async () => {
     if (loading) return;
 
@@ -57,16 +68,14 @@ export default function Hero() {
     try {
       const params = new URLSearchParams();
 
-      if (trimmedLocation) {
-        params.set("location", trimmedLocation);
+      // city
+      if (trimmedCity) {
+        params.set("city", trimmedCity);
       }
 
+      // type
       if (propertyType) {
         params.set("type", propertyType);
-      }
-
-      if (budget) {
-        params.set("budget", budget);
       }
 
       const query = params.toString();
@@ -75,16 +84,28 @@ export default function Hero() {
     } finally {
       setLoading(false);
     }
-  }, [budget, loading, propertyType, router, trimmedLocation]);
+  }, [loading, propertyType, router, trimmedCity]);
 
+  // ======================================================
+  // POPULAR LOCATION
+  // ======================================================
   const handlePopularLocation = useCallback(
-    (city) => {
-      setLocation(city);
+    (location) => {
+      setCity(location);
 
-      router.push(`/properties?location=${encodeURIComponent(city)}`);
+      router.push(`/properties?city=${encodeURIComponent(location)}`);
     },
     [router],
   );
+
+  // ======================================================
+  // ENTER KEY
+  // ======================================================
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   return (
     <section className={styles.hero}>
@@ -120,20 +141,23 @@ export default function Hero() {
             across India.
           </p>
 
-          {/* Search Panel */}
+          {/* Search */}
           <div className={styles.searchCard}>
+            {/* LOCATION */}
             <div className={styles.field}>
               <label className={styles.label}>Location</label>
 
               <input
                 type="text"
-                value={location}
+                value={city}
                 placeholder="Enter city or locality"
-                onChange={(e) => setLocation(e.target.value)}
+                onChange={(e) => setCity(e.target.value)}
+                onKeyDown={handleKeyDown}
                 className={styles.input}
               />
             </div>
 
+            {/* TYPE */}
             <div className={styles.field}>
               <label className={styles.label}>Property Type</label>
 
@@ -143,36 +167,27 @@ export default function Hero() {
                 className={styles.select}
               >
                 <option value="">Select type</option>
-                <option value="Apartment">Apartment</option>
-                <option value="Villa">Villa</option>
-                <option value="Plot">Plot</option>
-                <option value="Commercial">Commercial</option>
+
+                <option value="plot">Plot</option>
+
+                <option value="apartment">Apartment</option>
+
+                <option value="house">House</option>
+
+                <option value="villa">Villa</option>
+
+                <option value="commercial">Commercial</option>
               </select>
             </div>
 
-            <div className={styles.field}>
-              <label className={styles.label}>Budget</label>
-
-              <select
-                value={budget}
-                onChange={(e) => setBudget(e.target.value)}
-                className={styles.select}
-              >
-                <option value="">Select budget</option>
-                <option value="25">Under 25 Lakh</option>
-                <option value="50">Under 50 Lakh</option>
-                <option value="100">Under 1 Cr</option>
-                <option value="100+">Above 1 Cr</option>
-              </select>
-            </div>
-
+            {/* SEARCH */}
             <button
               type="button"
               disabled={loading}
               onClick={handleSearch}
               className={styles.searchButton}
             >
-              {loading ? "Searching..." : "🔍 Search Property"}
+              {loading ? "Searching..." : "Search Property"}
             </button>
           </div>
 
@@ -180,21 +195,25 @@ export default function Hero() {
           <div className={styles.locations}>
             <span className={styles.locationsText}>Popular Locations:</span>
 
-            {POPULAR_LOCATIONS.map((city) => (
+            {POPULAR_LOCATIONS.map((location) => (
               <button
-                key={city}
+                key={location}
                 type="button"
-                onClick={() => handlePopularLocation(city)}
+                onClick={() => handlePopularLocation(location)}
                 className={styles.locationButton}
               >
-                {city}
+                {location}
               </button>
             ))}
           </div>
 
-          {/* CTA Buttons */}
+          {/* CTA */}
           <div className={styles.actions}>
-            <button type="button" className={styles.primaryBtn}>
+            <button
+              type="button"
+              className={styles.primaryBtn}
+              onClick={() => router.push("/properties")}
+            >
               Explore Properties →
             </button>
 

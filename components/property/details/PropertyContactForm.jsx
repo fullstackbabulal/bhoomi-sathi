@@ -4,10 +4,10 @@
 // File: components/property/details/PropertyContactForm.jsx
 // Description: Property Contact / Enquiry Form
 // UI Match: Bhoomi Sathi Property Details Design
-// Styling: CSS Modules + Lucide React
+// API: POST /api/enquiries
 // ======================================================
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "./PropertyContactForm.module.css";
 
@@ -21,18 +21,64 @@ import {
 } from "lucide-react";
 
 export default function PropertyContactForm({ property = {}, onSubmit }) {
-  const { title = "Luxury 3 BHK Apartment" } = property;
+  // ======================================================
+  // PROPERTY DATA
+  // ======================================================
+  const { _id, title = "Luxury Property" } = property;
 
+  // ======================================================
+  // FORM START TIME
+  // Bot timing protection
+  // ======================================================
+  const [formLoadedAt, setFormLoadedAt] = useState(Date.now());
+
+  // ======================================================
+  // LOADING
+  // ======================================================
+  const [loading, setLoading] = useState(false);
+
+  // ======================================================
+  // FORM STATE
+  // ======================================================
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
     message: `Hi, I am interested in "${title}". Please contact me with more details.`,
     scheduleVisit: false,
+
+    // Honeypot
+    website: "",
   });
 
-  const [loading, setLoading] = useState(false);
+  // ======================================================
+  // RESET TIMER
+  // ======================================================
+  useEffect(() => {
+    setFormLoadedAt(Date.now());
+  }, []);
 
+  // ======================================================
+  // AUTO CHECK SITE VISIT
+  // ======================================================
+  useEffect(() => {
+    const handleBookVisit = () => {
+      setFormData((prev) => ({
+        ...prev,
+        scheduleVisit: true,
+      }));
+    };
+
+    window.addEventListener("book-site-visit", handleBookVisit);
+
+    return () => {
+      window.removeEventListener("book-site-visit", handleBookVisit);
+    };
+  }, []);
+
+  // ======================================================
+  // INPUT CHANGE
+  // ======================================================
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -42,29 +88,100 @@ export default function PropertyContactForm({ property = {}, onSubmit }) {
     }));
   };
 
+  // ======================================================
+  // SUBMIT
+  // ======================================================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       setLoading(true);
 
+      // ==========================
+      // HONEYPOT CHECK
+      // ==========================
+      if (formData.website?.trim()) {
+        console.warn("Bot detected (honeypot)");
+        return;
+      }
+
+      // ==========================
+      // BOT TIMING CHECK
+      // ==========================
+      const timeTaken = Date.now() - formLoadedAt;
+
+      if (timeTaken < 3000) {
+        alert("Please wait a moment before submitting.");
+        return;
+      }
+
+      // Parent override
       if (onSubmit) {
         await onSubmit(formData);
-      } else {
-        console.log("Property Enquiry:", formData);
+        return;
       }
+
+      // ==========================
+      // API REQUEST
+      // ==========================
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
+      const response = await fetch(`${apiUrl}/api/enquiries`, {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          name: formData.name.trim(),
+
+          email: formData.email.trim(),
+
+          phone: formData.phone.trim(),
+
+          message: formData.message.trim(),
+
+          property: _id || null,
+
+          source: formData.scheduleVisit ? "site-visit" : "website",
+
+          scheduleVisit: formData.scheduleVisit,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.message || "Failed to submit enquiry");
+      }
+
+      alert(data?.message || "Enquiry submitted successfully");
+
+      // Reset form
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        message: `Hi, I am interested in "${title}". Please contact me with more details.`,
+        scheduleVisit: false,
+        website: "",
+      });
+
+      // Reset timer
+      setFormLoadedAt(Date.now());
     } catch (error) {
       console.error("Enquiry error:", error);
+
+      alert(error.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section className={styles.card}>
-      {/* ===================== */}
+    <section id="property-contact-form" className={styles.card}>
       {/* Header */}
-      {/* ===================== */}
       <div className={styles.header}>
         <h2 className={styles.heading}>Interested in this property?</h2>
 
@@ -73,10 +190,21 @@ export default function PropertyContactForm({ property = {}, onSubmit }) {
         </p>
       </div>
 
-      {/* ===================== */}
       {/* Form */}
-      {/* ===================== */}
       <form onSubmit={handleSubmit} className={styles.form}>
+        {/* Honeypot */}
+        <input
+          type="text"
+          name="website"
+          autoComplete="off"
+          tabIndex={-1}
+          value={formData.website}
+          onChange={handleChange}
+          style={{
+            display: "none",
+          }}
+        />
+
         {/* Name */}
         <div className={styles.field}>
           <label className={styles.label}>Full Name</label>
@@ -146,7 +274,6 @@ export default function PropertyContactForm({ property = {}, onSubmit }) {
               value={formData.message}
               onChange={handleChange}
               className={styles.textarea}
-              placeholder="Write your message"
             />
           </div>
         </div>
@@ -169,8 +296,8 @@ export default function PropertyContactForm({ property = {}, onSubmit }) {
         {/* Submit */}
         <button
           type="submit"
-          className={styles.submitButton}
           disabled={loading}
+          className={styles.submitButton}
         >
           <Send size={18} />
 

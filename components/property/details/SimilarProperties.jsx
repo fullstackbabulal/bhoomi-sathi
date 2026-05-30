@@ -1,12 +1,13 @@
 "use client";
 
 // ======================================================
-// File: components/property/details/PropertySimilar.jsx
+// File: components/property/details/SimilarProperties.jsx
 // Description: Similar Properties Section
 // UI Match: Bhoomi Sathi Property Details Design
-// Styling: CSS Modules + Lucide React
-// Dynamic Data Only
+// API: /api/properties/similar/:id
 // ======================================================
+
+import { useEffect, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -23,7 +24,19 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-export default function SimilarProperties({ properties = [] }) {
+export default function SimilarProperties({ property = {} }) {
+  // ======================================================
+  // STATE
+  // ======================================================
+  const [properties, setProperties] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+  // ======================================================
+  // PROPERTY ID
+  // ======================================================
+  const propertyId = property?._id || "";
+
   // ======================================================
   // FORMAT PRICE
   // ======================================================
@@ -32,7 +45,53 @@ export default function SimilarProperties({ properties = [] }) {
   };
 
   // ======================================================
-  // NO DATA
+  // FETCH SIMILAR PROPERTIES
+  // ======================================================
+  useEffect(() => {
+    const fetchSimilarProperties = async () => {
+      try {
+        if (!propertyId) {
+          setLoading(false);
+          return;
+        }
+
+        const apiUrl =
+          process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
+        const response = await fetch(
+          `${apiUrl}/api/properties/similar/${propertyId}`,
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data?.success) {
+          throw new Error(
+            data?.message || "Failed to fetch similar properties",
+          );
+        }
+
+        setProperties(data?.data || []);
+      } catch (error) {
+        console.error("SIMILAR PROPERTIES ERROR:", error);
+
+        setProperties([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSimilarProperties();
+  }, [propertyId]);
+
+  // ======================================================
+  // LOADING
+  // ======================================================
+  if (loading) {
+    return null;
+  }
+
+  // ======================================================
+  // EMPTY STATE
   // ======================================================
   if (!Array.isArray(properties) || properties.length === 0) {
     return null;
@@ -62,41 +121,39 @@ export default function SimilarProperties({ properties = [] }) {
       {/* Cards */}
       {/* ===================== */}
       <div className={styles.grid}>
-        {properties.map((property) => {
-          // ======================================================
-          // SAFE VALUES
-          // ======================================================
+        {properties.map((propertyItem) => {
           const image =
-            property?.images?.[0]?.url || "/images/property-placeholder.jpg";
+            propertyItem?.thumbnail ||
+            propertyItem?.images?.[0]?.url ||
+            "/images/property-placeholder.jpg";
 
-          const location = [property?.location?.city, property?.location?.state]
+          const location = [
+            propertyItem?.location?.city,
+
+            propertyItem?.location?.state,
+          ]
             .filter(Boolean)
             .join(", ");
 
           return (
-            <article key={property?._id} className={styles.card}>
-              {/* ===================== */}
+            <article key={propertyItem?._id} className={styles.card}>
               {/* Image */}
-              {/* ===================== */}
               <div className={styles.imageWrapper}>
                 <Image
                   src={image}
-                  alt={property?.title || "Property"}
+                  alt={propertyItem?.title || "Property"}
                   fill
                   className={styles.image}
                   sizes="(max-width:768px) 100vw, 33vw"
-                  loading="eager"
                 />
 
-                {/* ===================== */}
                 {/* Badges */}
-                {/* ===================== */}
                 <div className={styles.badges}>
-                  {property?.isFeatured && (
+                  {propertyItem?.isFeatured && (
                     <span className={styles.featuredBadge}>Featured</span>
                   )}
 
-                  {property?.isVerified && (
+                  {propertyItem?.isVerified && (
                     <span className={styles.verifiedBadge}>
                       <BadgeCheck size={14} />
                       Verified
@@ -104,20 +161,16 @@ export default function SimilarProperties({ properties = [] }) {
                   )}
                 </div>
 
-                {/* ===================== */}
-                {/* Save Button */}
-                {/* ===================== */}
+                {/* Save */}
                 <button type="button" className={styles.saveButton}>
                   <Heart size={18} />
                 </button>
               </div>
 
-              {/* ===================== */}
               {/* Content */}
-              {/* ===================== */}
               <div className={styles.content}>
                 <h3 className={styles.title}>
-                  {property?.title || "Untitled Property"}
+                  {propertyItem?.title || "Untitled Property"}
                 </h3>
 
                 <div className={styles.location}>
@@ -127,40 +180,38 @@ export default function SimilarProperties({ properties = [] }) {
                 </div>
 
                 <h4 className={styles.price}>
-                  ₹{formatPrice(property?.price)}
+                  ₹{formatPrice(propertyItem?.price)}
                 </h4>
 
-                {/* ===================== */}
                 {/* Meta */}
-                {/* ===================== */}
                 <div className={styles.meta}>
                   <div className={styles.metaItem}>
                     <BedDouble size={16} />
 
-                    <span>{property?.bedrooms || 0} Beds</span>
+                    <span>{propertyItem?.bedrooms || 0} Beds</span>
                   </div>
 
                   <div className={styles.metaItem}>
                     <Bath size={16} />
 
-                    <span>{property?.bathrooms || 0} Bath</span>
+                    <span>{propertyItem?.bathrooms || 0} Bath</span>
                   </div>
 
                   <div className={styles.metaItem}>
                     <Square size={16} />
 
                     <span>
-                      {property?.area?.value || 0}{" "}
-                      {property?.area?.unit || "sqft"}
+                      {propertyItem?.area?.value || 0}{" "}
+                      {propertyItem?.area?.unit || "sqft"}
                     </span>
                   </div>
                 </div>
 
-                {/* ===================== */}
                 {/* CTA */}
-                {/* ===================== */}
                 <Link
-                  href={`/properties/${property?.slug || property?._id}`}
+                  href={`/properties/${
+                    propertyItem?.slug || propertyItem?._id
+                  }`}
                   className={styles.button}
                 >
                   View Details

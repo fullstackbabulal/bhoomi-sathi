@@ -1,7 +1,12 @@
-/* frontend/components/home/Category.jsx */
-
 "use client";
 
+// ======================================================
+// File: components/home/Category.jsx
+// Description: Property Categories
+// UI Match: Bhoomi Sathi Homepage
+// ======================================================
+
+import Link from "next/link";
 import styles from "./Category.module.css";
 
 const DEFAULT_CATEGORIES = [
@@ -11,6 +16,7 @@ const DEFAULT_CATEGORIES = [
     count: "2,430+",
     icon: "🏢",
     color: "blue",
+    type: "apartment",
   },
   {
     id: 2,
@@ -18,13 +24,15 @@ const DEFAULT_CATEGORIES = [
     count: "1,245+",
     icon: "🏡",
     color: "green",
+    type: "villa",
   },
   {
     id: 3,
-    title: "Residential Plot",
+    title: "Plot",
     count: "3,210+",
     icon: "🌿",
     color: "lime",
+    type: "plot",
   },
   {
     id: 4,
@@ -32,6 +40,7 @@ const DEFAULT_CATEGORIES = [
     count: "1,120+",
     icon: "🏬",
     color: "red",
+    type: "commercial",
   },
   {
     id: 5,
@@ -39,32 +48,36 @@ const DEFAULT_CATEGORIES = [
     count: "890+",
     icon: "🏙️",
     color: "purple",
+    type: "commercial",
   },
   {
     id: 6,
-    title: "Farm House",
+    title: "House",
     count: "560+",
     icon: "🏠",
     color: "orange",
+    type: "house",
   },
 ];
 
 export default function Category({
   categories = [],
-  title = "Property Categories",
-  description = "Explore property types across verified listings.",
+  title = "Browse By Property Category",
+  description = "Find the right property type from verified listings.",
 }) {
   const safeCategories =
     Array.isArray(categories) && categories.length > 0
       ? categories.filter(Boolean)
       : DEFAULT_CATEGORIES;
 
-  const hasCategories = safeCategories.length > 0;
+  if (!safeCategories.length) {
+    return null;
+  }
 
   return (
     <section className={styles.section} aria-labelledby="category-heading">
       <div className={styles.container}>
-        {/* Header */}
+        {/* HEADER */}
         <div className={styles.header}>
           <div className={styles.headingBlock}>
             <span className={styles.badge}>Categories</span>
@@ -75,53 +88,36 @@ export default function Category({
 
             <p className={styles.subtitle}>{description}</p>
           </div>
+
+          <Link href="/properties" className={styles.viewAllButton}>
+            View All →
+          </Link>
         </div>
 
-        {/* Empty State */}
-        {!hasCategories ? (
-          <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>🏘️</div>
+        {/* GRID */}
+        <div className={styles.grid}>
+          {safeCategories.map((category) => (
+            <Link
+              key={category.id}
+              href={`/properties?type=${category.type}`}
+              className={styles.card}
+            >
+              <div
+                className={`${styles.iconWrapper} ${styles[category.color]}`}
+              >
+                <span className={styles.icon} aria-hidden="true">
+                  {category.icon}
+                </span>
+              </div>
 
-            <h3 className={styles.emptyTitle}>No Categories Available</h3>
+              <div className={styles.cardContent}>
+                <h3 className={styles.cardTitle}>{category.title}</h3>
 
-            <p className={styles.emptyText}>
-              Property categories will appear here when listings become
-              available.
-            </p>
-          </div>
-        ) : (
-          <>
-            <div className={styles.grid}>
-              {safeCategories.map((category, index) => {
-                const { id, title, count, icon, color } = category;
-
-                return (
-                  <article key={id || index} className={styles.card}>
-                    <div
-                      className={`${styles.iconWrapper} ${
-                        styles[color || "blue"]
-                      }`}
-                    >
-                      <span className={styles.icon} aria-hidden="true">
-                        {icon}
-                      </span>
-                    </div>
-
-                    <h3 className={styles.cardTitle}>{title}</h3>
-
-                    <p className={styles.cardCount}>{count}</p>
-                  </article>
-                );
-              })}
-            </div>
-
-            <div className={styles.footer}>
-              <button type="button" className={styles.viewAllButton}>
-                View All Categories →
-              </button>
-            </div>
-          </>
-        )}
+                <p className={styles.cardCount}>{category.count} Properties</p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );

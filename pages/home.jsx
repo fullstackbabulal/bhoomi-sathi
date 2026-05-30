@@ -16,6 +16,7 @@ import Testimonials from "@/components/home/Testimonials";
 import LatestBlog from "@/components/home/LatestBlog";
 import CallToAction from "@/components/home/CallToAction";
 import styles from "./Home.module.css";
+import WhyChoose from "@/components/home/WhyChoose";
 // ======================================================
 // COMPONENT
 // ======================================================
@@ -54,26 +55,27 @@ const Home = ({ properties = [] }) => {
         {/* HERO */}
         <Hero />
 
-        {/* FEATURED */}
-        <div className={styles.splitSection}>
-          {/* CATEGORY */}
-          <Category />
+        {/*Featured Property */}
+        <FeaturedProperties properties={properties} />
 
-          {/* GALLERY */}
-          <Gallery
-            images={galleryImages}
-            title="Property Showcase"
-            description="Discover premium properties from verified listings across top locations."
-          />
-          {/* TESTIMONIALS */}
-          <Testimonials />
+        {/* CATEGORY */}
+        <Category />
 
-          {/* BLOG */}
-          <LatestBlog />
+        {/* GALLERY */}
+        <Gallery
+          images={galleryImages}
+          title="Property Showcase"
+          description="Discover premium properties from verified listings across top locations."
+        />
+        <WhyChoose />
+        {/* TESTIMONIALS */}
+        <Testimonials />
 
-          {/* CTA */}
-          <CallToAction />
-        </div>
+        {/* BLOG */}
+        <LatestBlog />
+
+        {/* CTA */}
+        <CallToAction />
       </main>
 
       {/* FOOTER */}

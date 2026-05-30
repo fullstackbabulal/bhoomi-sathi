@@ -25,6 +25,7 @@ const {
   deleteProperty,
   getNearbyProperties,
   getFeaturedProperties,
+  getSimilarProperties,
   uploadPropertyMedia,
 } = require("../controllers/property.controller");
 
@@ -54,6 +55,9 @@ router.get("/featured", getFeaturedProperties);
 
 // Nearby properties
 router.get("/nearby", getNearbyProperties);
+
+// Similar properties
+router.get("/similar/:id", getSimilarProperties);
 
 // Property by slug
 router.get("/slug/:slug", getPropertyBySlug);

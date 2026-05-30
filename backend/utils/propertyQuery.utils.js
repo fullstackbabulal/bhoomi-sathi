@@ -1,5 +1,5 @@
 // ======================================================
-// File: utils/propertyQuery.js
+// File: backend/utils/propertyQuery.utils.js
 // Description: Property Query Utility
 // Purpose: Build property query + execute search
 // ======================================================
@@ -30,25 +30,30 @@ const buildPropertyQuery = (params = {}) => {
   }
 
   // ======================================================
-  // PROPERTY TYPE FILTER
+  // PROPERTY TYPE
+  // Normalize casing
   // ======================================================
-  if (type) {
-    query.type = type;
+  if (type?.trim()) {
+    query.type = String(type).trim().toLowerCase();
   }
 
   // ======================================================
   // CITY FILTER
+  // Case-insensitive search
   // ======================================================
-  if (city) {
-    query["location.city"] = city;
+  if (city?.trim()) {
+    query["location.city"] = {
+      $regex: `^${city.trim()}$`,
+      $options: "i",
+    };
   }
 
   // ======================================================
-  // KEYWORD SEARCH (TEXT INDEX)
+  // KEYWORD SEARCH
   // ======================================================
-  if (keyword) {
+  if (keyword?.trim()) {
     query.$text = {
-      $search: keyword,
+      $search: keyword.trim(),
     };
   }
 
@@ -62,18 +67,22 @@ const executePropertySearch = async ({
   query = {},
   page = 1,
   limit = 10,
-  sort = {},
+  sort = {
+    createdAt: -1,
+  },
 }) => {
   const currentPage = Number(page) || 1;
+
   const pageLimit = Number(limit) || 10;
 
   const skip = (currentPage - 1) * pageLimit;
 
   const properties = await Property.find(query)
-    .populate("postedBy", "name")
+    .populate("postedBy", "name email phone")
     .sort(sort)
     .skip(skip)
-    .limit(pageLimit);
+    .limit(pageLimit)
+    .lean();
 
   const total = await Property.countDocuments(query);
 

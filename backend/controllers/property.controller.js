@@ -905,6 +905,184 @@ const uploadPropertyMedia = async (req, res) => {
 };
 
 // ======================================================
+// GET SIMILAR PROPERTIES
+// Description:
+// Priority Strategy:
+// 1. Same City + Same Type
+// 2. Same City
+// 3. Same Type
+// Excludes current property
+// ======================================================
+const getSimilarProperties = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const limit = Number(req.query.limit) || 6;
+
+    // ==========================================
+    // VALIDATE PROPERTY ID
+    // ==========================================
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid property ID",
+      });
+    }
+
+    // ==========================================
+    // FIND CURRENT PROPERTY
+    // ==========================================
+    const currentProperty = await Property.findById(id)
+      .select("type location.city status")
+      .lean();
+
+    if (!currentProperty) {
+      return res.status(404).json({
+        success: false,
+        message: "Property not found",
+      });
+    }
+
+    const city = currentProperty?.location?.city || "";
+
+    const type = currentProperty?.type || "";
+
+    // ==========================================
+    // CACHE KEY
+    // ==========================================
+    const cacheKey = generateCacheKey("similar-properties", {
+      id,
+      city,
+      type,
+      limit,
+    });
+
+    // ==========================================
+    // CACHE WRAPPER
+    // ==========================================
+    const result = await cacheWrapper({
+      key: cacheKey,
+
+      fetchFunction: async () => {
+        const baseSelect = `
+              _id
+              title
+              slug
+              price
+              type
+              listingType
+              status
+              thumbnail
+              images
+              bedrooms
+              bathrooms
+              area
+              location
+              isFeatured
+              isVerified
+              createdAt
+            `;
+
+        let properties = [];
+
+        // ==========================================
+        // STRATEGY 1
+        // SAME CITY + SAME TYPE
+        // ==========================================
+        properties = await Property.find({
+          _id: {
+            $ne: id,
+          },
+
+          "location.city": city,
+
+          type,
+
+          status: "available",
+        })
+          .select(baseSelect)
+          .sort({
+            createdAt: -1,
+          })
+          .limit(limit)
+          .lean();
+
+        // ==========================================
+        // STRATEGY 2
+        // SAME CITY
+        // ==========================================
+        if (!properties.length) {
+          properties = await Property.find({
+            _id: {
+              $ne: id,
+            },
+
+            "location.city": city,
+
+            status: "available",
+          })
+            .select(baseSelect)
+            .sort({
+              createdAt: -1,
+            })
+            .limit(limit)
+            .lean();
+        }
+
+        // ==========================================
+        // STRATEGY 3
+        // SAME TYPE
+        // ==========================================
+        if (!properties.length) {
+          properties = await Property.find({
+            _id: {
+              $ne: id,
+            },
+
+            type,
+
+            status: "available",
+          })
+            .select(baseSelect)
+            .sort({
+              createdAt: -1,
+            })
+            .limit(limit)
+            .lean();
+        }
+
+        return properties;
+      },
+    });
+
+    // ==========================================
+    // RESPONSE
+    // ==========================================
+    return res.status(200).json({
+      success: true,
+
+      total: result.data.length,
+
+      source: result.source,
+
+      filters: {
+        city,
+        type,
+      },
+
+      data: result.data,
+    });
+  } catch (error) {
+    console.error("GET SIMILAR PROPERTIES ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Failed to fetch similar properties",
+    });
+  }
+};
+
+// ======================================================
 module.exports = {
   uploadPropertyMedia,
   createProperty,
@@ -915,4 +1093,5 @@ module.exports = {
   deleteProperty,
   getFeaturedProperties,
   getNearbyProperties,
+  getSimilarProperties,
 };

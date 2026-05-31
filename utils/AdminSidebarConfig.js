@@ -32,7 +32,7 @@ const ADMIN_SIDEBAR_CONFIG = [
     children: [
       {
         label: "All Properties",
-        path: "/admin/properties",
+        path: "/admin/properties/all",
       },
 
       {

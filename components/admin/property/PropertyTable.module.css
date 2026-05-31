@@ -1,0 +1,136 @@
+/* ======================================================
+   File: PropertyTable.module.css
+   Description: Property Table Layout
+   Mobile First Design
+====================================================== */
+
+.tableSection {
+  width: 100%;
+}
+
+/* ======================================================
+   TABLE CONTAINER
+====================================================== */
+
+.tableWrapper {
+  width: 100%;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid #e8edf5;
+  border-radius: 1.5rem;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ======================================================
+   TABLE
+====================================================== */
+
+.table {
+  width: 100%;
+  min-width: 1100px;
+
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* ======================================================
+   TABLE HEAD
+====================================================== */
+
+.tableHead {
+  background: #f8fafc;
+}
+
+.tableHead tr th {
+  padding: 1rem 1.25rem;
+
+  text-align: left;
+  white-space: nowrap;
+
+  border-bottom: 1px solid #e8edf5;
+
+  color: #64748b;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* ======================================================
+   TABLE BODY
+====================================================== */
+
+.tableBody tr {
+  transition: background-color 0.2s ease;
+}
+
+.tableBody tr:hover {
+  background: #f8fafc;
+}
+
+.tableBody tr:not(:last-child) {
+  border-bottom: 1px solid #eef2f7;
+}
+
+/* ======================================================
+   SCROLLBAR
+====================================================== */
+
+.tableWrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 999px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (min-width: 768px) {
+  .tableHead tr th {
+    padding: 1rem 1.5rem;
+    font-size: 0.82rem;
+  }
+}
+
+/* ======================================================
+   DESKTOP
+====================================================== */
+
+@media (min-width: 1024px) {
+  .table {
+    min-width: 100%;
+  }
+
+  .tableHead tr th {
+    padding: 1.15rem 1.5rem;
+  }
+}
+
+/* ======================================================
+   LARGE DESKTOP
+====================================================== */
+
+@media (min-width: 1440px) {
+  .tableHead tr th {
+    padding: 1.25rem 1.75rem;
+  }
+}

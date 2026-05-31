@@ -1,0 +1,313 @@
+/* ======================================================
+   File: LoadingPropertySkeleton.module.css
+   Description: Properties Loading Skeleton
+   Mobile First Design
+====================================================== */
+
+.section {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 1.5rem;
+}
+
+/* ======================================================
+   SHIMMER ANIMATION
+====================================================== */
+
+@keyframes shimmer {
+  0% {
+    background-position: -1200px 0;
+  }
+
+  100% {
+    background-position: 1200px 0;
+  }
+}
+
+.statCard,
+.filterItem,
+.row,
+.image,
+.title,
+.subtitle,
+.meta,
+.badge,
+.actionButton {
+  background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+
+  background-size: 1200px 100%;
+
+  animation: shimmer 1.8s infinite linear;
+}
+
+/* ======================================================
+   STATS
+====================================================== */
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  gap: 1rem;
+}
+
+.statCard {
+  min-height: 140px;
+
+  padding: 1.25rem;
+
+  border-radius: 1.5rem;
+
+  overflow: hidden;
+}
+
+.statTitle {
+  width: 45%;
+  height: 14px;
+
+  margin-bottom: 1rem;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.statValue {
+  width: 90px;
+  height: 42px;
+
+  margin-bottom: 1rem;
+
+  border-radius: 0.75rem;
+
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.statDescription {
+  width: 70%;
+  height: 12px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* ======================================================
+   FILTERS
+====================================================== */
+
+.filters {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  gap: 1rem;
+}
+
+.filterItem {
+  height: 54px;
+
+  border-radius: 1rem;
+}
+
+/* ======================================================
+   TABLE
+====================================================== */
+
+.table {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.875rem;
+
+  padding: 1rem;
+
+  border: 1px solid #e8edf5;
+  border-radius: 1.5rem;
+
+  background: #ffffff;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+
+  gap: 1rem;
+
+  padding: 1rem;
+
+  border-radius: 1.25rem;
+
+  overflow: hidden;
+}
+
+.image {
+  width: 72px;
+  height: 72px;
+
+  flex-shrink: 0;
+
+  border-radius: 1rem;
+}
+
+.content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.75rem;
+}
+
+.title {
+  width: 70%;
+  height: 16px;
+
+  border-radius: 999px;
+}
+
+.subtitle {
+  width: 40%;
+  height: 12px;
+
+  border-radius: 999px;
+}
+
+.meta {
+  width: 90px;
+  height: 18px;
+
+  border-radius: 999px;
+
+  flex-shrink: 0;
+}
+
+.badge {
+  width: 90px;
+  height: 36px;
+
+  border-radius: 999px;
+
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 0.5rem;
+}
+
+.actionButton {
+  width: 72px;
+  height: 38px;
+
+  border-radius: 0.875rem;
+}
+
+/* ======================================================
+   SMALL TABLET
+====================================================== */
+
+@media (min-width: 640px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (min-width: 768px) {
+  .section {
+    gap: 1.75rem;
+  }
+
+  .statsGrid {
+    gap: 1.25rem;
+  }
+
+  .filters {
+    gap: 1.25rem;
+  }
+
+  .row {
+    padding: 1.1rem;
+  }
+
+  .image {
+    width: 80px;
+    height: 80px;
+  }
+
+  .actionButton {
+    height: 40px;
+  }
+}
+
+/* ======================================================
+   DESKTOP
+====================================================== */
+
+@media (min-width: 1024px) {
+  .section {
+    gap: 2rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .filters {
+    grid-template-columns:
+      minmax(260px, 2fr)
+      repeat(3, minmax(160px, 1fr))
+      auto;
+  }
+
+  .row {
+    gap: 1.25rem;
+    padding: 1.25rem;
+  }
+
+  .image {
+    width: 84px;
+    height: 84px;
+  }
+
+  .badge {
+    height: 40px;
+  }
+
+  .actionButton {
+    width: 76px;
+    height: 42px;
+  }
+}
+
+/* ======================================================
+   LARGE DESKTOP
+====================================================== */
+
+@media (min-width: 1440px) {
+  .table {
+    padding: 1.25rem;
+  }
+
+  .row {
+    padding: 1.35rem;
+  }
+
+  .image {
+    width: 90px;
+    height: 90px;
+  }
+}

@@ -1,0 +1,106 @@
+/* ======================================================
+   File: PropertyStatusBadge.module.css
+   Description: Property Status Badge
+   Mobile First Design
+====================================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 36px;
+
+  padding: 0.5rem 0.9rem;
+
+  border-radius: 999px;
+  border: 1px solid transparent;
+
+  white-space: nowrap;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+
+  text-transform: capitalize;
+
+  box-sizing: border-box;
+}
+
+/* ======================================================
+   STATUS: PUBLISHED
+====================================================== */
+
+.published {
+  color: #166534;
+  background: #dcfce7;
+  border-color: #bbf7d0;
+}
+
+/* ======================================================
+   STATUS: DRAFT
+====================================================== */
+
+.draft {
+  color: #92400e;
+  background: #fef3c7;
+  border-color: #fde68a;
+}
+
+/* ======================================================
+   STATUS: ARCHIVED
+====================================================== */
+
+.archived {
+  color: #475569;
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+/* ======================================================
+   STATUS: PENDING
+====================================================== */
+
+.pending {
+  color: #1d4ed8;
+  background: #dbeafe;
+  border-color: #bfdbfe;
+}
+
+/* ======================================================
+   STATUS: REJECTED
+====================================================== */
+
+.rejected {
+  color: #b91c1c;
+  background: #fee2e2;
+  border-color: #fecaca;
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (min-width: 768px) {
+  .badge {
+    min-height: 38px;
+
+    padding: 0.55rem 1rem;
+
+    font-size: 0.82rem;
+  }
+}
+
+/* ======================================================
+   DESKTOP
+====================================================== */
+
+@media (min-width: 1024px) {
+  .badge {
+    min-height: 40px;
+
+    padding: 0.6rem 1.1rem;
+
+    font-size: 0.85rem;
+  }
+}

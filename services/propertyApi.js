@@ -270,6 +270,32 @@ export const getFeaturedProperties = async () => {
 };
 
 // ======================================================
+// FETCH ADMIN PROPERTIES
+// Admin Dashboard Property Listing
+// ======================================================
+export const getAdminProperties = async (params = {}) => {
+  try {
+    const { data } = await API.get("/properties/admin/all", {
+      params,
+    });
+
+    return {
+      ...data,
+
+      properties: data?.properties?.map(normalizeProperty) || [],
+    };
+  } catch (error) {
+    console.error("Get admin properties error:", error);
+
+    throw (
+      error?.response?.data || {
+        message: "Failed to fetch admin properties",
+      }
+    );
+  }
+};
+
+// ======================================================
 // EXPORT
 // ======================================================
 export default {
@@ -280,4 +306,5 @@ export default {
   updateProperty,
   deleteProperty,
   getFeaturedProperties,
+  getAdminProperties,
 };

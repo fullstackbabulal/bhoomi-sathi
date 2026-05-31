@@ -1,9 +1,16 @@
+// ======================================================
+// File: frontend/next.config.ts
+// ======================================================
+
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["localhost", "127.0.0.1", "192.168.0.2"],
 
   images: {
+    // Fix localhost/private IP image blocking
+    dangerouslyAllowLocalIP: true,
+
     qualities: [75, 90],
 
     remotePatterns: [
@@ -25,6 +32,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+
       {
         protocol: "https",
         hostname: "ui-avatars.com",

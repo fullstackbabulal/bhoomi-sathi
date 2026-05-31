@@ -65,7 +65,7 @@ export default function DashboardHome({
       {
         title: "Add Agent",
         description: "Register and manage new agents",
-        href: "/admin/agents/new",
+        href: "/admin/agents/add",
         icon: "agent",
         variant: "green",
       },
@@ -79,7 +79,7 @@ export default function DashboardHome({
       {
         title: "Write Blog",
         description: "Create SEO-friendly blog content",
-        href: "/admin/blogs/new",
+        href: "/admin/blogs/add",
         icon: "blog",
         variant: "orange",
       },

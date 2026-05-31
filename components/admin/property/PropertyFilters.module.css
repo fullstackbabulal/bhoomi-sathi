@@ -1,0 +1,216 @@
+/* ======================================================
+   File: PropertyFilters.module.css
+   Description: Property Filters Toolbar
+   Mobile First Design
+====================================================== */
+
+.filtersSection {
+  width: 100%;
+}
+
+.filtersWrapper {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  padding: 1rem;
+
+  background: #ffffff;
+
+  border: 1px solid #e8edf5;
+  border-radius: 1.5rem;
+
+  box-sizing: border-box;
+}
+
+/* ======================================================
+   SEARCH
+====================================================== */
+
+.searchBox {
+  width: 100%;
+}
+
+.searchInput {
+  width: 100%;
+  height: 52px;
+
+  padding: 0 1rem;
+
+  border: 1px solid #dbe4f0;
+  border-radius: 1rem;
+
+  background: #ffffff;
+
+  color: #0f172a;
+
+  font-size: 0.95rem;
+
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+
+  box-sizing: border-box;
+}
+
+.searchInput::placeholder {
+  color: #94a3b8;
+}
+
+.searchInput:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+}
+
+/* ======================================================
+   SELECT
+====================================================== */
+
+.selectWrapper {
+  width: 100%;
+}
+
+.select {
+  width: 100%;
+  height: 52px;
+
+  padding: 0 1rem;
+
+  border: 1px solid #dbe4f0;
+  border-radius: 1rem;
+
+  background: #ffffff;
+
+  color: #0f172a;
+
+  font-size: 0.95rem;
+  font-weight: 500;
+
+  cursor: pointer;
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  box-sizing: border-box;
+}
+
+.select:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+}
+
+/* ======================================================
+   RESET BUTTON
+====================================================== */
+
+.resetButton {
+  width: 100%;
+  min-height: 52px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.875rem 1rem;
+
+  border: 1px solid #dbe4f0;
+  border-radius: 1rem;
+
+  background: #ffffff;
+
+  color: #334155;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+
+  box-sizing: border-box;
+}
+
+.resetButton:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.resetButton:active {
+  transform: translateY(1px);
+}
+
+/* ======================================================
+   SMALL TABLET
+====================================================== */
+
+@media (min-width: 640px) {
+  .filtersWrapper {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (min-width: 768px) {
+  .filtersWrapper {
+    padding: 1.25rem;
+    gap: 1.25rem;
+  }
+
+  .searchInput,
+  .select,
+  .resetButton {
+    height: 54px;
+  }
+}
+
+/* ======================================================
+   DESKTOP
+====================================================== */
+
+@media (min-width: 1024px) {
+  .filtersWrapper {
+    align-items: center;
+
+    grid-template-columns:
+      minmax(260px, 2fr)
+      repeat(3, minmax(160px, 1fr))
+      auto;
+
+    gap: 1rem;
+
+    padding: 1.5rem;
+  }
+
+  .resetButton {
+    width: auto;
+    min-width: 150px;
+    padding-inline: 1.5rem;
+  }
+}
+
+/* ======================================================
+   LARGE DESKTOP
+====================================================== */
+
+@media (min-width: 1440px) {
+  .filtersWrapper {
+    grid-template-columns:
+      minmax(320px, 2fr)
+      repeat(3, minmax(180px, 1fr))
+      auto;
+  }
+}

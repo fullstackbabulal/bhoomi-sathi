@@ -27,6 +27,7 @@ const {
   getFeaturedProperties,
   getSimilarProperties,
   uploadPropertyMedia,
+  getAdminProperties,
 } = require("../controllers/property.controller");
 
 // ======================================================
@@ -49,6 +50,13 @@ const propertyUploadFields = uploadMulter.fields([
 
 // Get all properties
 router.get("/", getProperties);
+
+router.get(
+  "/admin/all",
+  authMiddleware,
+  roleMiddleware("admin"),
+  getAdminProperties,
+);
 
 // Featured properties
 router.get("/featured", getFeaturedProperties);

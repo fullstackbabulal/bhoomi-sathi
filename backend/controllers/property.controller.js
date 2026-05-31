@@ -1083,6 +1083,125 @@ const getSimilarProperties = async (req, res) => {
 };
 
 // ======================================================
+// GET ADMIN PROPERTIES
+// Description:
+// Admin Property Listing
+// Includes all statuses
+// Admin protected route
+// ======================================================
+const getAdminProperties = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, search = "", status, type, sort } = req.query;
+
+    // ==========================================
+    // QUERY
+    // ==========================================
+    const query = {};
+
+    // search
+    if (search?.trim()) {
+      query.$or = [
+        {
+          title: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+
+        {
+          "location.city": {
+            $regex: search,
+            $options: "i",
+          },
+        },
+
+        {
+          slug: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+      ];
+    }
+
+    // status filter
+    if (status) {
+      query.status = status;
+    }
+
+    // type filter
+    if (type) {
+      query.type = type;
+    }
+
+    // ==========================================
+    // SORT
+    // ==========================================
+    let sortOption = {
+      createdAt: -1,
+    };
+
+    if (sort === "low") {
+      sortOption = {
+        price: 1,
+      };
+    }
+
+    if (sort === "high") {
+      sortOption = {
+        price: -1,
+      };
+    }
+
+    // ==========================================
+    // PAGINATION
+    // ==========================================
+    const currentPage = Number(page) || 1;
+
+    const pageLimit = Number(limit) || 10;
+
+    const skip = (currentPage - 1) * pageLimit;
+
+    // ==========================================
+    // FETCH
+    // ==========================================
+    const [properties, total] = await Promise.all([
+      Property.find(query)
+        .populate("postedBy", "name email phone")
+        .sort(sortOption)
+        .skip(skip)
+        .limit(pageLimit)
+        .lean(),
+
+      Property.countDocuments(query),
+    ]);
+
+    // ==========================================
+    // RESPONSE
+    // ==========================================
+    return res.status(200).json({
+      success: true,
+
+      properties,
+
+      pagination: {
+        total,
+        page: currentPage,
+        limit: pageLimit,
+        totalPages: Math.ceil(total / pageLimit),
+      },
+    });
+  } catch (error) {
+    console.error("GET ADMIN PROPERTIES ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Failed to fetch admin properties",
+    });
+  }
+};
+
+// ======================================================
 module.exports = {
   uploadPropertyMedia,
   createProperty,
@@ -1094,4 +1213,5 @@ module.exports = {
   getFeaturedProperties,
   getNearbyProperties,
   getSimilarProperties,
+  getAdminProperties,
 };

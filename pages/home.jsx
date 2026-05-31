@@ -15,11 +15,14 @@ import Gallery from "@/components/home/Gallery";
 import Testimonials from "@/components/home/Testimonials";
 import LatestBlog from "@/components/home/LatestBlog";
 import CallToAction from "@/components/home/CallToAction";
-import styles from "./Home.module.css";
 import WhyChoose from "@/components/home/WhyChoose";
+
+import styles from "./Home.module.css";
+
 // ======================================================
 // COMPONENT
 // ======================================================
+
 const Home = ({ properties = [] }) => {
   // ==========================================
   // SAFE PROPERTIES
@@ -40,47 +43,56 @@ const Home = ({ properties = [] }) => {
           id: image?._id || `${property?._id}-${index}`,
 
           image: image.url,
-
           title: property?.title || "Property Image",
         }));
     })
     .slice(0, 8);
 
   return (
-    <>
+    <div className={styles.page}>
       {/* NAVBAR */}
       <Navbar />
 
-      <main>
+      <main className={styles.main}>
         {/* HERO */}
         <Hero />
 
-        {/*Featured Property */}
-        <FeaturedProperties properties={properties} />
+        {/* FEATURED PROPERTIES */}
+        <section className={styles.spacingLg}>
+          <FeaturedProperties properties={safeProperties} />
+        </section>
 
-        {/* CATEGORY */}
-        <Category />
+        {/* CATEGORY + GALLERY */}
+        <section className={`${styles.splitSection} ${styles.spacingLg}`}>
+          <Category />
 
-        {/* GALLERY */}
-        <Gallery
-          images={galleryImages}
-          title="Property Showcase"
-          description="Discover premium properties from verified listings across top locations."
-        />
-        <WhyChoose />
-        {/* TESTIMONIALS */}
-        <Testimonials />
+          <Gallery
+            images={galleryImages}
+            title="Property Showcase"
+            description="Discover premium properties from verified listings across top locations."
+          />
+        </section>
 
-        {/* BLOG */}
-        <LatestBlog />
+        {/* WHY CHOOSE */}
+        <section className={styles.spacingLg}>
+          <WhyChoose />
+        </section>
+
+        {/* TESTIMONIALS + BLOG */}
+        <section className={`${styles.equalSplit} ${styles.spacingLg}`}>
+          <Testimonials />
+          <LatestBlog />
+        </section>
 
         {/* CTA */}
-        <CallToAction />
+        <section className={styles.spacingLg}>
+          <CallToAction />
+        </section>
       </main>
 
       {/* FOOTER */}
       <Footer />
-    </>
+    </div>
   );
 };
 

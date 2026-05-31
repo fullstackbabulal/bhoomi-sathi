@@ -3,11 +3,15 @@
 // ======================================================
 // File: components/home/Category.jsx
 // Description: Property Categories
-// UI Match: Bhoomi Sathi Homepage
+// UI Match: Compact Homepage Target Design
 // ======================================================
 
 import Link from "next/link";
 import styles from "./Category.module.css";
+
+// ======================================================
+// DEFAULT CATEGORY DATA
+// ======================================================
 
 const DEFAULT_CATEGORIES = [
   {
@@ -28,7 +32,7 @@ const DEFAULT_CATEGORIES = [
   },
   {
     id: 3,
-    title: "Plot",
+    title: "Residential Plot",
     count: "3,210+",
     icon: "🌿",
     color: "lime",
@@ -48,27 +52,39 @@ const DEFAULT_CATEGORIES = [
     count: "890+",
     icon: "🏙️",
     color: "purple",
-    type: "commercial",
+    type: "office-space",
   },
   {
     id: 6,
-    title: "House",
+    title: "Farm House",
     count: "560+",
     icon: "🏠",
     color: "orange",
-    type: "house",
+    type: "farm-house",
   },
 ];
 
+// ======================================================
+// COMPONENT
+// ======================================================
+
 export default function Category({
   categories = [],
-  title = "Browse By Property Category",
-  description = "Find the right property type from verified listings.",
+  title = "Property Categories",
+  description = "",
 }) {
+  // ==========================================
+  // SAFE CATEGORY DATA
+  // ==========================================
+
   const safeCategories =
     Array.isArray(categories) && categories.length > 0
       ? categories.filter(Boolean)
       : DEFAULT_CATEGORIES;
+
+  // ==========================================
+  // EMPTY STATE
+  // ==========================================
 
   if (!safeCategories.length) {
     return null;
@@ -86,38 +102,49 @@ export default function Category({
               {title}
             </h2>
 
-            <p className={styles.subtitle}>{description}</p>
+            {description ? (
+              <p className={styles.subtitle}>{description}</p>
+            ) : null}
           </div>
-
-          <Link href="/properties" className={styles.viewAllButton}>
-            View All →
-          </Link>
         </div>
 
-        {/* GRID */}
+        {/* CATEGORY GRID */}
         <div className={styles.grid}>
-          {safeCategories.map((category) => (
-            <Link
-              key={category.id}
-              href={`/properties?type=${category.type}`}
-              className={styles.card}
-            >
-              <div
-                className={`${styles.iconWrapper} ${styles[category.color]}`}
+          {safeCategories.map((category) => {
+            const { id, title, count, icon, color, type } = category;
+
+            return (
+              <Link
+                key={id}
+                href={`/properties?type=${encodeURIComponent(type)}`}
+                className={styles.card}
+                aria-label={`Browse ${title} properties`}
               >
-                <span className={styles.icon} aria-hidden="true">
-                  {category.icon}
-                </span>
-              </div>
+                {/* ICON */}
+                <div className={`${styles.iconWrapper} ${styles[color] || ""}`}>
+                  <span className={styles.icon} aria-hidden="true">
+                    {icon}
+                  </span>
+                </div>
 
-              <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>{category.title}</h3>
+                {/* TITLE */}
+                <h3 className={styles.cardTitle}>{title}</h3>
 
-                <p className={styles.cardCount}>{category.count} Properties</p>
-              </div>
-            </Link>
-          ))}
+                {/* COUNT */}
+                <p className={styles.cardCount}>{count}</p>
+              </Link>
+            );
+          })}
         </div>
+
+        {/* VIEW ALL */}
+        <Link
+          href="/properties"
+          className={styles.viewAllButton}
+          aria-label="View all property categories"
+        >
+          View All Categories →
+        </Link>
       </div>
     </section>
   );

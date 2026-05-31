@@ -2,96 +2,82 @@
 
 // ======================================================
 // File: components/home/WhyChoose.jsx
-// Description: Why Choose Bhoomi Sathi Section
+// Description: Why Choose Bhoomi Sathi
+// UI Match: Compact Homepage Target Design
 // ======================================================
 
-import Link from "next/link";
-
-import {
-  ShieldCheck,
-  BadgeCheck,
-  Search,
-  FileCheck2,
-  ArrowRight,
-} from "lucide-react";
+import { ShieldCheck, BadgeCheck, LockKeyhole, Headphones } from "lucide-react";
 
 import styles from "./WhyChoose.module.css";
 
 // ======================================================
-// STATIC FEATURES
+// FEATURES
 // ======================================================
+
 const FEATURES = [
   {
     id: "verified-listings",
     title: "Verified Listings",
-    description:
-      "Browse trusted and verified property listings with transparent information and authentic details.",
+    description: "All properties are verified for your safety.",
     icon: ShieldCheck,
+    color: "blue",
   },
 
   {
     id: "trusted-agents",
     title: "Trusted Agents",
-    description:
-      "Connect with reliable agents and owners for faster, safer, and smoother transactions.",
+    description: "Connect with experienced and trusted agents.",
     icon: BadgeCheck,
+    color: "green",
   },
 
   {
-    id: "smart-search",
-    title: "Smart Property Search",
-    description:
-      "Quickly discover apartments, villas, plots, and commercial properties using smart filters.",
-    icon: Search,
+    id: "secure-transactions",
+    title: "Secure Transactions",
+    description: "We ensure safe and transparent property transactions.",
+    icon: LockKeyhole,
+    color: "purple",
   },
 
   {
-    id: "legal-support",
-    title: "Legal & RERA Support",
-    description:
-      "Get access to compliant listings and guidance for safer property decisions.",
-    icon: FileCheck2,
+    id: "expert-support",
+    title: "Expert Support",
+    description: "Get 24/7 support from our property experts.",
+    icon: Headphones,
+    color: "orange",
   },
 ];
 
 // ======================================================
 // COMPONENT
 // ======================================================
+
 export default function WhyChoose() {
   return (
-    <section className={styles.section}>
+    <section className={styles.section} aria-labelledby="why-choose-heading">
       <div className={styles.container}>
-        {/* LEFT */}
-        <div className={styles.content}>
-          <span className={styles.badge}>Why Choose Us</span>
-
-          <h2 className={styles.title}>
-            Why Choose <span>Bhoomi Sathi</span>
+        {/* HEADER */}
+        <div className={styles.header}>
+          <h2 id="why-choose-heading" className={styles.title}>
+            Why Choose Bhoomi Sathi?
           </h2>
-
-          <p className={styles.description}>
-            Discover verified properties, trusted agents, and a seamless buying
-            experience built to make your real estate journey smarter, safer,
-            and faster.
-          </p>
-
-          <Link href="/properties" className={styles.ctaButton}>
-            Explore Properties
-            <ArrowRight size={18} />
-          </Link>
         </div>
 
-        {/* RIGHT */}
+        {/* FEATURE STRIP */}
         <div className={styles.grid}>
-          {FEATURES.map(({ id, title, description, icon: Icon }) => (
+          {FEATURES.map(({ id, title, description, icon: Icon, color }) => (
             <article key={id} className={styles.card}>
-              <div className={styles.iconWrapper}>
-                <Icon size={26} />
+              {/* ICON */}
+              <div className={`${styles.iconWrapper} ${styles[color]}`}>
+                <Icon size={22} strokeWidth={2.2} />
               </div>
 
-              <h3 className={styles.cardTitle}>{title}</h3>
+              {/* CONTENT */}
+              <div className={styles.content}>
+                <h3 className={styles.cardTitle}>{title}</h3>
 
-              <p className={styles.cardDescription}>{description}</p>
+                <p className={styles.cardDescription}>{description}</p>
+              </div>
             </article>
           ))}
         </div>

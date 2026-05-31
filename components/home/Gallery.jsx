@@ -8,24 +8,43 @@
 
 import Image from "next/image";
 import styles from "./Gallery.module.css";
+import Link from "next/link";
+
+// ======================================================
+// FALLBACK IMAGES
+// ======================================================
 
 const FALLBACK_IMAGES = [
   {
     id: 1,
-    image: "https://placehold.co/1200x900?text=Luxury+Villa",
-    title: "Luxury Villa",
+    image: "https://placehold.co/1200x900?text=Luxury+Living+Room",
+    title: "Luxury Living Room",
   },
   {
     id: 2,
-    image: "https://placehold.co/1200x900?text=Modern+Apartment",
-    title: "Modern Apartment",
+    image: "https://placehold.co/1200x900?text=Modern+Villa",
+    title: "Modern Villa",
   },
   {
     id: 3,
-    image: "https://placehold.co/1200x900?text=Commercial+Space",
-    title: "Commercial Space",
+    image: "https://placehold.co/1200x900?text=Premium+Bedroom",
+    title: "Premium Bedroom",
+  },
+  {
+    id: 4,
+    image: "https://placehold.co/1200x900?text=Dining+Area",
+    title: "Dining Area",
+  },
+  {
+    id: 5,
+    image: "https://placehold.co/1200x900?text=Luxury+Interior",
+    title: "Luxury Interior",
   },
 ];
+
+// ======================================================
+// HELPERS
+// ======================================================
 
 const isValidImageUrl = (value) => {
   if (!value || typeof value !== "string") {
@@ -44,10 +63,14 @@ const isValidImageUrl = (value) => {
   }
 };
 
+// ======================================================
+// COMPONENT
+// ======================================================
+
 export default function Gallery({
   images = [],
   title = "Property Gallery",
-  description = "Explore beautiful spaces from premium verified properties.",
+  description = "Discover premium properties from verified listings across top locations.",
 }) {
   const galleryImages = Array.isArray(images)
     ? images
@@ -57,9 +80,7 @@ export default function Gallery({
 
           return {
             id: item?.id || index,
-
             image,
-
             title: item?.title || `Property View ${index + 1}`,
           };
         })
@@ -67,54 +88,60 @@ export default function Gallery({
     : [];
 
   const finalImages =
-    galleryImages.length > 0 ? galleryImages.slice(0, 6) : FALLBACK_IMAGES;
+    galleryImages.length >= 5 ? galleryImages.slice(0, 5) : FALLBACK_IMAGES;
 
   return (
     <section className={styles.section}>
       <div className={styles.container}>
         {/* HEADER */}
         <div className={styles.header}>
-          <span className={styles.badge}>Gallery</span>
-
           <h2 className={styles.title}>{title}</h2>
 
           <p className={styles.description}>{description}</p>
         </div>
 
-        {/* GRID */}
-        <div className={styles.galleryGrid}>
-          {finalImages.map((item, index) => (
-            <article
-              key={item.id}
-              className={`${styles.card} ${
-                index % 3 === 0 ? styles.large : ""
-              }`}
-            >
-              <div className={styles.imageWrapper}>
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  priority={index < 2}
-                  className={styles.image}
-                  sizes="
-                    (max-width:768px) 100vw,
-                    (max-width:1200px) 50vw,
-                    33vw
-                  "
-                  unoptimized
-                />
+        {/* SHOWCASE GRID */}
+        <div className={styles.galleryLayout}>
+          {/* LEFT LARGE IMAGE */}
+          <article className={styles.heroCard}>
+            <div className={styles.imageWrapper}>
+              <Image
+                src={finalImages[0].image}
+                alt={finalImages[0].title}
+                fill
+                priority
+                className={styles.image}
+                unoptimized
+              />
+            </div>
+          </article>
 
-                <div className={styles.overlay} />
-
-                <div className={styles.content}>
-                  <span className={styles.caption}>Premium Property</span>
-
-                  <h3 className={styles.imageTitle}>{item.title}</h3>
+          {/* RIGHT GRID */}
+          <div className={styles.rightGrid}>
+            {finalImages.slice(1, 5).map((item, index) => (
+              <article key={item.id} className={styles.card}>
+                <div className={styles.imageWrapper}>
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className={styles.image}
+                    unoptimized
+                  />
+                  {/* CTA LAST CARD */}
+                  {index === 3 && (
+                    <Link
+                      href="/properties"
+                      className={styles.ctaOverlay}
+                      aria-label="View more property photos"
+                    >
+                      <span className={styles.ctaText}>View More Photos</span>
+                    </Link>
+                  )}
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -27,6 +27,8 @@ const authMiddleware = require("../middleware/auth.middleware");
 
 const roleMiddleware = require("../middleware/role.middleware");
 
+const uploadMulter = require("../middleware/uploadMulter");
+
 // ======================================================
 // PUBLIC ROUTES
 // ======================================================
@@ -40,37 +42,40 @@ router.get("/related/:id", getRelatedBlogs);
 // SEO slug route
 router.get("/slug/:slug", getBlogBySlug);
 
-// Get blog by ID
-router.get("/:id", getBlogById);
-
 // ======================================================
 // PROTECTED ROUTES
-// Admin + Agent
 // ======================================================
 
-// Create blog
+// CREATE BLOG
 router.post(
-  "/",
+  "/add",
   authMiddleware,
   roleMiddleware("admin", "agent"),
+  uploadMulter.single("featuredImage"),
   createBlogPost,
 );
 
-// Update blog
+// UPDATE BLOG
 router.put(
   "/:id",
   authMiddleware,
   roleMiddleware("admin", "agent"),
+  uploadMulter.single("featuredImage"),
   updateBlogPost,
 );
 
-// Delete blog
+// DELETE BLOG
 router.delete(
   "/:id",
   authMiddleware,
   roleMiddleware("admin", "agent"),
   deleteBlogPost,
 );
+
+// ======================================================
+// KEEP DYNAMIC ROUTE LAST
+// ======================================================
+router.get("/:id", getBlogById);
 
 // ======================================================
 // EXPORT

@@ -1,13 +1,17 @@
 /* ======================================================
    File: components/property/details/PropertyMediaTabs.module.css
-   Description: Property Media Tabs Styles
-   UI Match: Bhoomi Sathi Property Details Design
+   Description: Property Media Tabs
+   UI Target: Compact Premium Media Strip
 ====================================================== */
 
 .section {
   width: 100%;
-  margin-top: 28px;
+  margin-top: 24px;
 }
+
+/* ==========================================
+   Header
+========================================== */
 
 .header {
   margin-bottom: 18px;
@@ -18,7 +22,7 @@
 
   color: #111827;
 
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
   line-height: 1.2;
 }
@@ -29,22 +33,22 @@
   color: #6b7280;
 
   font-size: 14px;
-  line-height: 1.6;
+  font-weight: 400;
+  line-height: 1.5;
 }
 
-/* ===================================
+/* ==========================================
    Tabs
-=================================== */
+========================================== */
 
 .tabs {
   display: flex;
   align-items: center;
   gap: 12px;
 
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 
   overflow-x: auto;
-
   scrollbar-width: none;
 }
 
@@ -55,30 +59,39 @@
 .tabButton {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 
+  flex-shrink: 0;
+
+  padding: 12px 22px;
+
   border: 1px solid #e5e7eb;
+  border-radius: 12px;
+
   background: #ffffff;
 
   cursor: pointer;
 
-  flex-shrink: 0;
-
-  padding: 12px 18px;
-
-  border-radius: 12px;
-
-  color: #374151;
+  color: #4b5563;
 
   font-size: 14px;
   font-weight: 600;
 
-  transition: all 0.2s ease;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.2s ease;
 }
 
 .tabButton:hover {
   border-color: #15803d;
   color: #15803d;
+}
+
+.tabButton:active {
+  transform: scale(0.98);
 }
 
 .active {
@@ -87,77 +100,153 @@
   color: #ffffff;
 }
 
-/* ===================================
+/* ==========================================
    Content
-=================================== */
+========================================== */
 
 .content {
   width: 100%;
 }
 
-/* ===================================
-   Photo Grid
-=================================== */
+/* ==========================================
+   Media Row
+========================================== */
 
-.photoGrid,
-.videoGrid {
+.mediaRow {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr))
+    180px;
+
+  gap: 16px;
 }
 
-.mediaCard,
-.videoCard {
+/* ==========================================
+   Media Card
+========================================== */
+
+.mediaCard {
   position: relative;
+
+  width: 100%;
+  height: 170px;
 
   overflow: hidden;
 
-  border-radius: 16px;
-
-  background: #f3f4f6;
-
-  min-height: 180px;
+  border-radius: 18px;
 
   border: 1px solid #e5e7eb;
+  background: #f3f4f6;
 }
 
 .image {
   object-fit: cover;
+
+  transition: transform 0.35s ease;
 }
 
-/* ===================================
-   Video
-=================================== */
-
-.video {
-  width: 100%;
-  height: 100%;
-
-  border: none;
-
-  min-height: 180px;
+.mediaCard:hover .image {
+  transform: scale(1.05);
 }
 
-/* ===================================
-   Hover
-=================================== */
+/* ==========================================
+   View All Card
+========================================== */
 
-.mediaCard img {
-  transition: transform 0.3s ease;
+.viewAllCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 170px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+
+  background: #f9fafb;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    background 0.25s ease;
 }
 
-.mediaCard:hover img {
-  transform: scale(1.04);
+.viewAllCard:hover {
+  border-color: #15803d;
+  background: #f0fdf4;
+  transform: translateY(-2px);
 }
 
-/* ===================================
+.viewAllTitle {
+  color: #111827;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.viewAllCount {
+  margin-top: 6px;
+
+  color: #4b5563;
+
+  text-align: center;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* ==========================================
+   Empty State
+========================================== */
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 180px;
+
+  border: 1px dashed #d1d5db;
+  border-radius: 18px;
+
+  background: #fafafa;
+
+  color: #6b7280;
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* ==========================================
    Responsive
-=================================== */
+========================================== */
 
 @media (max-width: 1200px) {
-  .photoGrid,
-  .videoGrid {
-    grid-template-columns: repeat(3, 1fr);
+  .heading {
+    font-size: 28px;
+  }
+
+  .mediaRow {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .viewAllCard {
+    height: 170px;
+  }
+}
+
+@media (max-width: 992px) {
+  .mediaRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mediaCard,
+  .viewAllCard {
+    height: 180px;
   }
 }
 
@@ -166,36 +255,44 @@
     font-size: 24px;
   }
 
+  .tabs {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
   .tabButton {
-    padding: 10px 14px;
+    padding: 10px 18px;
+
     font-size: 13px;
   }
 
-  .photoGrid,
-  .videoGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+  .mediaCard,
+  .viewAllCard {
+    height: 170px;
+    border-radius: 16px;
   }
 
-  .mediaCard,
-  .videoCard {
-    min-height: 160px;
+  .viewAllTitle {
+    font-size: 18px;
   }
 }
 
 @media (max-width: 480px) {
-  .photoGrid,
-  .videoGrid {
+  .mediaRow {
     grid-template-columns: 1fr;
   }
 
   .mediaCard,
-  .videoCard {
-    min-height: 220px;
+  .viewAllCard {
+    height: 220px;
   }
 
   .tabButton {
+    padding: 10px 16px;
     font-size: 12px;
-    padding: 10px 12px;
+  }
+
+  .heading {
+    font-size: 22px;
   }
 }

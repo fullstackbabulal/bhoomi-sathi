@@ -2,15 +2,14 @@
 
 // ======================================================
 // File: components/property/details/PropertyMediaTabs.jsx
-// Description: Property Photos / Videos / Documents Tabs
-// UI Match: Bhoomi Sathi Property Details Design
-// Styling: CSS Modules + Lucide React
+// Description: Property Media Tabs
+// UI Target: Compact Media Strip Layout
 // ======================================================
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
 
-import { ImageIcon, Video, FileText, PlayCircle } from "lucide-react";
+import { ImageIcon, Video, FileText, Map } from "lucide-react";
 
 import styles from "./PropertyMediaTabs.module.css";
 
@@ -19,9 +18,9 @@ export default function PropertyMediaTabs({ property = {} }) {
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
-  // ==========================================
+  // =====================================================
   // Normalize Media URL
-  // ==========================================
+  // =====================================================
   const normalizeMediaUrl = (media) => {
     if (!media) {
       return "/images/placeholder-property.jpg";
@@ -34,18 +33,16 @@ export default function PropertyMediaTabs({ property = {} }) {
       return "/images/placeholder-property.jpg";
     }
 
-    // Already external URL
     if (mediaUrl.startsWith("http://") || mediaUrl.startsWith("https://")) {
       return mediaUrl;
     }
 
-    // Backend upload path
     return `${apiUrl}${mediaUrl}`;
   };
 
-  // ==========================================
+  // =====================================================
   // Photos
-  // ==========================================
+  // =====================================================
   const photos = useMemo(() => {
     const propertyImages = property?.images || [];
 
@@ -68,125 +65,110 @@ export default function PropertyMediaTabs({ property = {} }) {
     });
   }, [property]);
 
-  // ==========================================
+  // =====================================================
+  // Floor Plan
+  // =====================================================
+  const floorPlans = property?.floorPlans || property?.floorPlan || [];
+
+  // =====================================================
   // Videos
-  // ==========================================
+  // =====================================================
   const videos = property?.videos || [];
 
-  // ==========================================
-  // Documents (future support)
-  // ==========================================
+  // =====================================================
+  // Documents
+  // =====================================================
   const documents = property?.documents || [];
 
-  // ==========================================
+  // =====================================================
   // Tabs
-  // ==========================================
+  // =====================================================
   const tabs = [
     {
       id: "photos",
-      label: `Photos (${photos.length})`,
+      label: "Photos",
       icon: ImageIcon,
+      data: photos,
+    },
+    {
+      id: "floorPlan",
+      label: "Floor Plan",
+      icon: Map,
+      data: floorPlans,
     },
     {
       id: "videos",
-      label: `Videos (${videos.length})`,
+      label: "Video Tour",
       icon: Video,
+      data: videos,
     },
     {
       id: "documents",
-      label: `Documents (${documents.length})`,
+      label: "Documents",
       icon: FileText,
+      data: documents,
     },
   ];
 
-  // ==========================================
-  // Render Content
-  // ==========================================
-  const renderContent = () => {
-    // =====================
-    // Photos
-    // =====================
-    if (activeTab === "photos") {
-      if (!photos.length) {
-        return <div className={styles.emptyState}>No photos available</div>;
-      }
+  // =====================================================
+  // Active Media
+  // =====================================================
+  const activeMedia = tabs.find((tab) => tab.id === activeTab)?.data || [];
 
-      return (
-        <div className={styles.mediaGrid}>
-          {photos.map((image, index) => (
-            <div key={index} className={styles.mediaCard}>
-              <Image
-                src={normalizeMediaUrl(image)}
-                alt={`Property Image ${index + 1}`}
-                fill
-                unoptimized
-                className={styles.image}
-                sizes="300px"
-              />
-            </div>
-          ))}
-        </div>
-      );
+  const previewMedia = activeMedia.slice(0, 4);
+
+  // =====================================================
+  // Empty State
+  // =====================================================
+  const renderEmptyState = () => (
+    <div className={styles.emptyState}>No media available</div>
+  );
+
+  // =====================================================
+  // Render Media Strip
+  // =====================================================
+  const renderMedia = () => {
+    if (!activeMedia.length) {
+      return renderEmptyState();
     }
 
-    // =====================
-    // Videos
-    // =====================
-    if (activeTab === "videos") {
-      if (!videos.length) {
-        return <div className={styles.emptyState}>No videos available</div>;
-      }
+    return (
+      <div className={styles.mediaRow}>
+        {previewMedia.map((item, index) => (
+          <div key={index} className={styles.mediaCard}>
+            <Image
+              fill
+              unoptimized
+              priority={index === 0}
+              sizes="300px"
+              className={styles.image}
+              src={normalizeMediaUrl(item)}
+              alt={`Property media ${index + 1}`}
+            />
+          </div>
+        ))}
 
-      return (
-        <div className={styles.mediaGrid}>
-          {videos.map((video, index) => (
-            <div key={index} className={styles.videoCard}>
-              <video controls className={styles.video}>
-                <source src={normalizeMediaUrl(video)} />
-              </video>
+        <button type="button" className={styles.viewAllCard}>
+          <span className={styles.viewAllTitle}>View All</span>
 
-              <div className={styles.videoOverlay}>
-                <PlayCircle size={34} />
-              </div>
-            </div>
-          ))}
-        </div>
-      );
-    }
-
-    // =====================
-    // Documents
-    // =====================
-    if (activeTab === "documents") {
-      if (!documents.length) {
-        return <div className={styles.emptyState}>No documents available</div>;
-      }
-
-      return (
-        <div className={styles.documentsList}>
-          {documents.map((document, index) => (
-            <a
-              key={index}
-              href={normalizeMediaUrl(document)}
-              target="_blank"
-              rel="noreferrer"
-              className={styles.documentItem}
-            >
-              <FileText size={18} />
-
-              <span>{document?.name || `Document ${index + 1}`}</span>
-            </a>
-          ))}
-        </div>
-      );
-    }
+          <span className={styles.viewAllCount}>
+            {activeMedia.length}{" "}
+            {activeTab === "photos"
+              ? "Photos"
+              : activeTab === "floorPlan"
+                ? "Floor Plans"
+                : activeTab === "videos"
+                  ? "Videos"
+                  : "Documents"}
+          </span>
+        </button>
+      </div>
+    );
   };
 
   return (
     <section className={styles.section}>
-      {/* ===================== */}
       {/* Header */}
-      {/* ===================== */}
       <div className={styles.header}>
         <h2 className={styles.heading}>Photos, Floor Plan & Documents</h2>
 
@@ -195,23 +177,21 @@ export default function PropertyMediaTabs({ property = {} }) {
         </p>
       </div>
 
-      {/* ===================== */}
       {/* Tabs */}
-      {/* ===================== */}
       <div className={styles.tabs}>
         {tabs.map((tab) => {
           const Icon = tab.icon;
+
+          const isActive = activeTab === tab.id;
 
           return (
             <button
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id)}
-              className={`${styles.tabButton} ${
-                activeTab === tab.id ? styles.active : ""
-              }`}
+              className={`${styles.tabButton} ${isActive ? styles.active : ""}`}
             >
-              <Icon size={18} />
+              <Icon size={16} />
 
               <span>{tab.label}</span>
             </button>
@@ -219,10 +199,8 @@ export default function PropertyMediaTabs({ property = {} }) {
         })}
       </div>
 
-      {/* ===================== */}
       {/* Content */}
-      {/* ===================== */}
-      <div className={styles.content}>{renderContent()}</div>
+      <div className={styles.content}>{renderMedia()}</div>
     </section>
   );
 }

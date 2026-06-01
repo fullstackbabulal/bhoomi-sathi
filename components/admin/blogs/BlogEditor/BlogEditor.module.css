@@ -1,0 +1,113 @@
+/* ======================================================
+   File: BlogEditor.module.css
+   Description: Blog Editor Card UI
+====================================================== */
+
+.card {
+  width: 100%;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 28px;
+
+  padding: 2rem;
+
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+
+  transition: all 0.25s ease;
+}
+
+.card:hover {
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+/* ==========================
+   HEADER
+========================== */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  margin-bottom: 1.75rem;
+}
+
+.iconBox {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(22, 163, 74, 0.1),
+    rgba(34, 197, 94, 0.15)
+  );
+
+  color: #16a34a;
+}
+
+.title {
+  margin: 0;
+
+  font-size: 1.25rem;
+  font-weight: 700;
+
+  color: #111827;
+}
+
+.subtitle {
+  margin-top: 0.35rem;
+
+  font-size: 0.95rem;
+  line-height: 1.6;
+
+  color: #6b7280;
+}
+
+/* ==========================
+   EDITOR
+========================== */
+
+.editorWrapper {
+  overflow: hidden;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 22px;
+
+  background: #ffffff;
+
+  min-height: 500px;
+
+  transition: all 0.25s ease;
+}
+
+.editorWrapper:focus-within {
+  border-color: #16a34a;
+
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.12);
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5rem;
+    border-radius: 22px;
+  }
+
+  .header {
+    align-items: flex-start;
+  }
+
+  .editorWrapper {
+    min-height: 420px;
+  }
+}

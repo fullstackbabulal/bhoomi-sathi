@@ -17,7 +17,6 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 const blogApi = axios.create({
   baseURL: `${API_BASE_URL}/api/blogs`,
-
   withCredentials: true,
 });
 
@@ -105,12 +104,20 @@ export const getBlogById = async (id) => {
 
 // ======================================================
 // GET BLOG BY SLUG
-// GET /api/blogs/:slug
+// GET /api/blogs/slug/:slug
 // ======================================================
 
 export const getBlogBySlug = async (slug) => {
   try {
-    const response = await blogApi.get(`/${slug}`);
+    if (!slug?.trim()) {
+      throw new Error("Blog slug is required.");
+    }
+
+    console.log(`🚀 GET /api/blogs/slug/${slug}`);
+
+    const response = await blogApi.get(`/slug/${slug}`);
+
+    console.log("✅ Get Blog By Slug Response:", response.data);
 
     return response.data;
   } catch (error) {
@@ -153,11 +160,8 @@ export const getPublishedBlogs = async (
       params: {
         page,
         limit,
-
         status: "published",
-
         category: category || undefined,
-
         keyword: keyword || undefined,
       },
     });
@@ -180,6 +184,10 @@ export const getPublishedBlogs = async (
 
 export const getRelatedBlogs = async (id) => {
   try {
+    if (!id) {
+      return [];
+    }
+
     const response = await blogApi.get(`/related/${id}`);
 
     return response.data;

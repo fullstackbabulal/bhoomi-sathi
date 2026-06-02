@@ -7,8 +7,7 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
-import BlogPostHero from "@/components/blog-detail/BlogPostHero/BlogPostHero";
-import BlogPostLayout from "@/components/blog-detail/BlogPostLayout/BlogPostLayout";
+import BlogSinglePage from "@/components/blog-detail/BlogSinglePage";
 
 import { getBlogBySlug, getRelatedBlogs } from "@/services/blog.service";
 
@@ -17,9 +16,9 @@ import { getBlogBySlug, getRelatedBlogs } from "@/services/blog.service";
 // ======================================================
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 // ======================================================
@@ -28,6 +27,10 @@ type Props = {
 
 async function getBlog(slug: string) {
   try {
+    if (!slug?.trim()) {
+      return null;
+    }
+
     const response = await getBlogBySlug(slug);
 
     return response?.data || response || null;
@@ -44,6 +47,10 @@ async function getBlog(slug: string) {
 
 async function getRelated(id: string) {
   try {
+    if (!id) {
+      return [];
+    }
+
     const response = await getRelatedBlogs(id);
 
     return response?.data || response || [];
@@ -59,11 +66,15 @@ async function getRelated(id: string) {
 // ======================================================
 
 export async function generateMetadata({ params }: Props) {
-  const blog = await getBlog(params.slug);
+  const { slug } = await params;
+
+  const blog = await getBlog(slug);
 
   if (!blog) {
     return {
       title: "Blog | Bhoomi Sathi",
+
+      description: "Read expert real estate insights from Bhoomi Sathi.",
     };
   }
 
@@ -78,9 +89,12 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       title: blog.title,
 
-      description: blog.metaDescription || blog.excerpt,
+      description:
+        blog.metaDescription ||
+        blog.excerpt ||
+        "Read expert real estate insights.",
 
-      images: [blog.featuredImage || blog.coverImage],
+      images: [blog.featuredImage || blog.coverImage || ""],
     },
   };
 }
@@ -91,27 +105,85 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function BlogDetailPage({ params }: Props) {
   // ====================================================
-  // FETCH DATA
+  // PARAMS
   // ====================================================
 
-  const blog = await getBlog(params.slug);
+  const { slug } = await params;
+
+  // ====================================================
+  // FETCH BLOG
+  // ====================================================
+
+  const blog = await getBlog(slug);
+
+  // ====================================================
+  // NOT FOUND UI
+  // ====================================================
 
   if (!blog) {
     return (
-      <div
-        style={{
-          padding: "6rem 2rem",
-          textAlign: "center",
-        }}
-      >
-        <h1>Blog not found</h1>
+      <>
+        {/* NAVBAR */}
+        <Navbar />
 
-        <p>The article you are looking for does not exist.</p>
-      </div>
+        {/* EMPTY STATE */}
+        <main
+          style={{
+            minHeight: "60vh",
+            padding: "6rem 2rem",
+            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <h1>Blog not found</h1>
+
+          <p>The article you are looking for does not exist.</p>
+        </main>
+
+        {/* FOOTER */}
+        <Footer />
+      </>
     );
   }
 
+  // ====================================================
+  // FETCH RELATED POSTS
+  // ====================================================
+
   const relatedPosts = await getRelated(blog._id);
+
+  // ====================================================
+  // COMMENTS
+  // ====================================================
+
+  const comments = blog.comments || [];
+
+  // ====================================================
+  // JSON-LD
+  // ====================================================
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+
+    "@type": "BlogPosting",
+
+    headline: blog.title,
+
+    image: blog.featuredImage || blog.coverImage || "",
+
+    datePublished: blog.publishedAt || blog.createdAt || "",
+
+    author: {
+      "@type": "Person",
+
+      name: blog?.author?.name || "Bhoomi Sathi",
+    },
+
+    description: blog.metaDescription || blog.excerpt || "",
+  };
 
   // ====================================================
   // RENDER
@@ -122,20 +194,12 @@ export default async function BlogDetailPage({ params }: Props) {
       {/* NAVBAR */}
       <Navbar />
 
-      {/* BLOG HERO */}
-      <BlogPostHero
-        slug={blog.slug}
-        category={blog.category}
-        title={blog.title}
-        excerpt={blog.excerpt}
-        featuredImage={blog.featuredImage || blog.coverImage}
-        publishedAt={blog.publishedAt || blog.createdAt}
-        readTime={blog.readTime}
-        author={blog.author}
+      {/* BLOG PAGE */}
+      <BlogSinglePage
+        blog={blog}
+        relatedPosts={relatedPosts}
+        comments={comments}
       />
-
-      {/* BLOG LAYOUT */}
-      <BlogPostLayout blog={blog} relatedPosts={relatedPosts} />
 
       {/* FOOTER */}
       <Footer />
@@ -144,25 +208,7 @@ export default async function BlogDetailPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-
-            "@type": "BlogPosting",
-
-            headline: blog.title,
-
-            image: blog.featuredImage || blog.coverImage,
-
-            datePublished: blog.publishedAt || blog.createdAt,
-
-            author: {
-              "@type": "Person",
-
-              name: blog?.author?.name || "Bhoomi Sathi",
-            },
-
-            description: blog.metaDescription || blog.excerpt,
-          }),
+          __html: JSON.stringify(jsonLd),
         }}
       />
     </>

@@ -7,11 +7,21 @@
 // ======================================================
 
 import Image from "next/image";
-import Link from "next/link";
 
 import styles from "./BlogAuthorCard.module.css";
 
-import { Facebook, Twitter, Linkedin, Globe } from "lucide-react";
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+} from "react-share";
+
+import {
+  FaFacebookF,
+  FaXTwitter,
+  FaLinkedinIn,
+  FaGlobe,
+} from "react-icons/fa6";
 
 // ======================================================
 // FALLBACKS
@@ -39,6 +49,8 @@ export default function BlogAuthorCard({ author = {} }) {
     "Helping property buyers, investors and homeowners make smarter real-estate decisions with expert insights and market knowledge.";
 
   const socialLinks = author?.socialLinks || {};
+
+  const pageUrl = typeof window !== "undefined" ? window.location.href : "";
 
   // ====================================================
   // RENDER
@@ -72,44 +84,42 @@ export default function BlogAuthorCard({ author = {} }) {
 
         {/* SOCIAL */}
         <div className={styles.socials}>
+          {/* FACEBOOK */}
           {socialLinks.facebook && (
-            <Link
-              href={socialLinks.facebook}
-              target="_blank"
-              className={styles.socialButton}
-            >
-              <Facebook size={18} />
-            </Link>
+            <FacebookShareButton url={pageUrl} className={styles.socialButton}>
+              <FaFacebookF size={18} />
+            </FacebookShareButton>
           )}
 
+          {/* X / TWITTER */}
           {socialLinks.twitter && (
-            <Link
-              href={socialLinks.twitter}
-              target="_blank"
+            <TwitterShareButton
+              url={pageUrl}
+              title={safeName}
               className={styles.socialButton}
             >
-              <Twitter size={18} />
-            </Link>
+              <FaXTwitter size={18} />
+            </TwitterShareButton>
           )}
 
+          {/* LINKEDIN */}
           {socialLinks.linkedin && (
-            <Link
-              href={socialLinks.linkedin}
-              target="_blank"
-              className={styles.socialButton}
-            >
-              <Linkedin size={18} />
-            </Link>
+            <LinkedinShareButton url={pageUrl} className={styles.socialButton}>
+              <FaLinkedinIn size={18} />
+            </LinkedinShareButton>
           )}
 
+          {/* WEBSITE */}
           {socialLinks.website && (
-            <Link
+            <a
               href={socialLinks.website}
               target="_blank"
+              rel="noopener noreferrer"
               className={styles.socialButton}
+              aria-label="Visit website"
             >
-              <Globe size={18} />
-            </Link>
+              <FaGlobe size={18} />
+            </a>
           )}
         </div>
       </div>

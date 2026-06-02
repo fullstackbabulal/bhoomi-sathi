@@ -3,9 +3,10 @@
 // ======================================================
 // File: components/admin/blogs/FeaturedImageUpload/FeaturedImageUpload.jsx
 // Description: Featured Image Upload Card
+// Production Ready
 // ======================================================
 
-import { useRef, useState, useMemo } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import Image from "next/image";
 import axios from "axios";
@@ -21,16 +22,34 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
+// ======================================================
+// HELPERS
+// ======================================================
+
+const slugify = (text = "") => {
+  return String(text)
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "")
+    .replace(/--+/g, "-")
+    .replace(/^-+|-+$/g, "");
+};
+
 export default function FeaturedImageUpload({
   image = "",
+
   onChange,
+
   onRemove,
+
   title = "",
+
   slug = "",
 }) {
-  // ======================================================
+  // ====================================================
   // STATE
-  // ======================================================
+  // ====================================================
 
   const fileInputRef = useRef(null);
 
@@ -40,21 +59,32 @@ export default function FeaturedImageUpload({
 
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
-  // ======================================================
+  // ====================================================
   // ENV
-  // ======================================================
+  // ====================================================
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
-  // ======================================================
+  // ====================================================
+  // SAFE BLOG DATA
+  // prevents general-blog
+  // ====================================================
+
+  const safeTitle = String(title || "").trim();
+
+  const safeSlug = String(slug || "").trim();
+
+  const uploadSlug = safeSlug || slugify(safeTitle) || "general-blog";
+
+  // ====================================================
   // HELPERS
-  // ======================================================
+  // ====================================================
 
   const openFilePicker = () => {
     fileInputRef.current?.click();
   };
 
-  const resetLocalState = () => {
+  const resetState = () => {
     setSelectedFile(null);
 
     setUploadSuccess(false);
@@ -64,29 +94,35 @@ export default function FeaturedImageUpload({
     }
   };
 
+  // ====================================================
+  // FILE CHANGE
+  // ====================================================
+
   const handleFileChange = (event) => {
     const file = event.target.files?.[0];
 
-    if (!file) return;
+    if (!file) {
+      return;
+    }
 
-    // Reset success state
     setUploadSuccess(false);
 
-    // Local preview only
     setSelectedFile(file);
   };
 
-  const handleRemove = () => {
-    resetLocalState();
+  // ====================================================
+  // REMOVE
+  // ====================================================
 
-    if (onRemove) {
-      onRemove();
-    }
+  const handleRemove = () => {
+    resetState();
+
+    onRemove?.();
   };
 
-  // ======================================================
-  // IMMEDIATE IMAGE UPLOAD
-  // ======================================================
+  // ====================================================
+  // UPLOAD
+  // ====================================================
 
   const handleUpload = async () => {
     if (!selectedFile) {
@@ -100,28 +136,17 @@ export default function FeaturedImageUpload({
 
       const payload = new FormData();
 
-      /**
-       * IMPORTANT
-       * entity=blog
-       */
+      // IMPORTANT:
+      // order matters
       payload.append("entity", "blog");
 
-      payload.append("title", title || "");
+      payload.append("title", safeTitle);
 
-      payload.append("slug", slug || "");
+      payload.append("slug", uploadSlug);
 
+      // file LAST
       payload.append("featuredImage", selectedFile);
 
-      /**
-       * IMPORTANT
-       * Cookie auth support
-       *
-       * Backend uses:
-       * HttpOnly token cookie
-       *
-       * So:
-       * withCredentials=true
-       */
       const response = await axios.post(
         `${API_URL}/api/blogs/upload-image`,
         payload,
@@ -136,25 +161,17 @@ export default function FeaturedImageUpload({
         throw new Error("Upload failed");
       }
 
-      /**
-       * Return uploaded path
-       *
-       * Example:
-       * /uploads/images/blog/my-blog/image.webp
-       */
-      if (onChange) {
-        onChange(uploadedPath);
-      }
+      onChange?.(uploadedPath);
 
       setUploadSuccess(true);
 
-      alert(response?.data?.message || "Image uploaded successfully");
+      setSelectedFile(null);
     } catch (error) {
       console.error("Blog image upload error:", error);
 
       alert(
         error?.response?.data?.message ||
-          error?.message ||
+          error.message ||
           "Failed to upload image",
       );
     } finally {
@@ -162,15 +179,12 @@ export default function FeaturedImageUpload({
     }
   };
 
-  // ======================================================
-  // PREVIEW URL
-  // ======================================================
+  // ====================================================
+  // PREVIEW
+  // ====================================================
 
   const previewUrl = useMemo(() => {
-    /**
-     * Uploaded image path
-     * string support
-     */
+    // uploaded image
     if (image && typeof image === "string") {
       if (image.startsWith("http")) {
         return image;
@@ -179,9 +193,7 @@ export default function FeaturedImageUpload({
       return `${API_URL}${image}`;
     }
 
-    /**
-     * Local file preview
-     */
+    // local file preview
     if (selectedFile) {
       return URL.createObjectURL(selectedFile);
     }
@@ -189,9 +201,9 @@ export default function FeaturedImageUpload({
     return null;
   }, [image, selectedFile, API_URL]);
 
-  // ======================================================
+  // ====================================================
   // RENDER
-  // ======================================================
+  // ====================================================
 
   return (
     <section className={styles.card}>
@@ -210,13 +222,12 @@ export default function FeaturedImageUpload({
         </div>
       </div>
 
-      {/* PREVIEW */}
       {previewUrl ? (
         <div className={styles.previewWrapper}>
           <div className={styles.preview}>
             <Image
               src={previewUrl}
-              alt="Featured Preview"
+              alt="Featured Image"
               fill
               className={styles.image}
               unoptimized
@@ -224,7 +235,6 @@ export default function FeaturedImageUpload({
           </div>
 
           <div className={styles.actions}>
-            {/* Upload button only before upload */}
             {selectedFile && !image && (
               <button
                 type="button"
@@ -292,7 +302,6 @@ export default function FeaturedImageUpload({
         </div>
       )}
 
-      {/* INPUT */}
       <input
         ref={fileInputRef}
         type="file"

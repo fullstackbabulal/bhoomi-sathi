@@ -11,22 +11,22 @@ import Link from "next/link";
 
 import styles from "./BlogPostHero.module.css";
 
+import { CalendarDays, Clock3, ChevronRight } from "lucide-react";
+
 import {
-  CalendarDays,
-  Clock3,
-  ChevronRight,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Share2,
-} from "lucide-react";
+  FacebookShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+} from "react-share";
+
+import { FaFacebookF, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 
 // ======================================================
 // FALLBACKS
 // ======================================================
 
 const FALLBACK_IMAGE =
-  "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1600&auto=format&fit=crop";
+  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1600&auto=format&fit=crop";
 
 const FALLBACK_AVATAR = "https://i.pravatar.cc/150?img=15";
 
@@ -34,40 +34,54 @@ const FALLBACK_AVATAR = "https://i.pravatar.cc/150?img=15";
 // COMPONENT
 // ======================================================
 
-export default function BlogPostHero({
-  category = "Real Estate",
-
-  title = "Why Real Estate is the Smartest Long-Term Investment",
-
-  excerpt = "Discover expert-backed strategies, market trends and investment insights to make better property decisions.",
-
-  featuredImage = FALLBACK_IMAGE,
-
-  publishedAt = "2026-06-01",
-
-  readTime = "8 min read",
-
-  author = {},
-
-  slug = "blog-post",
-}) {
+export default function BlogPostHero({ blog = {} }) {
   // ====================================================
   // SAFE DATA
   // ====================================================
 
-  const safeImage = featuredImage?.trim?.() || FALLBACK_IMAGE;
+  const safeTitle = blog?.title?.trim?.() || "Untitled Blog";
 
-  const safeAvatar = author?.avatar?.trim?.() || FALLBACK_AVATAR;
+  const safeExcerpt =
+    blog?.excerpt?.trim?.() ||
+    "Read expert real estate insights from Bhoomi Sathi.";
 
-  const safeAuthor = author?.name?.trim?.() || "Bhoomi Sathi";
+  const safeCategory = blog?.category?.trim?.() || "Real Estate";
 
-  const safeDate = publishedAt
-    ? new Date(publishedAt).toLocaleDateString("en-IN", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      })
-    : "Recently";
+  const safeSlug = blog?.slug?.trim?.() || "blog-post";
+
+  const safeImage =
+    blog?.featuredImage?.trim?.() ||
+    blog?.coverImage?.trim?.() ||
+    FALLBACK_IMAGE;
+
+  const safeAuthor = blog?.author?.name?.trim?.() || "Bhoomi Sathi";
+
+  const safeAvatar = blog?.author?.avatar?.trim?.() || FALLBACK_AVATAR;
+
+  const safeRole = blog?.author?.role?.trim?.() || "Founder, Bhoomi Sathi";
+
+  const safeReadTime = blog?.readTime?.trim?.() || "8 min read";
+
+  const safeDate =
+    blog?.publishedAt || blog?.createdAt
+      ? new Date(blog?.publishedAt || blog?.createdAt).toLocaleDateString(
+          "en-IN",
+          {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          },
+        )
+      : "Recently";
+
+  // ====================================================
+  // SHARE URL
+  // ====================================================
+
+  const shareUrl =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/blog/${safeSlug}`
+      : "";
 
   // ====================================================
   // RENDER
@@ -76,29 +90,50 @@ export default function BlogPostHero({
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
-        {/* BREADCRUMB */}
-        <div className={styles.breadcrumb}>
-          <Link href="/">Home</Link>
+        {/* HERO CARD */}
+        <div className={styles.heroCard}>
+          {/* IMAGE */}
+          <div className={styles.imageWrapper}>
+            <Image
+              src={safeImage}
+              alt={safeTitle}
+              fill
+              priority
+              className={styles.image}
+              unoptimized
+            />
 
-          <ChevronRight size={16} />
+            {/* OVERLAY */}
+            <div className={styles.overlay} />
 
-          <Link href="/blog">Blog</Link>
+            {/* CONTENT */}
+            <div className={styles.content}>
+              {/* BREADCRUMB */}
+              <div className={styles.breadcrumb}>
+                <Link href="/">Home</Link>
 
-          <ChevronRight size={16} />
+                <ChevronRight size={14} />
 
-          <span>{slug}</span>
+                <Link href="/blog">Blog</Link>
+
+                <ChevronRight size={14} />
+
+                <span>{safeCategory}</span>
+              </div>
+
+              {/* CATEGORY */}
+              <span className={styles.badge}>{safeCategory}</span>
+
+              {/* TITLE */}
+              <h1 className={styles.title}>{safeTitle}</h1>
+
+              {/* EXCERPT */}
+              <p className={styles.excerpt}>{safeExcerpt}</p>
+            </div>
+          </div>
         </div>
 
-        {/* CATEGORY */}
-        <div className={styles.badge}>{category}</div>
-
-        {/* TITLE */}
-        <h1 className={styles.title}>{title}</h1>
-
-        {/* EXCERPT */}
-        <p className={styles.excerpt}>{excerpt}</p>
-
-        {/* META */}
+        {/* META BAR */}
         <div className={styles.metaRow}>
           {/* AUTHOR */}
           <div className={styles.author}>
@@ -113,57 +148,51 @@ export default function BlogPostHero({
             </div>
 
             <div>
-              <span className={styles.authorLabel}>Written by</span>
-
               <h4 className={styles.authorName}>{safeAuthor}</h4>
+
+              <span className={styles.authorRole}>{safeRole}</span>
             </div>
           </div>
 
           {/* DATE */}
           <div className={styles.meta}>
-            <CalendarDays size={18} />
+            <CalendarDays size={16} />
 
             <span>{safeDate}</span>
           </div>
 
           {/* READ TIME */}
           <div className={styles.meta}>
-            <Clock3 size={18} />
+            <Clock3 size={16} />
 
-            <span>{readTime}</span>
+            <span>{safeReadTime}</span>
           </div>
-        </div>
 
-        {/* FEATURED IMAGE */}
-        <div className={styles.imageWrapper}>
-          <Image
-            src={safeImage}
-            alt={title}
-            fill
-            priority
-            className={styles.image}
-            unoptimized
-          />
+          {/* CATEGORY */}
+          <span className={styles.metaBadge}>{safeCategory}</span>
         </div>
 
         {/* SHARE */}
         <div className={styles.shareRow}>
-          <span className={styles.shareLabel}>
-            <Share2 size={18} />
-            Share:
-          </span>
+          <span className={styles.shareLabel}>Share:</span>
 
-          <button className={styles.shareButton}>
-            <Facebook size={18} />
-          </button>
+          <FacebookShareButton url={shareUrl}>
+            <button className={styles.shareButton}>
+              <FaFacebookF size={14} />
+            </button>
+          </FacebookShareButton>
 
-          <button className={styles.shareButton}>
-            <Twitter size={18} />
-          </button>
+          <TwitterShareButton url={shareUrl} title={safeTitle}>
+            <button className={styles.shareButton}>
+              <FaXTwitter size={14} />
+            </button>
+          </TwitterShareButton>
 
-          <button className={styles.shareButton}>
-            <Linkedin size={18} />
-          </button>
+          <LinkedinShareButton url={shareUrl}>
+            <button className={styles.shareButton}>
+              <FaLinkedinIn size={14} />
+            </button>
+          </LinkedinShareButton>
         </div>
       </div>
     </section>

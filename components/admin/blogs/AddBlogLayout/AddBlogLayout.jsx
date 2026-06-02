@@ -61,6 +61,8 @@ export default function AddBlogLayout({
           <aside className={styles.rightColumn}>
             <FeaturedImageUpload
               image={featuredImage}
+              title={formData?.title}
+              slug={formData?.slug}
               onChange={onImageChange}
               onRemove={onImageRemove}
             />

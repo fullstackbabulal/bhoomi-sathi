@@ -10,8 +10,10 @@ const router = express.Router();
 // ======================================================
 // CONTROLLERS
 // ======================================================
+
 const {
   createBlogPost,
+  uploadBlogFeaturedImage,
   getBlogPosts,
   getBlogBySlug,
   getBlogById,
@@ -23,6 +25,7 @@ const {
 // ======================================================
 // MIDDLEWARE
 // ======================================================
+
 const authMiddleware = require("../middleware/auth.middleware");
 
 const roleMiddleware = require("../middleware/role.middleware");
@@ -33,42 +36,78 @@ const uploadMulter = require("../middleware/uploadMulter");
 // PUBLIC ROUTES
 // ======================================================
 
-// Get all blogs
+// GET ALL BLOGS
 router.get("/", getBlogPosts);
 
-// Related blogs
+// RELATED BLOGS
 router.get("/related/:id", getRelatedBlogs);
 
-// SEO slug route
+// SEO SLUG ROUTE
 router.get("/slug/:slug", getBlogBySlug);
 
 // ======================================================
 // PROTECTED ROUTES
 // ======================================================
 
+// ======================================================
+// BLOG IMAGE UPLOAD
+// POST /api/blogs/upload-image
+// ======================================================
+router.post(
+  "/upload-image",
+
+  authMiddleware,
+
+  roleMiddleware("admin", "agent"),
+
+  uploadMulter.single("featuredImage"),
+
+  uploadBlogFeaturedImage,
+);
+
+// ======================================================
 // CREATE BLOG
+// POST /api/blogs/add
+// ======================================================
 router.post(
   "/add",
+
   authMiddleware,
+
   roleMiddleware("admin", "agent"),
+
   uploadMulter.single("featuredImage"),
+
   createBlogPost,
 );
 
+// ======================================================
 // UPDATE BLOG
+// PUT /api/blogs/:id
+// ======================================================
 router.put(
   "/:id",
+
   authMiddleware,
+
   roleMiddleware("admin", "agent"),
+
   uploadMulter.single("featuredImage"),
+
   updateBlogPost,
 );
 
+// ======================================================
 // DELETE BLOG
+// DELETE /api/blogs/:id
+// ======================================================
 router.delete(
   "/:id",
+
   authMiddleware,
+
   roleMiddleware("admin", "agent"),
+
   deleteBlogPost,
 );
 

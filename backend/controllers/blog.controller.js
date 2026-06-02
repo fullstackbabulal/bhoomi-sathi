@@ -43,17 +43,36 @@ const safeString = (value = "") => {
   return typeof value === "string" ? value.trim() : "";
 };
 
-const getFeaturedImagePath = (req, slug) => {
-  /**
-   * Same structure as property controller
-   *
-   * uploads/images/blog/{slug}/{filename}
-   */
-  if (!req.file) {
+// ======================================================
+// SAFE FEATURED IMAGE PATH
+// ======================================================
+
+const getFeaturedImagePath = (req, slug = "") => {
+  // ==========================================
+  // NO FILE
+  // ==========================================
+  if (!req?.file) {
     return "";
   }
 
-  return `/uploads/images/blog/${slug}/${req.file.filename}`;
+  // ==========================================
+  // SAFE SLUG
+  // prevents:
+  // /blog//filename.jpg
+  // ==========================================
+  const safeFolderSlug = safeString(slug) || "general";
+
+  // ==========================================
+  // SAFE FILENAME
+  // ==========================================
+  const fileName = req.file.filename?.replaceAll("\\", "/").trim();
+
+  // ==========================================
+  // NORMALIZED PATH
+  // ==========================================
+  return `/uploads/images/blog/${safeFolderSlug}/${fileName}`
+    .replace(/\/+/g, "/")
+    .trim();
 };
 
 // ======================================================
@@ -66,7 +85,7 @@ const createBlogPost = async (req, res) => {
     // ==========================================
     const title = safeString(req.body.title);
 
-    const slug = safeSlug(title, req.body.slug);
+    const slug = safeSlug(title, req.body.slug) || "general";
 
     // ==========================================
     // VALIDATION
@@ -359,11 +378,12 @@ const updateBlogPost = async (req, res) => {
     // FIXED SLUG LOGIC
     // REQUIRED FOR MULTER PATH
     // ==========================================
-    const updatedSlug = safeSlug(
-      req.body.title || blog.title,
+    const updatedSlug =
+      safeSlug(
+        req.body.title || blog.title,
 
-      req.body.slug || blog.slug,
-    );
+        req.body.slug || blog.slug,
+      ) || "general";
 
     // ==========================================
     // SUPPORTS:
@@ -395,9 +415,9 @@ const updateBlogPost = async (req, res) => {
     if (req.body.featuredImage) {
       blog.featuredImage = req.body.featuredImage;
     } else if (featuredImage) {
-    /**
-     * Multer fallback
-     */
+      /**
+       * Multer fallback
+       */
       blog.featuredImage = featuredImage;
     }
 

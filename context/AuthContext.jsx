@@ -10,6 +10,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -21,69 +22,90 @@ import { getCurrentUser, loginUser, logoutUser } from "@/services/authApi";
 // ======================================================
 // CONTEXT
 // ======================================================
+
 const AuthContext = createContext(null);
 
 // ======================================================
 // PROVIDER
 // ======================================================
+
 export function AuthProvider({ children }) {
   const router = useRouter();
 
   // ====================================================
   // STATE
   // ====================================================
+
   const [user, setUser] = useState(null);
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // ====================================================
   // CHECK AUTH
   // ====================================================
+
   const checkAuth = useCallback(async () => {
     try {
-      setLoading(true);
-
       const response = await getCurrentUser();
 
       const currentUser = response?.user || null;
 
       if (currentUser) {
         setUser(currentUser);
-
         setIsAuthenticated(true);
 
         return currentUser;
       }
 
       setUser(null);
-
       setIsAuthenticated(false);
 
       return null;
     } catch {
       setUser(null);
-
       setIsAuthenticated(false);
 
       return null;
-    } finally {
-      setLoading(false);
     }
   }, []);
 
   // ====================================================
+  // INITIAL SESSION CHECK
+  // IMPORTANT
+  // Runs on app load
+  // ====================================================
+
+  useEffect(() => {
+    let mounted = true;
+
+    const initializeAuth = async () => {
+      try {
+        await checkAuth();
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    initializeAuth();
+
+    return () => {
+      mounted = false;
+    };
+  }, [checkAuth]);
+
+  // ====================================================
   // LOGIN
   // ====================================================
+
   const login = useCallback(
     async ({ email, password }) => {
       try {
         setLoading(true);
 
-        // ======================================
-        // LOGIN REQUEST
-        // ======================================
         const response = await loginUser({
           email,
           password,
@@ -93,38 +115,29 @@ export function AuthProvider({ children }) {
           throw new Error(response?.message || "Login failed.");
         }
 
-        // ======================================
-        // FETCH SESSION USER
-        // ======================================
         const currentUser = await checkAuth();
 
         if (!currentUser) {
           throw new Error("Unable to fetch authenticated user.");
         }
 
-        // ======================================
-        // ROLE BASED REDIRECT
-        // ======================================
-        const role = currentUser?.role;
+        switch (currentUser?.role) {
+          case "admin":
+            router.replace("/admin/dashboard");
+            break;
 
-        if (role === "admin") {
-          router.replace("/admin/dashboard");
-        } else if (role === "agent") {
-          router.replace("/agent/dashboard");
-        } else {
-          router.replace("/user/dashboard");
+          case "agent":
+            router.replace("/agent/dashboard");
+            break;
+
+          default:
+            router.replace("/user/dashboard");
         }
 
         return {
           success: true,
           user: currentUser,
         };
-      } catch (error) {
-        setUser(null);
-
-        setIsAuthenticated(false);
-
-        throw error;
       } finally {
         setLoading(false);
       }
@@ -135,6 +148,7 @@ export function AuthProvider({ children }) {
   // ====================================================
   // LOGOUT
   // ====================================================
+
   const logout = useCallback(async () => {
     try {
       setLoading(true);
@@ -143,18 +157,10 @@ export function AuthProvider({ children }) {
     } catch (error) {
       console.error("Logout failed:", error);
     } finally {
-      // ======================================
-      // RESET STATE
-      // ======================================
       setUser(null);
-
       setIsAuthenticated(false);
-
       setLoading(false);
 
-      // ======================================
-      // REDIRECT LOGIN
-      // ======================================
       router.replace("/login");
     }
   }, [router]);
@@ -162,6 +168,7 @@ export function AuthProvider({ children }) {
   // ====================================================
   // REFRESH USER
   // ====================================================
+
   const refreshUser = useCallback(async () => {
     return await checkAuth();
   }, [checkAuth]);
@@ -169,6 +176,7 @@ export function AuthProvider({ children }) {
   // ====================================================
   // CONTEXT VALUE
   // ====================================================
+
   const value = useMemo(
     () => ({
       user,
@@ -185,15 +193,13 @@ export function AuthProvider({ children }) {
     [user, loading, isAuthenticated, login, logout, checkAuth, refreshUser],
   );
 
-  // ====================================================
-  // PROVIDER
-  // ====================================================
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 // ======================================================
 // CUSTOM HOOK
 // ======================================================
+
 export function useAuth() {
   const context = useContext(AuthContext);
 
@@ -204,7 +210,4 @@ export function useAuth() {
   return context;
 }
 
-// ======================================================
-// EXPORT
-// ======================================================
 export default AuthContext;

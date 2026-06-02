@@ -1,0 +1,107 @@
+/* ======================================================
+   File: RelatedPosts.module.css
+   Description: Related Posts Section
+====================================================== */
+
+.section {
+  margin-top: 90px;
+
+  padding-top: 50px;
+
+  border-top: 1px solid #e2e8f0;
+}
+
+/* ======================================================
+   HEADER
+====================================================== */
+
+.header {
+  margin-bottom: 40px;
+}
+
+.badge {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 42px;
+
+  padding: 10px 18px;
+
+  border-radius: 999px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  margin-bottom: 18px;
+}
+
+.title {
+  margin: 0 0 14px;
+
+  color: #0f172a;
+
+  font-size: clamp(32px, 3vw, 46px);
+
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.description {
+  margin: 0;
+
+  max-width: 700px;
+
+  color: #64748b;
+
+  font-size: 17px;
+  line-height: 1.9;
+}
+
+/* ======================================================
+   GRID
+====================================================== */
+
+.grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 28px;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    margin-top: 60px;
+    padding-top: 36px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+
+    gap: 22px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .description {
+    font-size: 15px;
+  }
+}

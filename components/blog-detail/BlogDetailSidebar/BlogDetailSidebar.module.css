@@ -1,0 +1,31 @@
+/* ======================================================
+   File: BlogDetailSidebar.module.css
+   Description: Blog Detail Sidebar
+====================================================== */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+
+  gap: 28px;
+
+  width: 100%;
+
+  min-width: 0;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 1200px) {
+  .sidebar {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    gap: 20px;
+  }
+}

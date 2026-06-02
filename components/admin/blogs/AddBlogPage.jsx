@@ -3,11 +3,13 @@
 // ======================================================
 // File: components/admin/blogs/AddBlogPage.jsx
 // Description: Add Blog Page
+// Admin Protected
 // ======================================================
 
 import { useState } from "react";
 
 import AddBlogLayout from "@/components/admin/blogs/AddBlogLayout/AddBlogLayout";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
 import { createBlog } from "@/services/blog.service";
 
@@ -42,7 +44,15 @@ export default function AddBlogPage() {
 
   const [loading, setLoading] = useState(false);
 
-  const [featuredImage, setFeaturedImage] = useState(null);
+  /**
+   * IMPORTANT:
+   * featuredImage is now
+   * STRING PATH
+   *
+   * Example:
+   * /uploads/images/blog/my-blog/image.webp
+   */
+  const [featuredImage, setFeaturedImage] = useState("");
 
   const [formData, setFormData] = useState(getInitialFormData());
 
@@ -72,38 +82,74 @@ export default function AddBlogPage() {
       .replace(/--+/g, "-");
   };
 
+  const validatePublish = () => {
+    if (!formData.title?.trim()) {
+      alert("Blog title is required.");
+
+      return false;
+    }
+
+    if (!formData.content?.trim()) {
+      alert("Blog content is required.");
+
+      return false;
+    }
+
+    if (!formData.category?.trim()) {
+      alert("Blog category is required.");
+
+      return false;
+    }
+
+    return true;
+  };
+
   const resetForm = () => {
     setFormData(getInitialFormData());
 
-    setFeaturedImage(null);
+    setFeaturedImage("");
   };
 
   const buildFormData = (status) => {
     const payload = new FormData();
 
-    payload.append("title", formData.title);
+    payload.append("title", formData.title?.trim() || "");
 
-    payload.append("slug", formData.slug);
+    payload.append(
+      "slug",
+      formData.slug?.trim() || generateSlug(formData.title),
+    );
 
-    payload.append("excerpt", formData.excerpt);
+    payload.append("excerpt", formData.excerpt?.trim() || "");
 
-    payload.append("content", formData.content);
+    payload.append("content", formData.content || "");
 
     payload.append("status", status);
 
-    payload.append("category", formData.category);
+    payload.append("category", formData.category || "");
 
-    payload.append("tags", formData.tags);
+    payload.append("tags", formData.tags || "");
 
-    payload.append("publishDate", formData.publishDate);
+    payload.append("publishDate", formData.publishDate || "");
 
-    payload.append("metaTitle", formData.metaTitle);
+    payload.append("metaTitle", formData.metaTitle?.trim() || "");
 
-    payload.append("metaDescription", formData.metaDescription);
+    payload.append("metaDescription", formData.metaDescription?.trim() || "");
 
-    payload.append("focusKeyword", formData.focusKeyword);
+    payload.append("focusKeyword", formData.focusKeyword?.trim() || "");
 
-    if (featuredImage) {
+    /**
+     * IMPORTANT
+     * entity=blog
+     */
+    payload.append("entity", "blog");
+
+    /**
+     * IMPORTANT
+     * featuredImage
+     * string path
+     */
+    if (featuredImage && typeof featuredImage === "string") {
       payload.append("featuredImage", featuredImage);
     }
 
@@ -118,6 +164,7 @@ export default function AddBlogPage() {
     setFormData((prev) => {
       const updated = {
         ...prev,
+
         [field]: value,
       };
 
@@ -136,6 +183,11 @@ export default function AddBlogPage() {
         updated.metaDescription = value;
       }
 
+      // Manual slug sanitize
+      if (field === "slug") {
+        updated.slug = generateSlug(value);
+      }
+
       return updated;
     });
   };
@@ -144,12 +196,19 @@ export default function AddBlogPage() {
   // IMAGE HANDLERS
   // ====================================================
 
-  const handleImageChange = (file) => {
-    setFeaturedImage(file);
+  /**
+   * Receives uploaded
+   * image path
+   *
+   * Example:
+   * /uploads/images/blog/my-blog/image.webp
+   */
+  const handleImageChange = (uploadedImagePath) => {
+    setFeaturedImage(uploadedImagePath || "");
   };
 
   const handleImageRemove = () => {
-    setFeaturedImage(null);
+    setFeaturedImage("");
   };
 
   // ====================================================
@@ -160,19 +219,13 @@ export default function AddBlogPage() {
     try {
       setLoading(true);
 
-      console.log("🔥 SAVE DRAFT CLICKED");
-
       const payload = buildFormData("draft");
 
       const response = await createBlog(payload);
 
-      console.log("✅ Draft Response:", response);
-
-      alert(response.message || "Draft saved successfully");
-
-      // Keep form for draft
+      alert(response?.message || "Draft saved successfully");
     } catch (error) {
-      console.error("❌ Draft Error:", error);
+      console.error("Draft save error:", error);
 
       alert(error?.message || "Failed to save draft");
     } finally {
@@ -185,32 +238,26 @@ export default function AddBlogPage() {
   // ====================================================
 
   const handlePublish = async () => {
+    if (!validatePublish()) {
+      return;
+    }
+
     try {
       setLoading(true);
 
-      console.log("🔥 PUBLISH CLICKED");
-
-      // Validation
-      if (!formData.title || !formData.content || !formData.category) {
-        alert("Title, content and category are required.");
-
-        return;
-      }
-
       const payload = buildFormData("published");
-
-      console.log("📦 Payload Ready");
 
       const response = await createBlog(payload);
 
-      console.log("✅ Publish Response:", response);
+      alert(response?.message || "Blog published successfully");
 
-      alert(response.message || "Blog published successfully");
-
-      // Clear form after publish
+      /**
+       * Reset form
+       * after publish
+       */
       resetForm();
     } catch (error) {
-      console.error("❌ Publish Error:", error);
+      console.error("Publish error:", error);
 
       alert(error?.message || "Failed to publish blog");
     } finally {
@@ -223,16 +270,18 @@ export default function AddBlogPage() {
   // ====================================================
 
   return (
-    <AddBlogLayout
-      formData={formData}
-      categories={categories}
-      loading={loading}
-      featuredImage={featuredImage}
-      onChange={handleChange}
-      onImageChange={handleImageChange}
-      onImageRemove={handleImageRemove}
-      onSaveDraft={handleSaveDraft}
-      onPublish={handlePublish}
-    />
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <AddBlogLayout
+        formData={formData}
+        categories={categories}
+        loading={loading}
+        featuredImage={featuredImage}
+        onChange={handleChange}
+        onImageChange={handleImageChange}
+        onImageRemove={handleImageRemove}
+        onSaveDraft={handleSaveDraft}
+        onPublish={handlePublish}
+      />
+    </ProtectedRoute>
   );
 }

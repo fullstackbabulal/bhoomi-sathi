@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import DashboardHome from "@/components/admin/dashboard/DashboardHome";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
 export default function AdminDashboardPage() {
   /*
@@ -16,7 +17,9 @@ export default function AdminDashboardPage() {
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [error, setError] = useState<string | null>(null);
+  // Fixed type issue:
+  // AdminLayout expects string | undefined
+  const [error, setError] = useState<string | undefined>();
 
   /*
   ===================================
@@ -31,14 +34,16 @@ export default function AdminDashboardPage() {
     const fetchDashboard = async () => {
       try {
         setLoading(true);
-        setError(null);
+
+        // reset error
+        setError(undefined);
 
         /*
-        ===================================
-        API CALL
-        Replace with real API
-        ===================================
-        */
+          ===================================
+          API CALL
+          Replace with real API
+          ===================================
+          */
 
         // Example:
         // const response =
@@ -52,10 +57,10 @@ export default function AdminDashboardPage() {
         if (!mounted) return;
 
         /*
-        ===================================
-        SAFE API → FALLBACK
-        ===================================
-        */
+          ===================================
+          SAFE API → FALLBACK
+          ===================================
+          */
 
         setDashboardData(result || null);
       } catch (err) {
@@ -79,12 +84,14 @@ export default function AdminDashboardPage() {
   }, []);
 
   return (
-    <AdminLayout loading={loading} error={error}>
-      <DashboardHome
-        dashboardData={dashboardData}
-        loading={loading}
-        error={error}
-      />
-    </AdminLayout>
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <AdminLayout loading={loading} error={error}>
+        <DashboardHome
+          dashboardData={dashboardData}
+          loading={loading}
+          error={error}
+        />
+      </AdminLayout>
+    </ProtectedRoute>
   );
 }

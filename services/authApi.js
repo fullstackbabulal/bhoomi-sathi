@@ -9,14 +9,20 @@ import axios from "axios";
 // ======================================================
 // ENVIRONMENT CONFIG
 // ======================================================
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 // ======================================================
 // AXIOS INSTANCE
 // ======================================================
+
 const authApi = axios.create({
   baseURL: API_BASE_URL,
 
+  /**
+   * IMPORTANT
+   * Cookie-based auth
+   */
   withCredentials: true,
 
   timeout: 15000,
@@ -28,8 +34,8 @@ const authApi = axios.create({
 
 // ======================================================
 // REQUEST INTERCEPTOR
-// Future extensibility
 // ======================================================
+
 authApi.interceptors.request.use(
   (config) => config,
 
@@ -38,8 +44,8 @@ authApi.interceptors.request.use(
 
 // ======================================================
 // RESPONSE INTERCEPTOR
-// Centralized error normalization
 // ======================================================
+
 authApi.interceptors.response.use(
   (response) => response,
 
@@ -51,6 +57,7 @@ authApi.interceptors.response.use(
 // ======================================================
 // NORMALIZE API ERROR
 // ======================================================
+
 const normalizeApiError = (error) => {
   // ==============================================
   // NETWORK ERROR
@@ -97,6 +104,7 @@ const normalizeApiError = (error) => {
 // ======================================================
 // VALIDATE RESPONSE
 // ======================================================
+
 const validateResponse = (response) => {
   if (!response?.data) {
     throw new Error("Invalid server response.");
@@ -109,6 +117,7 @@ const validateResponse = (response) => {
 // LOGIN USER
 // POST /api/auth/login
 // ======================================================
+
 export const loginUser = async ({ email, password }) => {
   const response = await authApi.post("/api/auth/login", {
     email,
@@ -123,13 +132,15 @@ export const loginUser = async ({ email, password }) => {
 // GET /api/auth/me
 //
 // IMPORTANT:
-// 401 = expected when user is
-// not logged in.
-// Returns null instead of throwing.
+// 401 = expected when user
+// is not logged in.
+// Returns null instead of
+// throwing.
 // ======================================================
+
 export const getCurrentUser = async () => {
   try {
-    const response = await authApi.get("api/auth/me");
+    const response = await authApi.get("/api/auth/me");
 
     return validateResponse(response);
   } catch (error) {
@@ -137,7 +148,11 @@ export const getCurrentUser = async () => {
     // EXPECTED CASE
     // User not authenticated
     // ==========================================
-    if (error?.message?.toLowerCase()?.includes("unauthorized")) {
+    if (
+      error?.message?.toLowerCase()?.includes("unauthorized") ||
+      error?.message?.toLowerCase()?.includes("login") ||
+      error?.message?.toLowerCase()?.includes("token")
+    ) {
       return null;
     }
 
@@ -149,8 +164,9 @@ export const getCurrentUser = async () => {
 // LOGOUT USER
 // POST /api/auth/logout
 // ======================================================
+
 export const logoutUser = async () => {
-  const response = await authApi.post("/auth/logout");
+  const response = await authApi.post("/api/auth/logout");
 
   return validateResponse(response);
 };
@@ -159,8 +175,9 @@ export const logoutUser = async () => {
 // REGISTER USER
 // POST /api/auth/register
 // ======================================================
+
 export const registerUser = async ({ name, email, password, phone = "" }) => {
-  const response = await authApi.post("/auth/register", {
+  const response = await authApi.post("/api/auth/register", {
     name,
     email,
     password,
@@ -173,4 +190,5 @@ export const registerUser = async ({ name, email, password, phone = "" }) => {
 // ======================================================
 // EXPORT INSTANCE
 // ======================================================
+
 export default authApi;

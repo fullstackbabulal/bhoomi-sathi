@@ -40,7 +40,7 @@ export const createBlog = async (payload) => {
 
     return response.data;
   } catch (error) {
-    console.error("❌ Create Blog Error:", error.response?.data || error);
+    console.error("❌ Create Blog Error:", error?.response?.data || error);
 
     throw error?.response?.data || error;
   }
@@ -48,6 +48,7 @@ export const createBlog = async (payload) => {
 
 // ======================================================
 // UPDATE BLOG
+// PUT /api/blogs/:id
 // ======================================================
 
 export const updateBlog = async (id, payload) => {
@@ -60,12 +61,15 @@ export const updateBlog = async (id, payload) => {
 
     return response.data;
   } catch (error) {
+    console.error("❌ Update Blog Error:", error?.response?.data || error);
+
     throw error?.response?.data || error;
   }
 };
 
 // ======================================================
 // GET BLOGS
+// GET /api/blogs
 // ======================================================
 
 export const getBlogs = async (params = {}) => {
@@ -76,12 +80,15 @@ export const getBlogs = async (params = {}) => {
 
     return response.data;
   } catch (error) {
+    console.error("❌ Get Blogs Error:", error?.response?.data || error);
+
     throw error?.response?.data || error;
   }
 };
 
 // ======================================================
 // GET BLOG BY ID
+// GET /api/blogs/:id
 // ======================================================
 
 export const getBlogById = async (id) => {
@@ -90,26 +97,32 @@ export const getBlogById = async (id) => {
 
     return response.data;
   } catch (error) {
+    console.error("❌ Get Blog By ID Error:", error?.response?.data || error);
+
     throw error?.response?.data || error;
   }
 };
 
 // ======================================================
 // GET BLOG BY SLUG
+// GET /api/blogs/:slug
 // ======================================================
 
 export const getBlogBySlug = async (slug) => {
   try {
-    const response = await blogApi.get(`/slug/${slug}`);
+    const response = await blogApi.get(`/${slug}`);
 
     return response.data;
   } catch (error) {
+    console.error("❌ Get Blog By Slug Error:", error?.response?.data || error);
+
     throw error?.response?.data || error;
   }
 };
 
 // ======================================================
 // DELETE BLOG
+// DELETE /api/blogs/:id
 // ======================================================
 
 export const deleteBlog = async (id) => {
@@ -118,6 +131,70 @@ export const deleteBlog = async (id) => {
 
     return response.data;
   } catch (error) {
+    console.error("❌ Delete Blog Error:", error?.response?.data || error);
+
     throw error?.response?.data || error;
   }
 };
+
+// ======================================================
+// GET PUBLISHED BLOGS
+// GET /api/blogs?status=published
+// ======================================================
+
+export const getPublishedBlogs = async (
+  page = 1,
+  limit = 9,
+  category = "",
+  keyword = "",
+) => {
+  try {
+    const response = await blogApi.get("/", {
+      params: {
+        page,
+        limit,
+
+        status: "published",
+
+        category: category || undefined,
+
+        keyword: keyword || undefined,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "❌ Get Published Blogs Error:",
+      error?.response?.data || error,
+    );
+
+    throw error?.response?.data || error;
+  }
+};
+
+// ======================================================
+// GET RELATED BLOGS
+// GET /api/blogs/related/:id
+// ======================================================
+
+export const getRelatedBlogs = async (id) => {
+  try {
+    const response = await blogApi.get(`/related/${id}`);
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "❌ Get Related Blogs Error:",
+      error?.response?.data || error,
+    );
+
+    throw error?.response?.data || error;
+  }
+};
+
+// ======================================================
+// EXPORT API INSTANCE
+// ======================================================
+
+export default blogApi;

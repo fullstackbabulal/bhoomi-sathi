@@ -7,6 +7,7 @@
 
 import { useState } from "react";
 
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import AddBlogLayout from "@/components/admin/blogs/AddBlogLayout/AddBlogLayout";
 
 import { createBlog } from "@/services/blog.service";
@@ -226,16 +227,18 @@ export default function Page() {
   // ====================================================
 
   return (
-    <AddBlogLayout
-      formData={formData}
-      categories={categories}
-      loading={loading}
-      featuredImage={featuredImage}
-      onChange={handleChange}
-      onImageChange={handleImageChange}
-      onImageRemove={handleImageRemove}
-      onSaveDraft={handleSaveDraft}
-      onPublish={handlePublish}
-    />
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <AddBlogLayout
+        formData={formData}
+        categories={categories}
+        loading={loading}
+        featuredImage={featuredImage}
+        onChange={handleChange}
+        onImageChange={handleImageChange}
+        onImageRemove={handleImageRemove}
+        onSaveDraft={handleSaveDraft}
+        onPublish={handlePublish}
+      />
+    </ProtectedRoute>
   );
 }

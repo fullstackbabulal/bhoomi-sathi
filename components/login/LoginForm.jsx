@@ -3,11 +3,10 @@
 // ======================================================
 // File: components/login/LoginForm.jsx
 // Description: Production-grade Login Form
-// Role-based authentication redirect
+// Login only on button click
 // ======================================================
 
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/context/AuthContext";
@@ -18,11 +17,13 @@ export default function LoginForm() {
   // ====================================================
   // AUTH CONTEXT
   // ====================================================
-  const { login, loading, isAuthenticated, checkAuth } = useAuth();
+
+  const { login, loading } = useAuth();
 
   // ====================================================
   // FORM STATE
   // ====================================================
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -33,6 +34,7 @@ export default function LoginForm() {
   // ====================================================
   // INPUT CHANGE
   // ====================================================
+
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -43,48 +45,10 @@ export default function LoginForm() {
   };
 
   // ====================================================
-  // ROLE REDIRECT
-  // Prevent logged-in user from staying
-  // on /login page
-  // ====================================================
-  useEffect(() => {
-    if (!isAuthenticated) {
-      return;
-    }
-
-    const redirectUser = async () => {
-      try {
-        const currentUser = await checkAuth();
-
-        const role = currentUser?.role;
-
-        // ADMIN
-        if (role === "admin") {
-          router.replace("/admin/dashboard");
-
-          return;
-        }
-
-        // AGENT
-        if (role === "agent") {
-          router.replace("/agent/dashboard");
-
-          return;
-        }
-
-        // USER
-        router.replace("/user/dashboard");
-      } catch (err) {
-        console.error("Redirect failed:", err);
-      }
-    };
-
-    redirectUser();
-  }, [isAuthenticated, router, checkAuth]);
-
-  // ====================================================
   // SUBMIT
+  // LOGIN ONLY ON BUTTON CLICK
   // ====================================================
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -96,26 +60,34 @@ export default function LoginForm() {
         password: formData.password,
       });
 
-      if (response?.success) {
-        const role = response?.user?.role;
-
-        // ADMIN
-        if (role === "admin") {
-          router.replace("/admin/dashboard");
-
-          return;
-        }
-
-        // AGENT
-        if (role === "agent") {
-          router.replace("/agent/dashboard");
-
-          return;
-        }
-
-        // USER
-        router.replace("/user/dashboard");
+      if (!response?.success) {
+        throw new Error(response?.message || "Authentication failed");
       }
+
+      const role = response?.user?.role;
+
+      /*
+        ===================================
+        ROLE REDIRECT
+        ===================================
+        */
+
+      // ADMIN
+      if (role === "admin") {
+        router.replace("/admin/dashboard");
+
+        return;
+      }
+
+      // AGENT
+      if (role === "agent") {
+        router.replace("/agent/dashboard");
+
+        return;
+      }
+
+      // USER
+      router.replace("/user/dashboard");
     } catch (err) {
       console.error("Login failed:", err);
 
@@ -126,6 +98,7 @@ export default function LoginForm() {
   // ====================================================
   // UI
   // ====================================================
+
   return (
     <main
       style={{

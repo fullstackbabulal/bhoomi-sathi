@@ -2,252 +2,137 @@
 
 // ======================================================
 // File: components/auth/ProtectedRoute.jsx
-// Description: Production-grade Route Protection
-// Manual session validation + role protection
+// Description: Secure Route Protection
+// Auth + Role-based access control
 // ======================================================
 
-import { useEffect, useMemo, useState } from "react";
-
+import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { useAuth } from "@/context/AuthContext";
 
 // ======================================================
-// TYPES
-// ======================================================
-
-/**
- * @typedef {"admin" | "agent" | "user"} UserRole
- */
-
-/**
- * @typedef ProtectedRouteProps
- * @property {React.ReactNode} children
- * @property {UserRole[]} [allowedRoles]
- */
-
-// ======================================================
 // AUTH PAGES
-// Authenticated users should not access these
 // ======================================================
 
-/** @type {string[]} */
 const AUTH_PAGES = ["/login", "/register"];
 
 // ======================================================
 // COMPONENT
 // ======================================================
 
-/**
- * @param {ProtectedRouteProps} props
- */
 export default function ProtectedRoute({ children, allowedRoles = [] }) {
   const router = useRouter();
 
   const pathname = usePathname();
 
-  const { user, loading, checkAuth, isAuthenticated } = useAuth();
+  const { user, loading, isAuthenticated } = useAuth();
 
   // ====================================================
-  // LOCAL STATE
-  // Prevent premature redirects
+  // PAGE TYPE
   // ====================================================
-  const [checkingSession, setCheckingSession] = useState(true);
 
-  // ====================================================
-  // AUTH PAGE CHECK
-  // ====================================================
-  const isAuthPage = useMemo(() => AUTH_PAGES.includes(pathname), [pathname]);
-
-  // ====================================================
-  // SESSION CHECK
-  // Manual auth validation
-  // ====================================================
-  useEffect(() => {
-    let mounted = true;
-
-    const validateSession = async () => {
-      try {
-        setCheckingSession(true);
-
-        await checkAuth();
-      } catch {
-        // silent fail
-      } finally {
-        if (mounted) {
-          setCheckingSession(false);
-        }
-      }
-    };
-
-    validateSession();
-
-    return () => {
-      mounted = false;
-    };
-  }, [checkAuth]);
+  const isAuthPage = AUTH_PAGES.includes(pathname);
 
   // ====================================================
   // ACCESS CONTROL
   // ====================================================
+
   useEffect(() => {
-    if (loading || checkingSession) {
-      return;
-    }
+    // Wait for auth
+    if (loading) return;
 
-    // ==============================================
-    // NOT AUTHENTICATED
-    // ==============================================
-    if (!isAuthenticated) {
-      // Allow access to auth pages
-      if (isAuthPage) {
-        return;
-      }
+    /*
+    ==========================================
+    NOT LOGGED IN
+    ==========================================
+    */
 
+    if (!isAuthenticated && !isAuthPage) {
       router.replace("/login");
 
       return;
     }
 
-    // ==============================================
-    // AUTHENTICATED
-    // ==============================================
-    if (isAuthenticated) {
-      // Prevent access to login/register
-      if (isAuthPage) {
-        const role = user?.role;
+    /*
+    ==========================================
+    AUTH PAGE REDIRECT
+    Example:
+    logged-in user visits /login
+    ==========================================
+    */
 
-        // Admin
-        if (role === "admin") {
+    if (isAuthenticated && isAuthPage) {
+      switch (user?.role) {
+        case "admin":
           router.replace("/admin/dashboard");
+          break;
 
-          return;
-        }
-
-        // Agent
-        if (role === "agent") {
+        case "agent":
           router.replace("/agent/dashboard");
+          break;
 
-          return;
-        }
-
-        // User
-        router.replace("/user/dashboard");
-
-        return;
+        default:
+          router.replace("/user/dashboard");
       }
 
-      // ==========================================
-      // ROLE CHECK
-      // ==========================================
-      const hasRoleAccess =
-        allowedRoles.length === 0 ||
-        allowedRoles.includes(
-          /** @type {UserRole} */
-          (user?.role),
-        );
+      return;
+    }
 
-      if (!hasRoleAccess) {
-        router.replace("/");
+    /*
+    ==========================================
+    ROLE VALIDATION
+    ==========================================
+    */
 
-        return;
-      }
+    const hasRoleAccess =
+      allowedRoles.length === 0 || allowedRoles.includes(user?.role);
+
+    if (isAuthenticated && !hasRoleAccess) {
+      router.replace("/");
+
+      return;
     }
   }, [
     router,
+    loading,
     pathname,
     user,
-    loading,
-    isAuthPage,
-    allowedRoles,
-    checkingSession,
     isAuthenticated,
+    allowedRoles,
+    isAuthPage,
   ]);
 
   // ====================================================
-  // LOADING UI
+  // WAIT FOR AUTH
   // ====================================================
-  if (loading || checkingSession) {
+
+  if (loading) {
     return (
-      <div
-        style={{
-          minHeight: "100dvh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "24px",
-        }}
-      >
-        <div
-          style={{
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "52px",
-              height: "52px",
-              border: "4px solid #e2e8f0",
-              borderTop: "4px solid #2563eb",
-              borderRadius: "999px",
-              margin: "0 auto",
-              animation: "spin 0.8s linear infinite",
-            }}
-          />
-
-          <p
-            style={{
-              marginTop: "18px",
-              color: "#64748b",
-              fontSize: "0.95rem",
-              fontWeight: 500,
-            }}
-          >
-            Checking session...
-          </p>
-        </div>
-
-        <style jsx>{`
-          @keyframes spin {
-            to {
-              transform: rotate(360deg);
-            }
-          }
-        `}</style>
+      <div className="flex min-h-screen items-center justify-center">
+        <p>Checking authentication...</p>
       </div>
     );
   }
 
   // ====================================================
-  // BLOCK UNAUTHORIZED
+  // BLOCK RENDER
   // ====================================================
+
   if (!isAuthenticated && !isAuthPage) {
     return null;
   }
 
-  // ====================================================
-  // BLOCK AUTH PAGES
-  // ====================================================
-  if (isAuthenticated && isAuthPage) {
-    return null;
-  }
-
-  // ====================================================
-  // ROLE BLOCK
-  // ====================================================
   const hasRoleAccess =
-    allowedRoles.length === 0 ||
-    allowedRoles.includes(
-      /** @type {UserRole} */
-      (user?.role),
-    );
+    allowedRoles.length === 0 || allowedRoles.includes(user?.role);
 
   if (isAuthenticated && !hasRoleAccess) {
     return null;
   }
 
   // ====================================================
-  // RENDER
+  // SAFE RENDER
   // ====================================================
+
   return children;
 }

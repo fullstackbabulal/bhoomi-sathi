@@ -1,102 +1,97 @@
 "use client";
 
-// ======================================================
-// File: app/dashboard/page.tsx
-// Description: Role-based Dashboard Redirect
-// ======================================================
+import { useEffect, useState } from "react";
 
-import { useEffect } from "react";
+import AdminLayout from "@/components/admin/AdminLayout";
+import DashboardHome from "@/components/admin/dashboard/DashboardHome";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 
-import { useRouter } from "next/navigation";
+export default function AdminDashboardPage() {
+  /*
+  ===================================
+  STATE
+  ===================================
+  */
 
-import { useAuth } from "@/context/AuthContext";
+  const [dashboardData, setDashboardData] = useState<any>(null);
 
-// ======================================================
-// TYPES
-// ======================================================
+  const [loading, setLoading] = useState<boolean>(true);
 
-type UserRole = "admin" | "agent" | "user";
+  // FIX:
+  // use undefined instead of null
+  const [error, setError] = useState<string | undefined>();
 
-interface AuthUser {
-  role?: UserRole;
-}
+  /*
+  ===================================
+  FETCH DASHBOARD
+  API FIRST
+  ===================================
+  */
 
-interface AuthContextValue {
-  user: AuthUser | null;
-  loading: boolean;
-  isAuthenticated: boolean;
-  checkAuth: () => Promise<unknown>;
-}
-
-// ======================================================
-// COMPONENT
-// ======================================================
-
-export default function DashboardPage() {
-  const router = useRouter();
-
-  // ==============================================
-  // TYPE-SAFE AUTH
-  // ==============================================
-  const { user, loading, checkAuth, isAuthenticated } =
-    useAuth() as AuthContextValue;
-
-  // ==============================================
-  // SESSION CHECK
-  // ==============================================
   useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
+    let mounted = true;
 
-  // ==============================================
-  // ROLE REDIRECT
-  // ==============================================
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
+    const fetchDashboard = async () => {
+      try {
+        setLoading(true);
 
-    // NOT LOGGED IN
-    if (!isAuthenticated) {
-      router.replace("/login");
+        // reset error
+        setError(undefined);
 
-      return;
-    }
+        /*
+          ===================================
+          API CALL
+          Replace with real API
+          ===================================
+          */
 
-    const role = user?.role;
+        // Example:
+        // const response =
+        //   await getDashboard();
 
-    // ADMIN
-    if (role === "admin") {
-      router.replace("/admin/dashboard");
+        // const result =
+        //   response?.data;
 
-      return;
-    }
+        const result = null;
 
-    // AGENT
-    if (role === "agent") {
-      router.replace("/agent/dashboard");
+        if (!mounted) return;
 
-      return;
-    }
+        /*
+          ===================================
+          SAFE API → FALLBACK
+          ===================================
+          */
 
-    // USER
-    router.replace("/user/dashboard");
-  }, [user, loading, router, isAuthenticated]);
+        setDashboardData(result || null);
+      } catch (err) {
+        console.error("Dashboard fetch failed:", err);
 
-  // ==============================================
-  // LOADING UI
-  // ==============================================
+        if (!mounted) return;
+
+        setError("Unable to load dashboard");
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchDashboard();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   return (
-    <main
-      style={{
-        minHeight: "100dvh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: "18px",
-      }}
-    >
-      Redirecting...
-    </main>
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <AdminLayout loading={loading} error={error}>
+        <DashboardHome
+          dashboardData={dashboardData}
+          loading={loading}
+          error={error}
+        />
+      </AdminLayout>
+    </ProtectedRoute>
   );
 }

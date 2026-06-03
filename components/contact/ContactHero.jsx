@@ -65,8 +65,8 @@ const ContactHero = ({ data }) => {
           {/* Right Image */}
           <div className={styles.imageWrapper}>
             <img
-              src={hero?.image || "about-hero.png"}
-              alt={hero?.title || "Contact Plot in Patna"}
+              src={hero?.image}
+              alt={hero?.title}
               className={styles.heroImage}
             />
           </div>

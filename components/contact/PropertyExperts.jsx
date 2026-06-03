@@ -16,7 +16,7 @@ const PropertyExperts = ({ data = {} }) => {
       name: "Amit Sharma",
       role: "Senior Property Consultant",
       image: "/images/contact/expert-1.webp",
-      phone: "+91 9876543210",
+      phone: "+91 9661655534",
       email: "amit@bhoomisathi.com",
     },
     {

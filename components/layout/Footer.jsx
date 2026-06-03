@@ -187,7 +187,7 @@ const Footer = () => {
             <div className={styles.contactList}>
               <p className={styles.contactItem}>
                 <span>📞</span>
-                +91 98765 43210
+                +91 9661655534
               </p>
 
               <p className={styles.contactItem}>

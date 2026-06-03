@@ -119,8 +119,7 @@ const ContactHero = ({ data }) => {
 
                 <div className={styles.contactContent}>
                   <h3>Call Us</h3>
-                  <p>{officeInfo?.phone1 || "+91 98765 43210"}</p>
-                  <p>{officeInfo?.phone2 || "+91 91234 56789"}</p>
+                  <p>{officeInfo?.phone1 || "+91 9661655534"}</p>
                 </div>
               </div>
 

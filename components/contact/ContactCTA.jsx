@@ -16,7 +16,7 @@ const ContactCTA = ({ data = {} }) => {
 
   const supportText = data?.supportText || "Need immediate assistance?";
 
-  const phone = data?.phone || "+91 9876543210";
+  const phone = data?.phone || "+91 9661655534";
 
   return (
     <section className={styles.section}>

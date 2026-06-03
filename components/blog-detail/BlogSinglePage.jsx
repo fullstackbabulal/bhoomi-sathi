@@ -1,57 +1,70 @@
 // ======================================================
-// File: blog-detail/BlogSinglePage.jsx
+// File: components/blog-detail/BlogSinglePage.jsx
 // Description: Blog Single Page Component
 // ======================================================
 
 import BlogPostHero from "./BlogPostHero/BlogPostHero";
 import BlogMetaBar from "./BlogMetaBar/BlogMetaBar";
 import BlogPostLayout from "./BlogPostLayout/BlogPostLayout";
-import BlogShareSection from "./BlogShareSection/BlogShareSection";
-import TableOfContents from "./TableOfContents/TableOfContents";
-import BlogPostContent from "./BlogPostContent/BlogPostContent";
-import BlogTags from "./BlogTags/BlogTags";
-import BlogAuthorCard from "./BlogAuthorCard/BlogAuthorCard";
-import BlogPostNavigation from "./BlogPostNavigation/BlogPostNavigation";
-import BlogDetailSidebar from "./BlogDetailSidebar/BlogDetailSidebar";
-import RelatedPosts from "./RelatedPosts/RelatedPosts";
 import BlogCommentSection from "../CommentSection";
 import NewsletterCTA from "./NewsletterCTA/NewsletterCTA";
 
-export default function BlogSinglePage({ blog, relatedPosts, comments }) {
+export default function BlogSinglePage({
+  blog = {},
+  relatedPosts = [],
+  comments = [],
+}) {
+  // ====================================================
+  // NORMALIZE BLOG DATA
+  // ====================================================
+
+  const blogData =
+    blog?.data && typeof blog.data === "object" ? blog.data : blog || {};
+
+  // ====================================================
+  // DEBUG
+  // ====================================================
+
+  console.log("BLOG DATA:", blogData);
+  console.log("BLOG CONTENT:", blogData?.content);
+
+  // ====================================================
+  // SAFETY
+  // ====================================================
+
+  if (!Object.keys(blogData).length) {
+    return (
+      <div
+        style={{
+          maxWidth: "1200px",
+          margin: "60px auto",
+          padding: "20px",
+          textAlign: "center",
+        }}
+      >
+        <h2>Blog Not Found</h2>
+        <p>The requested blog could not be loaded.</p>
+      </div>
+    );
+  }
+
+  // ====================================================
+  // RENDER
+  // ====================================================
+
   return (
     <>
       {/* HERO */}
-      <BlogPostHero blog={blog} />
+      <BlogPostHero blog={blogData} />
 
       {/* META */}
-      <BlogMetaBar blog={blog} />
+      <BlogMetaBar blog={blogData} />
 
-      {/* MAIN CONTENT */}
-      <BlogPostLayout>
-        {/* LEFT CONTENT */}
-        <div>
-          <BlogShareSection blog={blog} />
-
-          <TableOfContents content={blog?.content} />
-
-          <BlogPostContent blog={blog} />
-
-          <BlogTags tags={blog?.tags} />
-
-          <BlogAuthorCard author={blog?.author} />
-
-          <BlogPostNavigation blog={blog} />
-        </div>
-
-        {/* SIDEBAR */}
-        <BlogDetailSidebar />
-      </BlogPostLayout>
-
-      {/* RELATED POSTS */}
-      <RelatedPosts posts={relatedPosts} />
+      {/* CONTENT + SIDEBAR + TAGS + AUTHOR + RELATED */}
+      <BlogPostLayout blog={blogData} relatedPosts={relatedPosts} />
 
       {/* COMMENTS */}
-      <BlogCommentSection comments={comments} />
+      <BlogCommentSection comments={comments || []} />
 
       {/* NEWSLETTER */}
       <NewsletterCTA />

@@ -3,7 +3,6 @@
 // ======================================================
 // File: components/blog-detail/BlogPostContent/BlogPostContent.jsx
 // Description: Blog Post Content
-// UI Match: Bhoomi Sathi Blog Detail Page
 // ======================================================
 
 import styles from "./BlogPostContent.module.css";
@@ -13,31 +12,10 @@ import styles from "./BlogPostContent.module.css";
 // ======================================================
 
 const FALLBACK_CONTENT = `
-<h2>Why Real Estate is a Smart Investment</h2>
-
+<h2>Blog Content Not Available</h2>
 <p>
-Real estate remains one of the most reliable long-term investments because it provides appreciation, passive income opportunities and portfolio diversification.
-</p>
-
-<p>
-Whether you are buying residential, commercial or land property, understanding market timing and legal due diligence is essential.
-</p>
-
-<blockquote>
-Real estate investment is not about timing the market — it is about time in the market.
-</blockquote>
-
-<h3>Key Benefits of Property Investment</h3>
-
-<ul>
-<li>Stable long-term growth</li>
-<li>Passive rental income</li>
-<li>Portfolio diversification</li>
-<li>Inflation protection</li>
-</ul>
-
-<p>
-Always perform property verification, title checks and market analysis before making a purchase decision.
+The content for this blog post is currently unavailable.
+Please try again later.
 </p>
 `;
 
@@ -47,14 +25,24 @@ Always perform property verification, title checks and market analysis before ma
 
 export default function BlogPostContent({
   content = "",
-
+  blog = {},
   className = "",
 }) {
   // ====================================================
-  // SAFE CONTENT
+  // CONTENT SOURCE
   // ====================================================
 
-  const safeContent = content?.trim?.() || FALLBACK_CONTENT;
+  const rawContent =
+    content?.trim?.() ||
+    blog?.content?.trim?.() ||
+    blog?.data?.content?.trim?.() ||
+    "";
+
+  // ====================================================
+  // FINAL CONTENT
+  // ====================================================
+
+  const finalContent = rawContent || FALLBACK_CONTENT;
 
   // ====================================================
   // RENDER
@@ -65,7 +53,7 @@ export default function BlogPostContent({
       <div
         className={styles.content}
         dangerouslySetInnerHTML={{
-          __html: safeContent,
+          __html: finalContent,
         }}
       />
     </article>

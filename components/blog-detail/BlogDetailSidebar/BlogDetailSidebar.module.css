@@ -1,31 +1,89 @@
 /* ======================================================
-   File: BlogDetailSidebar.module.css
+   File: components/blog-detail/BlogDetailSidebar/BlogDetailSidebar.module.css
    Description: Blog Detail Sidebar
+   UI Match: Bhoomi Sathi Blog Detail Page
 ====================================================== */
 
 .sidebar {
+  position: sticky;
+  top: 110px;
+
   display: flex;
   flex-direction: column;
 
-  gap: 28px;
+  gap: 24px;
 
   width: 100%;
-
   min-width: 0;
 }
 
 /* ======================================================
-   RESPONSIVE
+   SIDEBAR CHILDREN
+====================================================== */
+
+.sidebar > * {
+  width: 100%;
+  min-width: 0;
+}
+
+/* ======================================================
+   DESKTOP
+====================================================== */
+
+@media (min-width: 1201px) {
+  .sidebar {
+    max-width: 360px;
+  }
+}
+
+/* ======================================================
+   LAPTOP
 ====================================================== */
 
 @media (max-width: 1200px) {
   .sidebar {
-    gap: 24px;
+    top: 90px;
+    gap: 20px;
   }
 }
 
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (max-width: 992px) {
+  .sidebar {
+    position: static;
+
+    max-width: 100%;
+
+    gap: 18px;
+
+    margin-top: 40px;
+  }
+}
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
 @media (max-width: 768px) {
   .sidebar {
-    gap: 20px;
+    position: static;
+
+    gap: 16px;
+
+    margin-top: 32px;
+  }
+}
+
+/* ======================================================
+   SMALL MOBILE
+====================================================== */
+
+@media (max-width: 480px) {
+  .sidebar {
+    gap: 14px;
+    margin-top: 24px;
   }
 }

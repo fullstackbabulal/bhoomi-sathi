@@ -1,57 +1,31 @@
 /* ======================================================
    File: TableOfContents.module.css
-   Description: Table Of Contents
 ====================================================== */
 
 .card {
   position: sticky;
-  top: 120px;
-
-  border-radius: 32px;
+  top: 110px;
 
   background: #ffffff;
 
-  border: 1px solid #e2e8f0;
+  border: 1px solid #e5e7eb;
 
-  padding: 28px;
+  border-radius: 12px;
 
-  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.05);
+  padding: 20px;
 }
 
 /* ======================================================
-   HEADER
+   TITLE
 ====================================================== */
 
-.header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-
-  margin-bottom: 28px;
-}
-
-.iconBox {
-  width: 54px;
-  height: 54px;
-
-  border-radius: 18px;
-
-  background: #eff6ff;
-
-  color: #2563eb;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .title {
-  margin: 0;
+  margin: 0 0 16px;
 
-  color: #0f172a;
+  color: #111827;
 
-  font-size: 24px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 /* ======================================================
@@ -61,60 +35,68 @@
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+
+  gap: 6px;
 }
 
 .link {
-  border: none;
-
   width: 100%;
 
+  border: none;
   background: transparent;
-
-  border-radius: 18px;
-
-  padding: 14px 16px;
 
   cursor: pointer;
 
   text-align: left;
 
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
 
-  color: #475569;
+  gap: 10px;
 
-  font-size: 15px;
-  font-weight: 600;
+  padding: 8px 0;
 
-  transition: all 0.3s ease;
+  color: #4b5563;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  transition: all 0.2s ease;
 }
 
 .link:hover {
-  background: #f8fafc;
-
-  color: #2563eb;
+  color: #16a34a;
 }
 
-.child {
-  margin-left: 24px;
+.dot {
+  flex-shrink: 0;
 
-  font-size: 14px;
+  width: 6px;
+  height: 6px;
 
-  opacity: 0.92;
+  border-radius: 50%;
+
+  background: #d1d5db;
 }
 
 .active {
-  background: #eff6ff;
+  color: #16a34a;
 
-  color: #2563eb;
+  font-weight: 600;
+}
 
-  font-weight: 700;
+.active .dot {
+  background: #16a34a;
+}
+
+.child {
+  padding-left: 16px;
+
+  font-size: 12px;
 }
 
 /* ======================================================
-   RESPONSIVE
+   TABLET
 ====================================================== */
 
 @media (max-width: 1200px) {
@@ -123,22 +105,20 @@
   }
 }
 
+/* ======================================================
+   MOBILE
+====================================================== */
+
 @media (max-width: 768px) {
   .card {
-    border-radius: 24px;
-
-    padding: 22px;
+    padding: 16px;
   }
 
   .title {
-    font-size: 22px;
+    font-size: 15px;
   }
 
   .link {
-    font-size: 14px;
-  }
-
-  .child {
-    margin-left: 16px;
+    font-size: 12px;
   }
 }

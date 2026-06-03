@@ -10,15 +10,13 @@ import { useEffect, useState } from "react";
 
 import styles from "./TableOfContents.module.css";
 
-import { ListTree, ChevronRight } from "lucide-react";
-
 // ======================================================
 // COMPONENT
 // ======================================================
 
 export default function TableOfContents({
   content = "",
-  title = "Table of Contents",
+  title = "On This Page",
 }) {
   const [headings, setHeadings] = useState([]);
 
@@ -53,11 +51,11 @@ export default function TableOfContents({
   }, [content]);
 
   // ====================================================
-  // ACTIVE SECTION OBSERVER
+  // ACTIVE SECTION
   // ====================================================
 
   useEffect(() => {
-    const elements = document.querySelectorAll("h2[id], h3[id]");
+    const sections = document.querySelectorAll("h2[id], h3[id]");
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -72,13 +70,13 @@ export default function TableOfContents({
       },
     );
 
-    elements.forEach((element) => observer.observe(element));
+    sections.forEach((section) => observer.observe(section));
 
     return () => observer.disconnect();
   }, [content]);
 
   // ====================================================
-  // SCROLL HANDLER
+  // SCROLL
   // ====================================================
 
   const handleScroll = (id) => {
@@ -93,7 +91,7 @@ export default function TableOfContents({
   };
 
   // ====================================================
-  // EMPTY STATE
+  // EMPTY
   // ====================================================
 
   if (!headings.length) {
@@ -106,27 +104,21 @@ export default function TableOfContents({
 
   return (
     <aside className={styles.card}>
-      {/* HEADER */}
-      <div className={styles.header}>
-        <div className={styles.iconBox}>
-          <ListTree size={20} />
-        </div>
+      <h3 className={styles.title}>{title}</h3>
 
-        <h3 className={styles.title}>{title}</h3>
-      </div>
-
-      {/* LINKS */}
       <nav className={styles.nav}>
         {headings.map((item, index) => (
           <button
             key={`${item.id}-${index}`}
             type="button"
             onClick={() => handleScroll(item.id)}
-            className={`${styles.link}
+            className={`
+              ${styles.link}
               ${activeId === item.id ? styles.active : ""}
-              ${item.level === "h3" ? styles.child : ""}`}
+              ${item.level === "h3" ? styles.child : ""}
+            `}
           >
-            <ChevronRight size={16} />
+            <span className={styles.dot} />
 
             <span>{item.text}</span>
           </button>

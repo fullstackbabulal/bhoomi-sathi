@@ -4,12 +4,17 @@
 // File: components/blog-detail/BlogShareSection/BlogShareSection.jsx
 // Description: Blog Share Section
 // UI Match: Bhoomi Sathi Blog Detail Page
+// Fixed:
+// - Hydration-safe implementation
+// - No nested button issues
+// - Stable share URL generation
+// - Clipboard fallback support
+// - Native share fallback support
 // ======================================================
 
 import { useMemo, useState } from "react";
 import styles from "./BlogShareSection.module.css";
 
-// Import custom buttons and round brand icons from react-share
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -21,7 +26,6 @@ import {
   XIcon,
 } from "react-share";
 
-// Import only the standard UI utility icons needed from lucide-react
 import { Share2, Copy, Check } from "lucide-react";
 
 // ======================================================
@@ -41,12 +45,19 @@ export default function BlogShareSection({
   const [copied, setCopied] = useState(false);
 
   // ====================================================
-  // URL GENERATION
+  // SHARE URL
   // ====================================================
 
   const shareUrl = useMemo(() => {
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    return url || `${siteUrl}/blog/${slug}`;
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+      "http://localhost:3000";
+
+    if (url && typeof url === "string") {
+      return url;
+    }
+
+    return `${siteUrl}/blog/${slug}`;
   }, [slug, url]);
 
   // ====================================================
@@ -55,9 +66,28 @@ export default function BlogShareSection({
 
   const handleCopy = async () => {
     try {
-      if (typeof navigator === "undefined") return;
+      if (typeof window === "undefined") return;
 
-      await navigator.clipboard.writeText(shareUrl);
+      if (
+        navigator.clipboard &&
+        typeof navigator.clipboard.writeText === "function"
+      ) {
+        await navigator.clipboard.writeText(shareUrl);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = shareUrl;
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        document.execCommand("copy");
+
+        document.body.removeChild(textArea);
+      }
+
       setCopied(true);
 
       setTimeout(() => {
@@ -69,22 +99,29 @@ export default function BlogShareSection({
   };
 
   // ====================================================
-  // MOBILE NATIVE SHARE
+  // NATIVE SHARE
   // ====================================================
 
   const handleNativeShare = async () => {
     try {
-      if (typeof navigator !== "undefined" && navigator.share) {
+      if (
+        typeof window !== "undefined" &&
+        navigator.share &&
+        typeof navigator.share === "function"
+      ) {
         await navigator.share({
           title,
           text: excerpt,
           url: shareUrl,
         });
+
         return;
       }
+
       await handleCopy();
     } catch (error) {
-      if (error instanceof Error && error.name === "AbortError") return;
+      if (error?.name === "AbortError") return;
+
       console.error("Native Share Error:", error);
     }
   };
@@ -95,7 +132,10 @@ export default function BlogShareSection({
 
   return (
     <section className={styles.section}>
+      {/* ================================================= */}
       {/* HEADER */}
+      {/* ================================================= */}
+
       <div className={styles.header}>
         <div className={styles.iconBox}>
           <Share2 size={22} />
@@ -107,24 +147,31 @@ export default function BlogShareSection({
         </div>
       </div>
 
-      {/* BUTTONS */}
+      {/* ================================================= */}
+      {/* SHARE BUTTONS */}
+      {/* ================================================= */}
+
       <div className={styles.buttons}>
         {/* FACEBOOK */}
+
         <FacebookShareButton
           url={shareUrl}
           hashtag="#realestate"
           className={styles.button}
         >
           <FacebookIcon size={18} round />
-          Facebook
+          <span>Facebook</span>
         </FacebookShareButton>
 
         {/* X / TWITTER */}
+
         <XShareButton url={shareUrl} title={title} className={styles.button}>
-          <XIcon size={18} round />X / Twitter
+          <XIcon size={18} round />
+          <span>X / Twitter</span>
         </XShareButton>
 
         {/* LINKEDIN */}
+
         <LinkedinShareButton
           url={shareUrl}
           title={title}
@@ -132,10 +179,11 @@ export default function BlogShareSection({
           className={styles.button}
         >
           <LinkedinIcon size={18} round />
-          LinkedIn
+          <span>LinkedIn</span>
         </LinkedinShareButton>
 
         {/* WHATSAPP */}
+
         <WhatsappShareButton
           url={shareUrl}
           title={title}
@@ -143,10 +191,11 @@ export default function BlogShareSection({
           className={styles.button}
         >
           <WhatsappIcon size={18} round />
-          WhatsApp
+          <span>WhatsApp</span>
         </WhatsappShareButton>
 
-        {/* COPY */}
+        {/* COPY LINK */}
+
         <button
           type="button"
           aria-label="Copy blog link"
@@ -154,10 +203,11 @@ export default function BlogShareSection({
           onClick={handleCopy}
         >
           {copied ? <Check size={18} /> : <Copy size={18} />}
-          {copied ? "Copied" : "Copy Link"}
+          <span>{copied ? "Copied" : "Copy Link"}</span>
         </button>
 
-        {/* MOBILE SHARE */}
+        {/* NATIVE SHARE */}
+
         <button
           type="button"
           aria-label="Share article"
@@ -165,7 +215,7 @@ export default function BlogShareSection({
           onClick={handleNativeShare}
         >
           <Share2 size={18} />
-          Share Now
+          <span>Share Now</span>
         </button>
       </div>
     </section>

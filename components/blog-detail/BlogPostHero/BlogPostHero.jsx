@@ -4,6 +4,12 @@
 // File: components/blog-detail/BlogPostHero/BlogPostHero.jsx
 // Description: Blog Post Hero
 // UI Match: Bhoomi Sathi Blog Detail Page
+// Fixed:
+// - Hydration mismatch issues
+// - Nested button errors
+// - SSR-safe share URLs
+// - Backend image URLs
+// - Stable date formatting
 // ======================================================
 
 import Image from "next/image";
@@ -36,6 +42,14 @@ const FALLBACK_AVATAR = "https://i.pravatar.cc/150?img=15";
 
 export default function BlogPostHero({ blog = {} }) {
   // ====================================================
+  // ENV
+  // ====================================================
+
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+
+  // ====================================================
   // SAFE DATA
   // ====================================================
 
@@ -49,10 +63,22 @@ export default function BlogPostHero({ blog = {} }) {
 
   const safeSlug = blog?.slug?.trim?.() || "blog-post";
 
-  const safeImage =
-    blog?.featuredImage?.trim?.() ||
-    blog?.coverImage?.trim?.() ||
-    FALLBACK_IMAGE;
+  // ====================================================
+  // IMAGE
+  // ====================================================
+
+  const rawImage =
+    blog?.featuredImage?.trim?.() || blog?.coverImage?.trim?.() || "";
+
+  const safeImage = rawImage
+    ? rawImage.startsWith("http")
+      ? rawImage
+      : `${API_URL}${rawImage}`
+    : FALLBACK_IMAGE;
+
+  // ====================================================
+  // AUTHOR
+  // ====================================================
 
   const safeAuthor = blog?.author?.name?.trim?.() || "Bhoomi Sathi";
 
@@ -60,28 +86,31 @@ export default function BlogPostHero({ blog = {} }) {
 
   const safeRole = blog?.author?.role?.trim?.() || "Founder, Bhoomi Sathi";
 
+  // ====================================================
+  // READ TIME
+  // ====================================================
+
   const safeReadTime = blog?.readTime?.trim?.() || "8 min read";
+
+  // ====================================================
+  // DATE (SSR SAFE)
+  // ====================================================
 
   const safeDate =
     blog?.publishedAt || blog?.createdAt
-      ? new Date(blog?.publishedAt || blog?.createdAt).toLocaleDateString(
-          "en-IN",
-          {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          },
-        )
+      ? new Intl.DateTimeFormat("en-IN", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+          timeZone: "UTC",
+        }).format(new Date(blog?.publishedAt || blog?.createdAt))
       : "Recently";
 
   // ====================================================
-  // SHARE URL
+  // SHARE URL (SSR SAFE)
   // ====================================================
 
-  const shareUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/blog/${safeSlug}`
-      : "";
+  const shareUrl = `${SITE_URL}/blog/${safeSlug}`;
 
   // ====================================================
   // RENDER
@@ -91,8 +120,10 @@ export default function BlogPostHero({ blog = {} }) {
     <section className={styles.hero}>
       <div className={styles.container}>
         {/* HERO CARD */}
+
         <div className={styles.heroCard}>
           {/* IMAGE */}
+
           <div className={styles.imageWrapper}>
             <Image
               src={safeImage}
@@ -104,11 +135,14 @@ export default function BlogPostHero({ blog = {} }) {
             />
 
             {/* OVERLAY */}
+
             <div className={styles.overlay} />
 
             {/* CONTENT */}
+
             <div className={styles.content}>
               {/* BREADCRUMB */}
+
               <div className={styles.breadcrumb}>
                 <Link href="/">Home</Link>
 
@@ -122,20 +156,25 @@ export default function BlogPostHero({ blog = {} }) {
               </div>
 
               {/* CATEGORY */}
+
               <span className={styles.badge}>{safeCategory}</span>
 
               {/* TITLE */}
+
               <h1 className={styles.title}>{safeTitle}</h1>
 
               {/* EXCERPT */}
+
               <p className={styles.excerpt}>{safeExcerpt}</p>
             </div>
           </div>
         </div>
 
         {/* META BAR */}
+
         <div className={styles.metaRow}>
           {/* AUTHOR */}
+
           <div className={styles.author}>
             <div className={styles.avatarWrapper}>
               <Image
@@ -155,43 +194,49 @@ export default function BlogPostHero({ blog = {} }) {
           </div>
 
           {/* DATE */}
+
           <div className={styles.meta}>
             <CalendarDays size={16} />
-
             <span>{safeDate}</span>
           </div>
 
           {/* READ TIME */}
+
           <div className={styles.meta}>
             <Clock3 size={16} />
-
             <span>{safeReadTime}</span>
           </div>
 
           {/* CATEGORY */}
+
           <span className={styles.metaBadge}>{safeCategory}</span>
         </div>
 
         {/* SHARE */}
+
         <div className={styles.shareRow}>
           <span className={styles.shareLabel}>Share:</span>
 
-          <FacebookShareButton url={shareUrl}>
-            <button className={styles.shareButton}>
-              <FaFacebookF size={14} />
-            </button>
+          {/* FACEBOOK */}
+
+          <FacebookShareButton url={shareUrl} className={styles.shareButton}>
+            <FaFacebookF size={14} />
           </FacebookShareButton>
 
-          <TwitterShareButton url={shareUrl} title={safeTitle}>
-            <button className={styles.shareButton}>
-              <FaXTwitter size={14} />
-            </button>
+          {/* X */}
+
+          <TwitterShareButton
+            url={shareUrl}
+            title={safeTitle}
+            className={styles.shareButton}
+          >
+            <FaXTwitter size={14} />
           </TwitterShareButton>
 
-          <LinkedinShareButton url={shareUrl}>
-            <button className={styles.shareButton}>
-              <FaLinkedinIn size={14} />
-            </button>
+          {/* LINKEDIN */}
+
+          <LinkedinShareButton url={shareUrl} className={styles.shareButton}>
+            <FaLinkedinIn size={14} />
           </LinkedinShareButton>
         </div>
       </div>

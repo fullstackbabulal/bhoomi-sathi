@@ -10,9 +10,9 @@ import LoginForm from "@/components/login/LoginForm";
 // SEO METADATA
 // ======================================================
 export const metadata = {
-  title: "Login | Bhoomi Sathi",
+  title: "Login | Plot in Patna",
   description:
-    "Login to your Bhoomi Sathi account to manage properties, saved listings, and profile settings.",
+    "Login to your Plot in Patna account to manage properties, saved listings, and profile settings.",
 };
 
 // ======================================================

@@ -2,7 +2,7 @@
 
 // ======================================================
 // File: components/home/WhyChoose.jsx
-// Description: Why Choose Bhoomi Sathi
+// Description: Why Choose Plot in Patna
 // UI Match: Compact Homepage Target Design
 // ======================================================
 
@@ -59,7 +59,7 @@ export default function WhyChoose() {
         {/* HEADER */}
         <div className={styles.header}>
           <h2 id="why-choose-heading" className={styles.title}>
-            Why Choose Bhoomi Sathi?
+            Why Choose Plot in Patna?
           </h2>
         </div>
 

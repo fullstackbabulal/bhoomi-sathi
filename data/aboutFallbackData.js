@@ -1,12 +1,12 @@
 const aboutFallbackData = {
   seo: {
-    metaTitle: "About Bhoomi Sathi | Trusted Real Estate Platform in India",
+    metaTitle: "About Plot in Patna | Trusted Real Estate Platform in India",
 
     metaDescription:
-      "Learn about Bhoomi Sathi, a trusted real estate platform helping buyers, sellers, and investors discover verified properties across India.",
+      "Learn about Plot in Patna, a trusted real estate platform helping buyers, sellers, and investors discover verified properties across India.",
 
     keywords: [
-      "Bhoomi Sathi",
+      "Plot in Patna",
       "real estate platform India",
       "verified property listings",
       "buy property in India",
@@ -28,12 +28,12 @@ const aboutFallbackData = {
   hero: {
     badge: "About Us",
 
-    title: "About Bhoomi Sathi",
+    title: "About Plot in Patna",
 
     subtitle: "Building Trust. Delivering Value.",
 
     description:
-      "Bhoomi Sathi is a trusted real estate platform that connects buyers, sellers, and investors with verified properties across India.",
+      "Plot in Patna is a trusted real estate platform that connects buyers, sellers, and investors with verified properties across India.",
 
     primaryButton: {
       label: "Explore Properties",
@@ -47,7 +47,7 @@ const aboutFallbackData = {
 
     image: {
       url: "/images/about/about-hero.png",
-      alt: "Luxury residential property showcased by Bhoomi Sathi",
+      alt: "Luxury residential property showcased by Plot in Patna",
     },
   },
 
@@ -57,11 +57,11 @@ const aboutFallbackData = {
     title: "Your Trusted Real Estate Partner",
 
     description:
-      "We are passionate about helping people find the right property with confidence. Bhoomi Sathi combines transparency, technology, and trust to simplify the property journey.",
+      "We are passionate about helping people find the right property with confidence. Plot in Patna combines transparency, technology, and trust to simplify the property journey.",
 
     image: {
       url: "/who-we-are.png",
-      alt: "Modern residential living space representing Bhoomi Sathi services",
+      alt: "Modern residential living space representing Plot in Patna services",
     },
 
     features: [
@@ -109,7 +109,7 @@ const aboutFallbackData = {
   whyChooseUs: {
     badge: "Why Choose Us",
 
-    title: "Why Thousands Trust Bhoomi Sathi?",
+    title: "Why Thousands Trust Plot in Patna?",
 
     items: [
       {
@@ -234,7 +234,7 @@ const aboutFallbackData = {
   leadership: {
     badge: "Our Leadership",
 
-    title: "Meet the People Behind Bhoomi Sathi",
+    title: "Meet the People Behind Plot in Patna",
 
     founderMessage: {
       name: "Babulal Mandal",
@@ -242,11 +242,11 @@ const aboutFallbackData = {
       designation: "Founder & CEO",
 
       message:
-        "At Bhoomi Sathi, our goal is to build a platform people can trust for all their real estate needs with transparency, innovation, and long-term value.",
+        "At Plot in Patna, our goal is to build a platform people can trust for all their real estate needs with transparency, innovation, and long-term value.",
 
       image: {
         url: "/images/about/founder.jpg",
-        alt: "Founder of Bhoomi Sathi",
+        alt: "Founder of Plot in Patna",
       },
     },
 
@@ -258,7 +258,7 @@ const aboutFallbackData = {
 
         image: {
           url: "/images/about/team-1.webp",
-          alt: "Co-Founder of Bhoomi Sathi",
+          alt: "Co-Founder of Plot in Patna",
         },
 
         socialLinks: {
@@ -274,7 +274,7 @@ const aboutFallbackData = {
 
         image: {
           url: "/images/about/team-2.webp",
-          alt: "Chief Technology Officer of Bhoomi Sathi",
+          alt: "Chief Technology Officer of Plot in Patna",
         },
 
         socialLinks: {
@@ -290,7 +290,7 @@ const aboutFallbackData = {
 
         image: {
           url: "/images/about/team-3.webp",
-          alt: "Head of Operations at Bhoomi Sathi",
+          alt: "Head of Operations at Plot in Patna",
         },
 
         socialLinks: {
@@ -314,11 +314,11 @@ const aboutFallbackData = {
         rating: 5,
 
         comment:
-          "Bhoomi Sathi made my property search simple and trustworthy. I found the perfect home for my family.",
+          "Plot in Patna made my property search simple and trustworthy. I found the perfect home for my family.",
 
         image: {
           url: "/images/about/client-1.webp",
-          alt: "Happy Bhoomi Sathi customer",
+          alt: "Happy Plot in Patna customer",
         },
       },
 
@@ -358,7 +358,7 @@ const aboutFallbackData = {
     title: "Ready to Find Your Dream Property?",
 
     description:
-      "Join thousands of satisfied buyers, sellers, and investors using Bhoomi Sathi.",
+      "Join thousands of satisfied buyers, sellers, and investors using Plot in Patna.",
 
     primaryButton: {
       label: "Browse Properties",
@@ -375,7 +375,7 @@ const aboutFallbackData = {
     organization: {
       "@context": "https://schema.org",
       "@type": "Organization",
-      name: "Bhoomi Sathi",
+      name: "Plot in Patna",
       url: "https://bhoomisathi.com",
       logo: "https://bhoomisathi.com/logo.png",
       description:

@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog-detail/RelatedPosts/RelatedPosts.jsx
 // Description: Related Posts Section
-// UI Match: Bhoomi Sathi Blog Detail Page
+// UI Match: Plot in Patna Blog Detail Page
 // ======================================================
 
 import styles from "./RelatedPosts.module.css";

@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog-detail/TableOfContents/TableOfContents.jsx
 // Description: Blog Table Of Contents
-// UI Match: Bhoomi Sathi Blog Detail Page
+// UI Match: Plot in Patna Blog Detail Page
 // ======================================================
 
 import { useEffect, useState } from "react";

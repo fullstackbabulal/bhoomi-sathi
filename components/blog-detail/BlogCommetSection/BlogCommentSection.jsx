@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog-detail/BlogCommentSection/BlogCommentSection.jsx
 // Description: Blog Comment Section
-// UI Match: Bhoomi Sathi Blog Detail Page
+// UI Match: Plot in Patna Blog Detail Page
 // ======================================================
 
 import { useState } from "react";

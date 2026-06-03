@@ -2,7 +2,7 @@
 
 // ======================================================
 // File: components/home/Hero.jsx
-// Description: Bhoomi Sathi Premium Hero
+// Description: Plot in Patna Premium Hero
 // Target UI Match
 // ======================================================
 

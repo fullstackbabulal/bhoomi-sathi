@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/property/details/PropertyOverview.jsx
 // Description: Property Overview Section
-// UI Match: Bhoomi Sathi Property Details Design
+// UI Match: Plot in Patna Property Details Design
 // Fixed: Hydration mismatch
 // ======================================================
 

@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog/BlogNewsletter/BlogNewsletter.jsx
 // Description: Blog Newsletter Card
-// UI Match: Bhoomi Sathi Blog Page
+// UI Match: Plot in Patna Blog Page
 // ======================================================
 
 import { useState } from "react";

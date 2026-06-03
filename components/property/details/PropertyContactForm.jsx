@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/property/details/PropertyContactForm.jsx
 // Description: Property Contact / Enquiry Form
-// UI Match: Bhoomi Sathi Property Details Design
+// UI Match: Plot in Patna Property Details Design
 // API: POST /api/enquiries
 // ======================================================
 

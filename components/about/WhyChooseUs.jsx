@@ -23,7 +23,7 @@ const iconMap = {
 export default function WhyChooseUs({ data = {}, loading = false }) {
   const {
     badge = "Why Choose Us",
-    title = "Why Thousands Trust Bhoomi Sathi?",
+    title = "Why Thousands Trust Plot in Patna?",
     items = [],
   } = data;
 

@@ -25,7 +25,7 @@ const AddPropertyHeader = ({ loading, onSubmit }) => {
             <h1 className={styles.title}>Add New Property</h1>
 
             <p className={styles.subtitle}>
-              Create a premium property listing on Bhoomi Sathi
+              Create a premium property listing on Plot in Patna
             </p>
           </div>
         </div>

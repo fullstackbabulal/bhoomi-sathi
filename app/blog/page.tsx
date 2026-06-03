@@ -1,7 +1,7 @@
 // ======================================================
 // File: app/blog/page.tsx
 // Description: Blog Listing Page
-// UI Match: Bhoomi Sathi Blog Page
+// UI Match: Plot in Patna Blog Page
 // ======================================================
 
 import Navbar from "@/components/layout/Navbar";

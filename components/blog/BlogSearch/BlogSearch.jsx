@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog/BlogSearch/BlogSearch.jsx
 // Description: Blog Search
-// UI Match: Bhoomi Sathi Blog Page
+// UI Match: Plot in Patna Blog Page
 // ======================================================
 
 import { useState } from "react";

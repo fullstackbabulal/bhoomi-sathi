@@ -109,7 +109,7 @@ export default function Navbar() {
                     lineHeight: 1.1,
                   }}
                 >
-                  Bhoomi Sathi
+                  Plot in Patna
                 </h1>
 
                 <small

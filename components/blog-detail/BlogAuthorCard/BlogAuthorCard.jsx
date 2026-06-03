@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog-detail/BlogAuthorCard/BlogAuthorCard.jsx
 // Description: Blog Author Card
-// UI Match: Bhoomi Sathi Blog Detail Page
+// UI Match: Plot in Patna Blog Detail Page
 // ======================================================
 
 import Image from "next/image";
@@ -40,7 +40,7 @@ export default function BlogAuthorCard({ author = {} }) {
 
   const safeAvatar = author?.avatar?.trim?.() || FALLBACK_AVATAR;
 
-  const safeName = author?.name?.trim?.() || "Bhoomi Sathi";
+  const safeName = author?.name?.trim?.() || "Plot in Patna";
 
   const safeRole = author?.role?.trim?.() || "Real Estate Expert";
 

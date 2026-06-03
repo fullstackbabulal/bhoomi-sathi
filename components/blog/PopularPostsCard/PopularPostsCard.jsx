@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog/PopularPostsCard/PopularPostsCard.jsx
 // Description: Popular Posts Sidebar Card
-// UI Match: Bhoomi Sathi Blog Page
+// UI Match: Plot in Patna Blog Page
 // ======================================================
 
 import Image from "next/image";

@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/property/details/SimilarProperties.jsx
 // Description: Similar Properties Section
-// UI Match: Bhoomi Sathi Property Details Design
+// UI Match: Plot in Patna Property Details Design
 // API: /api/properties/similar/:id
 // ======================================================
 

@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog-detail/BlogDetailSidebar/BlogDetailSidebar.jsx
 // Description: Blog Detail Sidebar
-// UI Match: Bhoomi Sathi Blog Detail Page
+// UI Match: Plot in Patna Blog Detail Page
 // ======================================================
 
 import styles from "./BlogDetailSidebar.module.css";

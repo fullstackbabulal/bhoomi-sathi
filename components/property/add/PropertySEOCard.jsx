@@ -83,7 +83,7 @@ const PropertySEOCard = ({ formData, updateNestedField }) => {
 
           <input
             type="text"
-            placeholder="Luxury Villa in Patna | Bhoomi Sathi"
+            placeholder="Luxury Villa in Patna | Plot in Patna"
             value={seo.metaTitle || ""}
             onChange={(e) =>
               updateNestedField("seo", "metaTitle", e.target.value)

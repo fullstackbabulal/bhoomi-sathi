@@ -8,7 +8,7 @@ import styles from "./LeadershipSection.module.css";
 export default function LeadershipSection({ data = {}, loading = false }) {
   const {
     badge = "Our Leadership",
-    title = "Meet the People Behind Bhoomi Sathi",
+    title = "Meet the People Behind Plot in Patna",
     founderMessage = {},
     team = [],
   } = data;
@@ -34,7 +34,7 @@ export default function LeadershipSection({ data = {}, loading = false }) {
             <div className={styles.founderImageWrapper}>
               <Image
                 src={founderMessage?.image?.url || "/images/about/founder.png"}
-                alt={founderMessage?.image?.alt || "Founder of Bhoomi Sathi"}
+                alt={founderMessage?.image?.alt || "Founder of Plot in Patna"}
                 fill
                 priority
                 className={styles.founderImage}
@@ -52,7 +52,7 @@ export default function LeadershipSection({ data = {}, loading = false }) {
               </p>
               <p className={styles.founderText}>
                 {founderMessage?.message ||
-                  "Welcome to Bhoomi Sathi. Our mission is to simplify your real estate journey with trust and transparency."}
+                  "Welcome to Plot in Patna. Our mission is to simplify your real estate journey with trust and transparency."}
               </p>
             </div>
           </article>

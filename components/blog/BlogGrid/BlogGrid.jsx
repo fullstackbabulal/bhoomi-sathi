@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog/BlogGrid/BlogGrid.jsx
 // Description: Blog Grid
-// UI Match: Bhoomi Sathi Blog Page
+// UI Match: Plot in Patna Blog Page
 // ======================================================
 
 import styles from "./BlogGrid.module.css";
@@ -35,7 +35,7 @@ const SAMPLE_BLOGS = [
     readTime: "6 min read",
 
     author: {
-      name: "Bhoomi Sathi",
+      name: "Plot in Patna",
 
       avatar: "https://i.pravatar.cc/100?img=15",
     },
@@ -61,7 +61,7 @@ const SAMPLE_BLOGS = [
     readTime: "8 min read",
 
     author: {
-      name: "Bhoomi Sathi",
+      name: "Plot in Patna",
 
       avatar: "https://i.pravatar.cc/100?img=22",
     },
@@ -87,7 +87,7 @@ const SAMPLE_BLOGS = [
     readTime: "7 min read",
 
     author: {
-      name: "Bhoomi Sathi",
+      name: "Plot in Patna",
 
       avatar: "https://i.pravatar.cc/100?img=25",
     },

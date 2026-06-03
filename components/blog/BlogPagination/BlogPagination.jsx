@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog/BlogPagination/BlogPagination.jsx
 // Description: Blog Pagination
-// UI Match: Bhoomi Sathi Blog Page
+// UI Match: Plot in Patna Blog Page
 // ======================================================
 
 import styles from "./BlogPagination.module.css";

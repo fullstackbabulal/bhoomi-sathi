@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog-detail/BlogPostHero/BlogPostHero.jsx
 // Description: Blog Post Hero
-// UI Match: Bhoomi Sathi Blog Detail Page
+// UI Match: Plot in Patna Blog Detail Page
 // Fixed:
 // - Hydration mismatch issues
 // - Nested button errors
@@ -57,7 +57,7 @@ export default function BlogPostHero({ blog = {} }) {
 
   const safeExcerpt =
     blog?.excerpt?.trim?.() ||
-    "Read expert real estate insights from Bhoomi Sathi.";
+    "Read expert real estate insights from Plot in Patna.";
 
   const safeCategory = blog?.category?.trim?.() || "Real Estate";
 
@@ -80,11 +80,11 @@ export default function BlogPostHero({ blog = {} }) {
   // AUTHOR
   // ====================================================
 
-  const safeAuthor = blog?.author?.name?.trim?.() || "Bhoomi Sathi";
+  const safeAuthor = blog?.author?.name?.trim?.() || "Plot in Patna";
 
   const safeAvatar = blog?.author?.avatar?.trim?.() || FALLBACK_AVATAR;
 
-  const safeRole = blog?.author?.role?.trim?.() || "Founder, Bhoomi Sathi";
+  const safeRole = blog?.author?.role?.trim?.() || "Founder, Plot in Patna";
 
   // ====================================================
   // READ TIME

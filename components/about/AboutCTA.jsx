@@ -22,7 +22,7 @@ export default function AboutCTA({ data = {}, loading = false }) {
   const {
     title = "Ready to Find Your Dream Property?",
 
-    description = "Join thousands of satisfied buyers, sellers, and investors using Bhoomi Sathi.",
+    description = "Join thousands of satisfied buyers, sellers, and investors using Plot in Patna.",
 
     primaryButton = {
       label: "Browse Properties",

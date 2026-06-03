@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog-detail/BlogPostLayout/BlogPostLayout.jsx
 // Description: Blog Post Layout
-// UI Match: Bhoomi Sathi Blog Detail Page
+// UI Match: Plot in Patna Blog Detail Page
 // ======================================================
 
 import styles from "./BlogPostLayout.module.css";

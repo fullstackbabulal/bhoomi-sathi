@@ -45,7 +45,7 @@ export async function generateMetadata() {
 
         url: seo?.canonicalUrl || aboutFallbackData.seo.canonicalUrl,
 
-        siteName: "Bhoomi Sathi",
+        siteName: "Plot in Patna",
 
         type: "website",
 
@@ -56,7 +56,7 @@ export async function generateMetadata() {
             width: 1200,
             height: 630,
 
-            alt: seo?.metaTitle || "About Bhoomi Sathi",
+            alt: seo?.metaTitle || "About Plot in Patna",
           },
         ],
       },

@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog/BlogCategoryTabs/BlogCategoryTabs.jsx
 // Description: Blog Category Tabs
-// UI Match: Bhoomi Sathi Blog Page
+// UI Match: Plot in Patna Blog Page
 // ======================================================
 
 import styles from "./BlogCategoryTabs.module.css";

@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/property/details/PropertyHeader.jsx
 // Description: Property Details Header
-// UI Match: Bhoomi Sathi Property Details Design
+// UI Match: Plot in Patna Property Details Design
 // ======================================================
 
 import styles from "./PropertyHeader.module.css";

@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/property/details/PropertyTrustCard.jsx
 // Description: Property Trust & Safety Card
-// UI Match: Bhoomi Sathi Property Details Design
+// UI Match: Plot in Patna Property Details Design
 // Styling: CSS Modules + Lucide React
 // ======================================================
 
@@ -63,7 +63,7 @@ export default function PropertyTrustCard({ property = {} }) {
     },
     {
       title: "Support Assistance",
-      description: "Dedicated Bhoomi Sathi property support.",
+      description: "Dedicated Plot in Patna property support.",
       icon: PhoneCall,
       enabled: trustInfo.assistedSupport,
     },

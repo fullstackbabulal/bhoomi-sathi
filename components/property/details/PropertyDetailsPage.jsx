@@ -2,7 +2,7 @@
 
 // ======================================================
 // File: components/property/details/PropertyDetailsPage.jsx
-// Description: Bhoomi Sathi Property Details Page
+// Description: Plot in Patna Property Details Page
 // ======================================================
 
 import styles from "./PropertyDetailsPage.module.css";

@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/home/Gallery.jsx
 // Description: Property Gallery
-// UI Match: Bhoomi Sathi Target Homepage
+// UI Match: Plot in Patna Target Homepage
 // ======================================================
 
 import Image from "next/image";

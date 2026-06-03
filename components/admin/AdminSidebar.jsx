@@ -80,7 +80,7 @@ export default function AdminSidebar({
               <div className={styles.brandText}>
                 <h2>Admin Panel</h2>
 
-                <p>Bhoomi Sathi</p>
+                <p>Plot in Patna</p>
               </div>
             )}
           </Link>

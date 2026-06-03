@@ -24,7 +24,7 @@ const ContactCTA = ({ data = {} }) => {
         <div className={styles.card}>
           {/* Left Content */}
           <div className={styles.content}>
-            <span className={styles.badge}>Contact Bhoomi Sathi</span>
+            <span className={styles.badge}>Contact Plot in Patna</span>
 
             <h2>{title}</h2>
 

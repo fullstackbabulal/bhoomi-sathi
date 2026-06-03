@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/property/details/PropertyLocation.jsx
 // Description: Property Location Section
-// UI Match: Bhoomi Sathi Property Details Design
+// UI Match: Plot in Patna Property Details Design
 // Data Source: getPropertyBySlug()
 // ======================================================
 

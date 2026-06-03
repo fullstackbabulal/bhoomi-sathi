@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog/BlogCard/BlogCard.jsx
 // Description: Blog Card
-// UI Match: Bhoomi Sathi Blog Page
+// UI Match: Plot in Patna Blog Page
 // ======================================================
 
 import Image from "next/image";
@@ -58,7 +58,7 @@ export default function BlogCard(props) {
 
   const safeAvatar = author?.avatar?.trim?.() || FALLBACK_AVATAR;
 
-  const safeAuthorName = author?.name?.trim?.() || "Bhoomi Sathi";
+  const safeAuthorName = author?.name?.trim?.() || "Plot in Patna";
 
   const safeDate =
     date ||

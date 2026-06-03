@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog-detail/BlogShareSection/BlogShareSection.jsx
 // Description: Blog Share Section
-// UI Match: Bhoomi Sathi Blog Detail Page
+// UI Match: Plot in Patna Blog Detail Page
 // Fixed:
 // - Hydration-safe implementation
 // - No nested button issues

@@ -10,11 +10,11 @@ export async function generateMetadata() {
 
     const seo = data?.seo || {};
 
-    const title = seo?.metaTitle || "Contact Us | Bhoomi Sathi";
+    const title = seo?.metaTitle || "Contact Us | Plot in Patna";
 
     const description =
       seo?.metaDescription ||
-      "Get in touch with Bhoomi Sathi for property inquiries, support, investment guidance, and expert consultation.";
+      "Get in touch with Plot in Patna for property inquiries, support, investment guidance, and expert consultation.";
 
     const keywords =
       seo?.keywords?.join(", ") ||
@@ -35,7 +35,7 @@ export async function generateMetadata() {
         title,
         description,
         url: `${SITE_URL}/contact`,
-        siteName: "Bhoomi Sathi",
+        siteName: "Plot in Patna",
         type: "website",
         images: [
           {
@@ -61,10 +61,10 @@ export async function generateMetadata() {
     };
   } catch {
     return {
-      title: "Contact Us | Bhoomi Sathi",
+      title: "Contact Us | Plot in Patna",
 
       description:
-        "Get in touch with Bhoomi Sathi for property inquiries and support.",
+        "Get in touch with Plot in Patna for property inquiries and support.",
     };
   }
 }
@@ -83,7 +83,7 @@ export default async function Page() {
 
     "@type": "RealEstateAgent",
 
-    name: "Bhoomi Sathi",
+    name: "Plot in Patna",
 
     url: SITE_URL,
 

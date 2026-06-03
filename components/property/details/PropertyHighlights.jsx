@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/property/details/PropertyHighlights.jsx
 // Description: Property Highlights Section
-// UI Match: Bhoomi Sathi Property Details Design
+// UI Match: Plot in Patna Property Details Design
 // Styling: CSS Modules + Lucide React
 // Data Source: getPropertyBySlug()
 // ======================================================

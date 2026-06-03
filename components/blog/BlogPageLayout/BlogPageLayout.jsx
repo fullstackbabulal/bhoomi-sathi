@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog/BlogPageLayout/BlogPageLayout.jsx
 // Description: Blog Page Layout
-// UI Match: Bhoomi Sathi Blog Page
+// UI Match: Plot in Patna Blog Page
 // ======================================================
 
 import { useState } from "react";

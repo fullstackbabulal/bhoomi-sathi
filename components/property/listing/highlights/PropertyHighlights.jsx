@@ -45,7 +45,7 @@ export default function PropertyHighlights() {
       <div className={styles.container}>
         {/* HEADER */}
         <div className={styles.header}>
-          <span className={styles.badge}>Why Choose Bhoomi Sathi</span>
+          <span className={styles.badge}>Why Choose Plot in Patna</span>
 
           <h2 className={styles.title}>Trusted Real Estate Experience</h2>
 

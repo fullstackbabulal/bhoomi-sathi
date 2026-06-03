@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog-detail/BlogTags/BlogTags.jsx
 // Description: Blog Tags
-// UI Match: Bhoomi Sathi Blog Detail Page
+// UI Match: Plot in Patna Blog Detail Page
 // ======================================================
 
 import Link from "next/link";

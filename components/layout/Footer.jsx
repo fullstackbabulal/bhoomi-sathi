@@ -108,7 +108,7 @@ const Footer = () => {
               <div className={styles.logoIcon}>🏠</div>
 
               <div>
-                <h2 className={styles.logoTitle}>Bhoomi Sathi</h2>
+                <h2 className={styles.logoTitle}>Plot in Patna</h2>
 
                 <p className={styles.logoTagline}>
                   Your Property, Our Priority
@@ -117,7 +117,7 @@ const Footer = () => {
             </Link>
 
             <p className={styles.description}>
-              Bhoomi Sathi is your trusted partner in finding, buying, and
+              Plot in Patna is your trusted partner in finding, buying, and
               selling properties across India.
             </p>
 
@@ -206,7 +206,7 @@ const Footer = () => {
         {/* FOOTER BOTTOM */}
         <div className={styles.bottomBar}>
           <p className={styles.copyright}>
-            © {currentYear} Bhoomi Sathi. All Rights Reserved.
+            © {currentYear} Plot in Patna. All Rights Reserved.
           </p>
         </div>
       </div>

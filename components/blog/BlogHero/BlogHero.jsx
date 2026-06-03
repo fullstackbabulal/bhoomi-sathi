@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog/BlogHero/BlogHero.jsx
 // Description: Blog Hero Section
-// UI Match: Bhoomi Sathi Blog Page
+// UI Match: Plot in Patna Blog Page
 // ======================================================
 
 import Image from "next/image";

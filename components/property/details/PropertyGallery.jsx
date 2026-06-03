@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/property/details/PropertyGallery.jsx
 // Description: Dynamic Property Gallery
-// UI Match: Bhoomi Sathi Property Details Design
+// UI Match: Plot in Patna Property Details Design
 // Styling: CSS Modules + Lucide React
 // ======================================================
 

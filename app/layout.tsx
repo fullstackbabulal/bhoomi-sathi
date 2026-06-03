@@ -20,7 +20,7 @@ import { AuthProvider } from "@/context/AuthContext";
 // SEO METADATA
 // ======================================================
 export const metadata: Metadata = {
-  title: "Bhoomi Sathi - Find Your Dream Land",
+  title: "Plot in Patna - Find Your Dream Land",
 
   description: "Buy plots, land & property with trusted guidance",
 
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     "land",
     "property",
     "buy land",
-    "Bhoomi Sathi",
+    "Plot in Patna",
   ],
 };
 

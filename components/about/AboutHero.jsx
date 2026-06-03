@@ -7,13 +7,13 @@ import styles from "./AboutHero.module.css";
 export default function AboutHero({ data = {} }) {
   const badge = data?.badge || "About Us";
 
-  const title = data?.title || "About Bhoomi Sathi";
+  const title = data?.title || "About Plot in Patna";
 
   const subtitle = data?.subtitle || "Building Trust. Delivering Value.";
 
   const description =
     data?.description ||
-    "Bhoomi Sathi is a trusted real estate platform that connects buyers, sellers, and investors with verified properties across India.";
+    "Plot in Patna is a trusted real estate platform that connects buyers, sellers, and investors with verified properties across India.";
 
   const primaryButton = {
     label: data?.primaryButton?.label || "Explore Properties",
@@ -28,10 +28,11 @@ export default function AboutHero({ data = {} }) {
   const imageUrl = data?.image?.url?.trim() || "images/about/about-hero.png";
 
   const imageAlt =
-    data?.image?.alt || "Luxury residential property showcased by Bhoomi Sathi";
+    data?.image?.alt ||
+    "Luxury residential property showcased by Plot in Patna";
 
   return (
-    <section className={styles.hero} aria-label="About Bhoomi Sathi">
+    <section className={styles.hero} aria-label="About Plot in Patna">
       <div className={styles.container}>
         {/* Left Content */}
         <div className={styles.content}>

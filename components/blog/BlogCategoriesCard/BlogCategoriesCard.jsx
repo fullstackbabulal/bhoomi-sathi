@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/blog/BlogCategoriesCard/BlogCategoriesCard.jsx
 // Description: Blog Categories Sidebar Card
-// UI Match: Bhoomi Sathi Blog Page
+// UI Match: Plot in Patna Blog Page
 // ======================================================
 
 import styles from "./BlogCategoriesCard.module.css";

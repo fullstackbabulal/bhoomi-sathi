@@ -1,7 +1,7 @@
 // ======================================================
 // File: app/blog/[slug]/page.tsx
 // Description: Single Blog Detail Page
-// UI Match: Bhoomi Sathi Blog Detail Page
+// UI Match: Plot in Patna Blog Detail Page
 // ======================================================
 
 import Navbar from "@/components/layout/Navbar";
@@ -72,14 +72,14 @@ export async function generateMetadata({ params }: Props) {
 
   if (!blog) {
     return {
-      title: "Blog | Bhoomi Sathi",
+      title: "Blog | Plot in Patna",
 
-      description: "Read expert real estate insights from Bhoomi Sathi.",
+      description: "Read expert real estate insights from Plot in Patna.",
     };
   }
 
   return {
-    title: `${blog.title} | Bhoomi Sathi`,
+    title: `${blog.title} | Plot in Patna`,
 
     description:
       blog.metaDescription ||
@@ -179,7 +179,7 @@ export default async function BlogDetailPage({ params }: Props) {
     author: {
       "@type": "Person",
 
-      name: blog?.author?.name || "Bhoomi Sathi",
+      name: blog?.author?.name || "Plot in Patna",
     },
 
     description: blog.metaDescription || blog.excerpt || "",

@@ -14,7 +14,7 @@ const FaqSection = ({ data = {} }) => {
   const faqs = data?.faqs || [
     {
       _id: "1",
-      question: "How can I contact Bhoomi Sathi?",
+      question: "How can I contact Plot in Patna?",
       answer:
         "You can contact us through our contact form, phone number, email, or office visit during working hours.",
     },

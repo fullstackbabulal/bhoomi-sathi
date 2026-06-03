@@ -17,9 +17,9 @@ export default function BlogMetaBar({ blog }) {
 
   const author = blog?.author || blog?.authorName || {};
 
-  const authorName = author?.name || "Bhoomi Sathi";
+  const authorName = author?.name || "Plot in Patna";
 
-  const authorRole = author?.designation || "Founder & CEO, Bhoomi Sathi";
+  const authorRole = author?.designation || "Founder & CEO, Plot in Patna";
 
   const authorImage =
     author?.avatar || author?.image || "/images/avatar-placeholder.png";

@@ -11,10 +11,10 @@ import ProtectedRoute from "@/components/auth/ProtectedRoute";
 // ======================================================
 
 export const metadata = {
-  title: "Add Property | Bhoomi Sathi Admin",
+  title: "Add Property | Plot in Patna Admin",
 
   description:
-    "Create and publish premium property listings in Bhoomi Sathi admin dashboard.",
+    "Create and publish premium property listings in Plot in Patna admin dashboard.",
 };
 
 // ======================================================

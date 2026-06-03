@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/property/details/PropertyTitleCard.jsx
 // Description: Property Title / Price / Meta Card
-// UI Match: Bhoomi Sathi Property Details Design
+// UI Match: Plot in Patna Property Details Design
 // Styling: CSS Modules + Lucide React
 // Data Source: getPropertyBySlug()
 // ======================================================

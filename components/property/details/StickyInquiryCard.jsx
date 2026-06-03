@@ -3,7 +3,7 @@
 // ======================================================
 // File: components/property/details/StickyInquiryCard.jsx
 // Description: Sticky Inquiry / Contact Sidebar Card
-// UI Match: Bhoomi Sathi Property Details Design
+// UI Match: Plot in Patna Property Details Design
 // API: POST /api/enquiries
 // Anti Spam:
 // - Honeypot

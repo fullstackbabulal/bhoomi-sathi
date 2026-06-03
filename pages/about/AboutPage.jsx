@@ -104,7 +104,7 @@ export default function AboutPage() {
   return (
     <>
       <Navbar />
-      <main id="about-page" aria-label="About Bhoomi Sathi Page">
+      <main id="about-page" aria-label="About Plot in Patna Page">
         <AboutHero data={aboutData.hero} loading={loading} />
 
         <WhoWeAre data={aboutData.whoWeAre} loading={loading} />

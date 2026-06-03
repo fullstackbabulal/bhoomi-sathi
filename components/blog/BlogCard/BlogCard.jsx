@@ -3,15 +3,20 @@
 // ======================================================
 // File: components/blog/BlogCard/BlogCard.jsx
 // Description: Blog Card
-// UI Match: Plot in Patna Blog Page
 // ======================================================
 
 import Image from "next/image";
 import Link from "next/link";
 
+import { CalendarDays, Clock3, Bookmark, ArrowUpRight } from "lucide-react";
+
 import styles from "./BlogCard.module.css";
 
-import { CalendarDays, Clock3, Bookmark, ArrowUpRight } from "lucide-react";
+// ======================================================
+// CONFIG
+// ======================================================
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 // ======================================================
 // FALLBACKS
@@ -21,6 +26,28 @@ const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1200&auto=format&fit=crop";
 
 const FALLBACK_AVATAR = "https://i.pravatar.cc/150?img=15";
+
+// ======================================================
+// HELPERS
+// ======================================================
+
+const getImageUrl = (imagePath = "") => {
+  if (!imagePath?.trim()) {
+    return FALLBACK_IMAGE;
+  }
+
+  // External URL
+  if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+    return imagePath;
+  }
+
+  // Backend uploads
+  if (imagePath.startsWith("/uploads")) {
+    return `${API_BASE_URL}${imagePath}`;
+  }
+
+  return imagePath;
+};
 
 // ======================================================
 // COMPONENT
@@ -53,8 +80,7 @@ export default function BlogCard(props) {
   // SAFE DATA
   // ====================================================
 
-  const safeImage =
-    image?.trim?.() || featuredImage?.trim?.() || FALLBACK_IMAGE;
+  const safeImage = getImageUrl(image || featuredImage);
 
   const safeAvatar = author?.avatar?.trim?.() || FALLBACK_AVATAR;
 
@@ -77,6 +103,7 @@ export default function BlogCard(props) {
   return (
     <article className={styles.card}>
       {/* IMAGE */}
+
       <div className={styles.imageWrapper}>
         <Image
           src={safeImage}
@@ -86,10 +113,8 @@ export default function BlogCard(props) {
           unoptimized
         />
 
-        {/* CATEGORY */}
         <span className={styles.category}>{category}</span>
 
-        {/* BOOKMARK */}
         <button
           type="button"
           className={styles.bookmarkButton}
@@ -100,12 +125,11 @@ export default function BlogCard(props) {
       </div>
 
       {/* CONTENT */}
+
       <div className={styles.content}>
-        {/* META */}
         <div className={styles.meta}>
           <span className={styles.metaItem}>
             <CalendarDays size={16} />
-
             {safeDate}
           </span>
 
@@ -113,22 +137,17 @@ export default function BlogCard(props) {
 
           <span className={styles.metaItem}>
             <Clock3 size={16} />
-
             {readTime}
           </span>
         </div>
 
-        {/* TITLE */}
         <Link href={`/blog/${slug}`} className={styles.titleLink}>
           <h3 className={styles.title}>{title}</h3>
         </Link>
 
-        {/* EXCERPT */}
         <p className={styles.excerpt}>{excerpt}</p>
 
-        {/* FOOTER */}
         <div className={styles.footer}>
-          {/* AUTHOR */}
           <div className={styles.author}>
             <div className={styles.avatarWrapper}>
               <Image
@@ -147,7 +166,6 @@ export default function BlogCard(props) {
             </div>
           </div>
 
-          {/* READ MORE */}
           <Link href={`/blog/${slug}`} className={styles.readMore}>
             Read More
             <ArrowUpRight size={18} />

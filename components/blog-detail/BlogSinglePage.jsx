@@ -6,7 +6,7 @@
 import BlogPostHero from "./BlogPostHero/BlogPostHero";
 import BlogMetaBar from "./BlogMetaBar/BlogMetaBar";
 import BlogPostLayout from "./BlogPostLayout/BlogPostLayout";
-import BlogCommentSection from "../CommentSection";
+import BlogCommentSection from "./BlogCommetSection/BlogCommentSection";
 import NewsletterCTA from "./NewsletterCTA/NewsletterCTA";
 
 export default function BlogSinglePage({
@@ -20,13 +20,6 @@ export default function BlogSinglePage({
 
   const blogData =
     blog?.data && typeof blog.data === "object" ? blog.data : blog || {};
-
-  // ====================================================
-  // DEBUG
-  // ====================================================
-
-  console.log("BLOG DATA:", blogData);
-  console.log("BLOG CONTENT:", blogData?.content);
 
   // ====================================================
   // SAFETY
@@ -43,6 +36,7 @@ export default function BlogSinglePage({
         }}
       >
         <h2>Blog Not Found</h2>
+
         <p>The requested blog could not be loaded.</p>
       </div>
     );
@@ -60,11 +54,11 @@ export default function BlogSinglePage({
       {/* META */}
       <BlogMetaBar blog={blogData} />
 
-      {/* CONTENT + SIDEBAR + TAGS + AUTHOR + RELATED */}
+      {/* CONTENT + RELATED POSTS */}
       <BlogPostLayout blog={blogData} relatedPosts={relatedPosts} />
 
       {/* COMMENTS */}
-      <BlogCommentSection comments={comments || []} />
+      <BlogCommentSection blog={blogData} comments={comments} />
 
       {/* NEWSLETTER */}
       <NewsletterCTA />

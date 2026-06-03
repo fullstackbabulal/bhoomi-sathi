@@ -2,65 +2,60 @@
 
 // ======================================================
 // File: components/home/Gallery.jsx
-// Description: Property Gallery
-// UI Match: Plot in Patna Target Homepage
+// Description: Dynamic Property Gallery
 // ======================================================
 
 import Image from "next/image";
-import styles from "./Gallery.module.css";
 import Link from "next/link";
 
+import styles from "./Gallery.module.css";
+
 // ======================================================
-// FALLBACK IMAGES
+// CONFIG
 // ======================================================
 
-const FALLBACK_IMAGES = [
-  {
-    id: 1,
-    image: "https://placehold.co/1200x900?text=Luxury+Living+Room",
-    title: "Luxury Living Room",
-  },
-  {
-    id: 2,
-    image: "https://placehold.co/1200x900?text=Modern+Villa",
-    title: "Modern Villa",
-  },
-  {
-    id: 3,
-    image: "https://placehold.co/1200x900?text=Premium+Bedroom",
-    title: "Premium Bedroom",
-  },
-  {
-    id: 4,
-    image: "https://placehold.co/1200x900?text=Dining+Area",
-    title: "Dining Area",
-  },
-  {
-    id: 5,
-    image: "https://placehold.co/1200x900?text=Luxury+Interior",
-    title: "Luxury Interior",
-  },
-];
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 // ======================================================
 // HELPERS
 // ======================================================
 
-const isValidImageUrl = (value) => {
-  if (!value || typeof value !== "string") {
-    return false;
+const getImageUrl = (value = "") => {
+  if (!value) return "";
+
+  if (value.startsWith("http://") || value.startsWith("https://")) {
+    return value;
   }
 
-  if (value.startsWith("/")) {
-    return true;
+  if (value.startsWith("/uploads")) {
+    return `${API_BASE_URL}${value}`;
   }
 
-  try {
-    new URL(value);
-    return true;
-  } catch {
-    return false;
+  return value;
+};
+
+const normalizeImages = (images = []) => {
+  if (!Array.isArray(images)) {
+    return [];
   }
+
+  return images
+    .map((item, index) => {
+      if (typeof item === "string") {
+        return {
+          id: index,
+          image: getImageUrl(item),
+          title: `Property View ${index + 1}`,
+        };
+      }
+
+      return {
+        id: item?._id || item?.id || index,
+        image: getImageUrl(item?.url || item?.image || item?.thumbnail || ""),
+        title: item?.title || item?.caption || `Property View ${index + 1}`,
+      };
+    })
+    .filter((item) => item.image);
 };
 
 // ======================================================
@@ -69,72 +64,64 @@ const isValidImageUrl = (value) => {
 
 export default function Gallery({
   images = [],
-  title = "Property Gallery",
+  title = "Property Showcase",
   description = "Discover premium properties from verified listings across top locations.",
 }) {
-  const galleryImages = Array.isArray(images)
-    ? images
-        .map((item, index) => {
-          const image =
-            typeof item === "string" ? item : item?.image || item?.url || "";
+  const galleryImages = normalizeImages(images);
 
-          return {
-            id: item?.id || index,
-            image,
-            title: item?.title || `Property View ${index + 1}`,
-          };
-        })
-        .filter((item) => isValidImageUrl(item.image))
-    : [];
+  if (!galleryImages.length) {
+    return null;
+  }
 
-  const finalImages =
-    galleryImages.length >= 5 ? galleryImages.slice(0, 5) : FALLBACK_IMAGES;
+  const heroImage = galleryImages[0];
+
+  const sideImages = galleryImages.slice(1, 5);
 
   return (
     <section className={styles.section}>
       <div className={styles.container}>
         {/* HEADER */}
+
         <div className={styles.header}>
           <h2 className={styles.title}>{title}</h2>
 
           <p className={styles.description}>{description}</p>
         </div>
 
-        {/* SHOWCASE GRID */}
+        {/* GALLERY */}
+
         <div className={styles.galleryLayout}>
-          {/* LEFT LARGE IMAGE */}
+          {/* HERO */}
+
           <article className={styles.heroCard}>
             <div className={styles.imageWrapper}>
               <Image
-                src={finalImages[0].image}
-                alt={finalImages[0].title}
+                src={heroImage.image}
+                alt={heroImage.title}
                 fill
                 priority
-                className={styles.image}
                 unoptimized
+                className={styles.image}
               />
             </div>
           </article>
 
-          {/* RIGHT GRID */}
+          {/* GRID */}
+
           <div className={styles.rightGrid}>
-            {finalImages.slice(1, 5).map((item, index) => (
+            {sideImages.map((item, index) => (
               <article key={item.id} className={styles.card}>
                 <div className={styles.imageWrapper}>
                   <Image
                     src={item.image}
                     alt={item.title}
                     fill
-                    className={styles.image}
                     unoptimized
+                    className={styles.image}
                   />
-                  {/* CTA LAST CARD */}
+
                   {index === 3 && (
-                    <Link
-                      href="/properties"
-                      className={styles.ctaOverlay}
-                      aria-label="View more property photos"
-                    >
+                    <Link href="/properties" className={styles.ctaOverlay}>
                       <span className={styles.ctaText}>View More Photos</span>
                     </Link>
                   )}

@@ -13,26 +13,26 @@ import styles from "./Hero.module.css";
 
 const POPULAR_LOCATIONS = [
   "Patna",
-  "Siliguri",
-  "Kolkata",
-  "Delhi",
-  "Mumbai",
-  "Bangalore",
+  //"Siliguri",
+  //"Kolkata",
+  //"Delhi",
+  //"Mumbai",
+  //"Bangalore",
 ];
 
 const STATS = [
   {
-    value: "10K+",
+    value: "5+",
     label: "Properties Listed",
     icon: "🏠",
   },
   {
-    value: "2K+",
+    value: "100+",
     label: "Happy Buyers",
     icon: "👥",
   },
   {
-    value: "500+",
+    value: "50+",
     label: "Verified Agents",
     icon: "🛡️",
   },

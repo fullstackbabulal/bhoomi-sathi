@@ -26,7 +26,7 @@ const contactSettingsSchema = new mongoose.Schema(
 
       image: {
         type: String,
-        default: "/images/contact/contact-hero.webp",
+        default: "/images/contact/contact-hero.png",
       },
     },
 
@@ -205,7 +205,7 @@ const contactSettingsSchema = new mongoose.Schema(
 
       phone: {
         type: String,
-        default: "9876543210",
+        default: "9661655534",
       },
     },
 

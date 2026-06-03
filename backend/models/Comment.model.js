@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 // ======================================================
 // COMMENT SCHEMA
 // ======================================================
+
 const commentSchema = new mongoose.Schema(
   {
     // ==================================================
@@ -22,7 +23,6 @@ const commentSchema = new mongoose.Schema(
 
     // ==================================================
     // USER RELATION (OPTIONAL)
-    // Logged-in user
     // ==================================================
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -65,7 +65,6 @@ const commentSchema = new mongoose.Schema(
       index: true,
     },
 
-    // Reply depth (max 3)
     depth: {
       type: Number,
       default: 0,
@@ -77,11 +76,7 @@ const commentSchema = new mongoose.Schema(
     // ==================================================
     status: {
       type: String,
-      enum: [
-        "pending",
-        "approved",
-        "spam",
-      ],
+      enum: ["pending", "approved", "spam"],
       default: "pending",
       index: true,
     },
@@ -114,12 +109,13 @@ const commentSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // ======================================================
 // INDEXES
 // ======================================================
+
 commentSchema.index({
   blogPost: 1,
   parent: 1,
@@ -128,51 +124,35 @@ commentSchema.index({
 
 // ======================================================
 // LIMIT COMMENT DEPTH
-// Prevent infinite nesting
+// Mongoose 8 Compatible
 // ======================================================
-commentSchema.pre(
-  "save",
-  async function (next) {
-    try {
-      if (!this.parent) {
-        return next();
-      }
 
-      const parentComment =
-        await mongoose
-          .model("Comment")
-          .findById(this.parent);
-
-      if (!parentComment) {
-        return next(
-          new Error(
-            "Parent comment not found"
-          )
-        );
-      }
-
-      this.depth =
-        (parentComment.depth || 0) + 1;
-
-      if (this.depth > 3) {
-        return next(
-          new Error(
-            "Maximum reply depth exceeded"
-          )
-        );
-      }
-
-      next();
-    } catch (error) {
-      next(error);
-    }
+commentSchema.pre("save", async function () {
+  // Root comment
+  if (!this.parent) {
+    this.depth = 0;
+    return;
   }
-);
+
+  const ParentComment = mongoose.model("Comment");
+
+  const parentComment = await ParentComment.findById(this.parent).select(
+    "depth",
+  );
+
+  if (!parentComment) {
+    throw new Error("Parent comment not found");
+  }
+
+  this.depth = (parentComment.depth || 0) + 1;
+
+  if (this.depth > 3) {
+    throw new Error("Maximum reply depth exceeded");
+  }
+});
 
 // ======================================================
 // EXPORT MODEL
 // ======================================================
-module.exports = mongoose.model(
-  "Comment",
-  commentSchema
-);
+
+module.exports = mongoose.model("Comment", commentSchema);

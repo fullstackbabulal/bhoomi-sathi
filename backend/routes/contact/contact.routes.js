@@ -1,32 +1,78 @@
-const express = require("express");
+// ======================================================
+// File: backend/routes/contact/contact.route.js
+// Description: Contact Routes
+// ======================================================
 
-const {
-  getContactPage,
-  submitContactForm,
-  updateContactSettings,
-  getContactSubmissions,
-} = require("../../controllers/contact/contact.controller");
+const express = require("express");
 
 const router = express.Router();
 
-/* ==================================
-   PUBLIC ROUTES
-================================== */
+// ======================================================
+// CONTROLLERS
+// ======================================================
 
-// Get Contact Page Data
-router.get("/", getContactPage);
+const {
+  getContactPageData,
+  submitContactForm,
+  getAllSubmissions,
+  updateSubmissionStatus,
+} = require("../../controllers/contact/contact.controller");
 
-// Submit Contact Form
+// ======================================================
+// MIDDLEWARE
+// ======================================================
+
+const authMiddleware = require("../../middleware/auth.middleware");
+const roleMiddleware = require("../../middleware/role.middleware");
+
+// ======================================================
+// PUBLIC ROUTES
+// ======================================================
+
+// ------------------------------------------------------
+// GET CONTACT PAGE DATA
+// GET /api/contact
+// ------------------------------------------------------
+
+router.get("/", getContactPageData);
+
+// ------------------------------------------------------
+// SUBMIT CONTACT FORM
+// POST /api/contact/submit
+// ------------------------------------------------------
+
 router.post("/submit", submitContactForm);
 
-/* ==================================
-   ADMIN ROUTES
-================================== */
+// ======================================================
+// ADMIN ROUTES
+// ======================================================
 
-// Update Contact Settings
-router.put("/", updateContactSettings);
+// ------------------------------------------------------
+// GET ALL CONTACT SUBMISSIONS
+// GET /api/contact/submissions
+// ------------------------------------------------------
 
-// Get Contact Submissions
-router.get("/submissions", getContactSubmissions);
+router.get(
+  "/submissions",
+  authMiddleware,
+  roleMiddleware("admin"),
+  getAllSubmissions,
+);
+
+// ------------------------------------------------------
+// UPDATE SUBMISSION STATUS
+// PATCH /api/contact/submissions/:id
+// ------------------------------------------------------
+
+router.patch(
+  "/submissions/:id",
+  authMiddleware,
+  roleMiddleware("admin"),
+  updateSubmissionStatus,
+);
+
+// ======================================================
+// EXPORT
+// ======================================================
 
 module.exports = router;

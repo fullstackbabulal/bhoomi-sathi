@@ -1,13 +1,19 @@
-const ContactSubmission = require("../../models/contact/contactSubmission.model");
-const ContactSettings = require("../../models/contact/contactSettings.model");
+// ======================================================
+// File: backend/controllers/contact.controller.js
+// Description: Contact Controller
+// ======================================================
 
-/**
- * GET CONTACT PAGE DATA
- * GET /api/contact
- */
-const getContactPage = async (req, res) => {
+const ContactSettings = require("../../models/contact/contactSettings.model");
+const ContactSubmission = require("../../models/contact/contactSubmission.model");
+
+// ======================================================
+// GET CONTACT PAGE DATA
+// GET /api/contact
+// ======================================================
+
+const getContactPageData = async (req, res) => {
   try {
-    let settings = await ContactSettings.findOne();
+    let settings = await ContactSettings.findOne().lean();
 
     if (!settings) {
       settings = await ContactSettings.create({});
@@ -15,59 +21,69 @@ const getContactPage = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Contact page data fetched successfully",
       data: settings,
     });
   } catch (error) {
-    console.error("Get contact page error:", error);
+    console.error("Get Contact Page Error:", error);
 
     return res.status(500).json({
       success: false,
-      message: "Failed to fetch contact page data",
+      message: error.message || "Failed to fetch contact page data.",
     });
   }
 };
 
-/**
- * SUBMIT CONTACT FORM
- * POST /api/contact/submit
- */
+// ======================================================
+// SUBMIT CONTACT FORM
+// POST /api/contact/submit
+// ======================================================
+
 const submitContactForm = async (req, res) => {
   try {
     const { fullName, email, phone, subject, message } = req.body;
 
-    /* ==========================
-       VALIDATION
-    ========================== */
+    // ==================================================
+    // VALIDATION
+    // ==================================================
 
-    if (!fullName || !email || !phone || !subject || !message) {
+    if (!fullName?.trim()) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required",
+        message: "Full name is required.",
       });
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(email)) {
+    if (!email?.trim()) {
       return res.status(400).json({
         success: false,
-        message: "Invalid email address",
+        message: "Email is required.",
       });
     }
 
-    const phoneRegex = /^[0-9]{10}$/;
-
-    if (!phoneRegex.test(phone)) {
+    if (!phone?.trim()) {
       return res.status(400).json({
         success: false,
-        message: "Phone number must be 10 digits",
+        message: "Phone is required.",
       });
     }
 
-    /* ==========================
-       SAVE SUBMISSION
-    ========================== */
+    if (!subject?.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Subject is required.",
+      });
+    }
+
+    if (!message?.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Message is required.",
+      });
+    }
+
+    // ==================================================
+    // SAVE SUBMISSION
+    // ==================================================
 
     const submission = await ContactSubmission.create({
       fullName: fullName.trim(),
@@ -79,82 +95,119 @@ const submitContactForm = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: "Your message has been submitted successfully",
+      message: "Contact form submitted successfully.",
       data: submission,
     });
   } catch (error) {
-    console.error("Submit contact form error:", error);
+    console.error("Submit Contact Form Error:", error);
 
     return res.status(500).json({
       success: false,
-      message: "Failed to submit contact form",
+      message: error.message || "Failed to submit contact form.",
     });
   }
 };
 
-/**
- * UPDATE CONTACT SETTINGS
- * PUT /api/contact
- */
-const updateContactSettings = async (req, res) => {
+// ======================================================
+// GET ALL CONTACT SUBMISSIONS
+// ADMIN ONLY
+// GET /api/contact/submissions
+// ======================================================
+
+const getAllSubmissions = async (req, res) => {
   try {
-    const payload = req.body;
+    const { page = 1, limit = 20, status } = req.query;
 
-    let settings = await ContactSettings.findOne();
+    const query = {};
 
-    if (!settings) {
-      settings = new ContactSettings({});
+    if (status) {
+      query.status = status;
     }
 
-    Object.keys(payload).forEach((key) => {
-      settings[key] = payload[key];
-    });
+    const submissions = await ContactSubmission.find(query)
+      .sort({
+        createdAt: -1,
+      })
+      .skip((Number(page) - 1) * Number(limit))
+      .limit(Number(limit));
 
-    await settings.save();
-
-    return res.status(200).json({
-      success: true,
-      message: "Contact settings updated successfully",
-      data: settings,
-    });
-  } catch (error) {
-    console.error("Update contact settings error:", error);
-
-    return res.status(500).json({
-      success: false,
-      message: "Failed to update contact settings",
-    });
-  }
-};
-
-/**
- * GET CONTACT SUBMISSIONS
- * GET /api/contact/submissions
- */
-const getContactSubmissions = async (req, res) => {
-  try {
-    const submissions = await ContactSubmission.find().sort({
-      createdAt: -1,
-    });
+    const total = await ContactSubmission.countDocuments(query);
 
     return res.status(200).json({
       success: true,
-      message: "Contact submissions fetched successfully",
+      total,
+      page: Number(page),
+      pages: Math.ceil(total / Number(limit)),
       data: submissions,
     });
   } catch (error) {
-    console.error("Get contact submissions error:", error);
+    console.error("Get Submissions Error:", error);
 
     return res.status(500).json({
       success: false,
-      message: "Failed to fetch contact submissions",
+      message: error.message || "Failed to fetch submissions.",
     });
   }
 };
 
+// ======================================================
+// UPDATE SUBMISSION STATUS
+// ADMIN ONLY
+// PATCH /api/contact/submissions/:id
+// ======================================================
+
+const updateSubmissionStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    const allowedStatus = ["new", "in-progress", "resolved", "closed"];
+
+    if (!allowedStatus.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid submission status.",
+      });
+    }
+
+    const submission = await ContactSubmission.findByIdAndUpdate(
+      req.params.id,
+      {
+        status,
+      },
+      {
+        new: true,
+      },
+    );
+
+    if (!submission) {
+      return res.status(404).json({
+        success: false,
+        message: "Submission not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Submission updated successfully.",
+      data: submission,
+    });
+  } catch (error) {
+    console.error("Update Submission Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Failed to update submission.",
+    });
+  }
+};
+
+// ======================================================
+// EXPORTS
+// ======================================================
+
 module.exports = {
-  getContactPage,
+  getContactPageData,
   submitContactForm,
-  updateContactSettings,
-  getContactSubmissions,
+  getAllSubmissions,
+  updateSubmissionStatus,
 };

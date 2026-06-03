@@ -15,6 +15,7 @@ const BlogPost = require("../models/BlogPost.model.js");
 // CREATE COMMENT
 // POST /api/comments/:slug/comments
 // ======================================================
+
 const createComment = async (req, res) => {
   try {
     const { slug } = req.params;
@@ -24,6 +25,7 @@ const createComment = async (req, res) => {
     // ==================================================
     // VALIDATION
     // ==================================================
+
     if (!slug) {
       return res.status(400).json({
         success: false,
@@ -39,8 +41,9 @@ const createComment = async (req, res) => {
     }
 
     // ==================================================
-    // FIND BLOG BY SLUG
+    // FIND BLOG
     // ==================================================
+
     const blog = await BlogPost.findOne({
       slug,
     }).select("_id");
@@ -53,8 +56,9 @@ const createComment = async (req, res) => {
     }
 
     // ==================================================
-    // XSS SANITIZATION
+    // SANITIZE INPUT
     // ==================================================
+
     const safeContent = xss(content.trim());
 
     const safeName = name ? xss(name.trim()) : "";
@@ -62,8 +66,22 @@ const createComment = async (req, res) => {
     const safeEmail = email ? xss(email.trim()) : "";
 
     // ==================================================
+    // USER DETAILS
+    // ==================================================
+
+    let commentName = safeName;
+    let commentEmail = safeEmail;
+
+    if (req.user) {
+      commentName = req.user.name || req.user.fullName || safeName;
+
+      commentEmail = req.user.email || safeEmail;
+    }
+
+    // ==================================================
     // CREATE COMMENT
     // ==================================================
+
     const comment = await Comment.create({
       blogPost: blog._id,
 
@@ -71,21 +89,23 @@ const createComment = async (req, res) => {
 
       parent,
 
-      // Logged in user
       user: req.user?._id || null,
 
-      // Guest user fallback
-      name: req.user ? "" : safeName,
-      email: req.user ? "" : safeEmail,
+      name: commentName,
+
+      email: commentEmail,
+
+      status: "pending",
 
       ipAddress: req.ip,
+
       userAgent: req.headers["user-agent"] || "",
     });
 
     // ==================================================
     // UPDATE COMMENT COUNT
-    // Root comment only
     // ==================================================
+
     if (!parent) {
       await BlogPost.findByIdAndUpdate(blog._id, {
         $inc: {
@@ -97,6 +117,7 @@ const createComment = async (req, res) => {
     // ==================================================
     // POPULATE USER
     // ==================================================
+
     const populatedComment = await Comment.findById(comment._id)
       .populate("user", "name email avatar role")
       .lean();

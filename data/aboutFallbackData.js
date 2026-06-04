@@ -245,7 +245,7 @@ const aboutFallbackData = {
         "At Plot in Patna, our goal is to build a platform people can trust for all their real estate needs with transparency, innovation, and long-term value.",
 
       image: {
-        url: "/images/about/founder.jpg",
+        url: "/images/about/founder.webp",
         alt: "Founder of Plot in Patna",
       },
     },
@@ -257,7 +257,7 @@ const aboutFallbackData = {
         designation: "Co-Founder",
 
         image: {
-          url: "/images/about/team-1.webp",
+          url: "/images/about/team-1.png",
           alt: "Co-Founder of Plot in Patna",
         },
 
@@ -273,7 +273,7 @@ const aboutFallbackData = {
         designation: "CTO",
 
         image: {
-          url: "/images/about/team-2.webp",
+          url: "/images/about/team-2.avif",
           alt: "Chief Technology Officer of Plot in Patna",
         },
 
@@ -289,7 +289,7 @@ const aboutFallbackData = {
         designation: "Head of Operations",
 
         image: {
-          url: "/images/about/team-3.webp",
+          url: "/images/about/team-3.png",
           alt: "Head of Operations at Plot in Patna",
         },
 

@@ -1,8 +1,10 @@
-/* frontend/components/home/Testimonials.jsx */
-
 "use client";
 
+import { useEffect, useState } from "react";
+
 import styles from "./Testimonials.module.css";
+
+import { getFeaturedTestimonials } from "@/services/Testimonials.service";
 
 const DEFAULT_TESTIMONIALS = [
   {
@@ -35,7 +37,7 @@ function RatingStars({ rating = 5 }) {
   return (
     <div className={styles.rating} aria-label={`Rating ${rating} out of 5`}>
       {Array.from({ length: 5 }).map((_, index) => (
-        <span key={index} className={styles.star} aria-hidden="true">
+        <span key={index} className={styles.star}>
           {index < rating ? "★" : "☆"}
         </span>
       ))}
@@ -44,14 +46,50 @@ function RatingStars({ rating = 5 }) {
 }
 
 export default function Testimonials({
-  testimonials = [],
   title = "What Our Clients Say",
   description = "Trusted by buyers, investors, and property seekers across India.",
 }) {
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // ======================================================
+  // FETCH TESTIMONIALS
+  // ======================================================
+
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        setLoading(true);
+
+        const response = await getFeaturedTestimonials();
+
+        const apiTestimonials = response?.data || [];
+
+        const normalizedTestimonials = apiTestimonials.map((item) => ({
+          id: item._id,
+          name: item.name,
+          role: item.designation || item.company || "Customer",
+          review: item.review,
+          rating: item.rating || 5,
+          image: item.image || "",
+          location: item.location || "",
+        }));
+
+        setTestimonials(normalizedTestimonials);
+      } catch (error) {
+        console.error("Failed to load testimonials:", error);
+
+        setTestimonials(DEFAULT_TESTIMONIALS);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
+
   const safeTestimonials =
-    Array.isArray(testimonials) && testimonials.length > 0
-      ? testimonials.filter(Boolean)
-      : DEFAULT_TESTIMONIALS;
+    testimonials.length > 0 ? testimonials : DEFAULT_TESTIMONIALS;
 
   const hasTestimonials = safeTestimonials.length > 0;
 
@@ -72,8 +110,12 @@ export default function Testimonials({
           <p className={styles.description}>{description}</p>
         </div>
 
-        {/* Empty State */}
-        {!hasTestimonials ? (
+        {/* Loading */}
+        {loading ? (
+          <div className={styles.emptyState}>
+            <p>Loading testimonials...</p>
+          </div>
+        ) : !hasTestimonials ? (
           <div className={styles.emptyState}>
             <div className={styles.emptyIcon}>💬</div>
 
@@ -99,17 +141,13 @@ export default function Testimonials({
               return (
                 <article key={id || index} className={styles.card}>
                   <div className={styles.cardContent}>
-                    {/* Rating */}
                     <RatingStars rating={rating} />
 
-                    {/* Review */}
                     <blockquote className={styles.review}>
                       “{review || "Great property experience."}”
                     </blockquote>
 
-                    {/* Footer */}
                     <div className={styles.footer}>
-                      {/* Avatar */}
                       <div className={styles.avatarWrapper}>
                         {image ? (
                           <img
@@ -118,13 +156,10 @@ export default function Testimonials({
                             className={styles.avatarImage}
                           />
                         ) : (
-                          <div className={styles.avatar} aria-hidden="true">
-                            {initials}
-                          </div>
+                          <div className={styles.avatar}>{initials}</div>
                         )}
                       </div>
 
-                      {/* User Info */}
                       <div className={styles.userInfo}>
                         <h3 className={styles.name}>
                           {name || "Anonymous User"}

@@ -5,7 +5,6 @@
 
 import Home from "@/pages/home";
 import { fetchProperties } from "@/services/propertyApi";
-
 // ======================================================
 // PAGE
 // ======================================================

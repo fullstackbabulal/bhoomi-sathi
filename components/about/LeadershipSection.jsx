@@ -1,8 +1,15 @@
 "use client";
 
+// ======================================================
+// File: components/about/LeadershipSection/LeadershipSection.jsx
+// Description: Leadership Section
+// ======================================================
+
 import Image from "next/image";
 import Link from "next/link";
-import { linkedin, twitter } from "lucide-react";
+
+import { FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
+
 import styles from "./LeadershipSection.module.css";
 
 export default function LeadershipSection({ data = {}, loading = false }) {
@@ -13,33 +20,63 @@ export default function LeadershipSection({ data = {}, loading = false }) {
     team = [],
   } = data;
 
-  // Safely ensure team is an array to prevent mapping errors
+  // ======================================================
+  // SAFE DATA
+  // ======================================================
+
   const safeTeam = Array.isArray(team) ? team : [];
+
+  // ======================================================
+  // IMAGE ERROR DEBUGGING
+  // ======================================================
+
+  const handleImageError = (imageUrl, personName) => {
+    console.error("❌ Image Failed:", imageUrl);
+
+    console.error("❌ Person:", personName);
+
+    console.error("❌ Verify file exists inside public folder");
+  };
 
   return (
     <section className={styles.section} aria-labelledby="leadership-title">
       <div className={styles.container}>
-        {/* Heading Section */}
+        {/* ======================================
+            HEADING
+        ====================================== */}
+
         <div className={styles.heading}>
           {badge && <span className={styles.badge}>{badge}</span>}
+
           <h2 id="leadership-title" className={styles.title}>
             {title}
           </h2>
         </div>
 
-        {/* Main Leadership Layout */}
+        {/* ======================================
+            MAIN GRID
+        ====================================== */}
+
         <div className={styles.leadershipGrid}>
-          {/* 1. Founder Card */}
+          {/* ======================================
+              FOUNDER CARD
+          ====================================== */}
+
           <article className={styles.founderCard}>
             <div className={styles.founderImageWrapper}>
               <Image
-                src={founderMessage?.image?.url || "/images/about/founder.png"}
+                src={founderMessage?.image?.url || "/images/about/founder.webp"}
                 alt={founderMessage?.image?.alt || "Founder of Plot in Patna"}
                 fill
                 priority
                 className={styles.founderImage}
-                sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: "cover" }} // Ensures image covers the wrapper
+                sizes="(max-width:768px) 100vw, 50vw"
+                onError={() =>
+                  handleImageError(
+                    founderMessage?.image?.url,
+                    founderMessage?.name,
+                  )
+                }
               />
             </div>
 
@@ -47,96 +84,120 @@ export default function LeadershipSection({ data = {}, loading = false }) {
               <h3 className={styles.founderName}>
                 {founderMessage?.name || "Founder Name"}
               </h3>
-              <p className={styles.founderRole}>
+
+              <p className={styles.designation}>
                 {founderMessage?.designation || "Founder & CEO"}
               </p>
-              <p className={styles.founderText}>
+
+              <p className={styles.message}>
                 {founderMessage?.message ||
-                  "Welcome to Plot in Patna. Our mission is to simplify your real estate journey with trust and transparency."}
+                  "Our mission is to simplify the property journey through trust, transparency, and innovation."}
               </p>
             </div>
           </article>
 
-          {/* 2. Team Grid */}
+          {/* ======================================
+              TEAM MEMBERS
+          ====================================== */}
+
           <div className={styles.teamGrid}>
-            {/* Render actual team data if available */}
             {safeTeam.length > 0
-              ? safeTeam.map((item, index) => (
-                  <article key={index} className={styles.card}>
-                    <div className={styles.imageWrapper}>
-                      <Image
-                        src={
-                          item?.image?.url ||
-                          `/images/about/team-${(index % 3) + 1}.png`
-                        }
-                        alt={item?.name || "Team member"}
-                        fill
-                        className={styles.image}
-                        sizes="(max-width: 768px) 100vw, 18vw"
-                        style={{ objectFit: "cover" }}
-                      />
-                    </div>
+              ? safeTeam.map((member, index) => {
+                  const imageUrl =
+                    member?.image?.url ||
+                    `/images/about/team-${(index % 3) + 1}.png`;
 
-                    <div className={styles.content}>
-                      <h3 className={styles.name}>
-                        {item?.name || "Team Member"}
-                      </h3>
-                      <p className={styles.role}>
-                        {item?.designation || "Designation"}
-                      </p>
-
-                      <div className={styles.socials}>
-                        {item?.linkedin && (
-                          <Link
-                            href={item.linkedin}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={styles.socialLink}
-                            aria-label={`LinkedIn of ${item?.name || "Team Member"}`}
-                          >
-                            <linkedin size={14} />
-                          </Link>
-                        )}
-                        {item?.twitter && (
-                          <Link
-                            href={item.twitter}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={styles.socialLink}
-                            aria-label={`Twitter of ${item?.name || "Team Member"}`}
-                          >
-                            <twitter size={14} />
-                          </Link>
-                        )}
+                  return (
+                    <article
+                      key={member?._id || member?.id || index}
+                      className={styles.card}
+                    >
+                      <div className={styles.imageWrapper}>
+                        <Image
+                          src={imageUrl}
+                          alt={
+                            member?.image?.alt || member?.name || "Team Member"
+                          }
+                          fill
+                          className={styles.image}
+                          sizes="(max-width:768px) 100vw, 18vw"
+                          onError={() =>
+                            handleImageError(imageUrl, member?.name)
+                          }
+                        />
                       </div>
-                    </div>
-                  </article>
-                ))
-              : /* 3. Render Fallback/Skeleton cards if no data and not loading */
-                !loading &&
+
+                      <div className={styles.content}>
+                        <h3 className={styles.name}>
+                          {member?.name || "Team Member"}
+                        </h3>
+
+                        <p className={styles.role}>
+                          {member?.designation || "Designation"}
+                        </p>
+
+                        <div className={styles.socials}>
+                          {member?.socialLinks?.linkedin &&
+                            member.socialLinks.linkedin !== "#" && (
+                              <Link
+                                href={member.socialLinks.linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles.socialLink}
+                                aria-label={`LinkedIn profile of ${member?.name}`}
+                              >
+                                <FaLinkedinIn size={14} />
+                              </Link>
+                            )}
+
+                          {member?.socialLinks?.twitter &&
+                            member.socialLinks.twitter !== "#" && (
+                              <Link
+                                href={member.socialLinks.twitter}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles.socialLink}
+                                aria-label={`Twitter profile of ${member?.name}`}
+                              >
+                                <FaXTwitter size={14} />
+                              </Link>
+                            )}
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })
+              : !loading &&
                 [1, 2, 3].map((item) => (
                   <article key={item} className={styles.card}>
                     <div className={styles.imageWrapper}>
                       <Image
                         src={`/images/about/team-${item}.png`}
-                        alt="Default Team member"
+                        alt={`Team Member ${item}`}
                         fill
                         className={styles.image}
-                        sizes="(max-width: 768px) 100vw, 18vw"
-                        style={{ objectFit: "cover" }}
+                        sizes="(max-width:768px) 100vw, 18vw"
+                        onError={() =>
+                          handleImageError(
+                            `/images/about/team-${item}.png`,
+                            `Fallback Team ${item}`,
+                          )
+                        }
                       />
                     </div>
 
                     <div className={styles.content}>
                       <h3 className={styles.name}>Team Member</h3>
+
                       <p className={styles.role}>Designation</p>
 
                       <div className={styles.socials}>
                         <span className={styles.socialLink}>
-                          <Linkedin size={14} />
+                          <FaLinkedinIn size={14} />
                         </span>
+
                         <span className={styles.socialLink}>
-                          <Twitter size={14} />
+                          <FaXTwitter size={14} />
                         </span>
                       </div>
                     </div>

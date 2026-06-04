@@ -192,7 +192,7 @@ const Footer = () => {
 
               <p className={styles.contactItem}>
                 <span>✉️</span>
-                info@bhoomisathi.com
+                info@plotinpatna.in
               </p>
 
               <p className={styles.contactItem}>

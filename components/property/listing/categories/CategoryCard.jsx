@@ -5,7 +5,35 @@
 // Description: Property Category Card
 // ======================================================
 
+import Link from "next/link";
 import styles from "./PropertyListingCategories.module.css";
+
+// ======================================================
+// CATEGORY → PROPERTY TYPE MAPPING
+// ======================================================
+
+const getPropertyType = (title = "") => {
+  const normalizedTitle = title.trim().toLowerCase();
+
+  const categoryMap = {
+    apartment: "apartment",
+    apartments: "apartment",
+
+    villa: "villa",
+    villas: "villa",
+
+    house: "house",
+    houses: "house",
+
+    plot: "plot",
+    plots: "plot",
+
+    commercial: "commercial",
+    commercials: "commercial",
+  };
+
+  return categoryMap[normalizedTitle] || "";
+};
 
 export default function CategoryCard({
   title,
@@ -14,28 +42,39 @@ export default function CategoryCard({
   active = false,
   onClick,
 }) {
+  const propertyType = getPropertyType(title);
+
+  const href = propertyType
+    ? `/properties?type=${encodeURIComponent(propertyType)}`
+    : "/properties";
+
   return (
-    <button
-      type="button"
+    <Link
+      href={href}
+      className={styles.categoryLink}
       onClick={onClick}
-      className={`${styles.categoryCard} ${active ? styles.activeCard : ""}`}
+      aria-label={`Browse ${title} properties`}
     >
-      {/* ICON */}
       <div
-        className={`${styles.iconWrapper} ${active ? styles.activeIcon : ""}`}
+        className={`${styles.categoryCard} ${active ? styles.activeCard : ""}`}
       >
-        <span className={styles.icon}>{icon}</span>
+        {/* ICON */}
+        <div
+          className={`${styles.iconWrapper} ${active ? styles.activeIcon : ""}`}
+        >
+          <span className={styles.icon}>{icon}</span>
+        </div>
+
+        {/* CONTENT */}
+        <div className={styles.content}>
+          <h3 className={styles.categoryTitle}>{title}</h3>
+
+          <p className={styles.categoryCount}>{count} Properties</p>
+        </div>
+
+        {/* ACTIVE INDICATOR */}
+        {active && <span className={styles.activeBadge}>Selected</span>}
       </div>
-
-      {/* CONTENT */}
-      <div className={styles.content}>
-        <h3 className={styles.categoryTitle}>{title}</h3>
-
-        <p className={styles.categoryCount}>{count} Properties</p>
-      </div>
-
-      {/* ACTIVE INDICATOR */}
-      {active && <span className={styles.activeBadge}>Selected</span>}
-    </button>
+    </Link>
   );
 }

@@ -131,8 +131,8 @@ const ContactHero = ({ data }) => {
 
                 <div className={styles.contactContent}>
                   <h3>Email Us</h3>
-                  <p>{officeInfo?.email1 || "info@bhoomisathi.com"}</p>
-                  <p>{officeInfo?.email2 || "support@bhoomisathi.com"}</p>
+                  <p>{officeInfo?.email1 || "info@plotinpatna.in"}</p>
+                  <p>{officeInfo?.email2 || "support@plotinpatna.in"}</p>
                 </div>
               </div>
 

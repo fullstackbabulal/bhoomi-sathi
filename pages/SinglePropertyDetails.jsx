@@ -5,39 +5,39 @@
 // Description: Single Property Details Page
 // ======================================================
 
-import styles from "./SinglePropertyDetails.module.css";
+import styles from "@/pages/SinglePropertyDetails.module.css";
 
 // ======================================================
 // Property Details Components
 // ======================================================
 
-import PropertyDetailsPage from "../components/property/details/PropertyDetailsPage";
-import PropertyGallery from "../components/property/details/PropertyGallery";
-import PropertyHeader from "../components/property/details/PropertyHeader";
-import PropertyTitleCard from "../components/property/details/PropertyTitleCard";
-import PropertyOverview from "../components/property/details/PropertyOverview";
-import PropertyHighlights from "../components/property/details/PropertyHighlights";
-import PropertyAmenities from "../components/property/details/PropertyAmenities";
-import PropertySpecifications from "../components/property/details/PropertySpecifications";
-import PropertyMediaTabs from "../components/property/details/PropertyMediaTabs";
-import PropertyLocation from "../components/property/details/PropertyLocation";
-import SimilarProperties from "../components/property/details/SimilarProperties";
-import PropertyFAQ from "../components/property/details/PropertyFAQ";
-import PropertyBottomCTA from "../components/property/details/PropertyBottomCTA";
-import StickyInquiryCard from "../components/property/details/StickyInquiryCard";
-import PropertyAgentCard from "../components/property/details/PropertyAgentCard";
-import LoanEligibilityCard from "../components/property/details/LoanEligibilityCard";
-import PropertyContactForm from "../components/property/details/PropertyContactForm";
-import PropertyTrustCard from "../components/property/details/PropertyTrustCard";
+import PropertyDetailsPage from "@/components/property/details/PropertyDetailsPage";
+import PropertyGallery from "@/components/property/details/PropertyGallery";
+import PropertyHeader from "@/components/property/details/PropertyHeader";
+import PropertyTitleCard from "@/components/property/details/PropertyTitleCard";
+import PropertyOverview from "@/components/property/details/PropertyOverview";
+import PropertyHighlights from "@/components/property/details/PropertyHighlights";
+import PropertyAmenities from "@/components/property/details/PropertyAmenities";
+import PropertySpecifications from "@/components/property/details/PropertySpecifications";
+import PropertyMediaTabs from "@/components/property/details/PropertyMediaTabs";
+import PropertyLocation from "@/components/property/details/PropertyLocation";
+import SimilarProperties from "@/components/property/details/SimilarProperties";
+import PropertyFAQ from "@/components/property/details/PropertyFAQ";
+import PropertyBottomCTA from "@/components/property/details/PropertyBottomCTA";
+import StickyInquiryCard from "@/components/property/details/StickyInquiryCard";
+import PropertyAgentCard from "@/components/property/details/PropertyAgentCard";
+import LoanEligibilityCard from "@/components/property/details/LoanEligibilityCard";
+import PropertyContactForm from "@/components/property/details/PropertyContactForm";
+import PropertyTrustCard from "@/components/property/details/PropertyTrustCard";
 
 // ======================================================
 // Shared Components
 // ======================================================
 
-import PropertyAmenityCard from "../components/property/shared/PropertyAmenityCard";
-import PropertyBadge from "../components/property/shared/PropertyBadge";
-import PropertyFeatureCard from "../components/property/shared/PropertyFeatureCard";
-import PropertySectionHeader from "../components/property/shared/PropertySectionHeader";
+import PropertyAmenityCard from "@/components/property/shared/PropertyAmenityCard";
+import PropertyBadge from "@/components/property/shared/PropertyBadge";
+import PropertyFeatureCard from "@/components/property/shared/PropertyFeatureCard";
+import PropertySectionHeader from "@/components/property/shared/PropertySectionHeader";
 
 export default function SinglePropertyDetails() {
   return (

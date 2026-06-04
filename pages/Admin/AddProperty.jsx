@@ -7,13 +7,13 @@
 
 import { useMemo, useState } from "react";
 
-import styles from "./AddProperty.module.css";
+import styles from "@/components/property/add/AddProperty.module.css";
 
-import AddPropertyHeader from "./AddPropertyHeader";
-import PropertyFormSection from "./PropertyFormSection";
-import PropertyPreviewSidebar from "./PropertyPreviewSidebar";
-import PropertyProgressCard from "./PropertyProgressCard";
-import PropertyStickyFooter from "./PropertyStickyFooter";
+import AddPropertyHeader from "@/components/property/add/AddPropertyHeader";
+import PropertyFormSection from "@/components/property/add/PropertyFormSection";
+import PropertyPreviewSidebar from "@/components/property/add/PropertyPreviewSidebar";
+import PropertyProgressCard from "@/components/property/add/PropertyProgressCard";
+import PropertyStickyFooter from "@/components/property/add/PropertyStickyFooter";
 
 import { INITIAL_PROPERTY_FORM } from "./constants";
 

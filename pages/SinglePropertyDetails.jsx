@@ -34,10 +34,10 @@ import PropertyTrustCard from "@/components/property/details/PropertyTrustCard";
 // Shared Components
 // ======================================================
 
-import PropertyAmenityCard from "@/components/property/shared/PropertyAmenityCard";
-import PropertyBadge from "@/components/property/shared/PropertyBadge";
-import PropertyFeatureCard from "@/components/property/shared/PropertyFeatureCard";
-import PropertySectionHeader from "@/components/property/shared/PropertySectionHeader";
+import PropertyAmenityCard from "@/components/property/details/shared/PropertyAmenityCard";
+import PropertyBadge from "@/components/property/details/shared/PropertyBadge";
+import PropertyFeatureCard from "@/components/property/details/shared/PropertyFeatureCard";
+import PropertySectionHeader from "@/components/property/details/shared/PropertySectionHeader";
 
 export default function SinglePropertyDetails() {
   return (

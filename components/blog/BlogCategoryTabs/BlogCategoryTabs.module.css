@@ -1,0 +1,68 @@
+/* ======================================================
+   File: BlogCategoryTabs.module.css
+   Description: Blog Category Tabs
+====================================================== */
+
+.wrapper {
+  width: 100%;
+
+  margin-bottom: 36px;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  flex-wrap: wrap;
+}
+
+.tab {
+  border: 1px solid #e2e8f0;
+
+  background: #ffffff;
+
+  color: #334155;
+
+  padding: 14px 24px;
+
+  border-radius: 999px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.tab:hover {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+
+  color: #2563eb;
+}
+
+.active {
+  background: #2563eb;
+  color: #ffffff;
+
+  border-color: #2563eb;
+
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    margin-bottom: 28px;
+  }
+
+  .tabs {
+    gap: 10px;
+  }
+
+  .tab {
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+}

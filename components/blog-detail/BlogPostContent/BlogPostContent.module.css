@@ -1,0 +1,271 @@
+/* ======================================================
+   File: BlogPostContent.module.css
+   Description: Blog Post Content
+====================================================== */
+
+.article {
+  width: 100%;
+}
+
+.content {
+  width: 100%;
+
+  color: #334155;
+
+  font-size: 18px;
+  line-height: 2;
+
+  word-break: break-word;
+}
+
+/* ======================================================
+   TYPOGRAPHY
+====================================================== */
+
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  color: #0f172a;
+
+  line-height: 1.3;
+
+  font-weight: 800;
+
+  margin-top: 48px;
+  margin-bottom: 20px;
+}
+
+.content h1 {
+  font-size: 48px;
+}
+
+.content h2 {
+  font-size: 38px;
+}
+
+.content h3 {
+  font-size: 30px;
+}
+
+.content h4 {
+  font-size: 26px;
+}
+
+.content h5 {
+  font-size: 22px;
+}
+
+.content h6 {
+  font-size: 20px;
+}
+
+.content p {
+  margin: 0 0 28px;
+
+  color: #475569;
+
+  font-size: 18px;
+  line-height: 2;
+}
+
+/* ======================================================
+   LINKS
+====================================================== */
+
+.content a {
+  color: #2563eb;
+
+  text-decoration: none;
+
+  font-weight: 600;
+
+  transition: 0.3s ease;
+}
+
+.content a:hover {
+  text-decoration: underline;
+}
+
+/* ======================================================
+   IMAGES
+====================================================== */
+
+.content img {
+  width: 100%;
+
+  height: auto;
+
+  object-fit: cover;
+
+  border-radius: 32px;
+
+  margin: 42px 0;
+
+  overflow: hidden;
+}
+
+/* ======================================================
+   LISTS
+====================================================== */
+
+.content ul,
+.content ol {
+  padding-left: 28px;
+
+  margin: 0 0 28px;
+}
+
+.content li {
+  margin-bottom: 14px;
+
+  color: #475569;
+
+  font-size: 18px;
+  line-height: 1.9;
+}
+
+/* ======================================================
+   BLOCKQUOTE
+====================================================== */
+
+.content blockquote {
+  position: relative;
+
+  margin: 48px 0;
+
+  padding: 36px;
+
+  border-radius: 28px;
+
+  background: #f8fafc;
+
+  border-left: 6px solid #2563eb;
+
+  color: #0f172a;
+
+  font-size: 24px;
+  line-height: 1.8;
+  font-weight: 600;
+}
+
+/* ======================================================
+   TABLE
+====================================================== */
+
+.content table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  margin: 42px 0;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+}
+
+.content th {
+  background: #2563eb;
+
+  color: #ffffff;
+
+  padding: 18px;
+
+  text-align: left;
+}
+
+.content td {
+  padding: 18px;
+
+  border: 1px solid #e2e8f0;
+}
+
+/* ======================================================
+   CODE
+====================================================== */
+
+.content pre {
+  overflow-x: auto;
+
+  margin: 36px 0;
+
+  padding: 24px;
+
+  border-radius: 24px;
+
+  background: #0f172a;
+
+  color: #f8fafc;
+}
+
+.content code {
+  font-family: monospace;
+}
+
+/* ======================================================
+   HORIZONTAL LINE
+====================================================== */
+
+.content hr {
+  border: none;
+
+  height: 1px;
+
+  background: #e2e8f0;
+
+  margin: 50px 0;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 992px) {
+  .content h1 {
+    font-size: 40px;
+  }
+
+  .content h2 {
+    font-size: 34px;
+  }
+
+  .content h3 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    font-size: 16px;
+  }
+
+  .content p,
+  .content li {
+    font-size: 16px;
+  }
+
+  .content h1 {
+    font-size: 34px;
+  }
+
+  .content h2 {
+    font-size: 28px;
+  }
+
+  .content h3 {
+    font-size: 24px;
+  }
+
+  .content blockquote {
+    padding: 24px;
+
+    font-size: 20px;
+  }
+
+  .content img {
+    border-radius: 22px;
+  }
+}

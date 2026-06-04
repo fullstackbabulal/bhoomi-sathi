@@ -1,0 +1,252 @@
+.section {
+  position: relative;
+  padding: 48px 0 70px;
+  background: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ==================================
+   Grid
+================================== */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+/* ==================================
+   Card
+================================== */
+
+.card {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 22px;
+
+  min-height: 140px;
+  padding: 22px 26px;
+
+  border-radius: 22px;
+
+  border: 1px solid rgba(15, 23, 42, 0.08);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+
+  border-color: rgba(37, 99, 235, 0.14);
+
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+}
+
+/* ==================================
+   Mission / Vision Background
+================================== */
+
+.missionCard {
+  background: #f3f7fc;
+}
+
+.visionCard {
+  background: #eef6f0;
+}
+
+/* ==================================
+   Icon
+================================== */
+
+.iconWrapper {
+  flex-shrink: 0;
+
+  width: 94px;
+  height: 94px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 6px 16px rgba(15, 23, 42, 0.06),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.missionIcon {
+  color: #2563eb;
+}
+
+.visionIcon {
+  color: #2f855a;
+}
+
+/* ==================================
+   Content
+================================== */
+
+.content {
+  flex: 1;
+}
+
+.cardBadge {
+  display: inline-block;
+
+  margin-bottom: 8px;
+
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.missionBadge {
+  color: #2563eb;
+}
+
+.visionBadge {
+  color: #2f855a;
+}
+
+.cardTitle {
+  margin: 0 0 10px;
+
+  color: #0f172a;
+
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.cardDescription {
+  margin: 0;
+
+  max-width: 440px;
+
+  color: #475569;
+
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+/* ==================================
+   Accessibility
+================================== */
+
+.card:focus-within {
+  outline: 3px solid rgba(37, 99, 235, 0.15);
+  outline-offset: 4px;
+}
+
+/* ==================================
+   Large Tablet
+================================== */
+
+@media (max-width: 1200px) {
+  .cardTitle {
+    font-size: 1.7rem;
+  }
+
+  .iconWrapper {
+    width: 82px;
+    height: 82px;
+  }
+}
+
+/* ==================================
+   Tablet
+================================== */
+
+@media (max-width: 992px) {
+  .section {
+    padding: 40px 0 60px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==================================
+   Mobile
+================================== */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  .card {
+    gap: 18px;
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .iconWrapper {
+    width: 72px;
+    height: 72px;
+  }
+
+  .cardTitle {
+    font-size: 1.45rem;
+  }
+
+  .cardDescription {
+    font-size: 14px;
+  }
+}
+
+/* ==================================
+   Small Mobile
+================================== */
+
+@media (max-width: 480px) {
+  .section {
+    padding: 36px 0 54px;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .iconWrapper {
+    width: 64px;
+    height: 64px;
+  }
+
+  .cardTitle {
+    font-size: 1.2rem;
+  }
+
+  .cardDescription {
+    font-size: 13px;
+    line-height: 1.65;
+  }
+}

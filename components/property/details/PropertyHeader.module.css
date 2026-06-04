@@ -1,0 +1,116 @@
+/* ======================================================
+   File: components/property/details/PropertyHeader.module.css
+   Description: Property Header Styles
+   UI Match: Plot in Patna Property Details Design
+====================================================== */
+
+.header {
+  width: 100%;
+  padding: 12px 0 18px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* ===================================
+   Back Button
+=================================== */
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  padding: 0;
+
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  color: #15803d;
+}
+
+/* ===================================
+   Right Section
+=================================== */
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.propertyId {
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ===================================
+   Action Buttons
+=================================== */
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  padding: 0;
+
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+
+  transition: all 0.2s ease;
+}
+
+.iconButton:hover {
+  color: #15803d;
+}
+
+/* ===================================
+   Responsive
+=================================== */
+
+@media (max-width: 768px) {
+  .container {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .rightSection {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .backButton,
+  .propertyId,
+  .iconButton {
+    font-size: 13px;
+  }
+
+  .rightSection {
+    gap: 10px;
+  }
+}

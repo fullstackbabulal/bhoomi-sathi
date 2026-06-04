@@ -1,0 +1,59 @@
+/* ======================================================
+   File: BlogPageLayout.module.css
+   Description: Blog Page Layout
+====================================================== */
+
+.section {
+  position: relative;
+
+  padding: 90px 0;
+
+  background: #f8fafc;
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding: 0 32px;
+}
+
+.layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    380px;
+
+  gap: 36px;
+
+  align-items: start;
+}
+
+.left {
+  min-width: 0;
+}
+
+.right {
+  min-width: 0;
+}
+
+@media (max-width: 1200px) {
+  .layout {
+    grid-template-columns: 1fr;
+
+    gap: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 70px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+}

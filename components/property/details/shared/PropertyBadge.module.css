@@ -1,0 +1,128 @@
+/* ======================================================
+   File: components/property/details/shared/PropertyBadge.module.css
+   Description: Reusable Property Badge Styles
+====================================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* ========================================
+   Badge Sizes
+======================================== */
+
+.sm {
+  min-height: 28px;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+}
+
+.md {
+  min-height: 34px;
+  padding: 8px 14px;
+  font-size: 0.875rem;
+}
+
+.lg {
+  min-height: 40px;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+}
+
+/* ========================================
+   Badge Variants
+======================================== */
+
+.primary {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+}
+
+.success {
+  color: #16a34a;
+  background: rgba(22, 163, 74, 0.12);
+  border: 1px solid rgba(22, 163, 74, 0.18);
+}
+
+.warning {
+  color: #d97706;
+  background: rgba(217, 119, 6, 0.12);
+  border: 1px solid rgba(217, 119, 6, 0.18);
+}
+
+.danger {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.12);
+  border: 1px solid rgba(220, 38, 38, 0.18);
+}
+
+.dark {
+  color: #ffffff;
+  background: #111827;
+  border: 1px solid #111827;
+}
+
+.light {
+  color: #374151;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+}
+
+/* ========================================
+   Icon + Text
+======================================== */
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9em;
+}
+
+.text {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ========================================
+   Hover
+======================================== */
+
+.badge:hover {
+  transform: translateY(-1px);
+}
+
+/* ========================================
+   Responsive
+======================================== */
+
+@media (max-width: 768px) {
+  .lg {
+    min-height: 36px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  .md {
+    min-height: 32px;
+    padding: 8px 12px;
+  }
+
+  .sm {
+    min-height: 26px;
+    padding: 5px 10px;
+  }
+}

@@ -1,0 +1,118 @@
+/* ======================================================
+   File: components/property/details/shared/PropertyFeatureCard.module.css
+   Description: Reusable Property Feature Card Styles
+====================================================== */
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: #dbeafe;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.label {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.value {
+  margin: 6px 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* ========================================
+   Tablet
+======================================== */
+
+@media (max-width: 768px) {
+  .card {
+    gap: 14px;
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .iconWrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+  }
+
+  .icon {
+    font-size: 1.35rem;
+  }
+
+  .value {
+    font-size: 0.95rem;
+  }
+}
+
+/* ========================================
+   Mobile
+======================================== */
+
+@media (max-width: 480px) {
+  .card {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .iconWrapper {
+    width: 46px;
+    height: 46px;
+  }
+
+  .label {
+    font-size: 0.82rem;
+  }
+
+  .value {
+    font-size: 0.92rem;
+  }
+}

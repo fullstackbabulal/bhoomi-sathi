@@ -1,0 +1,239 @@
+.section {
+  position: relative;
+  padding: 48px 0 56px;
+  background: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ==================================
+   Heading
+================================== */
+
+.heading {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.badge {
+  display: inline-block;
+
+  margin-bottom: 8px;
+
+  color: #2563eb;
+
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+/* ==================================
+   Timeline
+================================== */
+
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+
+/* ==================================
+   Card
+================================== */
+
+.card {
+  position: relative;
+}
+
+.cardInner {
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+/* ==================================
+   Connector
+================================== */
+
+.connector {
+  position: absolute;
+
+  top: 42px;
+  left: calc(100% - 12px);
+
+  width: 78px;
+  border-top: 2px dotted rgba(37, 99, 235, 0.3);
+
+  z-index: 1;
+}
+
+/* ==================================
+   Icon
+================================== */
+
+.iconWrapper {
+  position: relative;
+  z-index: 2;
+
+  flex-shrink: 0;
+}
+
+.icon {
+  width: 78px;
+  height: 78px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+
+  background: #1d4ed8;
+  color: #ffffff;
+
+  border: 4px solid #dbeafe;
+
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+}
+
+/* ==================================
+   Content
+================================== */
+
+.content {
+  padding-top: 6px;
+}
+
+.stepNumber {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #2563eb;
+
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.cardTitle {
+  margin: 0 0 8px;
+
+  color: #0f172a;
+
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.cardDescription {
+  margin: 0;
+
+  max-width: 190px;
+
+  color: #475569;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ==================================
+   Tablet
+================================== */
+
+@media (max-width: 1200px) {
+  .timeline {
+    grid-template-columns: repeat(2, 1fr);
+
+    row-gap: 36px;
+  }
+
+  .connector {
+    display: none;
+  }
+}
+
+/* ==================================
+   Mobile
+================================== */
+
+@media (max-width: 768px) {
+  .section {
+    padding: 42px 0 52px;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+
+  .timeline {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .cardInner {
+    gap: 16px;
+  }
+
+  .icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .cardTitle {
+    font-size: 20px;
+  }
+
+  .cardDescription {
+    max-width: unset;
+  }
+}
+
+/* ==================================
+   Small Mobile
+================================== */
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .cardInner {
+    align-items: flex-start;
+  }
+
+  .icon {
+    width: 58px;
+    height: 58px;
+  }
+
+  .cardTitle {
+    font-size: 18px;
+  }
+
+  .cardDescription {
+    font-size: 13px;
+  }
+}

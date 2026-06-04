@@ -1,0 +1,82 @@
+/* ======================================================
+   File: AddBlogLayout.module.css
+   Description: Add Blog Page Layout
+====================================================== */
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+
+  background: #f8fafc;
+}
+
+.container {
+  width: 100%;
+  max-width: 1600px;
+
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* ==========================
+   GRID LAYOUT
+========================== */
+
+.layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    380px;
+
+  gap: 2rem;
+
+  align-items: start;
+}
+
+/* ==========================
+   LEFT COLUMN
+========================== */
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ==========================
+   RIGHT COLUMN
+========================== */
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  position: sticky;
+  top: 1.5rem;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 1200px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .rightColumn {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .leftColumn,
+  .rightColumn {
+    gap: 1.25rem;
+  }
+}

@@ -1,0 +1,127 @@
+/* ======================================================
+   File: BlogPagination.module.css
+   Description: Blog Pagination
+====================================================== */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  margin-top: 60px;
+
+  flex-wrap: wrap;
+}
+
+.pageNumbers {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pageButton {
+  width: 54px;
+  height: 54px;
+
+  border-radius: 18px;
+
+  border: 1px solid #e2e8f0;
+
+  background: #ffffff;
+
+  color: #334155;
+
+  cursor: pointer;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  transition: all 0.3s ease;
+}
+
+.pageButton:hover {
+  border-color: #2563eb;
+
+  color: #2563eb;
+
+  transform: translateY(-2px);
+}
+
+.active {
+  background: #2563eb;
+
+  color: #ffffff;
+
+  border-color: #2563eb;
+
+  box-shadow: 0 16px 35px rgba(37, 99, 235, 0.25);
+}
+
+.navButton {
+  height: 54px;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 18px;
+
+  background: #ffffff;
+
+  padding: 0 24px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  color: #334155;
+
+  transition: all 0.3s ease;
+}
+
+.navButton:hover {
+  border-color: #2563eb;
+
+  color: #2563eb;
+
+  transform: translateY(-2px);
+}
+
+.navButton:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+@media (max-width: 768px) {
+  .pagination {
+    margin-top: 44px;
+    gap: 14px;
+  }
+
+  .pageButton {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 16px;
+
+    font-size: 14px;
+  }
+
+  .navButton {
+    height: 48px;
+
+    padding: 0 18px;
+
+    border-radius: 16px;
+
+    font-size: 14px;
+  }
+}

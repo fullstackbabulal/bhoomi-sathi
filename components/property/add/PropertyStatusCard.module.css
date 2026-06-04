@@ -1,0 +1,411 @@
+/* ======================================================
+   File: components/property/add/PropertyStatusCard.module.css
+   Description: Premium Property Status Card
+====================================================== */
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e8ebf3;
+  border-radius: 30px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.04),
+    0 4px 12px rgba(15, 23, 42, 0.03);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.08),
+    0 8px 18px rgba(15, 23, 42, 0.04);
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.cardHeader {
+  padding: 30px 30px 24px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.headerContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.iconWrapper {
+  width: 74px;
+  height: 74px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 24px;
+
+  color: #ffffff;
+
+  background: linear-gradient(135deg, #5b45ff, #7b61ff);
+
+  box-shadow: 0 14px 28px rgba(91, 69, 255, 0.24);
+}
+
+.headingArea {
+  flex: 1;
+  min-width: 0;
+}
+
+.badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-bottom: 14px;
+}
+
+.sectionBadge,
+.infoBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 34px;
+  padding: 0 14px;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sectionBadge {
+  background: rgba(91, 69, 255, 0.1);
+  color: #5b45ff;
+}
+
+.infoBadge {
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+}
+
+.title {
+  margin: 0;
+
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 800;
+
+  color: #0f172a;
+}
+
+.subtitle {
+  margin: 10px 0 0;
+
+  max-width: 720px;
+
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 500;
+
+  color: #667085;
+}
+
+/* ==========================================
+   BODY
+========================================== */
+
+.cardBody {
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ==========================================
+   STATUS CARD
+========================================== */
+
+.statusCard {
+  min-height: 112px;
+
+  border: 1px solid #e7ecf5;
+  border-radius: 28px;
+
+  padding: 24px;
+
+  background: linear-gradient(180deg, #ffffff 0%, #fafbff 100%);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.statusCard:hover {
+  transform: translateY(-2px);
+
+  border-color: #d7def1;
+
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+}
+
+.statusLeft {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  min-width: 0;
+}
+
+.statusIcon {
+  width: 62px;
+  height: 62px;
+
+  flex-shrink: 0;
+
+  border-radius: 20px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(91, 69, 255, 0.12),
+    rgba(91, 69, 255, 0.06)
+  );
+
+  color: #5b45ff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statusTitle {
+  margin: 0;
+
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 700;
+
+  color: #0f172a;
+}
+
+.statusDescription {
+  margin: 8px 0 0;
+
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 500;
+
+  color: #667085;
+}
+
+/* ==========================================
+   SWITCH
+========================================== */
+
+.switch {
+  position: relative;
+
+  width: 62px;
+  height: 34px;
+
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+
+  border-radius: 999px;
+
+  background: #d8ddea;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.slider::before {
+  content: "";
+
+  position: absolute;
+  top: 4px;
+  left: 4px;
+
+  width: 26px;
+  height: 26px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  transition: 0.25s ease;
+}
+
+.switch input:checked + .slider {
+  background: #5b45ff;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(28px);
+}
+
+/* ==========================================
+   VISIBILITY BADGE
+========================================== */
+
+.visibilityBadge {
+  min-height: 46px;
+  padding: 0 18px;
+
+  border-radius: 999px;
+
+  background: rgba(16, 185, 129, 0.12);
+
+  color: #059669;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 992px) {
+  .cardHeader,
+  .cardBody {
+    padding: 24px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .iconWrapper {
+    width: 66px;
+    height: 66px;
+    border-radius: 22px;
+  }
+
+  .statusCard {
+    padding: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    border-radius: 24px;
+  }
+
+  .cardHeader,
+  .cardBody {
+    padding: 20px;
+  }
+
+  .headerContent {
+    flex-direction: column;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .statusCard {
+    align-items: flex-start;
+    flex-direction: column;
+    border-radius: 24px;
+  }
+
+  .statusLeft {
+    width: 100%;
+  }
+
+  .switch,
+  .visibilityBadge {
+    align-self: flex-end;
+  }
+
+  .statusIcon {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+  }
+
+  .statusTitle {
+    font-size: 16px;
+  }
+
+  .statusDescription {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    border-radius: 22px;
+  }
+
+  .cardHeader,
+  .cardBody {
+    padding: 18px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .statusCard {
+    padding: 18px;
+  }
+
+  .statusLeft {
+    gap: 14px;
+  }
+
+  .statusIcon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .visibilityBadge {
+    width: 100%;
+  }
+}

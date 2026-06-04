@@ -1,0 +1,247 @@
+/* ======================================================
+   File: components/property/details/PropertyBottomCTA.module.css
+   Description: Property Bottom CTA Styles
+   UI Match: Target Property Details Page Design
+   Styling: CSS Modules (No Tailwind)
+====================================================== */
+
+.section {
+  width: 100%;
+
+  margin-top: 32px;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+
+  padding: 28px 32px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+
+  background: #ffffff;
+
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+
+/* ===================================
+   Content
+=================================== */
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.heading {
+  margin: 0 0 10px;
+
+  color: #111827;
+
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.description {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 15px;
+  line-height: 1.8;
+  font-weight: 500;
+
+  max-width: 620px;
+}
+
+/* ===================================
+   Actions
+=================================== */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  flex-shrink: 0;
+}
+
+/* Shared button */
+
+.callButton,
+.whatsappButton,
+.exploreButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-width: 220px;
+  min-height: 58px;
+
+  padding: 0 24px;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+
+  white-space: nowrap;
+}
+
+/* ===================================
+   Call Button
+=================================== */
+
+.callButton {
+  border: none;
+
+  background: #15803d;
+  color: #ffffff;
+}
+
+.callButton:hover {
+  background: #166534;
+
+  box-shadow: 0 12px 24px rgba(21, 128, 61, 0.18);
+}
+
+/* ===================================
+   WhatsApp Button
+=================================== */
+
+.whatsappButton {
+  border: 1px solid #d1d5db;
+
+  background: #ffffff;
+  color: #15803d;
+}
+
+.whatsappButton:hover {
+  border-color: #15803d;
+
+  background: #f0fdf4;
+}
+
+/* ===================================
+   Book Visit Button
+=================================== */
+
+.exploreButton {
+  border: 1px solid #d1d5db;
+
+  background: #ffffff;
+  color: #111827;
+}
+
+.exploreButton:hover {
+  border-color: #111827;
+
+  background: #f9fafb;
+}
+
+.callButton:active,
+.whatsappButton:active,
+.exploreButton:active {
+  transform: scale(0.985);
+}
+
+.callButton:disabled,
+.whatsappButton:disabled,
+.exploreButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===================================
+   Responsive
+=================================== */
+
+@media (max-width: 1200px) {
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions {
+    width: 100%;
+
+    flex-wrap: wrap;
+  }
+
+  .callButton,
+  .whatsappButton,
+  .exploreButton {
+    flex: 1;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .heading {
+    font-size: 22px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .callButton,
+  .whatsappButton,
+  .exploreButton {
+    width: 100%;
+    min-width: unset;
+    min-height: 54px;
+
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    margin-top: 24px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .heading {
+    font-size: 20px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+
+  .callButton,
+  .whatsappButton,
+  .exploreButton {
+    min-height: 52px;
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,525 @@
+/* ======================================================
+   File: components/property/add/PropertyAmenitiesCard.module.css
+   Description: Premium Property Amenities Card
+====================================================== */
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e8ebf3;
+  border-radius: 30px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.04),
+    0 4px 12px rgba(15, 23, 42, 0.03);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.08),
+    0 8px 18px rgba(15, 23, 42, 0.04);
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.cardHeader {
+  padding: 30px 30px 24px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.headerContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.iconWrapper {
+  width: 74px;
+  height: 74px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 24px;
+
+  color: #ffffff;
+
+  background: linear-gradient(135deg, #5b45ff, #7b61ff);
+
+  box-shadow: 0 14px 28px rgba(91, 69, 255, 0.24);
+}
+
+.headingArea {
+  flex: 1;
+  min-width: 0;
+}
+
+.badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-bottom: 14px;
+}
+
+.sectionBadge,
+.infoBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 34px;
+  padding: 0 14px;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sectionBadge {
+  background: rgba(91, 69, 255, 0.1);
+  color: #5b45ff;
+}
+
+.infoBadge {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+}
+
+.title {
+  margin: 0;
+
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 800;
+
+  color: #0f172a;
+}
+
+.subtitle {
+  margin: 10px 0 0;
+
+  max-width: 720px;
+
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 500;
+
+  color: #667085;
+}
+
+/* ==========================================
+   BODY
+========================================== */
+
+.cardBody {
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+
+/* ==========================================
+   LABELS
+========================================== */
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 14px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  color: #111827;
+}
+
+/* ==========================================
+   AMENITIES GRID
+========================================== */
+
+.amenitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+
+  gap: 18px;
+}
+
+.amenityCard {
+  border: 1px solid #e6ebf4;
+  border-radius: 26px;
+
+  background: #ffffff;
+
+  padding: 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.amenityCard:hover {
+  transform: translateY(-2px);
+
+  border-color: #c8cff2;
+
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.05);
+}
+
+.activeAmenity {
+  border-color: #5b45ff;
+
+  background: linear-gradient(
+    180deg,
+    rgba(91, 69, 255, 0.06),
+    rgba(91, 69, 255, 0.02)
+  );
+
+  box-shadow: 0 12px 28px rgba(91, 69, 255, 0.12);
+}
+
+.iconBox {
+  width: 58px;
+  height: 58px;
+
+  flex-shrink: 0;
+
+  border-radius: 18px;
+
+  background: #f4f6fb;
+  color: #64748b;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.activeIconBox {
+  background: #5b45ff;
+  color: #ffffff;
+
+  transform: scale(1.05);
+}
+
+.amenityTitle {
+  margin: 0;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  color: #111827;
+}
+
+.amenitySubtitle {
+  margin: 6px 0 0;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  color: #98a2b3;
+}
+
+/* ==========================================
+   INPUT
+========================================== */
+
+.input {
+  width: 100%;
+  height: 58px;
+
+  padding: 0 18px;
+
+  border: 1px solid #d8dfeb;
+  border-radius: 20px;
+
+  background: #ffffff;
+  color: #111827;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.input::placeholder {
+  color: #98a2b3;
+}
+
+.input:hover {
+  border-color: #c3cce0;
+}
+
+.input:focus {
+  outline: none;
+
+  border-color: #5b45ff;
+
+  box-shadow: 0 0 0 4px rgba(91, 69, 255, 0.12);
+}
+
+.helperText {
+  margin: 12px 0 0;
+
+  font-size: 13px;
+  line-height: 1.6;
+  font-weight: 500;
+
+  color: #98a2b3;
+}
+
+/* ==========================================
+   SELECTED
+========================================== */
+
+.selectedHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  margin-bottom: 18px;
+}
+
+.selectedTitle {
+  margin: 0;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  color: #111827;
+}
+
+.selectedCount {
+  min-height: 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 14px;
+
+  border-radius: 999px;
+
+  background: rgba(91, 69, 255, 0.1);
+
+  color: #5b45ff;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.emptyState {
+  min-height: 110px;
+
+  border: 2px dashed #dbe1ee;
+  border-radius: 24px;
+
+  background: #fafbff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.emptyState p {
+  margin: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #98a2b3;
+}
+
+.selectedList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.selectedItem {
+  min-height: 48px;
+
+  padding: 0 14px;
+
+  border-radius: 16px;
+
+  background: rgba(91, 69, 255, 0.08);
+
+  color: #5b45ff;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.removeButton {
+  width: 28px;
+  height: 28px;
+
+  border: none;
+  border-radius: 999px;
+
+  background: #ffffff;
+  color: #ef4444;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.removeButton:hover {
+  transform: scale(1.08);
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 992px) {
+  .cardHeader,
+  .cardBody {
+    padding: 24px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .iconWrapper {
+    width: 66px;
+    height: 66px;
+  }
+
+  .amenitiesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    border-radius: 24px;
+  }
+
+  .cardHeader,
+  .cardBody {
+    padding: 20px;
+  }
+
+  .headerContent {
+    flex-direction: column;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .amenitiesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .amenityCard {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .iconBox {
+    width: 52px;
+    height: 52px;
+  }
+
+  .selectedHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .input {
+    height: 54px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    border-radius: 22px;
+  }
+
+  .cardHeader,
+  .cardBody {
+    padding: 18px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .label,
+  .selectedTitle {
+    font-size: 14px;
+  }
+
+  .amenityTitle {
+    font-size: 15px;
+  }
+
+  .amenitySubtitle,
+  .helperText {
+    font-size: 12px;
+  }
+
+  .input {
+    font-size: 14px;
+  }
+
+  .selectedItem {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

@@ -1,0 +1,149 @@
+/* ======================================================
+   File: PropertyStats.module.css
+   Description: Property Stats Cards
+   Mobile First Design
+====================================================== */
+
+.statsSection {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.card {
+  position: relative;
+
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  padding: 1.25rem;
+
+  background: #ffffff;
+
+  border: 1px solid #e8edf5;
+  border-radius: 1.5rem;
+
+  box-sizing: border-box;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+
+  border-color: #d7e3ff;
+
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.label {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.value {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.description {
+  margin: 0;
+
+  color: #94a3b8;
+
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* ======================================================
+   SMALL TABLET
+====================================================== */
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (min-width: 768px) {
+  .grid {
+    gap: 1.25rem;
+  }
+
+  .card {
+    min-height: 150px;
+    padding: 1.5rem;
+  }
+
+  .value {
+    font-size: 2.2rem;
+  }
+}
+
+/* ======================================================
+   DESKTOP
+====================================================== */
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 1.5rem;
+  }
+
+  .card {
+    min-height: 170px;
+    padding: 1.75rem;
+  }
+
+  .value {
+    font-size: 2.5rem;
+  }
+
+  .description {
+    font-size: 0.9rem;
+  }
+}
+
+/* ======================================================
+   LARGE DESKTOP
+====================================================== */
+
+@media (min-width: 1440px) {
+  .card {
+    padding: 2rem;
+  }
+
+  .value {
+    font-size: 2.75rem;
+  }
+}

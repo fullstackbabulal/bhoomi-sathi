@@ -1,0 +1,26 @@
+/* ======================================================
+   File: BlogSidebar.module.css
+   Description: Blog Sidebar
+====================================================== */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+
+  gap: 28px;
+
+  position: sticky;
+  top: 110px;
+}
+
+@media (max-width: 1200px) {
+  .sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    gap: 22px;
+  }
+}

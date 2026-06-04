@@ -1,0 +1,250 @@
+.section {
+  position: relative;
+  padding: 18px 0 56px;
+  background: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ==================================
+   Wrapper
+================================== */
+
+.statsWrapper {
+  position: relative;
+
+  padding: 26px 32px 28px;
+
+  border-radius: 18px;
+
+  background: #f4f7fb;
+  border: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+/* ==================================
+   Heading
+================================== */
+
+.heading {
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.badge {
+  display: inline-block;
+
+  margin-bottom: 8px;
+
+  color: #2563eb;
+
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+/* ==================================
+   Grid
+================================== */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* ==================================
+   Card
+================================== */
+
+.card {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  min-height: 92px;
+  padding: 20px 22px;
+
+  border-radius: 14px;
+
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(37, 99, 235, 0.12);
+
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+/* ==================================
+   Divider
+================================== */
+
+.divider {
+  position: absolute;
+
+  top: 50%;
+  right: -8px;
+
+  width: 1px;
+  height: 48px;
+
+  transform: translateY(-50%);
+
+  background: rgba(148, 163, 184, 0.22);
+
+  z-index: 3;
+}
+
+/* ==================================
+   Icon
+================================== */
+
+.icon {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #2563eb;
+}
+
+/* ==================================
+   Content
+================================== */
+
+.content {
+  min-width: 0;
+}
+
+.value {
+  margin: 0 0 4px;
+
+  color: #0f172a;
+
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.label {
+  margin: 0;
+
+  color: #475569;
+
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* ==================================
+   Accessibility
+================================== */
+
+.card:focus-within {
+  outline: 3px solid rgba(37, 99, 235, 0.12);
+  outline-offset: 4px;
+}
+
+/* ==================================
+   Tablet
+================================== */
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .divider {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 14px 0 48px;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+
+  .statsWrapper {
+    padding: 24px 20px;
+    border-radius: 18px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .heading {
+    margin-bottom: 22px;
+  }
+
+  .card {
+    min-height: 86px;
+    padding: 18px 20px;
+  }
+
+  .value {
+    font-size: 17px;
+  }
+
+  .label {
+    font-size: 12.5px;
+  }
+}
+
+/* ==================================
+   Small Mobile
+================================== */
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .statsWrapper {
+    padding: 20px 16px;
+  }
+
+  .card {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+}

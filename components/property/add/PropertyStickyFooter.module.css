@@ -1,0 +1,240 @@
+/* ======================================================
+   PropertyStickyFooter.module.css
+====================================================== */
+
+.footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 60;
+  width: 100%;
+  border-top: 1px solid #e8ebf5;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 -8px 30px rgba(15, 23, 42, 0.06);
+}
+
+.container {
+  max-width: 1700px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.leftSection {
+  flex: 1;
+  min-width: 0;
+}
+
+.headingRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #151b3d;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #ede9fe;
+  color: #5b3df5;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.description {
+  margin: 8px 0 0;
+  max-width: 700px;
+  color: #7b849f;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.progressWrapper {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.progressTrack {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 420px;
+  height: 12px;
+  border-radius: 999px;
+  background: #edf0f7;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #5b3df5 0%, #7c3aed 50%, #9333ea 100%);
+  transition: width 0.7s ease;
+}
+
+.progressText {
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #151b3d;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.secondaryButton,
+.previewButton,
+.publishButton {
+  border: none;
+  cursor: pointer;
+  min-height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 24px;
+  border-radius: 20px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.secondaryButton {
+  background: #ffffff;
+  border: 1px solid #dbe0ef;
+  color: #4a5574;
+}
+
+.secondaryButton:hover {
+  transform: translateY(-1px);
+  border-color: #bcc5dc;
+  background: #f8faff;
+}
+
+.previewButton {
+  background: #f3f0ff;
+  border: 1px solid #ddd6fe;
+  color: #5b3df5;
+}
+
+.previewButton:hover {
+  transform: translateY(-1px);
+  background: #ebe5ff;
+}
+
+.publishButton {
+  background: linear-gradient(135deg, #5b3df5, #7c3aed);
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgba(91, 61, 245, 0.25);
+}
+
+.publishButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.publishButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.loader {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ======================================================
+   Tablet
+====================================================== */
+
+@media (max-width: 992px) {
+  .container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions {
+    width: 100%;
+  }
+
+  .secondaryButton,
+  .previewButton,
+  .publishButton {
+    flex: 1;
+  }
+}
+
+/* ======================================================
+   Mobile
+====================================================== */
+
+@media (max-width: 640px) {
+  .container {
+    padding: 16px;
+    gap: 18px;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+
+  .description {
+    font-size: 0.875rem;
+  }
+
+  .progressWrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .progressTrack {
+    max-width: 100%;
+  }
+
+  .actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .secondaryButton,
+  .previewButton,
+  .publishButton {
+    width: 100%;
+    min-height: 52px;
+    border-radius: 18px;
+  }
+}

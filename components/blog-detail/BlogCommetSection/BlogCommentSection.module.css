@@ -1,0 +1,373 @@
+/* ======================================================
+   Blog Comment Section
+====================================================== */
+
+.section {
+  width: 70%;
+  margin-top: 72px;
+  margin-left: 15%;
+}
+
+/* ======================================================
+   HEADER
+====================================================== */
+
+.header {
+  margin-bottom: 32px;
+}
+
+.heading {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: clamp(1.75rem, 2vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin-top: 8px;
+
+  color: #6b7280;
+
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ======================================================
+   COMMENTS LIST
+====================================================== */
+
+.comments {
+  width: 100%;
+  margin-bottom: 48px;
+}
+
+.comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+
+  width: 100%;
+
+  padding: 24px 0;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.comment:first-child {
+  padding-top: 0;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
+
+  border-radius: 999px;
+
+  background: #16a34a;
+
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.author {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.date {
+  margin-top: 4px;
+
+  color: #6b7280;
+
+  font-size: 13px;
+}
+
+.reply {
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+
+  color: #16a34a;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition: opacity 0.2s ease;
+}
+
+.reply:hover {
+  opacity: 0.8;
+}
+
+.text {
+  margin-top: 12px;
+
+  color: #374151;
+
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* ======================================================
+   EMPTY STATE
+====================================================== */
+
+.emptyState {
+  padding: 40px 24px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+
+  text-align: center;
+
+  background: #fafafa;
+
+  margin-bottom: 48px;
+}
+
+.emptyState h4 {
+  margin: 0 0 8px;
+
+  color: #111827;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.emptyState p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 14px;
+}
+
+/* ======================================================
+   FORM CARD
+====================================================== */
+
+.formCard {
+  width: 100%;
+
+  padding: 28px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+
+  background: #ffffff;
+}
+
+.formTitle {
+  margin: 0 0 24px;
+
+  color: #111827;
+
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.input,
+.textarea {
+  width: 100%;
+
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+
+  padding: 14px 16px;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #9ca3af;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+
+  border-color: #16a34a;
+
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+/* ======================================================
+   ACTIONS
+====================================================== */
+
+.actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.submitButton {
+  border: none;
+
+  cursor: pointer;
+
+  padding: 14px 28px;
+
+  border-radius: 10px;
+
+  background: #16a34a;
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #15803d;
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (max-width: 992px) {
+  .section {
+    margin-top: 56px;
+  }
+
+  .formCard {
+    padding: 24px;
+  }
+}
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
+@media (max-width: 768px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .top {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
+
+  .actions {
+    width: 100%;
+  }
+}
+
+/* ======================================================
+   SMALL MOBILE
+====================================================== */
+
+@media (max-width: 480px) {
+  .section {
+    margin-top: 48px;
+  }
+
+  .comment {
+    gap: 12px;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+
+    font-size: 14px;
+  }
+
+  .formCard {
+    padding: 20px;
+  }
+
+  .heading {
+    font-size: 28px;
+  }
+}

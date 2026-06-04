@@ -1,0 +1,119 @@
+/* ======================================================
+   File: BlogCategoriesCard.module.css
+   Description: Blog Categories Sidebar Card
+====================================================== */
+
+.card {
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 28px;
+
+  padding: 28px;
+
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.04);
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+
+  color: #0f172a;
+
+  margin: 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.item {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: #f8fafc;
+
+  border-radius: 18px;
+
+  padding: 18px 20px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  transition: all 0.3s ease;
+}
+
+.item:hover {
+  transform: translateX(4px);
+
+  background: #eff6ff;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  color: #334155;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.count {
+  min-width: 36px;
+  height: 36px;
+
+  border-radius: 999px;
+
+  background: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.active {
+  background: #2563eb;
+}
+
+.active .left {
+  color: #ffffff;
+}
+
+.active .count {
+  background: rgba(255, 255, 255, 0.2);
+
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 22px;
+    border-radius: 22px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .item {
+    padding: 16px;
+  }
+}

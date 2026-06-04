@@ -1,0 +1,445 @@
+/* ======================================================
+   File: components/blog-detail/BlogPostHero/BlogPostHero.module.css
+   Description: Plot in Patna Blog Detail Hero
+   Responsive: Mobile • Tablet • Laptop • Desktop
+====================================================== */
+
+.hero {
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-bottom: 20px;
+  background: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ======================================================
+   HERO CARD
+====================================================== */
+
+.heroCard {
+  width: 100%;
+}
+
+.imageWrapper {
+  position: relative;
+
+  width: 100%;
+
+  height: clamp(280px, 40vw, 420px);
+
+  overflow: hidden;
+
+  border-radius: 16px;
+
+  background: #111827;
+}
+
+.image {
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+}
+
+/* ======================================================
+   OVERLAY
+====================================================== */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.65) 25%,
+    rgba(0, 0, 0, 0.35) 55%,
+    rgba(0, 0, 0, 0.08) 100%
+  );
+}
+
+/* ======================================================
+   CONTENT
+====================================================== */
+
+.content {
+  position: absolute;
+
+  z-index: 3;
+
+  left: 36px;
+  right: 36px;
+  bottom: 34px;
+
+  max-width: 680px;
+}
+
+/* ======================================================
+   BREADCRUMB
+====================================================== */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-bottom: 18px;
+
+  color: rgba(255, 255, 255, 0.9);
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.breadcrumb a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+
+  transition: opacity 0.2s ease;
+}
+
+.breadcrumb a:hover {
+  opacity: 0.8;
+}
+
+.breadcrumb span {
+  color: #ffffff;
+}
+
+/* ======================================================
+   CATEGORY BADGE
+====================================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 28px;
+
+  padding: 0 12px;
+
+  margin-bottom: 18px;
+
+  border-radius: 6px;
+
+  background: #16a34a;
+
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+/* ======================================================
+   TITLE
+====================================================== */
+
+.title {
+  margin: 0 0 14px;
+
+  color: #ffffff;
+
+  font-size: clamp(2rem, 5vw, 3.75rem);
+
+  line-height: 1.05;
+  font-weight: 800;
+
+  letter-spacing: -1px;
+
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ======================================================
+   EXCERPT
+====================================================== */
+
+.excerpt {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.92);
+
+  font-size: clamp(0.875rem, 2vw, 1.125rem);
+
+  line-height: 1.7;
+
+  max-width: 560px;
+}
+
+/* ======================================================
+   META BAR
+====================================================== */
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  flex-wrap: wrap;
+
+  margin-top: 18px;
+
+  padding: 18px 4px;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatarWrapper {
+  position: relative;
+
+  width: 42px;
+  height: 42px;
+
+  overflow: hidden;
+
+  border-radius: 50%;
+}
+
+.avatar {
+  object-fit: cover;
+}
+
+.authorName {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.authorRole {
+  display: block;
+
+  color: #6b7280;
+
+  font-size: 12px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.metaBadge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  background: #f3f4f6;
+
+  color: #374151;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ======================================================
+   SHARE
+====================================================== */
+
+.shareRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 10px;
+}
+
+.shareLabel {
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.shareButton {
+  width: 34px;
+  height: 34px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.shareButton:hover {
+  transform: translateY(-2px);
+
+  border-color: #16a34a;
+
+  color: #16a34a;
+}
+
+/* ======================================================
+   LARGE TABLET
+====================================================== */
+
+@media (max-width: 992px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  .content {
+    left: 28px;
+    right: 28px;
+    bottom: 28px;
+  }
+
+  .metaRow {
+    gap: 18px;
+  }
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .imageWrapper {
+    border-radius: 12px;
+  }
+
+  .content {
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+  }
+
+  .breadcrumb {
+    margin-bottom: 14px;
+  }
+
+  .badge {
+    margin-bottom: 14px;
+  }
+
+  .excerpt {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
+@media (max-width: 640px) {
+  .hero {
+    padding-bottom: 12px;
+  }
+
+  .container {
+    padding: 0 12px;
+  }
+
+  .imageWrapper {
+    height: 280px;
+    border-radius: 10px;
+  }
+
+  .content {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .breadcrumb {
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  .badge {
+    font-size: 11px;
+    min-height: 24px;
+    padding: 0 10px;
+  }
+
+  .title {
+    line-height: 1.12;
+    letter-spacing: -0.5px;
+  }
+
+  .metaRow {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+
+    margin-top: 14px;
+    padding-top: 14px;
+  }
+
+  .author {
+    width: 100%;
+  }
+
+  .shareRow {
+    gap: 8px;
+  }
+
+  .shareButton {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* ======================================================
+   SMALL MOBILE
+====================================================== */
+
+@media (max-width: 400px) {
+  .imageWrapper {
+    height: 260px;
+  }
+
+  .content {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .excerpt {
+    display: none;
+  }
+}

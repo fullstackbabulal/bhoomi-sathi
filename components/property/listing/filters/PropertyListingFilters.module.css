@@ -1,0 +1,165 @@
+/* ======================================================
+   File: components/property/listing/filters/PropertyListingFilters.module.css
+   Description: Simple Property Search Bar
+====================================================== */
+
+.section {
+  width: 100%;
+  padding: 1rem 0 2rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ======================================================
+   SEARCH BAR
+====================================================== */
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+}
+
+/* ======================================================
+   INPUTS
+====================================================== */
+
+.input,
+.select {
+  flex: 1;
+  width: 100%;
+  height: 58px;
+  padding: 0 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  outline: none;
+  background: #ffffff;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 500;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.input::placeholder {
+  color: #9ca3af;
+}
+
+.input:focus,
+.select:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.12);
+}
+
+/* ======================================================
+   BUTTONS
+====================================================== */
+
+.searchButton,
+.resetButton {
+  height: 58px;
+  border: none;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.searchButton {
+  min-width: 180px;
+  padding: 0 28px;
+  background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+  box-shadow: 0 10px 24px rgba(22, 163, 74, 0.2);
+  color: #ffffff;
+}
+
+.searchButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(22, 163, 74, 0.28);
+}
+
+.resetButton {
+  min-width: 110px;
+  padding: 0 20px;
+  border: 1px solid rgba(22, 101, 52, 0.15);
+  background: #ffffff;
+  color: #166534;
+}
+
+.resetButton:hover {
+  border-color: #16a34a;
+  background: rgba(22, 163, 74, 0.08);
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 992px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  .searchBar {
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .searchButton {
+    min-width: 160px;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchBar {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 20px;
+  }
+
+  .input,
+  .select,
+  .searchButton,
+  .resetButton {
+    width: 100%;
+  }
+
+  .searchButton,
+  .resetButton {
+    min-width: unset;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .searchBar {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .input,
+  .select,
+  .searchButton,
+  .resetButton {
+    height: 54px;
+    font-size: 14px;
+  }
+}

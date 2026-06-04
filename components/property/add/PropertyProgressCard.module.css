@@ -1,0 +1,291 @@
+/* ======================================================
+   PropertyProgressCard.module.css
+====================================================== */
+
+.card {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e7e9f3;
+  border-radius: 24px;
+  box-shadow:
+    0 4px 18px rgba(15, 23, 42, 0.04),
+    0 1px 3px rgba(15, 23, 42, 0.05);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px;
+  border-bottom: 1px solid #edf0f7;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #151b3d;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  font-size: 0.92rem;
+  color: #7b849f;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.success {
+  background: #e9fbef;
+  color: #1d8c47;
+}
+
+.warning {
+  background: #fff4db;
+  color: #b7791f;
+}
+
+.progress {
+  background: #eeebff;
+  color: #5b3df5;
+}
+
+.loaderIcon {
+  animation: spin 1.2s linear infinite;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+
+.topContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.completionLabel {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #7b849f;
+}
+
+.progressValue {
+  margin: 8px 0 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  color: #151b3d;
+}
+
+.iconBox {
+  flex-shrink: 0;
+  width: 84px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  background: linear-gradient(
+    135deg,
+    rgba(91, 61, 245, 0.1),
+    rgba(124, 58, 237, 0.12)
+  );
+  color: #5b3df5;
+}
+
+.progressWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.progressHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.progressLabel {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #5d6785;
+}
+
+.progressCount {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #151b3d;
+}
+
+.progressTrack {
+  overflow: hidden;
+  width: 100%;
+  height: 14px;
+  background: #edf0f7;
+  border-radius: 999px;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #5b3df5 0%, #7c3aed 50%, #9333ea 100%);
+  transition: width 0.7s ease;
+}
+
+.checklistCard {
+  background: #f8f9ff;
+  border: 1px solid #eaedf8;
+  border-radius: 22px;
+  padding: 20px;
+}
+
+.checklistTitle {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #151b3d;
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checklistItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: #ffffff;
+  border: 1px solid #eef1f7;
+  border-radius: 18px;
+  padding: 14px 16px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.checklistItem:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+}
+
+.checklistLabel {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #4a5574;
+}
+
+.checkIconWrapper {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.checkComplete {
+  background: #e9fbef;
+  color: #1d8c47;
+}
+
+.checkPending {
+  background: #eef1f7;
+  color: #a0aac0;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ======================================================
+   Responsive
+====================================================== */
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+  }
+
+  .statusBadge {
+    width: fit-content;
+  }
+
+  .body {
+    padding: 20px;
+  }
+
+  .topContent {
+    align-items: flex-start;
+  }
+
+  .iconBox {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+  }
+
+  .progressHeader {
+    flex-wrap: wrap;
+  }
+
+  .checklistCard {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    border-radius: 20px;
+  }
+
+  .header,
+  .body {
+    padding: 16px;
+  }
+
+  .checklistItem {
+    padding: 12px 14px;
+  }
+
+  .checklistLabel {
+    font-size: 0.875rem;
+  }
+
+  .iconBox {
+    width: 64px;
+    height: 64px;
+  }
+}

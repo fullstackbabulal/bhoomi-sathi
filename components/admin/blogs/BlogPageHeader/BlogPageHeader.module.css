@@ -1,0 +1,176 @@
+/* ======================================================
+   File: BlogPageHeader.module.css
+   Description: Add Blog Header UI
+====================================================== */
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.backButton {
+  width: 56px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+
+  background: #ffffff;
+  color: #111827;
+
+  text-decoration: none;
+
+  transition: all 0.25s ease;
+  cursor: pointer;
+
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.backButton:hover {
+  transform: translateY(-2px);
+
+  border-color: #d1d5db;
+
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin: 0;
+
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+
+  color: #111827;
+}
+
+.subtitle {
+  margin-top: 0.35rem;
+
+  font-size: 0.95rem;
+  line-height: 1.6;
+
+  color: #6b7280;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.draftButton,
+.publishButton {
+  height: 52px;
+  padding: 0 1.4rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+
+  border-radius: 14px;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.draftButton {
+  border: 1px solid #d1d5db;
+
+  background: #ffffff;
+  color: #111827;
+
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+}
+
+.draftButton:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+}
+
+.publishButton {
+  border: none;
+
+  background: linear-gradient(135deg, #16a34a, #15803d);
+
+  color: #ffffff;
+
+  box-shadow: 0 10px 20px rgba(22, 163, 74, 0.2);
+}
+
+.publishButton:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 14px 28px rgba(22, 163, 74, 0.3);
+}
+
+.draftButton:disabled,
+.publishButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 992px) {
+  .wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions {
+    width: 100%;
+  }
+
+  .draftButton,
+  .publishButton {
+    flex: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .left {
+    align-items: flex-start;
+  }
+
+  .title {
+    font-size: 1.65rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .draftButton,
+  .publishButton {
+    width: 100%;
+  }
+}

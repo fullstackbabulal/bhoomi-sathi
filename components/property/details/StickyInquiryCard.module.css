@@ -1,0 +1,402 @@
+/* ======================================================
+   File: components/property/details/StickyInquiryCard.module.css
+   Description: Inquiry Card Styles (Non Sticky)
+   UI Match: Plot in Patna Property Details Design
+   Styling: CSS Modules (No Tailwind)
+====================================================== */
+
+.card {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  width: 100%;
+
+  margin-top: -25px; /* shift card slightly upward */
+
+  padding: 28px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 30px;
+
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+}
+
+/* ===================================
+   Header
+=================================== */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.badgeRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  width: fit-content;
+
+  padding: 8px 14px;
+
+  border-radius: 999px;
+
+  background: #dcfce7;
+  color: #15803d;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.badge svg {
+  stroke-width: 2.2;
+}
+
+.title {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 28px;
+  line-height: 1.35;
+  font-weight: 800;
+}
+
+.priceRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.price {
+  color: #15803d;
+
+  font-size: 32px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.agent {
+  color: #6b7280;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ===================================
+   CTA Buttons
+=================================== */
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.callButton,
+.whatsappButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  width: 100%;
+  min-height: 56px;
+
+  border: none;
+  outline: none;
+
+  cursor: pointer;
+
+  border-radius: 18px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.callButton {
+  background: #15803d;
+  color: #ffffff;
+}
+
+.callButton:hover {
+  background: #166534;
+
+  box-shadow: 0 12px 26px rgba(21, 128, 61, 0.18);
+}
+
+.whatsappButton {
+  background: #ecfdf5;
+  color: #15803d;
+}
+
+.whatsappButton:hover {
+  background: #dcfce7;
+}
+
+.callButton:active,
+.whatsappButton:active {
+  transform: scale(0.985);
+}
+
+/* ===================================
+   Form
+=================================== */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputBox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+
+  padding: 16px 18px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+
+  background: #ffffff;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.inputBox:focus-within {
+  border-color: #15803d;
+
+  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+}
+
+.inputBox svg {
+  flex-shrink: 0;
+
+  color: #9ca3af;
+  stroke-width: 2.2;
+}
+
+.input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #111827;
+
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.input::placeholder {
+  color: #9ca3af;
+}
+
+.textarea {
+  width: 100%;
+
+  min-height: 120px;
+
+  resize: vertical;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+
+  padding: 16px 18px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-size: 14px;
+  line-height: 1.7;
+  font-family: inherit;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.textarea:focus {
+  border-color: #15803d;
+
+  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.08);
+}
+
+.textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* ===================================
+   Submit Button
+=================================== */
+
+.submitButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  width: 100%;
+  min-height: 56px;
+
+  border: none;
+  outline: none;
+
+  cursor: pointer;
+
+  border-radius: 18px;
+
+  background: #111827;
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #1f2937;
+
+  box-shadow: 0 12px 26px rgba(17, 24, 39, 0.18);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ===================================
+   Trust Section
+=================================== */
+
+.trust {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 18px;
+
+  border-radius: 20px;
+
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+}
+
+.trust svg {
+  flex-shrink: 0;
+
+  color: #15803d;
+  stroke-width: 2.2;
+}
+
+.trust p {
+  margin: 0;
+
+  color: #4b5563;
+
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+/* ===================================
+   Responsive
+=================================== */
+
+@media (max-width: 992px) {
+  .card {
+    padding: 24px;
+    border-radius: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    gap: 20px;
+
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .price {
+    font-size: 28px;
+  }
+
+  .callButton,
+  .whatsappButton,
+  .submitButton {
+    min-height: 52px;
+    border-radius: 16px;
+
+    font-size: 14px;
+  }
+
+  .inputBox,
+  .textarea {
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .price {
+    font-size: 24px;
+  }
+
+  .agent,
+  .trust p {
+    font-size: 13px;
+  }
+
+  .input,
+  .textarea {
+    font-size: 13px;
+  }
+}

@@ -20,6 +20,7 @@ const {
   updateBlogPost,
   deleteBlogPost,
   getRelatedBlogs,
+  updateBlogStatus,
 } = require("../controllers/blog.controller");
 
 // ======================================================
@@ -48,7 +49,15 @@ router.get("/slug/:slug", getBlogBySlug);
 // ======================================================
 // PROTECTED ROUTES
 // ======================================================
+router.patch(
+  "/:id/status",
 
+  authMiddleware,
+
+  roleMiddleware("admin", "agent"),
+
+  updateBlogStatus,
+);
 // ======================================================
 // BLOG IMAGE UPLOAD
 // POST /api/blogs/upload-image

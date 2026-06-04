@@ -568,6 +568,42 @@ const uploadBlogFeaturedImage = async (req, res) => {
   }
 };
 
+const updateBlogStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    const blog = await BlogPost.findById(req.params.id);
+
+    if (!blog) {
+      return res.status(404).json({
+        success: false,
+        message: "Blog not found",
+      });
+    }
+
+    blog.status = status;
+
+    if (status === "published") {
+      blog.publishedAt = new Date();
+    }
+
+    await blog.save();
+
+    await clearBlogCache();
+
+    return res.status(200).json({
+      success: true,
+      message: "Status updated successfully",
+      data: blog,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 // ======================================================
 // EXPORTS
 // ======================================================
@@ -580,4 +616,5 @@ module.exports = {
   deleteBlogPost,
   getRelatedBlogs,
   uploadBlogFeaturedImage,
+  updateBlogStatus,
 };

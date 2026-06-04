@@ -1,0 +1,269 @@
+/* ======================================================
+   File: admin/blogs/all/BlogTable/BlogTable.module.css
+   Description: Blog Table Styles
+====================================================== */
+
+/* ======================================================
+   TABLE WRAPPER
+====================================================== */
+
+.tableWrapper {
+  overflow-x: auto;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+}
+
+/* ======================================================
+   TABLE
+====================================================== */
+
+.table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  min-width: 1200px;
+}
+
+/* ======================================================
+   TABLE HEAD
+====================================================== */
+
+.table thead {
+  background: #f8fafc;
+}
+
+.table thead th {
+  padding: 16px 20px;
+
+  text-align: left;
+
+  color: #475569;
+
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  border-bottom: 1px solid #e2e8f0;
+
+  white-space: nowrap;
+}
+
+/* ======================================================
+   TABLE BODY
+====================================================== */
+
+.table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.table tbody td {
+  padding: 16px 20px;
+
+  vertical-align: middle;
+
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ======================================================
+   THUMBNAIL
+====================================================== */
+
+.thumbnailWrapper {
+  width: 72px;
+  height: 52px;
+
+  overflow: hidden;
+
+  border-radius: 10px;
+
+  background: #f1f5f9;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+/* ======================================================
+   BLOG INFO
+====================================================== */
+
+.blogInfo {
+  min-width: 240px;
+}
+
+.blogTitle {
+  margin: 0 0 6px;
+
+  color: #0f172a;
+
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.blogSlug {
+  color: #2563eb;
+
+  font-size: 13px;
+
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.blogSlug:hover {
+  color: #1d4ed8;
+
+  text-decoration: underline;
+}
+
+/* ======================================================
+   CATEGORY
+====================================================== */
+
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ======================================================
+   AUTHOR
+====================================================== */
+
+.author {
+  color: #334155;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ======================================================
+   STATUS
+====================================================== */
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 90px;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-transform: capitalize;
+}
+
+.statusPublished {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.statusDraft {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.statusArchived {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.statusDefault {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+/* ======================================================
+   VIEWS
+====================================================== */
+
+.views {
+  color: #0f172a;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ======================================================
+   DATE
+====================================================== */
+
+.date {
+  color: #64748b;
+
+  font-size: 14px;
+}
+
+/* ======================================================
+   EMPTY STATE
+====================================================== */
+
+.emptyCell {
+  padding: 60px 20px !important;
+
+  text-align: center;
+
+  color: #64748b;
+
+  font-size: 15px;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 1024px) {
+  .table {
+    min-width: 1100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table {
+    min-width: 1000px;
+  }
+
+  .table thead th,
+  .table tbody td {
+    padding: 14px 16px;
+  }
+
+  .blogTitle {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,152 @@
+/* ======================================================
+   File: admin/blogs/all/BlogActions/BlogActions.module.css
+   Description: Blog Action Buttons
+====================================================== */
+
+/* ======================================================
+   ACTIONS CONTAINER
+====================================================== */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ======================================================
+   BASE BUTTON
+====================================================== */
+
+.actionButton {
+  width: 36px;
+  height: 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  text-decoration: none;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.actionButton:hover {
+  transform: translateY(-1px);
+}
+
+.actionButton:active {
+  transform: translateY(0);
+}
+
+.actionButton:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.15);
+  outline-offset: 2px;
+}
+
+.actionButton svg {
+  flex-shrink: 0;
+}
+
+/* ======================================================
+   VIEW
+====================================================== */
+
+.viewButton {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.viewButton:hover {
+  background: #dbeafe;
+  color: #1d4ed8;
+
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.15);
+}
+
+/* ======================================================
+   EDIT
+====================================================== */
+
+.editButton {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.editButton:hover {
+  background: #fde68a;
+  color: #92400e;
+
+  box-shadow: 0 6px 14px rgba(245, 158, 11, 0.15);
+}
+
+/* ======================================================
+   PUBLISH
+====================================================== */
+
+.publishButton {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.publishButton:hover {
+  background: #bbf7d0;
+  color: #15803d;
+
+  box-shadow: 0 6px 14px rgba(22, 163, 74, 0.15);
+}
+
+/* ======================================================
+   UNPUBLISH / DRAFT
+====================================================== */
+
+.unpublishButton {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.unpublishButton:hover {
+  background: #cbd5e1;
+  color: #334155;
+
+  box-shadow: 0 6px 14px rgba(71, 85, 105, 0.15);
+}
+
+/* ======================================================
+   DELETE
+====================================================== */
+
+.deleteButton {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.deleteButton:hover {
+  background: #fecaca;
+  color: #b91c1c;
+
+  box-shadow: 0 6px 14px rgba(220, 38, 38, 0.15);
+}
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
+@media (max-width: 768px) {
+  .actions {
+    gap: 6px;
+  }
+
+  .actionButton {
+    width: 34px;
+    height: 34px;
+  }
+}

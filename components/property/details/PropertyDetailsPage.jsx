@@ -9,25 +9,25 @@ import styles from "./PropertyDetailsPage.module.css";
 
 import Navbar from "../../layout/Navbar";
 
-import PropertyHeader from "./PropertyHeader";
-import PropertyGallery from "./PropertyGallery";
-import PropertyTitleCard from "./PropertyTitleCard";
-import PropertyHighlights from "./PropertyHighlights";
-import PropertyOverview from "./PropertyOverview";
-import PropertyAmenities from "./PropertyAmenities";
-import PropertySpecifications from "./PropertySpecifications";
-import PropertyMediaTabs from "./PropertyMediaTabs";
-import PropertyLocation from "./PropertyLocation";
-import PropertyFAQ from "./PropertyFAQ";
-import SimilarProperties from "./SimilarProperties";
+import PropertyHeader from "@/components/property/details/PropertyHeader";
+import PropertyGallery from "@/components/property/details/PropertyGallery";
+import PropertyTitleCard from "@/components/property/details/PropertyTitleCard";
+import PropertyHighlights from "@/components/property/details/PropertyHighlights";
+import PropertyOverview from "@/components/property/details/PropertyOverview";
+import PropertyAmenities from "@/components/property/details/PropertyAmenities";
+import PropertySpecifications from "@/components/property/details/PropertySpecifications";
+import PropertyMediaTabs from "@/components/property/details/PropertyMediaTabs";
+import PropertyLocation from "@/components/property/details/PropertyLocation";
+import PropertyFAQ from "@/components/property/details/PropertyFAQ";
+import SimilarProperties from "@/components/property/details/SimilarProperties";
 
-import StickyInquiryCard from "./StickyInquiryCard";
-import PropertyContactForm from "./PropertyContactForm";
-import LoanEligibilityCard from "./LoanEligibilityCard";
-import PropertyAgentCard from "./PropertyAgentCard";
-import PropertyTrustCard from "./PropertyTrustCard";
+import StickyInquiryCard from "@/components/property/details/StickyInquiryCard";
+import PropertyContactForm from "@/components/property/details/PropertyContactForm";
+import LoanEligibilityCard from "@/components/property/details/LoanEligibilityCard";
+import PropertyAgentCard from "@/components/property/details/PropertyAgentCard";
+import PropertyTrustCard from "@/components/property/details/PropertyTrustCard";
 
-import PropertyBottomCTA from "./PropertyBottomCTA";
+import PropertyBottomCTA from "@/components/property/details/PropertyBottomCTA";
 
 const PropertyDetailsPage = ({ property }) => {
   // ======================================================

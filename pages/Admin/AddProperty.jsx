@@ -15,7 +15,7 @@ import PropertyPreviewSidebar from "@/components/property/add/PropertyPreviewSid
 import PropertyProgressCard from "@/components/property/add/PropertyProgressCard";
 import PropertyStickyFooter from "@/components/property/add/PropertyStickyFooter";
 
-import { INITIAL_PROPERTY_FORM } from "./constants";
+import { INITIAL_PROPERTY_FORM } from "@/pages/Admin/constants.js";
 
 const AddProperty = () => {
   // ======================================================
@@ -147,11 +147,14 @@ const AddProperty = () => {
       // =====================================
       // API CALL
       // =====================================
-      const response = await fetch("http://localhost:5000/api/property", {
-        method: "POST",
-        credentials: "include",
-        body: submitData,
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/property`,
+        {
+          method: "POST",
+          credentials: "include",
+          body: submitData,
+        },
+      );
 
       const data = await response.json();
 

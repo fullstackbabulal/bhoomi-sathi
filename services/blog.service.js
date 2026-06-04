@@ -201,6 +201,12 @@ export const getRelatedBlogs = async (id) => {
   }
 };
 
+export const updateBlogStatus = async (id, status) => {
+  const response = await blogApi.patch(`/${id}/status`, { status });
+
+  return response.data;
+};
+
 // ======================================================
 // EXPORT API INSTANCE
 // ======================================================

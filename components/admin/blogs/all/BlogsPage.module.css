@@ -1,0 +1,166 @@
+/* ======================================================
+   File: components/admin/blogs/all/BlogsPage.module.css
+   Description: Blogs Page Layout
+====================================================== */
+
+/* ======================================================
+   LAYOUT
+====================================================== */
+
+.layout {
+  display: flex;
+
+  min-height: 100vh;
+
+  background: #f8fafc;
+}
+
+/* ======================================================
+   CONTENT
+====================================================== */
+
+.content {
+  flex: 1;
+
+  margin-left: 250px;
+
+  min-width: 0;
+}
+
+/* ======================================================
+   PAGE
+====================================================== */
+
+.page {
+  padding: 32px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 24px;
+
+  width: 100%;
+}
+
+/* ======================================================
+   STATS SECTION
+====================================================== */
+
+.statsSection {
+  width: 100%;
+}
+
+/* ======================================================
+   FILTER SECTION
+====================================================== */
+
+.filtersSection {
+  width: 100%;
+}
+
+/* ======================================================
+   TABLE SECTION
+====================================================== */
+
+.tableSection {
+  width: 100%;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+
+  padding: 24px;
+
+  overflow: hidden;
+}
+
+/* ======================================================
+   PAGINATION
+====================================================== */
+
+.paginationSection {
+  margin-top: 24px;
+}
+
+/* ======================================================
+   EMPTY STATE
+====================================================== */
+
+.emptyStateWrapper {
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+
+  padding: 24px;
+}
+
+/* ======================================================
+   CARD
+====================================================== */
+
+.card {
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+
+  padding: 24px;
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (max-width: 1024px) {
+  .content {
+    margin-left: 90px;
+  }
+
+  .page {
+    padding: 24px;
+  }
+
+  .tableSection {
+    padding: 20px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+}
+
+/* ======================================================
+   MOBILE
+====================================================== */
+
+@media (max-width: 768px) {
+  .content {
+    margin-left: 0;
+  }
+
+  .page {
+    padding: 16px;
+
+    gap: 18px;
+  }
+
+  .tableSection {
+    padding: 16px;
+
+    border-radius: 18px;
+  }
+
+  .card {
+    padding: 16px;
+
+    border-radius: 18px;
+  }
+
+  .emptyStateWrapper {
+    padding: 16px;
+
+    border-radius: 18px;
+  }
+}

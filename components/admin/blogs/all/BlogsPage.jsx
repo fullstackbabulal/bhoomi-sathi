@@ -2,92 +2,71 @@
 
 // ======================================================
 // File: components/admin/blogs/all/BlogsPage.jsx
-// Description: Blogs Management Page
+// Description: Admin Blogs Dashboard Page
 // ======================================================
 
 import { useEffect, useState } from "react";
+
+import AdminSidebar from "@/components/admin/AdminSidebar";
+
+import styles from "./BlogsPage.module.css";
+
+import { getBlogs } from "@/services/blog.service";
 
 import BlogHeader from "./BlogHeader/BlogHeader";
 import BlogStats from "./BlogStats/BlogStats";
 import BlogFilters from "./BlogFilters/BlogFilters";
 import BlogTable from "./BlogTable/BlogTable";
 import BlogPagination from "./BlogPagination/BlogPagination";
-
 import EmptyBlogState from "./EmptyBlogState";
 import LoadingBlogSkeleton from "./LoadingBlogSkeleton";
 
-import { getBlogs } from "@/services/blog.service";
-
-// ======================================================
-// COMPONENT
-// ======================================================
-
 export default function BlogsPage() {
-  // ====================================================
+  // ======================================================
   // STATE
-  // ====================================================
+  // ======================================================
 
   const [blogs, setBlogs] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
-  const [stats, setStats] = useState({
-    total: 0,
-    published: 0,
-    draft: 0,
-    archived: 0,
-  });
+  const [search, setSearch] = useState("");
 
-  const [filters, setFilters] = useState({
-    keyword: "",
-    status: "",
-    category: "",
-    author: "",
-  });
+  const [status, setStatus] = useState("all");
 
-  const [pagination, setPagination] = useState({
-    page: 1,
-    limit: 10,
-    total: 0,
-    totalPages: 1,
-  });
+  const [category, setCategory] = useState("all");
 
-  // ====================================================
+  const [author, setAuthor] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const rowsPerPage = 10;
+
+  // ======================================================
   // FETCH BLOGS
-  // ====================================================
+  // ======================================================
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
 
   const fetchBlogs = async () => {
     try {
       setLoading(true);
 
-      const response = await getBlogs({
-        page: pagination.page,
-        limit: pagination.limit,
-        keyword: filters.keyword,
-        status: filters.status,
-        category: filters.category,
-        author: filters.author,
-      });
+      const result = await getBlogs();
 
-      const blogsData = response?.blogs || response?.data || [];
+      console.log("ADMIN BLOG RESPONSE:", result);
 
-      setBlogs(Array.isArray(blogsData) ? blogsData : []);
+      const blogList = Array.isArray(result?.blogs)
+        ? result.blogs
+        : Array.isArray(result?.data?.blogs)
+          ? result.data.blogs
+          : Array.isArray(result?.data)
+            ? result.data
+            : [];
 
-      setPagination((prev) => ({
-        ...prev,
-        total: response?.total || blogsData.length || 0,
-
-        totalPages: response?.totalPages || 1,
-      }));
-
-      setStats({
-        total: response?.stats?.total || blogsData.length || 0,
-
-        published: response?.stats?.published || 0,
-
-        draft: response?.stats?.draft || 0,
-
-        archived: response?.stats?.archived || 0,
-      });
+      setBlogs(blogList);
     } catch (error) {
       console.error("Failed to fetch blogs:", error);
 
@@ -97,94 +76,124 @@ export default function BlogsPage() {
     }
   };
 
-  // ====================================================
-  // EFFECT
-  // ====================================================
+  // ======================================================
+  // RESET PAGINATION
+  // ======================================================
 
   useEffect(() => {
-    fetchBlogs();
-  }, [pagination.page, pagination.limit, filters]);
+    setCurrentPage(1);
+  }, [search, status, category, author]);
 
-  // ====================================================
-  // FILTERS
-  // ====================================================
+  // ======================================================
+  // FILTERED BLOGS
+  // ======================================================
 
-  const handleFilterChange = (field, value) => {
-    setPagination((prev) => ({
-      ...prev,
-      page: 1,
-    }));
+  const filteredBlogs = blogs.filter((blog) => {
+    const title = blog?.title || "";
 
-    setFilters((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+    const blogCategory = blog?.category?.name || blog?.category || "";
 
-  const handleResetFilters = () => {
-    setFilters({
-      keyword: "",
-      status: "",
-      category: "",
-      author: "",
-    });
+    const blogAuthor = blog?.author?.name || blog?.author || "";
 
-    setPagination((prev) => ({
-      ...prev,
-      page: 1,
-    }));
-  };
+    const blogStatus = blog?.status || "";
 
-  // ====================================================
+    const matchesSearch = title.toLowerCase().includes(search.toLowerCase());
+
+    const matchesStatus = status === "all" || blogStatus === status;
+
+    const matchesCategory = category === "all" || blogCategory === category;
+
+    const matchesAuthor =
+      !author || blogAuthor.toLowerCase().includes(author.toLowerCase());
+
+    return matchesSearch && matchesStatus && matchesCategory && matchesAuthor;
+  });
+
+  // ======================================================
   // PAGINATION
-  // ====================================================
+  // ======================================================
 
-  const handlePageChange = (page) => {
-    setPagination((prev) => ({
-      ...prev,
-      page,
-    }));
+  const totalPages = Math.ceil(filteredBlogs.length / rowsPerPage) || 1;
+
+  const paginatedBlogs = filteredBlogs.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage,
+  );
+
+  // ======================================================
+  // STATS
+  // ======================================================
+
+  const stats = {
+    total: blogs.length,
+
+    published: blogs.filter((item) => item?.status === "published").length,
+
+    draft: blogs.filter((item) => item?.status === "draft").length,
+
+    archived: blogs.filter((item) => item?.status === "archived").length,
   };
 
-  // ====================================================
-  // LOADING
-  // ====================================================
-
-  if (loading) {
-    return <LoadingBlogSkeleton />;
-  }
-
-  // ====================================================
-  // UI
-  // ====================================================
+  // ======================================================
+  // RENDER
+  // ======================================================
 
   return (
-    <>
-      <BlogHeader />
+    <div className={styles.layout}>
+      {/* SIDEBAR */}
 
-      <BlogStats stats={stats} />
+      <AdminSidebar />
 
-      <BlogFilters
-        filters={filters}
-        onChange={handleFilterChange}
-        onReset={handleResetFilters}
-      />
+      {/* CONTENT */}
 
-      {blogs.length === 0 ? (
-        <EmptyBlogState />
-      ) : (
-        <>
-          <BlogTable blogs={blogs} onRefresh={fetchBlogs} />
+      <main className={styles.content}>
+        <section className={styles.page}>
+          {/* HEADER */}
 
-          <BlogPagination
-            page={pagination.page}
-            totalPages={pagination.totalPages}
-            total={pagination.total}
-            limit={pagination.limit}
-            onPageChange={handlePageChange}
-          />
-        </>
-      )}
-    </>
+          <BlogHeader />
+
+          {/* STATS */}
+
+          <BlogStats stats={stats} />
+
+          {/* CARD */}
+
+          <section className={styles.card}>
+            {/* FILTERS */}
+
+            <BlogFilters
+              search={search}
+              setSearch={setSearch}
+              status={status}
+              setStatus={setStatus}
+              category={category}
+              setCategory={setCategory}
+              author={author}
+              setAuthor={setAuthor}
+            />
+
+            {/* CONTENT */}
+
+            {loading ? (
+              <LoadingBlogSkeleton />
+            ) : filteredBlogs.length === 0 ? (
+              <EmptyBlogState />
+            ) : (
+              <>
+                <BlogTable blogs={paginatedBlogs} onRefresh={fetchBlogs} />
+
+                <BlogPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  setCurrentPage={setCurrentPage}
+                  totalItems={filteredBlogs.length}
+                  rowsPerPage={rowsPerPage}
+                />
+              </>
+            )}
+          </section>
+        </section>
+      </main>
+    </div>
   );
 }

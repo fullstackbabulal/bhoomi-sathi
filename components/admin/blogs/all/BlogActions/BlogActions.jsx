@@ -6,6 +6,7 @@
 // ======================================================
 
 import Link from "next/link";
+import { useCallback } from "react";
 
 import {
   FiEye,
@@ -22,39 +23,76 @@ import styles from "./BlogActions.module.css";
 // ======================================================
 
 export default function BlogActions({
-  blog,
+  blog = {},
   onView,
   onEdit,
   onDelete,
   onToggleStatus,
 }) {
-  if (!blog) return null;
+  // ====================================================
+  // SAFETY
+  // ====================================================
 
-  const { _id, slug, status = "draft" } = blog;
+  if (!blog?._id) {
+    return null;
+  }
+
+  const { _id, slug = "", status = "draft" } = blog;
+
+  // ====================================================
+  // HANDLERS
+  // ====================================================
+
+  const handleView = useCallback(() => {
+    onView?.(blog);
+  }, [blog, onView]);
+
+  const handleEdit = useCallback(() => {
+    onEdit?.(blog);
+  }, [blog, onEdit]);
+
+  const handleDelete = useCallback(() => {
+    onDelete?.(blog);
+  }, [blog, onDelete]);
+
+  const handleToggleStatus = useCallback(() => {
+    onToggleStatus?.(blog);
+  }, [blog, onToggleStatus]);
+
+  const isPublished = status === "published";
+
+  // ====================================================
+  // RENDER
+  // ====================================================
 
   return (
     <div className={styles.actions}>
       {/* ==========================================
-          VIEW
+          VIEW BLOG
       ========================================== */}
 
       <Link
         href={`/blog/${slug}`}
         target="_blank"
+        rel="noopener noreferrer"
         className={`${styles.actionButton} ${styles.viewButton}`}
         title="View Blog"
+        aria-label="View Blog"
+        onClick={handleView}
       >
         <FiEye size={16} />
       </Link>
 
       {/* ==========================================
-          EDIT
+          EDIT BLOG
       ========================================== */}
 
       <Link
         href={`/admin/blogs/edit/${_id}`}
         className={`${styles.actionButton} ${styles.editButton}`}
         title="Edit Blog"
+        aria-label="Edit Blog"
+        onClick={handleEdit}
       >
         <FiEdit2 size={16} />
       </Link>
@@ -65,28 +103,26 @@ export default function BlogActions({
 
       <button
         type="button"
-        onClick={() => onToggleStatus?.(blog)}
+        onClick={handleToggleStatus}
         className={`${styles.actionButton} ${
-          status === "published" ? styles.unpublishButton : styles.publishButton
+          isPublished ? styles.unpublishButton : styles.publishButton
         }`}
-        title={status === "published" ? "Move to Draft" : "Publish Blog"}
+        title={isPublished ? "Move to Draft" : "Publish Blog"}
+        aria-label={isPublished ? "Move Blog To Draft" : "Publish Blog"}
       >
-        {status === "published" ? (
-          <FiFileText size={16} />
-        ) : (
-          <FiCheckCircle size={16} />
-        )}
+        {isPublished ? <FiFileText size={16} /> : <FiCheckCircle size={16} />}
       </button>
 
       {/* ==========================================
-          DELETE
+          DELETE BLOG
       ========================================== */}
 
       <button
         type="button"
-        onClick={() => onDelete?.(blog)}
+        onClick={handleDelete}
         className={`${styles.actionButton} ${styles.deleteButton}`}
         title="Delete Blog"
+        aria-label="Delete Blog"
       >
         <FiTrash2 size={16} />
       </button>

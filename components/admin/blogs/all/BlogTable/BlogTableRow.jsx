@@ -13,6 +13,12 @@ import BlogActions from "../BlogActions/BlogActions";
 import styles from "./BlogTable.module.css";
 
 // ======================================================
+// CONFIG
+// ======================================================
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+
+// ======================================================
 // HELPERS
 // ======================================================
 
@@ -31,7 +37,7 @@ const formatDate = (date) => {
 };
 
 const getStatusClass = (status = "") => {
-  switch (status.toLowerCase()) {
+  switch (status?.toLowerCase()) {
     case "published":
       return styles.statusPublished;
 
@@ -47,6 +53,27 @@ const getStatusClass = (status = "") => {
 };
 
 // ======================================================
+// GET IMAGE URL
+// ======================================================
+
+const getImageUrl = (featuredImage = "") => {
+  if (!featuredImage) {
+    return "/images/placeholders/blog-placeholder.webp";
+  }
+
+  // Already absolute URL
+  if (
+    featuredImage.startsWith("http://") ||
+    featuredImage.startsWith("https://")
+  ) {
+    return featuredImage;
+  }
+
+  // Convert relative upload path
+  return `${API_BASE_URL}${featuredImage}`;
+};
+
+// ======================================================
 // COMPONENT
 // ======================================================
 
@@ -54,11 +81,10 @@ export default function BlogTableRow({ blog, onRefresh }) {
   if (!blog) return null;
 
   const {
-    _id,
     title,
     slug,
     category,
-    status,
+    status = "draft",
     views = 0,
     featuredImage,
     publishedAt,
@@ -66,8 +92,7 @@ export default function BlogTableRow({ blog, onRefresh }) {
     author,
   } = blog;
 
-  const imageUrl =
-    featuredImage || "/images/placeholders/blog-placeholder.webp";
+  const imageUrl = getImageUrl(featuredImage);
 
   const authorName = author?.name || author || "Admin";
 
@@ -87,6 +112,7 @@ export default function BlogTableRow({ blog, onRefresh }) {
             width={72}
             height={52}
             className={styles.thumbnail}
+            unoptimized
             onError={() => {
               console.error("Failed Blog Image:", imageUrl);
             }}
@@ -136,7 +162,7 @@ export default function BlogTableRow({ blog, onRefresh }) {
 
       <td>
         <span className={`${styles.statusBadge} ${getStatusClass(status)}`}>
-          {status || "draft"}
+          {status}
         </span>
       </td>
 
@@ -145,11 +171,11 @@ export default function BlogTableRow({ blog, onRefresh }) {
       ========================================== */}
 
       <td>
-        <span className={styles.views}>{views.toLocaleString()}</span>
+        <span className={styles.views}>{Number(views).toLocaleString()}</span>
       </td>
 
       {/* ==========================================
-          DATE
+          PUBLISHED DATE
       ========================================== */}
 
       <td>

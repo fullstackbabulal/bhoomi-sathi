@@ -1,15 +1,26 @@
 "use client";
 
 // ======================================================
-// File: components/auth/ProtectedRoute.jsx
+// File: components/auth/ProtectedRoute.tsx
 // Description: Secure Route Protection
-// Auth + Role-based access control
+// Auth + Role-based Access Control
 // ======================================================
 
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { useAuth } from "@/context/AuthContext";
+
+// ======================================================
+// TYPES
+// ======================================================
+
+type UserRole = "admin" | "agent" | "user";
+
+interface ProtectedRouteProps {
+  children: ReactNode;
+  allowedRoles?: UserRole[];
+}
 
 // ======================================================
 // AUTH PAGES
@@ -21,7 +32,10 @@ const AUTH_PAGES = ["/login", "/register"];
 // COMPONENT
 // ======================================================
 
-export default function ProtectedRoute({ children, allowedRoles = [] }) {
+export default function ProtectedRoute({
+  children,
+  allowedRoles = [],
+}: ProtectedRouteProps) {
   const router = useRouter();
 
   const pathname = usePathname();
@@ -39,14 +53,15 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
   // ====================================================
 
   useEffect(() => {
-    // Wait for auth
+    // ==========================================
+    // WAIT FOR AUTH CHECK
+    // ==========================================
+
     if (loading) return;
 
-    /*
-    ==========================================
-    NOT LOGGED IN
-    ==========================================
-    */
+    // ==========================================
+    // NOT LOGGED IN
+    // ==========================================
 
     if (!isAuthenticated && !isAuthPage) {
       router.replace("/login");
@@ -54,13 +69,11 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
       return;
     }
 
-    /*
-    ==========================================
-    AUTH PAGE REDIRECT
-    Example:
-    logged-in user visits /login
-    ==========================================
-    */
+    // ==========================================
+    // AUTH PAGE REDIRECT
+    // Example:
+    // Logged-in user visits /login
+    // ==========================================
 
     if (isAuthenticated && isAuthPage) {
       switch (user?.role) {
@@ -79,14 +92,13 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
       return;
     }
 
-    /*
-    ==========================================
-    ROLE VALIDATION
-    ==========================================
-    */
+    // ==========================================
+    // ROLE VALIDATION
+    // ==========================================
 
     const hasRoleAccess =
-      allowedRoles.length === 0 || allowedRoles.includes(user?.role);
+      allowedRoles.length === 0 ||
+      allowedRoles.includes(user?.role as UserRole);
 
     if (isAuthenticated && !hasRoleAccess) {
       router.replace("/");
@@ -95,8 +107,8 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
     }
   }, [
     router,
-    loading,
     pathname,
+    loading,
     user,
     isAuthenticated,
     allowedRoles,
@@ -104,7 +116,7 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
   ]);
 
   // ====================================================
-  // WAIT FOR AUTH
+  // LOADING STATE
   // ====================================================
 
   if (loading) {
@@ -116,15 +128,19 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
   }
 
   // ====================================================
-  // BLOCK RENDER
+  // BLOCK UNAUTHENTICATED ACCESS
   // ====================================================
 
   if (!isAuthenticated && !isAuthPage) {
     return null;
   }
 
+  // ====================================================
+  // ROLE CHECK
+  // ====================================================
+
   const hasRoleAccess =
-    allowedRoles.length === 0 || allowedRoles.includes(user?.role);
+    allowedRoles.length === 0 || allowedRoles.includes(user?.role as UserRole);
 
   if (isAuthenticated && !hasRoleAccess) {
     return null;
@@ -134,5 +150,5 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
   // SAFE RENDER
   // ====================================================
 
-  return children;
+  return <>{children}</>;
 }

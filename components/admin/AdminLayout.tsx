@@ -1,16 +1,50 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+// ======================================================
+// File: components/admin/layout/AdminLayout.tsx
+// Description: Admin Layout
+// ======================================================
+
+import { ReactNode, useEffect, useMemo, useState } from "react";
 
 import AdminHeader from "./AdminHeader";
 import AdminSidebar from "./AdminSidebar";
 
 import styles from "./AdminLayout.module.css";
 
+// ======================================================
+// TYPES
+// ======================================================
+
+interface SidebarItem {
+  label: string;
+  href: string;
+  icon: string;
+}
+
+interface AdminLayoutProps {
+  children: ReactNode;
+
+  adminData?: any;
+
+  sidebarItems?: SidebarItem[] | null;
+
+  notifications?: any[] | null;
+
+  loading?: boolean;
+
+  error?: string | null;
+
+  defaultCollapsed?: boolean;
+}
+
+// ======================================================
+// COMPONENT
+// ======================================================
+
 export default function AdminLayout({
   children,
 
-  // Dynamic/API Props
   adminData = null,
   sidebarItems = null,
   notifications = null,
@@ -18,28 +52,19 @@ export default function AdminLayout({
   loading = false,
   error = null,
 
-  // Optional config
   defaultCollapsed = false,
-}) {
-  /*
-  ===================================
-  STATE
-  ===================================
-  */
-
+}: AdminLayoutProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(defaultCollapsed);
 
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const [isMobile, setIsMobile] = useState(false);
 
-  /*
-  ===================================
-  MOCK / STATIC FALLBACK
-  ===================================
-  */
+  // ====================================================
+  // FALLBACK SIDEBAR
+  // ====================================================
 
-  const mockSidebarItems = [
+  const mockSidebarItems: SidebarItem[] = [
     {
       label: "Dashboard",
       href: "/admin/dashboard",
@@ -67,22 +92,13 @@ export default function AdminLayout({
     },
   ];
 
-  /*
-  ===================================
-  SAFE DATA
-  API → STATIC FALLBACK
-  ===================================
-  */
-
   const safeSidebarItems = useMemo(() => {
     return sidebarItems?.length ? sidebarItems : mockSidebarItems;
   }, [sidebarItems]);
 
-  /*
-  ===================================
-  RESPONSIVE
-  ===================================
-  */
+  // ====================================================
+  // RESPONSIVE
+  // ====================================================
 
   useEffect(() => {
     const handleResize = () => {
@@ -104,15 +120,14 @@ export default function AdminLayout({
     };
   }, []);
 
-  /*
-  ===================================
-  SIDEBAR ACTIONS
-  ===================================
-  */
+  // ====================================================
+  // SIDEBAR ACTIONS
+  // ====================================================
 
   const handleMenuClick = () => {
     if (isMobile) {
       setMobileSidebarOpen(true);
+
       return;
     }
 
@@ -127,9 +142,12 @@ export default function AdminLayout({
     setSidebarCollapsed((prev) => !prev);
   };
 
+  // ====================================================
+  // RENDER
+  // ====================================================
+
   return (
     <div className={styles.adminLayout}>
-      {/* SIDEBAR */}
       <AdminSidebar
         collapsed={sidebarCollapsed}
         isOpen={mobileSidebarOpen}
@@ -140,13 +158,11 @@ export default function AdminLayout({
         onToggleCollapse={handleSidebarToggle}
       />
 
-      {/* MAIN */}
       <div
         className={`${styles.mainWrapper} ${
           sidebarCollapsed && !isMobile ? styles.collapsed : ""
         }`}
       >
-        {/* HEADER */}
         <AdminHeader
           adminData={adminData}
           notifications={notifications}
@@ -155,7 +171,6 @@ export default function AdminLayout({
           onMenuClick={handleMenuClick}
         />
 
-        {/* CONTENT */}
         <main className={styles.mainContent}>
           {children ?? <div>No content available.</div>}
         </main>

@@ -1,32 +1,77 @@
 "use client";
 
-import {
-  Activity,
-  BarChart3,
-  Building2,
-  FileText,
-  Mail,
-  Users,
-} from "lucide-react";
+// ======================================================
+// File: components/admin/dashboard/DashboardHome.tsx
+// Description: Admin Dashboard Home
+// ======================================================
+
+import { Activity, BarChart3 } from "lucide-react";
 
 import KpiCard from "../KpiCard";
 import QuickAction from "../QuickAction";
 
 import styles from "./DashboardHome.module.css";
 
+// ======================================================
+// TYPES
+// ======================================================
+
+interface DashboardStat {
+  label: string;
+  value: number;
+  change: string;
+  icon: string;
+}
+
+interface QuickActionItem {
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+  variant: string;
+}
+
+interface ActivityItem {
+  id: number | string;
+  title: string;
+  description: string;
+  time: string;
+}
+
+interface PropertyItem {
+  id: number | string;
+  title: string;
+  location: string;
+  status: string;
+}
+
+interface DashboardData {
+  stats?: DashboardStat[];
+  quickActions?: QuickActionItem[];
+  activities?: ActivityItem[];
+  properties?: PropertyItem[];
+}
+
+interface DashboardHomeProps {
+  dashboardData?: DashboardData | null;
+  loading?: boolean;
+  error?: string | null;
+}
+
+// ======================================================
+// COMPONENT
+// ======================================================
+
 export default function DashboardHome({
   dashboardData = null,
-
   loading = false,
   error = null,
-}) {
-  /*
-  ===================================
-  MOCK / STATIC FALLBACK
-  ===================================
-  */
+}: DashboardHomeProps) {
+  // ====================================================
+  // MOCK / FALLBACK DATA
+  // ====================================================
 
-  const mockDashboardData = {
+  const mockDashboardData: DashboardData = {
     stats: [
       {
         label: "Total Properties",
@@ -116,12 +161,9 @@ export default function DashboardHome({
     ],
   };
 
-  /*
-  ===================================
-  SAFE DATA
-  API → STATIC FALLBACK
-  ===================================
-  */
+  // ====================================================
+  // SAFE DATA
+  // ====================================================
 
   const safeData = dashboardData || mockDashboardData;
 
@@ -133,17 +175,19 @@ export default function DashboardHome({
 
   const safeProperties = safeData?.properties || [];
 
-  /*
-  ===================================
-  EMPTY SAFE
-  ===================================
-  */
+  // ====================================================
+  // EMPTY CHECK
+  // ====================================================
 
   const isEmpty =
     !safeStats.length &&
     !safeQuickActions.length &&
     !safeActivities.length &&
     !safeProperties.length;
+
+  // ====================================================
+  // RENDER
+  // ====================================================
 
   return (
     <section className={styles.dashboard}>
@@ -167,7 +211,7 @@ export default function DashboardHome({
 
             <h4>Dashboard unavailable</h4>
 
-            <p>Failed to load dashboard data.</p>
+            <p>{error}</p>
           </div>
         </div>
       )}
@@ -175,9 +219,7 @@ export default function DashboardHome({
       {/* LOADING */}
       {loading && (
         <div className={styles.kpiGrid}>
-          {Array.from({
-            length: 4,
-          }).map((_, index) => (
+          {Array.from({ length: 4 }).map((_, index) => (
             <KpiCard key={index} loading />
           ))}
         </div>
@@ -208,9 +250,9 @@ export default function DashboardHome({
 
           {/* MAIN GRID */}
           <div className={styles.grid}>
-            {/* LEFT */}
+            {/* LEFT COLUMN */}
             <div className={styles.leftColumn}>
-              {/* QUICK ACTION */}
+              {/* QUICK ACTIONS */}
               <section className={styles.card}>
                 <div className={styles.cardHeader}>
                   <h3>Quick Actions</h3>
@@ -247,9 +289,9 @@ export default function DashboardHome({
               </section>
             </div>
 
-            {/* RIGHT */}
+            {/* RIGHT COLUMN */}
             <div className={styles.rightColumn}>
-              {/* PROPERTY STATUS */}
+              {/* PROPERTIES */}
               <section className={styles.card}>
                 <div className={styles.cardHeader}>
                   <h3>Latest Properties</h3>

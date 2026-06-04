@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const path = require("path");
-const enquiryRoutes = require("./routes/enquiry.routes.js");
+
 // ======================================================
 // DATABASE
 // ======================================================
@@ -26,7 +26,8 @@ const blogRoutes = require("./routes/blog.route.js");
 const commentRoutes = require("./routes/comment.route.js");
 const aboutRoutes = require("./routes/about.route.js");
 const contactRoutes = require("./routes/contact/contact.routes.js");
-
+const testimonialRoutes = require("./routes/Testimonials.route");
+const enquiryRoutes = require("./routes/enquiry.routes.js");
 // ======================================================
 // APP CONFIG
 // ======================================================
@@ -129,7 +130,7 @@ app.use("/api/comments", commentRoutes);
 app.use("/api/about", aboutRoutes);
 
 app.use("/api/contact", contactRoutes);
-
+app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/enquiries", enquiryRoutes);
 
 // ======================================================

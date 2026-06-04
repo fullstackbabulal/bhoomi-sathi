@@ -287,7 +287,7 @@ const aboutData = {
         "At Plot in Patna, our goal is to build a platform people can trust for all their real estate needs with transparency, innovation, and long-term value.",
 
       image: {
-        url: "/images/about/founder.png",
+        url: "/images/about/founder.webp",
 
         alt: "Founder of Plot in Patna",
       },
@@ -301,7 +301,7 @@ const aboutData = {
         designation: "Co-Founder",
 
         image: {
-          url: "/images/about/team-1.webp",
+          url: "/images/about/team-1.png",
 
           alt: "Co-Founder of Plot in Patna",
         },
@@ -319,7 +319,7 @@ const aboutData = {
         designation: "CTO",
 
         image: {
-          url: "/images/about/team-2.webp",
+          url: "/images/about/team-2.avif",
 
           alt: "Chief Technology Officer of Plot in Patna",
         },
@@ -337,7 +337,7 @@ const aboutData = {
         designation: "Head of Operations",
 
         image: {
-          url: "/images/about/team-3.webp",
+          url: "/images/about/team-3.png",
 
           alt: "Head of Operations at Plot in Patna",
         },
@@ -371,7 +371,7 @@ const aboutData = {
           "Plot in Patna made my property search simple and trustworthy. I found the perfect home for my family.",
 
         image: {
-          url: "/images/about/client-1.webp",
+          url: "/images/about/client-1.avif",
 
           alt: "Happy Plot in Patna customer",
         },
@@ -389,7 +389,7 @@ const aboutData = {
           "Very reliable platform with verified listings and excellent support during the investment process.",
 
         image: {
-          url: "/images/about/client-2.webp",
+          url: "/images/about/client-2.png",
 
           alt: "Real estate investor testimonial",
         },
@@ -407,7 +407,7 @@ const aboutData = {
           "Excellent support team and a smooth buying experience from start to finish.",
 
         image: {
-          url: "/images/about/client-3.webp",
+          url: "/images/about/client-3.png",
 
           alt: "Property buyer sharing experience",
         },

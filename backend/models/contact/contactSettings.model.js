@@ -58,22 +58,22 @@ const contactSettingsSchema = new mongoose.Schema(
 
       phone1: {
         type: String,
-        default: "9876543210",
+        default: "9661655534",
       },
 
       phone2: {
         type: String,
-        default: "9123456789",
+        default: "9661655534",
       },
 
       email1: {
         type: String,
-        default: "info@bhoomisathi.com",
+        default: "info@plotinpatna.in",
       },
 
       email2: {
         type: String,
-        default: "support@bhoomisathi.com",
+        default: "support@plotinpatna.in",
       },
     },
 

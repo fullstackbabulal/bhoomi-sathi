@@ -13,6 +13,8 @@ import {
   Users,
   Mail,
   FileText,
+  PlusCircle,
+  List,
 } from "lucide-react";
 
 import AdminHeader from "./AdminHeader";
@@ -72,25 +74,68 @@ export default function AdminLayout({
       path: "/admin/dashboard",
       icon: LayoutDashboard,
     },
+
     {
       label: "Properties",
-      path: "/admin/properties",
+      path: "/admin/properties/all",
       icon: Building2,
+
+      children: [
+        {
+          label: "All Properties",
+          path: "/admin/properties/all",
+          icon: List,
+        },
+        {
+          label: "Add Property",
+          path: "/admin/properties/add",
+          icon: PlusCircle,
+        },
+      ],
     },
+
     {
       label: "Agents",
       path: "/admin/agents",
       icon: Users,
+
+      children: [
+        {
+          label: "All Agents",
+          path: "/admin/agents",
+          icon: List,
+        },
+        {
+          label: "Add Agent",
+          path: "/admin/agents/add",
+          icon: PlusCircle,
+        },
+      ],
     },
+
     {
       label: "Enquiries",
       path: "/admin/enquiries",
       icon: Mail,
     },
+
     {
       label: "Blogs",
       path: "/admin/blogs",
       icon: FileText,
+
+      children: [
+        {
+          label: "All Blogs",
+          path: "/admin/blogs",
+          icon: List,
+        },
+        {
+          label: "Add Blog",
+          path: "/admin/blogs/add",
+          icon: PlusCircle,
+        },
+      ],
     },
   ];
 

@@ -24,9 +24,12 @@ export interface SidebarChild {
 
 export interface SidebarItem {
   label: string;
-  path?: string;
-  icon: ComponentType<{ size?: number }>;
-  children?: SidebarChild[];
+  path: string;
+  icon: React.ComponentType<{
+    size?: number;
+  }>;
+
+  children?: SidebarItem[];
 }
 
 interface AdminSidebarProps {

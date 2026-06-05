@@ -7,20 +7,22 @@
 
 import { ReactNode, useEffect, useMemo, useState } from "react";
 
+import {
+  LayoutDashboard,
+  Building2,
+  Users,
+  Mail,
+  FileText,
+} from "lucide-react";
+
 import AdminHeader from "./AdminHeader";
-import AdminSidebar from "./AdminSidebar";
+import AdminSidebar, { SidebarItem } from "./AdminSidebar";
 
 import styles from "./AdminLayout.module.css";
 
 // ======================================================
 // TYPES
 // ======================================================
-
-interface SidebarItem {
-  label: string;
-  href: string;
-  icon: string;
-}
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -67,32 +69,32 @@ export default function AdminLayout({
   const mockSidebarItems: SidebarItem[] = [
     {
       label: "Dashboard",
-      href: "/admin/dashboard",
-      icon: "layout-dashboard",
+      path: "/admin/dashboard",
+      icon: LayoutDashboard,
     },
     {
       label: "Properties",
-      href: "/admin/properties",
-      icon: "building-2",
+      path: "/admin/properties",
+      icon: Building2,
     },
     {
       label: "Agents",
-      href: "/admin/agents",
-      icon: "users",
+      path: "/admin/agents",
+      icon: Users,
     },
     {
       label: "Enquiries",
-      href: "/admin/enquiries",
-      icon: "mail",
+      path: "/admin/enquiries",
+      icon: Mail,
     },
     {
       label: "Blogs",
-      href: "/admin/blogs",
-      icon: "file-text",
+      path: "/admin/blogs",
+      icon: FileText,
     },
   ];
 
-  const safeSidebarItems = useMemo(() => {
+  const safeSidebarItems = useMemo<SidebarItem[]>(() => {
     return sidebarItems?.length ? sidebarItems : mockSidebarItems;
   }, [sidebarItems]);
 
@@ -127,7 +129,6 @@ export default function AdminLayout({
   const handleMenuClick = () => {
     if (isMobile) {
       setMobileSidebarOpen(true);
-
       return;
     }
 

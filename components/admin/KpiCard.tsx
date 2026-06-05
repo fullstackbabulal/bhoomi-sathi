@@ -1,5 +1,10 @@
 "use client";
 
+// ======================================================
+// File: components/admin/dashboard/KpiCard.tsx
+// Description: KPI Statistics Card
+// ======================================================
+
 import {
   Activity,
   ArrowDownRight,
@@ -12,10 +17,45 @@ import {
 
 import styles from "./KpiCard.module.css";
 
+// ======================================================
+// TYPES
+// ======================================================
+
+export type KpiIconType =
+  | "building"
+  | "users"
+  | "mail"
+  | "blog"
+  | "analytics"
+  | string;
+
+export interface KpiData {
+  label?: string;
+  value?: string | number;
+  change?: string;
+  icon?: string;
+}
+
+interface KpiCardProps {
+  data?: KpiData | null;
+
+  // Backward compatibility
+  label?: string;
+  value?: string | number;
+  change?: string;
+  icon?: KpiIconType;
+
+  loading?: boolean;
+  error?: string | null;
+}
+
+// ======================================================
+// COMPONENT
+// ======================================================
+
 export default function KpiCard({
   data = null,
 
-  // Optional direct props (backward compatibility)
   label,
   value,
   change,
@@ -23,44 +63,39 @@ export default function KpiCard({
 
   loading = false,
   error = null,
-}) {
-  /*
-  ===================================
-  MOCK / STATIC FALLBACK
-  ===================================
-  */
+}: KpiCardProps) {
+  // ====================================================
+  // FALLBACK DATA
+  // ====================================================
 
-  const mockData = {
+  const mockData: KpiData = {
     label: "Total Properties",
     value: 120,
     change: "+12%",
     icon: "building",
   };
 
-  /*
-  ===================================
-  SAFE DATA
-  API → STATIC FALLBACK
-  ===================================
-  */
+  // ====================================================
+  // SAFE DATA
+  // ====================================================
 
-  const safeData = data || {
-    label,
-    value,
-    change,
-    icon,
-  };
+  const safeData: KpiData =
+    data ||
+    ({
+      label,
+      value,
+      change,
+      icon,
+    } as KpiData);
 
   const finalData =
     safeData?.label || safeData?.value || safeData?.change
       ? safeData
       : mockData;
 
-  /*
-  ===================================
-  ICON MAPPER
-  ===================================
-  */
+  // ====================================================
+  // ICONS
+  // ====================================================
 
   const iconMap = {
     building: Building2,
@@ -70,15 +105,15 @@ export default function KpiCard({
     analytics: Activity,
   };
 
-  const IconComponent = iconMap[finalData?.icon] || Building2;
+  const IconComponent =
+    iconMap[(finalData?.icon || "building") as keyof typeof iconMap] ||
+    Building2;
 
-  /*
-  ===================================
-  FORMATTERS
-  ===================================
-  */
+  // ====================================================
+  // HELPERS
+  // ====================================================
 
-  const formatValue = (val) => {
+  const formatValue = (val: string | number | undefined) => {
     if (val === null || val === undefined || val === "") {
       return "0";
     }
@@ -90,23 +125,15 @@ export default function KpiCard({
     return val;
   };
 
-  /*
-  ===================================
-  CHANGE STATE
-  ===================================
-  */
-
   const safeChange = finalData?.change || "0%";
 
-  const isNegative = safeChange.toString().startsWith("-");
+  const isNegative = safeChange.startsWith("-");
 
   const TrendIcon = isNegative ? ArrowDownRight : ArrowUpRight;
 
-  /*
-  ===================================
-  LOADING STATE
-  ===================================
-  */
+  // ====================================================
+  // LOADING
+  // ====================================================
 
   if (loading) {
     return (
@@ -126,11 +153,9 @@ export default function KpiCard({
     );
   }
 
-  /*
-  ===================================
-  ERROR SAFE
-  ===================================
-  */
+  // ====================================================
+  // ERROR
+  // ====================================================
 
   if (error) {
     return (
@@ -149,6 +174,10 @@ export default function KpiCard({
       </div>
     );
   }
+
+  // ====================================================
+  // RENDER
+  // ====================================================
 
   return (
     <article className={styles.card}>

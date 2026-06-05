@@ -15,7 +15,7 @@ import PropertyPreviewSidebar from "@/components/property/add/PropertyPreviewSid
 import PropertyProgressCard from "@/components/property/add/PropertyProgressCard";
 import PropertyStickyFooter from "@/components/property/add/PropertyStickyFooter";
 
-import { INITIAL_PROPERTY_FORM } from "@/pages/Admin/constants.js";
+import { INITIAL_PROPERTY_FORM } from "@/components/property/add/constants.js";
 
 const AddProperty = () => {
   // ======================================================

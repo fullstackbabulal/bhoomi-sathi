@@ -1,6 +1,12 @@
 "use client";
 
+// ======================================================
+// File: components/admin/dashboard/QuickAction.tsx
+// Description: Dashboard Quick Action Card
+// ======================================================
+
 import Link from "next/link";
+
 import {
   ArrowRight,
   Building2,
@@ -14,10 +20,39 @@ import {
 
 import styles from "./QuickAction.module.css";
 
+// ======================================================
+// TYPES
+// ======================================================
+
+export interface QuickActionItem {
+  title?: string;
+  description?: string;
+  href?: string;
+  icon?: string;
+  variant?: string;
+}
+
+interface QuickActionProps {
+  data?: QuickActionItem | null;
+
+  // Backward compatibility
+  title?: string;
+  description?: string;
+  href?: string;
+  icon?: string;
+  variant?: string;
+
+  loading?: boolean;
+  error?: string | null;
+}
+
+// ======================================================
+// COMPONENT
+// ======================================================
+
 export default function QuickAction({
   data = null,
 
-  // Backward compatibility props
   title,
   description,
   href,
@@ -26,14 +61,12 @@ export default function QuickAction({
 
   loading = false,
   error = null,
-}) {
-  /*
-  ===================================
-  MOCK / STATIC FALLBACK
-  ===================================
-  */
+}: QuickActionProps) {
+  // ====================================================
+  // FALLBACK DATA
+  // ====================================================
 
-  const mockData = {
+  const mockData: QuickActionItem = {
     title: "Add Property",
     description: "Create and publish a new property listing",
     href: "/admin/properties/add",
@@ -41,14 +74,11 @@ export default function QuickAction({
     variant: "blue",
   };
 
-  /*
-  ===================================
-  SAFE DATA
-  API → STATIC FALLBACK
-  ===================================
-  */
+  // ====================================================
+  // SAFE DATA
+  // ====================================================
 
-  const safeData = data || {
+  const safeData: QuickActionItem = data || {
     title,
     description,
     href,
@@ -59,11 +89,9 @@ export default function QuickAction({
   const finalData =
     safeData?.title || safeData?.description ? safeData : mockData;
 
-  /*
-  ===================================
-  ICON MAP
-  ===================================
-  */
+  // ====================================================
+  // ICON MAP
+  // ====================================================
 
   const iconMap = {
     property: Building2,
@@ -75,23 +103,20 @@ export default function QuickAction({
     add: PlusCircle,
   };
 
-  const IconComponent = iconMap[finalData?.icon] || PlusCircle;
+  const IconComponent =
+    iconMap[(finalData?.icon || "add") as keyof typeof iconMap] || PlusCircle;
 
-  /*
-  ===================================
-  SAFE VALUES
-  ===================================
-  */
+  // ====================================================
+  // SAFE VALUES
+  // ====================================================
 
   const safeHref = finalData?.href || "/admin/dashboard";
 
   const safeVariant = finalData?.variant || "blue";
 
-  /*
-  ===================================
-  LOADING STATE
-  ===================================
-  */
+  // ====================================================
+  // LOADING
+  // ====================================================
 
   if (loading) {
     return (
@@ -113,11 +138,9 @@ export default function QuickAction({
     );
   }
 
-  /*
-  ===================================
-  ERROR STATE
-  ===================================
-  */
+  // ====================================================
+  // ERROR
+  // ====================================================
 
   if (error) {
     return (
@@ -135,27 +158,27 @@ export default function QuickAction({
     );
   }
 
+  // ====================================================
+  // RENDER
+  // ====================================================
+
   return (
     <Link
       href={safeHref}
-      className={`
-        ${styles.card}
-        ${styles[safeVariant] || styles.blue}
-      `}
+      className={`${styles.card} ${
+        styles[safeVariant as keyof typeof styles] || styles.blue
+      }`}
     >
-      {/* ICON */}
       <div className={styles.iconWrapper}>
         <IconComponent size={22} />
       </div>
 
-      {/* CONTENT */}
       <div className={styles.content}>
         <h4>{finalData?.title || "Quick Action"}</h4>
 
         <p>{finalData?.description || "No description available"}</p>
       </div>
 
-      {/* ARROW */}
       <div className={styles.arrow}>
         <ArrowRight size={18} />
       </div>

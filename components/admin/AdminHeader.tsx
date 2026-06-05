@@ -1,5 +1,10 @@
 "use client";
 
+// ======================================================
+// File: components/admin/AdminHeader.tsx
+// Description: Admin Header
+// ======================================================
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -14,10 +19,48 @@ import {
 
 import styles from "./AdminHeader.module.css";
 
+// ======================================================
+// TYPES
+// ======================================================
+
+export interface NotificationItem {
+  id: string | number;
+  title: string;
+  isRead?: boolean;
+}
+
+export interface AdminData {
+  name?: string;
+  role?: string;
+  avatar?: string;
+}
+
+interface AdminHeaderProps {
+  onMenuClick?: () => void;
+
+  // Dynamic/API Props
+  adminData?: AdminData | null;
+  notifications?: NotificationItem[] | null;
+
+  searchValue?: string;
+  onSearch?: ((value: string) => void) | null;
+
+  loading?: boolean;
+  error?: string | null;
+
+  // Optional callbacks
+  onProfileClick?: () => void;
+  onSettingsClick?: () => void;
+  onLogout?: () => Promise<void> | void;
+}
+
+// ======================================================
+// COMPONENT
+// ======================================================
+
 export default function AdminHeader({
   onMenuClick,
 
-  // Dynamic/API Props
   adminData = null,
   notifications = null,
   searchValue = "",
@@ -25,30 +68,28 @@ export default function AdminHeader({
   loading = false,
   error = null,
 
-  // Optional callbacks
   onProfileClick,
   onSettingsClick,
   onLogout,
-}) {
+}: AdminHeaderProps) {
   const router = useRouter();
-  const dropdownRef = useRef(null);
+
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const [profileOpen, setProfileOpen] = useState(false);
-  const [internalSearch, setInternalSearch] = useState(searchValue);
+  const [internalSearch, setInternalSearch] = useState<string>(searchValue);
 
-  /*
-  ===================================
-  MOCK / STATIC FALLBACK DATA
-  ===================================
-  */
+  // ====================================================
+  // MOCK / FALLBACK DATA
+  // ====================================================
 
-  const mockAdminData = {
+  const mockAdminData: AdminData = {
     name: "Admin",
     role: "Administrator",
     avatar: "A",
   };
 
-  const mockNotifications = [
+  const mockNotifications: NotificationItem[] = [
     {
       id: 1,
       title: "New enquiry received",
@@ -56,23 +97,20 @@ export default function AdminHeader({
     },
   ];
 
-  /*
-  ===================================
-  SAFE DATA
-  API → FALLBACK
-  ===================================
-  */
+  // ====================================================
+  // SAFE DATA
+  // ====================================================
 
-  const safeAdminData = adminData || mockAdminData;
+  const safeAdminData: AdminData = adminData || mockAdminData;
 
-  const safeNotifications =
-    notifications?.length > 0 ? notifications : mockNotifications;
+  const safeNotifications: NotificationItem[] =
+    notifications && notifications.length > 0
+      ? notifications
+      : mockNotifications;
 
-  /*
-  ===================================
-  DERIVED STATE
-  ===================================
-  */
+  // ====================================================
+  // DERIVED DATA
+  // ====================================================
 
   const unreadCount = useMemo(() => {
     return safeNotifications.filter((item) => item?.isRead === false).length;
@@ -86,15 +124,15 @@ export default function AdminHeader({
     );
   }, [safeAdminData]);
 
-  /*
-  ===================================
-  OUTSIDE CLICK
-  ===================================
-  */
+  // ====================================================
+  // OUTSIDE CLICK
+  // ====================================================
 
   useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleOutsideClick = (event: MouseEvent) => {
+      const target = event.target as Node;
+
+      if (dropdownRef.current && !dropdownRef.current.contains(target)) {
         setProfileOpen(false);
       }
     };
@@ -106,13 +144,11 @@ export default function AdminHeader({
     };
   }, []);
 
-  /*
-  ===================================
-  SEARCH HANDLER
-  ===================================
-  */
+  // ====================================================
+  // SEARCH
+  // ====================================================
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
     setInternalSearch(value);
@@ -122,31 +158,17 @@ export default function AdminHeader({
     }
   };
 
-  /*
-  ===================================
-  LOGOUT HANDLER
-  ===================================
-  */
+  // ====================================================
+  // LOGOUT
+  // ====================================================
 
   const handleLogout = async () => {
     try {
       setProfileOpen(false);
 
-      /*
-      ===================================
-      CUSTOM LOGOUT (AUTH CONTEXT/API)
-      ===================================
-      */
-
       if (onLogout) {
         await onLogout();
       }
-
-      /*
-      ===================================
-      CLEAR LOCAL STORAGE
-      ===================================
-      */
 
       localStorage.removeItem("token");
       localStorage.removeItem("accessToken");
@@ -155,19 +177,7 @@ export default function AdminHeader({
       localStorage.removeItem("admin");
       localStorage.removeItem("auth");
 
-      /*
-      ===================================
-      CLEAR SESSION STORAGE
-      ===================================
-      */
-
       sessionStorage.clear();
-
-      /*
-      ===================================
-      CLEAR COOKIES
-      ===================================
-      */
 
       document.cookie.split(";").forEach((cookie) => {
         const cookieName = cookie.split("=")[0].trim();
@@ -177,17 +187,7 @@ export default function AdminHeader({
         ).toUTCString()};path=/`;
       });
 
-      /*
-      ===================================
-      FORCE REDIRECT TO LOGIN
-      ===================================
-      */
-
       router.replace("/login");
-
-      /*
-      Hard refresh so protected state resets
-      */
 
       setTimeout(() => {
         window.location.href = "/login";
@@ -197,11 +197,9 @@ export default function AdminHeader({
     }
   };
 
-  /*
-  ===================================
-  PROFILE ACTIONS
-  ===================================
-  */
+  // ====================================================
+  // PROFILE ACTIONS
+  // ====================================================
 
   const handleProfileClick = () => {
     setProfileOpen(false);
@@ -224,6 +222,10 @@ export default function AdminHeader({
 
     router.push("/admin/settings");
   };
+
+  // ====================================================
+  // RENDER
+  // ====================================================
 
   return (
     <header className={styles.header}>

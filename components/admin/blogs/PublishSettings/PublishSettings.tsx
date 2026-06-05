@@ -1,50 +1,94 @@
 "use client";
 
 // ======================================================
-// File: components/admin/blogs/PublishSettings/PublishSettings.jsx
-// Description: Blog Publish Settings Card
+// File: components/admin/blogs/PublishSettings/PublishSettings.tsx
+// Description: Blog Publish Settings
 // ======================================================
+
+import {
+  CalendarDays,
+  FolderKanban,
+  Globe,
+  Settings2,
+  Tag,
+} from "lucide-react";
 
 import styles from "./PublishSettings.module.css";
 
-import {
-  Settings2,
-  CalendarDays,
-  Tag,
-  FolderKanban,
-  Globe,
-} from "lucide-react";
+// ======================================================
+// TYPES
+// ======================================================
+
+export interface BlogFormData {
+  title?: string;
+  slug?: string;
+  excerpt?: string;
+  content?: string;
+
+  category?: string;
+  status?: string;
+  tags?: string;
+  publishDate?: string;
+
+  metaTitle?: string;
+  metaDescription?: string;
+  focusKeyword?: string;
+}
+
+type BlogField = keyof BlogFormData;
+
+interface PublishSettingsProps {
+  formData?: BlogFormData;
+
+  categories?: string[];
+
+  onChange?: (field: BlogField, value: string) => void;
+}
+
+// ======================================================
+// COMPONENT
+// ======================================================
 
 export default function PublishSettings({
   formData = {},
   categories = [],
   onChange,
-}) {
-  const handleChange = (field, value) => {
-    if (onChange) {
-      onChange(field, value);
-    }
+}: PublishSettingsProps) {
+  // ====================================================
+  // HANDLERS
+  // ====================================================
+
+  const handleChange = (field: BlogField, value: string) => {
+    onChange?.(field, value);
   };
+
+  // ====================================================
+  // RENDER
+  // ====================================================
 
   return (
     <section className={styles.card}>
       {/* HEADER */}
+
       <div className={styles.header}>
-        <div className={styles.iconBox}>
-          <Settings2 size={22} />
+        <div className={styles.iconWrapper}>
+          <Settings2 size={20} />
         </div>
 
         <div>
-          <h2 className={styles.title}>Publish Settings</h2>
+          <h3 className={styles.title}>Publish Settings</h3>
 
           <p className={styles.subtitle}>
-            Configure publishing options and blog visibility
+            Configure publication and visibility options.
           </p>
         </div>
       </div>
 
+      {/* BODY */}
+
       <div className={styles.content}>
         {/* STATUS */}
+
         <div className={styles.field}>
           <label className={styles.label}>
             <Globe size={16} />
@@ -65,6 +109,7 @@ export default function PublishSettings({
         </div>
 
         {/* CATEGORY */}
+
         <div className={styles.field}>
           <label className={styles.label}>
             <FolderKanban size={16} />
@@ -78,8 +123,8 @@ export default function PublishSettings({
           >
             <option value="">Select Category</option>
 
-            {categories.map((category, index) => (
-              <option key={index} value={category}>
+            {categories.map((category) => (
+              <option key={category} value={category}>
                 {category}
               </option>
             ))}
@@ -87,6 +132,7 @@ export default function PublishSettings({
         </div>
 
         {/* TAGS */}
+
         <div className={styles.field}>
           <label className={styles.label}>
             <Tag size={16} />
@@ -101,10 +147,11 @@ export default function PublishSettings({
             onChange={(e) => handleChange("tags", e.target.value)}
           />
 
-          <span className={styles.helper}>Separate tags with commas</span>
+          <span className={styles.helperText}>Separate tags using commas.</span>
         </div>
 
         {/* PUBLISH DATE */}
+
         <div className={styles.field}>
           <label className={styles.label}>
             <CalendarDays size={16} />

@@ -1,7 +1,7 @@
 "use client";
 
 // ======================================================
-// File: context/AuthContext.jsx
+// File: context/AuthContext.tsx
 // Description: Production-grade Auth Context
 // Cookie-based authentication
 // ======================================================
@@ -13,6 +13,9 @@ import {
   useEffect,
   useMemo,
   useState,
+  type ReactNode,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
 
 import { useRouter } from "next/navigation";
@@ -20,23 +23,72 @@ import { useRouter } from "next/navigation";
 import { getCurrentUser, loginUser, logoutUser } from "@/services/authApi";
 
 // ======================================================
+// TYPES
+// ======================================================
+
+export interface AuthUser {
+  _id?: string;
+  id?: string;
+
+  name?: string;
+  email?: string;
+  phone?: string;
+
+  role?: string;
+
+  avatar?: string;
+
+  [key: string]: any;
+}
+
+interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+interface AuthContextType {
+  user: AuthUser | null;
+
+  setUser: Dispatch<SetStateAction<AuthUser | null>>;
+
+  loading: boolean;
+
+  isAuthenticated: boolean;
+
+  login: (payload: LoginPayload) => Promise<{
+    success: boolean;
+    user: AuthUser;
+  }>;
+
+  logout: () => Promise<void>;
+
+  checkAuth: () => Promise<AuthUser | null>;
+
+  refreshUser: () => Promise<AuthUser | null>;
+}
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+// ======================================================
 // CONTEXT
 // ======================================================
 
-const AuthContext = createContext(null);
+const AuthContext = createContext<AuthContextType | null>(null);
 
 // ======================================================
 // PROVIDER
 // ======================================================
 
-export function AuthProvider({ children }) {
+export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter();
 
   // ====================================================
   // STATE
   // ====================================================
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -73,8 +125,6 @@ export function AuthProvider({ children }) {
 
   // ====================================================
   // INITIAL SESSION CHECK
-  // IMPORTANT
-  // Runs on app load
   // ====================================================
 
   useEffect(() => {
@@ -102,7 +152,7 @@ export function AuthProvider({ children }) {
   // ====================================================
 
   const login = useCallback(
-    async ({ email, password }) => {
+    async ({ email, password }: LoginPayload) => {
       try {
         setLoading(true);
 
@@ -177,7 +227,7 @@ export function AuthProvider({ children }) {
   // CONTEXT VALUE
   // ====================================================
 
-  const value = useMemo(
+  const value = useMemo<AuthContextType>(
     () => ({
       user,
       setUser,
@@ -187,6 +237,7 @@ export function AuthProvider({ children }) {
 
       login,
       logout,
+
       checkAuth,
       refreshUser,
     }),
@@ -200,14 +251,31 @@ export function AuthProvider({ children }) {
 // CUSTOM HOOK
 // ======================================================
 
-export function useAuth() {
+export function useAuth(): AuthContextType {
   const context = useContext(AuthContext);
 
-  if (!context) {
-    throw new Error("useAuth must be used inside AuthProvider");
+  if (context) {
+    return context;
   }
 
-  return context;
-}
+  return {
+    user: null,
 
+    setUser: () => {},
+
+    loading: false,
+
+    isAuthenticated: false,
+
+    login: async () => {
+      throw new Error("AuthProvider not available");
+    },
+
+    logout: async () => {},
+
+    checkAuth: async () => null,
+
+    refreshUser: async () => null,
+  };
+}
 export default AuthContext;

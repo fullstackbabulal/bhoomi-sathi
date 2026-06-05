@@ -1,67 +1,108 @@
 "use client";
 
 // ======================================================
-// File: AdminSidebar.jsx
+// File: AdminSidebar.tsx
 // Description: Responsive Admin Sidebar
 // ======================================================
 
-import { useState } from "react";
+import { useState, type ComponentType } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, ChevronLeft, ChevronRight, X } from "lucide-react";
 
 import styles from "./AdminSidebar.module.css";
-
 import ADMIN_SIDEBAR_CONFIG from "@/utils/AdminSidebarConfig";
+
+// ======================================================
+// TYPES
+// ======================================================
+
+export interface SidebarChild {
+  label: string;
+  path: string;
+}
+
+export interface SidebarItem {
+  label: string;
+  path?: string;
+  icon: ComponentType<{ size?: number }>;
+  children?: SidebarChild[];
+}
+
+interface AdminSidebarProps {
+  collapsed?: boolean;
+  isOpen?: boolean;
+
+  loading?: boolean;
+  error?: string | null;
+
+  navItems?: SidebarItem[];
+
+  onClose?: () => void;
+  onToggleCollapse?: () => void;
+}
+
+// ======================================================
+// COMPONENT
+// ======================================================
 
 export default function AdminSidebar({
   collapsed = false,
   isOpen = false,
+
   loading = false,
   error = null,
-  onClose,
-  onToggleCollapse,
-}) {
+
+  navItems = [],
+
+  onClose = () => {},
+  onToggleCollapse = () => {},
+}: AdminSidebarProps) {
   const pathname = usePathname();
 
-  /*
-  ===================================
-  OPEN SUBMENU
-  Mobile / Tablet Click
-  ===================================
-  */
+  // ====================================================
+  // STATE
+  // ====================================================
 
-  const [openMenu, setOpenMenu] = useState(null);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
-  /*
-  ===================================
-  TOGGLE MENU
-  ===================================
-  */
+  // ====================================================
+  // HANDLERS
+  // ====================================================
 
-  const toggleMenu = (label) => {
+  const toggleMenu = (label: string): void => {
     setOpenMenu((prev) => (prev === label ? null : label));
   };
 
-  /*
-  ===================================
-  EMPTY STATE
-  ===================================
-  */
+  // ====================================================
+  // MENU SOURCE
+  // ====================================================
 
-  const showEmptyState =
-    !loading && !error && ADMIN_SIDEBAR_CONFIG.length === 0;
+  const menuItems: SidebarItem[] =
+    navItems.length > 0 ? navItems : (ADMIN_SIDEBAR_CONFIG as SidebarItem[]);
+
+  // ====================================================
+  // EMPTY STATE
+  // ====================================================
+
+  const showEmptyState = !loading && !error && menuItems.length === 0;
+
+  // ====================================================
+  // RENDER
+  // ====================================================
 
   return (
     <>
       {/* ===================================
           MOBILE OVERLAY
       =================================== */}
+
       {isOpen && <div className={styles.overlay} onClick={onClose} />}
 
       {/* ===================================
           SIDEBAR
       =================================== */}
+
       <aside
         className={`
           ${styles.sidebar}
@@ -72,6 +113,7 @@ export default function AdminSidebar({
         {/* ===================================
             TOP SECTION
         =================================== */}
+
         <div className={styles.topSection}>
           <Link href="/admin/dashboard" className={styles.logoWrapper}>
             <div className={styles.logo}>A</div>
@@ -79,7 +121,6 @@ export default function AdminSidebar({
             {!collapsed && (
               <div className={styles.brandText}>
                 <h2>Admin Panel</h2>
-
                 <p>Plot in Patna</p>
               </div>
             )}
@@ -98,35 +139,26 @@ export default function AdminSidebar({
         {/* ===================================
             NAVIGATION
         =================================== */}
+
         <nav className={styles.navigation}>
-          {/* Loading */}
           {loading && <div className={styles.emptyState}>Loading menu...</div>}
 
-          {/* Error */}
           {!loading && error && (
             <div className={styles.emptyState}>Unable to load menu.</div>
           )}
 
-          {/* Empty */}
           {showEmptyState && (
             <div className={styles.emptyState}>No navigation found.</div>
           )}
 
-          {/* MENU */}
           {!loading &&
             !error &&
-            ADMIN_SIDEBAR_CONFIG.map((item) => {
-              const hasChildren = item.children?.length > 0;
+            menuItems.map((item) => {
+              const hasChildren = (item.children?.length ?? 0) > 0;
 
               const isOpenMenu = openMenu === item.label;
 
               const Icon = item.icon;
-
-              /*
-                ======================
-                ACTIVE STATES
-                ======================
-                */
 
               const isParentActive =
                 item.path === pathname ||
@@ -134,16 +166,13 @@ export default function AdminSidebar({
 
               return (
                 <div key={item.label} className={styles.menuGroup}>
-                  {/* =====================
-                        NORMAL LINK
-                    ===================== */}
                   {!hasChildren ? (
                     <Link
-                      href={item.path}
+                      href={item.path || "#"}
                       className={`
-                          ${styles.navItem}
-                          ${isParentActive ? styles.active : ""}
-                        `}
+                        ${styles.navItem}
+                        ${isParentActive ? styles.active : ""}
+                      `}
                     >
                       <div className={styles.navLeft}>
                         <Icon size={22} />
@@ -153,16 +182,13 @@ export default function AdminSidebar({
                     </Link>
                   ) : (
                     <>
-                      {/* =====================
-                            PARENT MENU
-                        ===================== */}
                       <button
                         type="button"
                         onClick={() => toggleMenu(item.label)}
                         className={`
-                            ${styles.navItem}
-                            ${isParentActive ? styles.active : ""}
-                          `}
+                          ${styles.navItem}
+                          ${isParentActive ? styles.active : ""}
+                        `}
                       >
                         <div className={styles.navLeft}>
                           <Icon size={22} />
@@ -174,24 +200,21 @@ export default function AdminSidebar({
                           <ChevronDown
                             size={18}
                             className={`
-                                ${styles.chevron}
-                                ${isOpenMenu ? styles.rotate : ""}
-                              `}
+                              ${styles.chevron}
+                              ${isOpenMenu ? styles.rotate : ""}
+                            `}
                           />
                         )}
                       </button>
 
-                      {/* =====================
-                            SUB MENU
-                        ===================== */}
                       {!collapsed && (
                         <div
                           className={`
-                              ${styles.subMenu}
-                              ${isOpenMenu ? styles.subMenuOpen : ""}
-                            `}
+                            ${styles.subMenu}
+                            ${isOpenMenu ? styles.subMenuOpen : ""}
+                          `}
                         >
-                          {item.children.map((child) => {
+                          {item.children?.map((child) => {
                             const isChildActive = pathname === child.path;
 
                             return (
@@ -199,9 +222,9 @@ export default function AdminSidebar({
                                 key={child.path}
                                 href={child.path}
                                 className={`
-                                      ${styles.subMenuItem}
-                                      ${isChildActive ? styles.activeSubMenu : ""}
-                                    `}
+                                    ${styles.subMenuItem}
+                                    ${isChildActive ? styles.activeSubMenu : ""}
+                                  `}
                               >
                                 {child.label}
                               </Link>
@@ -217,8 +240,9 @@ export default function AdminSidebar({
         </nav>
 
         {/* ===================================
-            BOTTOM
+            FOOTER
         =================================== */}
+
         <div className={styles.bottomSection}>
           <button
             type="button"

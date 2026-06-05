@@ -1,9 +1,8 @@
 "use client";
 
 // ======================================================
-// File: components/admin/blogs/FeaturedImageUpload/FeaturedImageUpload.jsx
+// File: components/admin/blogs/FeaturedImageUpload/FeaturedImageUpload.tsx
 // Description: Featured Image Upload Card
-// Production Ready
 // ======================================================
 
 import { useMemo, useRef, useState } from "react";
@@ -23,10 +22,26 @@ import {
 } from "lucide-react";
 
 // ======================================================
+// TYPES
+// ======================================================
+
+interface FeaturedImageUploadProps {
+  image?: string | File | null;
+
+  onChange?: (value: string) => void;
+
+  onRemove?: () => void;
+
+  title?: string;
+
+  slug?: string;
+}
+
+// ======================================================
 // HELPERS
 // ======================================================
 
-const slugify = (text = "") => {
+const slugify = (text = ""): string => {
   return String(text)
     .trim()
     .toLowerCase()
@@ -36,49 +51,32 @@ const slugify = (text = "") => {
     .replace(/^-+|-+$/g, "");
 };
 
+// ======================================================
+// COMPONENT
+// ======================================================
+
 export default function FeaturedImageUpload({
-  image = "",
-
+  image = null,
   onChange,
-
   onRemove,
-
   title = "",
-
   slug = "",
-}) {
-  // ====================================================
-  // STATE
-  // ====================================================
+}: FeaturedImageUploadProps) {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const fileInputRef = useRef(null);
-
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const [uploading, setUploading] = useState(false);
 
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
-  // ====================================================
-  // ENV
-  // ====================================================
-
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
-
-  // ====================================================
-  // SAFE BLOG DATA
-  // prevents general-blog
-  // ====================================================
 
   const safeTitle = String(title || "").trim();
 
   const safeSlug = String(slug || "").trim();
 
   const uploadSlug = safeSlug || slugify(safeTitle) || "general-blog";
-
-  // ====================================================
-  // HELPERS
-  // ====================================================
 
   const openFilePicker = () => {
     fileInputRef.current?.click();
@@ -94,25 +92,15 @@ export default function FeaturedImageUpload({
     }
   };
 
-  // ====================================================
-  // FILE CHANGE
-  // ====================================================
-
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
-    if (!file) {
-      return;
-    }
+    if (!file) return;
 
     setUploadSuccess(false);
 
     setSelectedFile(file);
   };
-
-  // ====================================================
-  // REMOVE
-  // ====================================================
 
   const handleRemove = () => {
     resetState();
@@ -120,14 +108,9 @@ export default function FeaturedImageUpload({
     onRemove?.();
   };
 
-  // ====================================================
-  // UPLOAD
-  // ====================================================
-
   const handleUpload = async () => {
     if (!selectedFile) {
       alert("Please select an image first.");
-
       return;
     }
 
@@ -136,15 +119,9 @@ export default function FeaturedImageUpload({
 
       const payload = new FormData();
 
-      // IMPORTANT:
-      // order matters
       payload.append("entity", "blog");
-
       payload.append("title", safeTitle);
-
       payload.append("slug", uploadSlug);
-
-      // file LAST
       payload.append("featuredImage", selectedFile);
 
       const response = await axios.post(
@@ -166,12 +143,12 @@ export default function FeaturedImageUpload({
       setUploadSuccess(true);
 
       setSelectedFile(null);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Blog image upload error:", error);
 
       alert(
         error?.response?.data?.message ||
-          error.message ||
+          error?.message ||
           "Failed to upload image",
       );
     } finally {
@@ -179,13 +156,8 @@ export default function FeaturedImageUpload({
     }
   };
 
-  // ====================================================
-  // PREVIEW
-  // ====================================================
-
   const previewUrl = useMemo(() => {
-    // uploaded image
-    if (image && typeof image === "string") {
+    if (typeof image === "string" && image) {
       if (image.startsWith("http")) {
         return image;
       }
@@ -193,7 +165,10 @@ export default function FeaturedImageUpload({
       return `${API_URL}${image}`;
     }
 
-    // local file preview
+    if (image instanceof File) {
+      return URL.createObjectURL(image);
+    }
+
     if (selectedFile) {
       return URL.createObjectURL(selectedFile);
     }
@@ -201,13 +176,8 @@ export default function FeaturedImageUpload({
     return null;
   }, [image, selectedFile, API_URL]);
 
-  // ====================================================
-  // RENDER
-  // ====================================================
-
   return (
     <section className={styles.card}>
-      {/* HEADER */}
       <div className={styles.header}>
         <div className={styles.iconBox}>
           <ImagePlus size={22} />
@@ -235,7 +205,7 @@ export default function FeaturedImageUpload({
           </div>
 
           <div className={styles.actions}>
-            {selectedFile && !image && (
+            {selectedFile && typeof image !== "string" && (
               <button
                 type="button"
                 className={styles.uploadButton}
@@ -277,7 +247,7 @@ export default function FeaturedImageUpload({
             </button>
           </div>
 
-          {uploadSuccess && image && (
+          {uploadSuccess && typeof image === "string" && (
             <div className={styles.success}>
               <CheckCircle2 size={18} />
               Image uploaded successfully

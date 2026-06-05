@@ -17,6 +17,13 @@ import { useAuth } from "@/context/AuthContext";
 
 type UserRole = "admin" | "agent" | "user";
 
+interface AuthUser {
+  _id?: string;
+  name?: string;
+  email?: string;
+  role?: UserRole | string;
+}
+
 interface ProtectedRouteProps {
   children: ReactNode;
   allowedRoles?: UserRole[];
@@ -38,9 +45,14 @@ export default function ProtectedRoute({
 }: ProtectedRouteProps) {
   const router = useRouter();
 
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
 
-  const { user, loading, isAuthenticated } = useAuth();
+  const auth = useAuth();
+
+  const user = (auth?.user ?? null) as AuthUser | null;
+
+  const loading = Boolean(auth?.loading);
+  const isAuthenticated = Boolean(auth?.isAuthenticated);
 
   // ====================================================
   // PAGE TYPE
@@ -53,10 +65,6 @@ export default function ProtectedRoute({
   // ====================================================
 
   useEffect(() => {
-    // ==========================================
-    // WAIT FOR AUTH CHECK
-    // ==========================================
-
     if (loading) return;
 
     // ==========================================
@@ -65,14 +73,11 @@ export default function ProtectedRoute({
 
     if (!isAuthenticated && !isAuthPage) {
       router.replace("/login");
-
       return;
     }
 
     // ==========================================
     // AUTH PAGE REDIRECT
-    // Example:
-    // Logged-in user visits /login
     // ==========================================
 
     if (isAuthenticated && isAuthPage) {
@@ -87,6 +92,7 @@ export default function ProtectedRoute({
 
         default:
           router.replace("/user/dashboard");
+          break;
       }
 
       return;
@@ -102,8 +108,6 @@ export default function ProtectedRoute({
 
     if (isAuthenticated && !hasRoleAccess) {
       router.replace("/");
-
-      return;
     }
   }, [
     router,
@@ -116,7 +120,7 @@ export default function ProtectedRoute({
   ]);
 
   // ====================================================
-  // LOADING STATE
+  // LOADING
   // ====================================================
 
   if (loading) {
@@ -147,7 +151,7 @@ export default function ProtectedRoute({
   }
 
   // ====================================================
-  // SAFE RENDER
+  // RENDER
   // ====================================================
 
   return <>{children}</>;

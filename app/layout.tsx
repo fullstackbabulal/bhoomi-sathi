@@ -10,7 +10,6 @@ import type { ReactNode } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 
-import BootstrapClient from "@/components/common/BootstrapClient";
 import ToastProvider from "@/components/providers/ToastProvider";
 import ReduxProvider from "@/components/providers/ReduxProvider";
 
@@ -51,7 +50,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         {/* ==========================================
             BOOTSTRAP CLIENT JS
         ========================================== */}
-        <BootstrapClient />
 
         {/* ==========================================
             REDUX PROVIDER

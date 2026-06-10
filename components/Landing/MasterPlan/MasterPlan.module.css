@@ -1,0 +1,195 @@
+/* ======================================================
+   MasterPlan Section
+   ====================================================== */
+
+.section {
+  padding: 120px 0;
+
+  background: #ffffff;
+}
+
+.layout {
+  display: grid;
+
+  grid-template-columns: 1fr 1.2fr;
+
+  gap: 60px;
+
+  align-items: center;
+}
+
+/* ==========================================
+   Left Content
+========================================== */
+
+.heading {
+  margin-bottom: 20px;
+
+  font-size: 2.5rem;
+  font-weight: 800;
+
+  color: #111827;
+}
+
+.description {
+  margin-bottom: 40px;
+
+  line-height: 1.9;
+
+  color: #64748b;
+}
+
+.features {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 16px;
+
+  margin-bottom: 40px;
+}
+
+.featureCard {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #dcfce7;
+
+  color: #16a34a;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+
+  flex-wrap: wrap;
+}
+
+/* ==========================================
+   Image Area
+========================================== */
+
+.imageWrapper {
+  position: relative;
+
+  height: 700px;
+
+  overflow: hidden;
+
+  border-radius: 30px;
+
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
+}
+
+.image {
+  object-fit: cover;
+}
+
+/* ==========================================
+   Zoom Button
+========================================== */
+
+.zoomBtn {
+  position: absolute;
+
+  top: 20px;
+  right: 20px;
+
+  width: 54px;
+  height: 54px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: white;
+
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================
+   Bottom Overlay
+========================================== */
+
+.overlayCard {
+  position: absolute;
+
+  left: 20px;
+  bottom: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 18px 24px;
+
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  backdrop-filter: blur(10px);
+}
+
+.overlayCard strong {
+  font-size: 1.1rem;
+}
+
+.overlayCard span {
+  color: #64748b;
+
+  margin-top: 4px;
+}
+
+/* ==========================================
+   Tablet
+========================================== */
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .imageWrapper {
+    height: 500px;
+  }
+}
+
+/* ==========================================
+   Mobile
+========================================== */
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 0;
+  }
+
+  .heading {
+    font-size: 2rem;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .imageWrapper {
+    height: 350px;
+  }
+}

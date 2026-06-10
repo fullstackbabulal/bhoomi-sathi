@@ -1,0 +1,161 @@
+/* ======================================================
+   ProjectOverview Section
+   ====================================================== */
+
+.section {
+  padding: 120px 0;
+
+  background: #ffffff;
+}
+
+.grid {
+  display: grid;
+
+  grid-template-columns: 1.1fr 1fr;
+
+  gap: 60px;
+
+  align-items: center;
+}
+
+/* ==========================================
+   Content
+========================================== */
+
+.projectName {
+  margin: 20px 0;
+
+  font-size: 2.4rem;
+  font-weight: 800;
+
+  color: #111827;
+}
+
+.description {
+  margin-bottom: 40px;
+
+  line-height: 1.9;
+
+  color: #64748b;
+}
+
+/* ==========================================
+   Info Cards
+========================================== */
+
+.infoGrid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 20px;
+}
+
+.infoCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #f0fdf4;
+
+  color: #16a34a;
+}
+
+.label {
+  display: block;
+
+  font-size: 13px;
+
+  color: #64748b;
+}
+
+.value {
+  margin-top: 4px;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  color: #111827;
+}
+
+/* ==========================================
+   Image
+========================================== */
+
+.imageWrapper {
+  position: relative;
+
+  height: 650px;
+
+  overflow: hidden;
+
+  border-radius: 30px;
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+
+  left: 20px;
+  bottom: 20px;
+
+  padding: 12px 20px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  font-weight: 600;
+}
+
+/* ==========================================
+   Tablet
+========================================== */
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .imageWrapper {
+    height: 500px;
+  }
+}
+
+/* ==========================================
+   Mobile
+========================================== */
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 0;
+  }
+
+  .projectName {
+    font-size: 2rem;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .imageWrapper {
+    height: 350px;
+  }
+}

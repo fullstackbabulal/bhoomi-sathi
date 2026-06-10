@@ -91,7 +91,7 @@ export default async function Page() {
 
     image: `${SITE_URL}/images/contact/contact-seo.webp`,
 
-    telephone: data?.officeInfo?.phone1 || "+919876543210",
+    telephone: data?.officeInfo?.phone1 || "+919661655534",
 
     email: data?.officeInfo?.email1 || "info@bhoomisathi.com",
 
@@ -112,7 +112,7 @@ export default async function Page() {
     contactPoint: {
       "@type": "ContactPoint",
 
-      telephone: data?.officeInfo?.phone1 || "+919876543210",
+      telephone: data?.officeInfo?.phone1 || "+919661655534",
 
       contactType: "customer support",
 

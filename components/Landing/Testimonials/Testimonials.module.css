@@ -1,0 +1,102 @@
+/* ======================================================
+   Testimonials Section
+   ====================================================== */
+
+.section {
+  padding: 120px 0;
+
+  background: linear-gradient(180deg, #ffffff, #f8fafc);
+}
+
+.grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 30px;
+}
+
+.card {
+  position: relative;
+}
+
+.quote {
+  color: #16a34a;
+
+  opacity: 0.15;
+
+  margin-bottom: 20px;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+
+  color: #f59e0b;
+
+  margin-bottom: 20px;
+}
+
+.review {
+  line-height: 1.9;
+
+  color: #64748b;
+
+  margin-bottom: 30px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  color: white;
+
+  background: #16a34a;
+}
+
+.user h4 {
+  margin: 0;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  color: #111827;
+}
+
+.user span {
+  color: #64748b;
+
+  font-size: 14px;
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 0;
+  }
+}

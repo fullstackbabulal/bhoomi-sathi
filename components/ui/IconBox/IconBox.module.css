@@ -1,0 +1,135 @@
+/* ======================================================
+   File: IconBox.module.css
+   ====================================================== */
+
+.box {
+  padding: 24px;
+
+  border-radius: 20px;
+
+  transition: all 0.3s ease;
+}
+
+.box:hover {
+  transform: translateY(-5px);
+}
+
+/* ==========================================
+   Alignment
+========================================== */
+
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+/* ==========================================
+   Variants
+========================================== */
+
+.default {
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+}
+
+.soft {
+  background: #f8fafc;
+}
+
+.green {
+  background: #f0fdf4;
+
+  border: 1px solid #bbf7d0;
+}
+
+.dark {
+  background: #111827;
+
+  color: #ffffff;
+}
+
+/* ==========================================
+   Icon
+========================================== */
+
+.iconWrapper {
+  width: 70px;
+  height: 70px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 20px;
+
+  border-radius: 18px;
+
+  background: #16a34a;
+
+  color: #ffffff;
+
+  font-size: 30px;
+}
+
+.left .iconWrapper {
+  margin-left: 0;
+}
+
+.right .iconWrapper {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* ==========================================
+   Title
+========================================== */
+
+.title {
+  margin: 0 0 10px;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  color: inherit;
+}
+
+/* ==========================================
+   Description
+========================================== */
+
+.description {
+  margin: 0;
+
+  line-height: 1.7;
+
+  color: #6b7280;
+}
+
+.dark .description {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ==========================================
+   Mobile
+========================================== */
+
+@media (max-width: 768px) {
+  .box {
+    padding: 20px;
+  }
+
+  .iconWrapper {
+    width: 60px;
+    height: 60px;
+
+    font-size: 26px;
+  }
+}

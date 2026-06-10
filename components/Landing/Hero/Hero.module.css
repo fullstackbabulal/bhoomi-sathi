@@ -1,0 +1,425 @@
+/* ======================================================
+   Hero Section
+   ====================================================== */
+
+.hero {
+  position: relative;
+
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+
+  padding: 120px 0 80px;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(22, 163, 74, 0.08),
+      transparent 40%
+    ),
+    linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 50px;
+
+  align-items: center;
+}
+
+/* ======================================================
+   Content
+   ====================================================== */
+
+.content {
+  max-width: 680px;
+  position: relative;
+  z-index: 2;
+}
+
+.title {
+  margin: 16px 0 24px;
+
+  font-size: clamp(3.2rem, 6vw, 5.6rem);
+
+  line-height: 1.02;
+
+  font-weight: 500;
+
+  letter-spacing: -2px;
+
+  color: #111827;
+}
+
+.subtitle {
+  margin-bottom: 32px;
+
+  font-size: 1.1rem;
+
+  line-height: 1.9;
+
+  color: #64748b;
+
+  max-width: 580px;
+}
+
+.location {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 10px 18px;
+
+  border-radius: 999px;
+
+  background: #f0fdf4;
+
+  border: 1px solid #dcfce7;
+
+  color: #15803d;
+
+  font-weight: 700;
+
+  margin-bottom: 24px;
+}
+
+/* ======================================================
+   Price Section
+   ====================================================== */
+
+.priceBox {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 32px;
+
+  padding: 24px;
+
+  border-radius: 24px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.priceLabel {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 0.85rem;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+  color: #64748b;
+}
+
+.price {
+  margin: 0;
+
+  font-size: clamp(2.4rem, 5vw, 3.5rem);
+
+  font-weight: 900;
+
+  color: #16a34a;
+
+  line-height: 1;
+}
+
+/* ======================================================
+   Features
+   ====================================================== */
+
+.features {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 14px;
+
+  margin-bottom: 36px;
+}
+
+.feature {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 14px 16px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 16px;
+
+  transition: all 0.25s ease;
+
+  font-weight: 600;
+}
+
+.feature:hover {
+  transform: translateY(-3px);
+
+  box-shadow: 0 12px 25px rgba(15, 23, 42, 0.08);
+}
+
+.feature svg {
+  color: #16a34a;
+
+  flex-shrink: 0;
+}
+
+/* ======================================================
+   CTA
+   ====================================================== */
+
+.actions {
+  display: flex;
+
+  gap: 16px;
+
+  flex-wrap: wrap;
+
+  margin-bottom: 50px;
+}
+
+/* ======================================================
+   Stats
+   ====================================================== */
+
+.stats {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 18px;
+}
+
+.stat {
+  padding: 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 18px;
+
+  text-align: center;
+
+  transition: all 0.25s ease;
+}
+
+.stat:hover {
+  transform: translateY(-4px);
+
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+}
+
+.stat strong {
+  display: block;
+
+  font-size: 1.8rem;
+
+  font-weight: 900;
+
+  margin-bottom: 6px;
+
+  color: #111827;
+}
+
+.stat span {
+  font-size: 0.9rem;
+
+  color: #64748b;
+}
+
+/* ======================================================
+   Visual
+   ====================================================== */
+
+.visual {
+  position: relative;
+}
+
+.imageCard {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+
+  overflow: hidden;
+
+  border-radius: 32px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+
+  box-shadow: 0 30px 70px rgba(15, 23, 42, 0.12);
+}
+
+.image {
+  object-fit: cover;
+
+  transition: transform 0.6s ease;
+}
+
+.imageCard:hover .image {
+  transform: scale(1.03);
+}
+
+/* ======================================================
+   Floating Cards
+   ====================================================== */
+
+.floatingCard,
+.floatingPrice {
+  position: absolute;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 18px 20px;
+
+  min-width: 220px;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  border-radius: 22px;
+
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+
+  z-index: 5;
+}
+
+.floatingCard {
+  top: 30px;
+  left: -40px;
+}
+
+.floatingPrice {
+  bottom: 40px;
+  right: -35px;
+}
+
+.floatingCard svg,
+.floatingPrice svg {
+  color: #16a34a;
+}
+
+.floatingCard h4,
+.floatingPrice h4 {
+  margin: 0;
+
+  font-size: 15px;
+
+  font-weight: 700;
+}
+
+.floatingCard p,
+.floatingPrice p {
+  margin: 4px 0 0;
+
+  font-size: 13px;
+
+  color: #64748b;
+}
+
+/* ======================================================
+   Tablet
+   ====================================================== */
+
+@media (max-width: 1200px) {
+  .grid {
+    gap: 50px;
+  }
+
+  .imageCard {
+    height: 50vh;
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .visual {
+    order: -1;
+  }
+
+  .imageCard {
+    height: 50vh;
+  }
+
+  .floatingCard,
+  .floatingPrice {
+    display: none;
+  }
+}
+
+/* ======================================================
+   Mobile
+   ====================================================== */
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 50vh;
+
+    padding: 100px 0 60px;
+  }
+
+  .title {
+    font-size: clamp(2.5rem, 9vw, 4rem);
+
+    letter-spacing: -1px;
+  }
+
+  .priceBox {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .imageCard {
+    height: 50vh;
+
+    border-radius: 24px;
+  }
+}

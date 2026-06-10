@@ -1,0 +1,122 @@
+/* ======================================================
+   File: Button.module.css
+   ====================================================== */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  border: none;
+  outline: none;
+
+  cursor: pointer;
+
+  font-weight: 600;
+  text-decoration: none;
+
+  transition: all 0.3s ease;
+}
+
+/* ---------------------------------------
+   Sizes
+--------------------------------------- */
+
+.sm {
+  height: 42px;
+  padding: 0 18px;
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+.md {
+  height: 50px;
+  padding: 0 24px;
+  font-size: 15px;
+  border-radius: 12px;
+}
+
+.lg {
+  height: 58px;
+  padding: 0 30px;
+  font-size: 16px;
+  border-radius: 14px;
+}
+
+/* ---------------------------------------
+   Primary
+--------------------------------------- */
+
+.primary {
+  color: #ffffff;
+  background: #16a34a;
+}
+
+.primary:hover {
+  transform: translateY(-2px);
+
+  background: #15803d;
+
+  box-shadow: 0 12px 24px rgba(22, 163, 74, 0.25);
+}
+
+/* ---------------------------------------
+   Secondary
+--------------------------------------- */
+
+.secondary {
+  color: #111827;
+  background: #f3f4f6;
+}
+
+.secondary:hover {
+  background: #e5e7eb;
+}
+
+/* ---------------------------------------
+   Outline
+--------------------------------------- */
+
+.outline {
+  color: #16a34a;
+
+  border: 2px solid #16a34a;
+
+  background: transparent;
+}
+
+.outline:hover {
+  color: white;
+  background: #16a34a;
+}
+
+/* ---------------------------------------
+   Dark
+--------------------------------------- */
+
+.dark {
+  color: white;
+  background: #111827;
+}
+
+.dark:hover {
+  background: #000000;
+}
+
+/* ---------------------------------------
+   Full Width
+--------------------------------------- */
+
+.fullWidth {
+  width: 100%;
+}
+
+/* ---------------------------------------
+   Disabled
+--------------------------------------- */
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

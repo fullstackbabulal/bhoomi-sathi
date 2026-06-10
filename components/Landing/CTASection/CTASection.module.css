@@ -1,0 +1,127 @@
+/* ======================================================
+   CTA Section
+   ====================================================== */
+
+.section {
+  position: relative;
+
+  padding: 140px 0;
+
+  overflow: hidden;
+
+  background-image: url("/images/project/cta-bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75));
+}
+
+.content {
+  position: relative;
+
+  z-index: 2;
+
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  text-align: center;
+
+  color: white;
+}
+
+.title {
+  margin: 25px 0;
+
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+
+  font-weight: 800;
+
+  line-height: 1.1;
+}
+
+.description {
+  max-width: 700px;
+
+  margin: 0 auto 40px;
+
+  line-height: 1.9;
+
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ==========================================
+   Highlights
+========================================== */
+
+.highlights {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 20px;
+
+  flex-wrap: wrap;
+
+  margin-bottom: 40px;
+
+  font-weight: 600;
+}
+
+/* ==========================================
+   CTA Buttons
+========================================== */
+
+.actions {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 16px;
+
+  flex-wrap: wrap;
+
+  margin-bottom: 40px;
+}
+
+/* ==========================================
+   Footer Text
+========================================== */
+
+.footerText {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  color: #facc15;
+
+  font-weight: 700;
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media (max-width: 768px) {
+  .section {
+    padding: 90px 0;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .footerText {
+    flex-wrap: wrap;
+  }
+}

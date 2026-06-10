@@ -1,0 +1,139 @@
+/* ======================================================
+   PriceList Section
+   ====================================================== */
+
+.section {
+  padding: 120px 0;
+
+  background: linear-gradient(to bottom, #ffffff, #f8fafc);
+}
+
+/* ==========================================
+   Grid
+========================================== */
+
+.grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 30px;
+}
+
+/* ==========================================
+   Card
+========================================== */
+
+.card {
+  position: relative;
+
+  text-align: center;
+}
+
+.featured {
+  border-width: 3px !important;
+
+  transform: scale(1.04);
+}
+
+/* ==========================================
+   Ribbon
+========================================== */
+
+.ribbon {
+  position: absolute;
+
+  top: 20px;
+  right: 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 8px 12px;
+
+  border-radius: 999px;
+
+  background: #16a34a;
+
+  color: white;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ==========================================
+   Size
+========================================== */
+
+.size {
+  margin-top: 24px;
+  margin-bottom: 16px;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  color: #111827;
+}
+
+/* ==========================================
+   Price
+========================================== */
+
+.price {
+  margin-bottom: 25px;
+
+  font-size: 2rem;
+  font-weight: 800;
+
+  color: #16a34a;
+}
+
+/* ==========================================
+   Features
+========================================== */
+
+.features {
+  margin: 0 0 30px;
+  padding: 0;
+
+  list-style: none;
+
+  text-align: left;
+}
+
+.features li {
+  padding: 10px 0;
+
+  border-bottom: 1px solid #f1f5f9;
+
+  color: #64748b;
+}
+
+/* ==========================================
+   Tablet
+========================================== */
+
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ==========================================
+   Mobile
+========================================== */
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 0;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .featured {
+    transform: none;
+  }
+}

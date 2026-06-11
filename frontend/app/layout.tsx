@@ -19,9 +19,15 @@ import { AuthProvider } from "@/context/AuthContext";
 // SEO METADATA
 // ======================================================
 export const metadata: Metadata = {
-  title: "Plot in Patna - Find Your Dream Land",
+  metadataBase: new URL("https://plotinpatna.com"),
 
-  description: "Buy plots, land & property with trusted guidance",
+  title: {
+    default: "Plot in Patna - Find Your Dream Land",
+    template: "%s | Plot in Patna",
+  },
+
+  description:
+    "Buy plots, land, flats and real estate in Patna with trusted guidance and verified property listings.",
 
   keywords: [
     "real estate",
@@ -30,7 +36,44 @@ export const metadata: Metadata = {
     "property",
     "buy land",
     "Plot in Patna",
+    "Patna property",
+    "Patna plots",
+    "Bihar real estate",
   ],
+
+  applicationName: "Plot in Patna",
+
+  openGraph: {
+    title: "Plot in Patna - Find Your Dream Land",
+    description:
+      "Buy plots, land, flats and real estate in Patna with trusted guidance and verified property listings.",
+    url: "https://plotinpatna.com",
+    siteName: "Plot in Patna",
+    locale: "en_IN",
+    type: "website",
+
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Plot in Patna",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Plot in Patna - Find Your Dream Land",
+    description:
+      "Buy plots, land, flats and real estate in Patna with trusted guidance and verified property listings.",
+    images: ["/images/og-image.png"],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 // ======================================================
@@ -47,23 +90,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body suppressHydrationWarning>
-        {/* ==========================================
-            BOOTSTRAP CLIENT JS
-        ========================================== */}
-
-        {/* ==========================================
-            REDUX PROVIDER
-        ========================================== */}
         <ReduxProvider>
-          {/* ==========================================
-              GLOBAL TOAST PROVIDER
-          ========================================== */}
           <ToastProvider />
 
-          {/* ==========================================
-              AUTH PROVIDER
-              Cookie-based session auth
-          ========================================== */}
           <AuthProvider>{children}</AuthProvider>
         </ReduxProvider>
       </body>

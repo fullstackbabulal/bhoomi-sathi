@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 // ======================================================
 // GENERATE JWT TOKEN
 // ======================================================
+
 const generateToken = (userId) => {
   return jwt.sign(
     {
@@ -22,35 +23,46 @@ const generateToken = (userId) => {
 };
 
 // ======================================================
-// SEND TOKEN IN HTTPONLY COOKIE
+// COOKIE OPTIONS
 // ======================================================
-const sendTokenResponse = (user, statusCode, res) => {
-  // ================================================
-  // GENERATE TOKEN
-  // ================================================
-  const token = generateToken(user._id);
 
-  // ================================================
-  // COOKIE CONFIGURATION
-  // ================================================
-  const cookieOptions = {
+const getCookieOptions = () => {
+  const isProduction = process.env.NODE_ENV === "production";
+
+  return {
     httpOnly: true,
 
-    secure: process.env.NODE_ENV === "production",
+    secure: isProduction,
 
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    sameSite: isProduction ? "none" : "lax",
+
+    domain: isProduction ? ".bhartiavenue.com" : undefined,
+
+    path: "/",
 
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   };
+};
 
-  // ================================================
-  // SET COOKIE
-  // ================================================
+// ======================================================
+// SEND TOKEN RESPONSE
+// ======================================================
+
+const sendTokenResponse = (user, statusCode, res) => {
+  const token = generateToken(user._id);
+
+  const cookieOptions = getCookieOptions();
+
+  // ====================================================
+  // SET HTTPONLY COOKIE
+  // ====================================================
+
   res.cookie("token", token, cookieOptions);
 
-  // ================================================
-  // REMOVE PASSWORD FROM RESPONSE
-  // ================================================
+  // ====================================================
+  // SAFE USER OBJECT
+  // ====================================================
+
   const safeUser = {
     _id: user._id,
     name: user.name,
@@ -62,9 +74,10 @@ const sendTokenResponse = (user, statusCode, res) => {
     isActive: user.isActive,
   };
 
-  // ================================================
-  // SEND RESPONSE
-  // ================================================
+  // ====================================================
+  // RESPONSE
+  // ====================================================
+
   return res.status(statusCode).json({
     success: true,
     message: "Authentication successful",
@@ -73,21 +86,17 @@ const sendTokenResponse = (user, statusCode, res) => {
 };
 
 // ======================================================
-// CLEAR AUTH COOKIE (LOGOUT)
+// CLEAR COOKIE
 // ======================================================
+
 const clearTokenCookie = (res) => {
-  res.clearCookie("token", {
-    httpOnly: true,
-
-    secure: process.env.NODE_ENV === "production",
-
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  });
+  res.clearCookie("token", getCookieOptions());
 };
 
 // ======================================================
 // EXPORTS
 // ======================================================
+
 module.exports = {
   generateToken,
   sendTokenResponse,

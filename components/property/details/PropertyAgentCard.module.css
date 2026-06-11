@@ -1,0 +1,336 @@
+/* ======================================================
+   File: components/property/details/PropertyAgentCard.module.css
+   Description: Property Agent Card Styles
+   UI Match: Plot in Patna Property Details Design
+   Styling: CSS Modules (No Tailwind)
+====================================================== */
+
+.card {
+  position: relative;
+
+  margin-top: -10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  width: 100%;
+
+  padding: 28px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 30px;
+
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
+}
+
+/* ===================================
+   Top Section
+=================================== */
+
+.topSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.listedBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px 14px;
+
+  border-radius: 999px;
+
+  background: #ecfdf5;
+  color: #15803d;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  color: #15803d;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.verified svg {
+  stroke-width: 2.4;
+}
+
+/* ===================================
+   Profile
+=================================== */
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.avatarWrapper {
+  flex-shrink: 0;
+}
+
+.avatar {
+  object-fit: cover;
+
+  border-radius: 24px;
+
+  border: 4px solid #f3f4f6;
+}
+
+.info {
+  min-width: 0;
+}
+
+.name {
+  margin: 0 0 6px;
+
+  color: #111827;
+
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.role {
+  margin: 0 0 4px;
+
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.company {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ===================================
+   Response Card
+=================================== */
+
+.responseCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 16px 18px;
+
+  border-radius: 20px;
+
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.responseCard svg {
+  color: #15803d;
+  flex-shrink: 0;
+}
+
+/* ===================================
+   Actions
+=================================== */
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.callButton,
+.whatsappButton,
+.enquiryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  cursor: pointer;
+
+  min-height: 56px;
+
+  border-radius: 18px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.callButton {
+  background: #15803d;
+  color: #ffffff;
+}
+
+.callButton:hover {
+  background: #166534;
+
+  box-shadow: 0 12px 24px rgba(21, 128, 61, 0.18);
+}
+
+.whatsappButton {
+  background: #ecfdf5;
+  color: #15803d;
+}
+
+.whatsappButton:hover {
+  background: #dcfce7;
+}
+
+.enquiryButton {
+  background: #111827;
+  color: #ffffff;
+}
+
+.enquiryButton:hover {
+  background: #1f2937;
+
+  box-shadow: 0 12px 24px rgba(17, 24, 39, 0.18);
+}
+
+.callButton:active,
+.whatsappButton:active,
+.enquiryButton:active {
+  transform: scale(0.985);
+}
+
+/* ===================================
+   Trust Card
+=================================== */
+
+.trustCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 18px;
+
+  border-radius: 22px;
+
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+}
+
+.trustCard svg {
+  flex-shrink: 0;
+
+  color: #15803d;
+  stroke-width: 2.2;
+}
+
+.trustCard p {
+  margin: 0;
+
+  color: #4b5563;
+
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+/* ===================================
+   Responsive
+=================================== */
+
+@media (max-width: 992px) {
+  .card {
+    position: relative;
+    top: unset;
+
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    gap: 20px;
+
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  .topSection {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile {
+    align-items: flex-start;
+  }
+
+  .avatar {
+    width: 78px;
+    height: 78px;
+  }
+
+  .name {
+    font-size: 20px;
+  }
+
+  .callButton,
+  .whatsappButton,
+  .enquiryButton {
+    min-height: 52px;
+    border-radius: 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .profile {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .topSection {
+    align-items: center;
+  }
+
+  .responseCard {
+    font-size: 13px;
+  }
+
+  .trustCard p {
+    font-size: 13px;
+  }
+
+  .name {
+    font-size: 18px;
+  }
+}

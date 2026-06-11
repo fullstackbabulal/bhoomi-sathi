@@ -1,0 +1,166 @@
+/* ======================================================
+   InvestmentHighlights Section
+   ====================================================== */
+
+.section {
+  padding: 120px 0;
+
+  background: linear-gradient(180deg, #f8fafc, #ffffff);
+}
+
+.layout {
+  display: grid;
+
+  grid-template-columns: 1.2fr 0.8fr;
+
+  gap: 40px;
+
+  align-items: start;
+}
+
+/* ==========================================
+   Highlight Cards
+========================================== */
+
+.cardsGrid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 24px;
+}
+
+.highlightCard h3 {
+  margin: 20px 0 12px;
+
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  color: #111827;
+}
+
+.highlightCard p {
+  line-height: 1.8;
+
+  color: #64748b;
+}
+
+.icon {
+  width: 70px;
+  height: 70px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background: #dcfce7;
+
+  color: #16a34a;
+}
+
+/* ==========================================
+   Right Section
+========================================== */
+
+.rightSection {
+  position: sticky;
+  top: 120px;
+}
+
+.chartHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin-bottom: 20px;
+
+  color: #16a34a;
+}
+
+.chartHeader h3 {
+  font-size: 1.8rem;
+  font-weight: 800;
+
+  color: #111827;
+}
+
+.chartDescription {
+  margin-bottom: 30px;
+
+  line-height: 1.8;
+
+  color: #64748b;
+}
+
+/* ==========================================
+   Stats
+========================================== */
+
+.statsGrid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 18px;
+
+  margin-bottom: 30px;
+}
+
+.statCard {
+  padding: 20px;
+
+  border-radius: 18px;
+
+  background: #f8fafc;
+
+  text-align: center;
+}
+
+.statCard strong {
+  display: block;
+
+  font-size: 1.8rem;
+  font-weight: 800;
+
+  color: #16a34a;
+}
+
+.statCard span {
+  display: block;
+
+  margin-top: 8px;
+
+  font-size: 14px;
+
+  color: #64748b;
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .rightSection {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 80px 0;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,214 @@
+/* ======================================================
+   File: components/property/details/PropertyAmenities.module.css
+   Description: Property Amenities Styles
+   UI Match: Plot in Patna Property Details Design
+   Styling: CSS Modules (No Tailwind)
+====================================================== */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  width: 100%;
+}
+
+/* ===================================
+   Header
+=================================== */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.heading {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.subText {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* ===================================
+   Grid
+=================================== */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* ===================================
+   Card
+=================================== */
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  background: #ffffff;
+
+  padding: 22px;
+
+  border-radius: 24px;
+  border: 1px solid #e5e7eb;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+
+  cursor: default;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+
+  border-color: #dcfce7;
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+
+/* ===================================
+   Icon
+=================================== */
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 58px;
+  height: 58px;
+
+  border-radius: 18px;
+
+  background: #dcfce7;
+}
+
+.iconBox svg {
+  color: #15803d;
+  stroke-width: 2.2;
+}
+
+/* ===================================
+   Content
+=================================== */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 17px;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.available {
+  display: inline-flex;
+  align-items: center;
+
+  width: fit-content;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  background: #dcfce7;
+  color: #15803d;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ===================================
+   Responsive
+=================================== */
+
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    gap: 20px;
+  }
+
+  .heading {
+    font-size: 26px;
+  }
+
+  .subText {
+    font-size: 14px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 18px;
+    border-radius: 22px;
+    gap: 14px;
+  }
+
+  .iconBox {
+    width: 52px;
+    height: 52px;
+
+    border-radius: 16px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    font-size: 24px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
+  .title {
+    font-size: 15px;
+  }
+
+  .available {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+}

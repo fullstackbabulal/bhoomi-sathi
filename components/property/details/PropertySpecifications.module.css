@@ -1,0 +1,301 @@
+/* ======================================================
+   File: components/property/details/PropertySpecifications.module.css
+   Description: Property Specifications Styles
+   UI Match: Plot in Patna Property Details Design
+   Styling: CSS Modules (No Tailwind)
+====================================================== */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  width: 100%;
+}
+
+/* ===================================
+   Header
+=================================== */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.heading {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.subText {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* ===================================
+   Card
+=================================== */
+
+.card {
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 30px;
+
+  overflow: hidden;
+
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+}
+
+/* ===================================
+   Tabs
+=================================== */
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 20px;
+
+  overflow-x: auto;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tabButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  white-space: nowrap;
+
+  border: none;
+  outline: none;
+
+  cursor: pointer;
+
+  padding: 12px 18px;
+
+  border-radius: 14px;
+
+  background: transparent;
+  color: #6b7280;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.tabButton:hover {
+  background: #f9fafb;
+  color: #111827;
+}
+
+.active {
+  background: #15803d;
+  color: #ffffff;
+}
+
+/* ===================================
+   Grid
+=================================== */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+
+  padding: 24px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+
+  min-height: 90px;
+
+  padding: 20px;
+
+  border-radius: 22px;
+
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.item:hover {
+  transform: translateY(-2px);
+
+  border-color: #dcfce7;
+
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  width: 100%;
+}
+
+/* ===================================
+   Icon
+=================================== */
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 52px;
+  height: 52px;
+
+  flex-shrink: 0;
+
+  border-radius: 16px;
+
+  background: #dcfce7;
+}
+
+.iconBox svg {
+  color: #15803d;
+  stroke-width: 2.2;
+}
+
+/* ===================================
+   Text
+=================================== */
+
+.label {
+  margin: 0 0 6px;
+
+  color: #6b7280;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.value {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 17px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+/* ===================================
+   Responsive
+=================================== */
+
+@media (max-width: 992px) {
+  .heading {
+    font-size: 28px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    gap: 20px;
+  }
+
+  .heading {
+    font-size: 26px;
+  }
+
+  .subText {
+    font-size: 14px;
+  }
+
+  .tabs {
+    padding: 16px;
+  }
+
+  .tabButton {
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+  }
+
+  .grid {
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .item {
+    min-height: auto;
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .iconBox {
+    width: 48px;
+    height: 48px;
+  }
+
+  .value {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    font-size: 24px;
+  }
+
+  .card {
+    border-radius: 24px;
+  }
+
+  .grid {
+    padding: 16px;
+  }
+
+  .item {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .left {
+    gap: 14px;
+  }
+
+  .label {
+    font-size: 12px;
+  }
+
+  .value {
+    font-size: 15px;
+  }
+}

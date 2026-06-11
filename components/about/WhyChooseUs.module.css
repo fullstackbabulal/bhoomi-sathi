@@ -1,0 +1,239 @@
+.section {
+  position: relative;
+  padding: 80px 0;
+  background: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ==================================
+   Heading
+================================== */
+
+.heading {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 40px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 14px;
+
+  color: #2563eb;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+/* ==================================
+   Grid
+================================== */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 18px;
+}
+
+/* ==================================
+   Card
+================================== */
+
+.card {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  min-height: 170px;
+  padding: 28px 18px;
+
+  border-radius: 22px;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(37, 99, 235, 0.18);
+
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.card:focus-within {
+  outline: 3px solid rgba(37, 99, 235, 0.15);
+  outline-offset: 4px;
+}
+
+/* ==================================
+   Icon
+================================== */
+
+.icon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 16px;
+
+  border-radius: 999px;
+
+  background: rgba(37, 99, 235, 0.06);
+  color: #2563eb;
+
+  flex-shrink: 0;
+}
+
+/* ==================================
+   Content
+================================== */
+
+.content {
+  flex: 1;
+}
+
+.cardTitle {
+  margin: 0 0 10px;
+
+  color: #0f172a;
+
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.cardDescription {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+/* ==================================
+   Large Tablets
+================================== */
+
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ==================================
+   Tablets
+================================== */
+
+@media (max-width: 768px) {
+  .section {
+    padding: 70px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+
+  .heading {
+    margin-bottom: 32px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .card {
+    min-height: 155px;
+    padding: 24px 16px;
+    border-radius: 20px;
+  }
+
+  .icon {
+    width: 52px;
+    height: 52px;
+
+    margin-bottom: 14px;
+  }
+
+  .cardTitle {
+    font-size: 14px;
+  }
+
+  .cardDescription {
+    font-size: 12.5px;
+  }
+}
+
+/* ==================================
+   Mobile
+================================== */
+
+@media (max-width: 480px) {
+  .section {
+    padding: 60px 0;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    min-height: auto;
+    padding: 22px 16px;
+  }
+
+  .icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .cardTitle {
+    font-size: 14px;
+  }
+
+  .cardDescription {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+}

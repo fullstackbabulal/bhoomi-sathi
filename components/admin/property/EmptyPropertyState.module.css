@@ -1,0 +1,208 @@
+/* ======================================================
+   File: EmptyPropertyState.module.css
+   Description: Empty Property State
+   Mobile First Design
+====================================================== */
+
+.emptySection {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 1.5rem;
+
+  padding: 2rem 1.25rem;
+
+  background: #ffffff;
+
+  border: 1px solid #e8edf5;
+  border-radius: 1.75rem;
+
+  text-align: center;
+
+  box-sizing: border-box;
+}
+
+/* ======================================================
+   ICON
+====================================================== */
+
+.iconWrapper {
+  width: 88px;
+  height: 88px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+
+  flex-shrink: 0;
+}
+
+.icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+/* ======================================================
+   CONTENT
+====================================================== */
+
+.content {
+  max-width: 540px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.title {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.description {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+/* ======================================================
+   ACTIONS
+====================================================== */
+
+.actions {
+  width: 100%;
+}
+
+.button {
+  width: 100%;
+  min-height: 52px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.95rem 1.25rem;
+
+  border-radius: 1rem;
+
+  background: #2563eb;
+
+  color: #ffffff;
+  text-decoration: none;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  box-sizing: border-box;
+}
+
+.button:hover {
+  background: #1d4ed8;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (min-width: 768px) {
+  .card {
+    gap: 2rem;
+
+    padding: 3rem 2rem;
+  }
+
+  .iconWrapper {
+    width: 100px;
+    height: 100px;
+  }
+
+  .icon {
+    font-size: 2.8rem;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .actions {
+    width: auto;
+  }
+
+  .button {
+    width: auto;
+    min-width: 220px;
+
+    padding: 1rem 1.75rem;
+  }
+}
+
+/* ======================================================
+   DESKTOP
+====================================================== */
+
+@media (min-width: 1024px) {
+  .card {
+    padding: 4rem 3rem;
+    border-radius: 2rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .description {
+    font-size: 1.05rem;
+  }
+
+  .button {
+    min-height: 56px;
+    border-radius: 1.1rem;
+  }
+}
+
+/* ======================================================
+   LARGE DESKTOP
+====================================================== */
+
+@media (min-width: 1440px) {
+  .card {
+    padding: 4.5rem 4rem;
+  }
+}

@@ -1,0 +1,115 @@
+/* ======================================================
+   File: components/property/details/PropertyDetailsPage.module.css
+   Description: Plot in Patna Property Details Page Layout
+====================================================== */
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 24px;
+  align-items: start;
+}
+
+.leftContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.sidebar {
+  position: sticky;
+  top: 100px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ==========================================
+   Large Desktop
+========================================== */
+
+@media (max-width: 1400px) {
+  .container {
+    max-width: 1280px;
+  }
+
+  .grid {
+    grid-template-columns: minmax(0, 1fr) 350px;
+  }
+}
+
+/* ==========================================
+   Laptop / Tablet Landscape
+========================================== */
+
+@media (max-width: 1200px) {
+  .container {
+    padding: 20px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 320px;
+    gap: 20px;
+  }
+}
+
+/* ==========================================
+   Tablet
+========================================== */
+
+@media (max-width: 992px) {
+  .container {
+    padding: 18px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+  }
+}
+
+/* ==========================================
+   Mobile
+========================================== */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .leftContent {
+    gap: 20px;
+  }
+
+  .sidebar {
+    gap: 16px;
+  }
+}
+
+/* ==========================================
+   Small Mobile
+========================================== */
+
+@media (max-width: 480px) {
+  .container {
+    padding: 12px;
+  }
+}

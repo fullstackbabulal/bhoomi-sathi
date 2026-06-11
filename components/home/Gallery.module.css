@@ -1,0 +1,188 @@
+/* ======================================================
+   File: components/home/Gallery.module.css
+   Description: Property Gallery
+   UI Match: Plot in Patna Target Homepage
+====================================================== */
+
+.section {
+  padding: 2rem 0;
+  background: #ffffff;
+}
+
+.container {
+  width: 100%;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  margin: 0 0 0.55rem;
+
+  color: #0f172a;
+
+  font-size: clamp(1.9rem, 2.4vw, 2.4rem);
+  font-weight: 800;
+
+  line-height: 1.08;
+  letter-spacing: -1px;
+}
+
+.description {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ==========================================
+   SHOWCASE LAYOUT
+========================================== */
+
+.galleryLayout {
+  display: grid;
+
+  grid-template-columns: 1.35fr 1fr;
+
+  gap: 12px;
+}
+
+/* ==========================================
+   LEFT HERO CARD
+========================================== */
+
+.heroCard {
+  overflow: hidden;
+
+  border-radius: 18px;
+}
+
+.heroCard .imageWrapper {
+  height: 100%;
+  min-height: 318px;
+}
+
+/* ==========================================
+   RIGHT GRID
+========================================== */
+
+.rightGrid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 12px;
+}
+
+.card {
+  overflow: hidden;
+
+  border-radius: 18px;
+}
+
+/* ==========================================
+   IMAGE
+========================================== */
+
+.imageWrapper {
+  position: relative;
+
+  overflow: hidden;
+
+  min-height: 150px;
+
+  border-radius: inherit;
+}
+
+.image {
+  object-fit: cover;
+
+  transition: transform 0.35s ease;
+}
+
+.heroCard:hover .image,
+.card:hover .image {
+  transform: scale(1.04);
+}
+
+/* ==========================================
+   CTA CARD
+========================================== */
+
+.ctaOverlay {
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(rgba(2, 6, 23, 0.55), rgba(2, 6, 23, 0.7));
+
+  backdrop-filter: blur(2px);
+}
+
+.ctaText {
+  color: #ffffff;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  text-align: center;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1100px) {
+  .galleryLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .heroCard .imageWrapper {
+    min-height: 320px;
+  }
+
+  .rightGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 2rem 0;
+  }
+
+  .rightGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .heroCard .imageWrapper,
+  .imageWrapper {
+    min-height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+}

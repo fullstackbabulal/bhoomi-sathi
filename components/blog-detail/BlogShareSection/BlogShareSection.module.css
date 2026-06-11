@@ -1,0 +1,144 @@
+/* ======================================================
+   File: BlogShareSection.module.css
+   Description: Blog Share Section
+====================================================== */
+
+.section {
+  margin-top: 70px;
+
+  padding-top: 40px;
+
+  border-top: 1px solid #e2e8f0;
+}
+
+/* ======================================================
+   HEADER
+====================================================== */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  margin-bottom: 28px;
+}
+
+.iconBox {
+  width: 60px;
+  height: 60px;
+
+  border-radius: 20px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin: 0 0 6px;
+
+  color: #0f172a;
+
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.subtitle {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 15px;
+}
+
+/* ======================================================
+   BUTTONS
+====================================================== */
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 16px;
+}
+
+.button,
+.primaryButton {
+  min-height: 56px;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 18px;
+
+  background: #ffffff;
+
+  padding: 14px 22px;
+
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  transition: all 0.3s ease;
+}
+
+.button {
+  color: #334155;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+
+  border-color: #2563eb;
+
+  color: #2563eb;
+
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.15);
+}
+
+.primaryButton {
+  background: #2563eb;
+
+  border-color: #2563eb;
+
+  color: #ffffff;
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+
+  background: #1d4ed8;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 768px) {
+  .section {
+    margin-top: 50px;
+    padding-top: 30px;
+  }
+
+  .header {
+    align-items: flex-start;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .button,
+  .primaryButton {
+    width: 100%;
+  }
+}

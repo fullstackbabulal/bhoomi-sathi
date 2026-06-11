@@ -1,0 +1,304 @@
+/* ======================================================
+   File: components/property/listing/hero/PropertyListingHero.module.css
+   Description: Property Listing Hero Section Styles
+====================================================== */
+
+.heroSection {
+  position: relative;
+  overflow: hidden;
+  padding: 80px 0 70px;
+  background:
+    radial-gradient(circle at top right, #dff6df 0%, transparent 30%),
+    linear-gradient(180deg, #f8fff8 0%, #ffffff 100%);
+}
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.contentWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+/* ======================================================
+   LEFT CONTENT
+====================================================== */
+
+.leftContent {
+  flex: 1;
+  max-width: 700px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  margin-bottom: 22px;
+  border: 1px solid #d6ead6;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.08);
+  color: #166534;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.title {
+  margin: 0;
+  color: #111827;
+  font-size: clamp(2.6rem, 5vw, 5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -2px;
+}
+
+.highlight {
+  color: #15803d;
+}
+
+.description {
+  max-width: 620px;
+  margin-top: 24px;
+  color: #4b5563;
+  font-size: 1.08rem;
+  font-weight: 400;
+  line-height: 1.9;
+}
+
+/* ======================================================
+   STATS
+====================================================== */
+
+.statsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 42px;
+}
+
+.statCard {
+  min-width: 180px;
+  padding: 22px;
+  border: 1px solid rgba(16, 185, 129, 0.08);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.06);
+  backdrop-filter: blur(20px);
+}
+
+.statCard h3 {
+  margin: 0;
+  color: #15803d;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.statCard p {
+  margin: 10px 0 0;
+  color: #6b7280;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* ======================================================
+   RIGHT VISUAL
+====================================================== */
+
+.rightContent {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.visualWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 520px;
+}
+
+.circleOne {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 420px;
+  height: 420px;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.08);
+  filter: blur(10px);
+}
+
+.circleTwo {
+  position: absolute;
+  bottom: 10px;
+  left: 40px;
+  width: 220px;
+  height: 220px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.1);
+  filter: blur(8px);
+}
+
+.heroCard {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  width: 100%;
+  max-width: 540px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 36px;
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.12);
+  backdrop-filter: blur(20px);
+}
+
+.cardTop {
+  display: flex;
+  justify-content: flex-end;
+  padding: 24px 24px 0;
+}
+
+.liveBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #15803d;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cardImage {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 360px;
+  padding: 36px;
+  background:
+    linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.1)),
+    url("/images/property/approved-residential-plots.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.imageOverlay h4 {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.imageOverlay p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 1200px) {
+  .contentWrapper {
+    gap: 40px;
+  }
+
+  .heroCard {
+    max-width: 480px;
+  }
+}
+
+@media (max-width: 992px) {
+  .heroSection {
+    padding: 70px 0 60px;
+  }
+
+  .contentWrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .leftContent {
+    max-width: 100%;
+  }
+
+  .rightContent {
+    width: 100%;
+  }
+
+  .visualWrapper {
+    min-height: auto;
+  }
+
+  .heroCard {
+    max-width: 100%;
+  }
+
+  .cardImage {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding: 60px 0 50px;
+  }
+
+  .container {
+    padding: 0 18px;
+  }
+
+  .description {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .statsWrapper {
+    flex-direction: column;
+  }
+
+  .statCard {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .cardImage {
+    min-height: 280px;
+    padding: 24px;
+  }
+
+  .imageOverlay h4 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    letter-spacing: -1px;
+  }
+
+  .badge {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+
+  .cardImage {
+    min-height: 240px;
+  }
+
+  .imageOverlay p {
+    font-size: 0.95rem;
+  }
+}

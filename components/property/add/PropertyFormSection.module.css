@@ -1,0 +1,143 @@
+/* ======================================================
+   File: components/property/add/PropertyFormSection.module.css
+   Description: Property Form Section Styling
+====================================================== */
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  min-width: 0;
+}
+
+/* ==========================================
+   CARD WRAPPER
+========================================== */
+
+.cardWrapper {
+  width: 100%;
+  min-width: 0;
+
+  border-radius: 28px;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.cardWrapper:hover {
+  transform: translateY(-2px);
+}
+
+/* ==========================================
+   SECTION SPACING
+========================================== */
+
+.sectionSpacing {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ==========================================
+   GRID SUPPORT
+========================================== */
+
+.grid {
+  display: grid;
+  gap: 24px;
+}
+
+.gridTwoColumn {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gridThreeColumn {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* ==========================================
+   CARD ANIMATION
+========================================== */
+
+.fadeIn {
+  animation: fadeInUp 0.35s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1200px) {
+  .formSection {
+    gap: 22px;
+  }
+
+  .gridThreeColumn {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 992px) {
+  .formSection {
+    gap: 20px;
+  }
+
+  .cardWrapper {
+    border-radius: 24px;
+  }
+
+  .gridTwoColumn,
+  .gridThreeColumn {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .formSection {
+    gap: 18px;
+  }
+
+  .cardWrapper {
+    border-radius: 22px;
+  }
+
+  .sectionSpacing {
+    gap: 18px;
+  }
+
+  .grid {
+    gap: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .formSection {
+    gap: 16px;
+  }
+
+  .cardWrapper {
+    border-radius: 20px;
+  }
+
+  .sectionSpacing {
+    gap: 16px;
+  }
+
+  .grid {
+    gap: 16px;
+  }
+}

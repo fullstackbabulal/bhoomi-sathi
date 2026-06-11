@@ -1,0 +1,71 @@
+/* ======================================================
+   File: BlogPostLayout.module.css
+   Description: Blog Post Layout
+====================================================== */
+
+.section {
+  position: relative;
+
+  padding: 70px 0 100px;
+
+  background: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding: 0 32px;
+}
+
+/* ======================================================
+   LAYOUT
+====================================================== */
+
+.layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    380px;
+
+  gap: 48px;
+
+  align-items: start;
+}
+
+.left {
+  min-width: 0;
+}
+
+.right {
+  min-width: 0;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 1200px) {
+  .layout {
+    grid-template-columns: 1fr;
+
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 50px 0 70px;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+
+  .layout {
+    gap: 28px;
+  }
+}

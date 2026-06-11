@@ -1,0 +1,30 @@
+/* ======================================================
+   File: components/ui/Container/Container.module.css
+   ====================================================== */
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* ----------------------------------------
+   Sizes
+---------------------------------------- */
+
+.sm {
+  max-width: 960px;
+}
+
+.md {
+  max-width: 1200px;
+}
+
+.lg {
+  max-width: 1400px;
+}
+
+.xl {
+  max-width: 1600px;
+}

@@ -1,0 +1,97 @@
+.blogContent {
+  color: #374151;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+/* Headings */
+.blogContent h1,
+.blogContent h2,
+.blogContent h3,
+.blogContent h4 {
+  color: #111827;
+  font-weight: 700;
+  margin-top: 28px;
+  margin-bottom: 14px;
+}
+
+.blogContent h2 {
+  font-size: 28px;
+}
+
+.blogContent h3 {
+  font-size: 22px;
+}
+
+/* Paragraphs */
+.blogContent p {
+  margin-bottom: 18px;
+}
+
+/* Lists */
+.blogContent ul,
+.blogContent ol {
+  margin: 18px 0;
+  padding-left: 24px;
+}
+
+.blogContent li {
+  margin-bottom: 10px;
+}
+
+/* Strong */
+.blogContent strong {
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Links */
+.blogContent a {
+  color: #16a34a;
+  text-decoration: none;
+}
+
+.blogContent a:hover {
+  text-decoration: underline;
+}
+
+/* Table */
+.blogContent table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.blogContent th {
+  background: #16a34a;
+  color: white;
+  text-align: left;
+  padding: 14px;
+}
+
+.blogContent td {
+  border: 1px solid #e5e7eb;
+  padding: 14px;
+}
+
+.blogContent tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+/* Horizontal line */
+.blogContent hr {
+  margin: 32px 0;
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}
+
+.readMoreButton {
+  margin-top: 20px;
+  border: none;
+  background: transparent;
+  color: #16a34a;
+  font-weight: 600;
+  cursor: pointer;
+}

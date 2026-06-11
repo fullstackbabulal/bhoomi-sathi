@@ -1,0 +1,223 @@
+/* ======================================================
+   File: PropertyTableRow.module.css
+   Description: Property Table Row
+   Mobile First Design
+====================================================== */
+
+.row {
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.row:hover {
+  background: #f8fafc;
+}
+
+/* ======================================================
+   TABLE CELL
+====================================================== */
+
+.cell {
+  padding: 1rem;
+  vertical-align: middle;
+
+  white-space: nowrap;
+
+  border-bottom: 1px solid #eef2f7;
+
+  color: #334155;
+
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.propertyCell {
+  padding: 1rem;
+  min-width: 320px;
+
+  vertical-align: middle;
+
+  border-bottom: 1px solid #eef2f7;
+}
+
+/* ======================================================
+   PROPERTY INFO
+====================================================== */
+
+.propertyInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+
+  min-width: 0;
+}
+
+/* ======================================================
+   IMAGE
+====================================================== */
+
+.imageWrapper {
+  position: relative;
+
+  flex-shrink: 0;
+
+  width: 72px;
+  height: 72px;
+
+  overflow: hidden;
+
+  border-radius: 1rem;
+
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+
+.image {
+  object-fit: cover;
+}
+
+/* ======================================================
+   CONTENT
+====================================================== */
+
+.propertyContent {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.title {
+  margin: 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: #0f172a;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.id {
+  margin: 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: #94a3b8;
+
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+/* ======================================================
+   LOCATION / TYPE / PRICE / DATE
+====================================================== */
+
+.location,
+.type,
+.date {
+  color: #475569;
+
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.price {
+  color: #0f172a;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (min-width: 768px) {
+  .cell,
+  .propertyCell {
+    padding: 1.1rem 1.25rem;
+  }
+
+  .propertyInfo {
+    gap: 1rem;
+  }
+
+  .imageWrapper {
+    width: 78px;
+    height: 78px;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+
+  .price {
+    font-size: 1rem;
+  }
+}
+
+/* ======================================================
+   DESKTOP
+====================================================== */
+
+@media (min-width: 1024px) {
+  .cell,
+  .propertyCell {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .propertyCell {
+    min-width: 360px;
+  }
+
+  .imageWrapper {
+    width: 84px;
+    height: 84px;
+
+    border-radius: 1.125rem;
+  }
+
+  .propertyInfo {
+    gap: 1.1rem;
+  }
+
+  .title {
+    font-size: 1.02rem;
+  }
+
+  .location,
+  .type,
+  .date,
+  .price {
+    font-size: 0.95rem;
+  }
+}
+
+/* ======================================================
+   LARGE DESKTOP
+====================================================== */
+
+@media (min-width: 1440px) {
+  .cell,
+  .propertyCell {
+    padding: 1.35rem 1.75rem;
+  }
+
+  .propertyCell {
+    min-width: 400px;
+  }
+
+  .imageWrapper {
+    width: 90px;
+    height: 90px;
+  }
+}

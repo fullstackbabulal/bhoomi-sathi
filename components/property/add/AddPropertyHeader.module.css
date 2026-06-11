@@ -1,0 +1,289 @@
+/* ======================================================
+   File: components/property/add/AddPropertyHeader.module.css
+   Description: Premium Add Property Header
+====================================================== */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  width: 100%;
+  background: rgba(255, 255, 255, 0.96);
+
+  border-bottom: 1px solid #e7eaf3;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  padding: 20px 28px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1600px;
+
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* ==========================================
+   LEFT SECTION
+========================================== */
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.iconWrapper {
+  width: 72px;
+  height: 72px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 22px;
+
+  background: linear-gradient(135deg, #6c63ff 0%, #5b45ff 100%);
+
+  color: #ffffff;
+
+  box-shadow:
+    0 14px 34px rgba(91, 69, 255, 0.22),
+    0 4px 10px rgba(91, 69, 255, 0.12);
+}
+
+.headingContent {
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+
+  font-size: 42px;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+
+  color: #0f172a;
+}
+
+.subtitle {
+  margin: 10px 0 0;
+
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 500;
+
+  color: #667085;
+}
+
+/* ==========================================
+   RIGHT ACTIONS
+========================================== */
+
+.actionSection {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+.secondaryButton,
+.publishButton {
+  min-height: 58px;
+  border-radius: 18px;
+
+  padding: 0 26px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.secondaryButton {
+  background: #ffffff;
+  border: 1px solid #dde2ee;
+
+  color: #1f2937;
+}
+
+.secondaryButton:hover {
+  transform: translateY(-2px);
+
+  background: #f8f9fc;
+  border-color: #c9d2e5;
+
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+.publishButton {
+  border: none;
+
+  color: #ffffff;
+
+  background: linear-gradient(135deg, #5b45ff 0%, #6c63ff 100%);
+
+  box-shadow: 0 12px 28px rgba(91, 69, 255, 0.28);
+}
+
+.publishButton:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 18px 38px rgba(91, 69, 255, 0.34);
+}
+
+.publishButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1200px) {
+  .title {
+    font-size: 34px;
+  }
+
+  .iconWrapper {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  .header {
+    padding: 18px 20px;
+  }
+
+  .container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .leftSection {
+    width: 100%;
+  }
+
+  .actionSection {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .secondaryButton,
+  .publishButton {
+    flex: 1;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 16px;
+  }
+
+  .leftSection {
+    align-items: flex-start;
+  }
+
+  .iconWrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .subtitle {
+    margin-top: 6px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .actionSection {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .secondaryButton,
+  .publishButton {
+    width: 100%;
+    min-height: 54px;
+
+    padding: 14px 20px;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 14px;
+  }
+
+  .leftSection {
+    gap: 14px;
+  }
+
+  .iconWrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .secondaryButton,
+  .publishButton {
+    min-height: 52px;
+
+    font-size: 14px;
+    font-weight: 600;
+  }
+}

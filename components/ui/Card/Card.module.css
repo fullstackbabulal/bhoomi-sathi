@@ -1,0 +1,85 @@
+/* ======================================================
+   File: Card.module.css
+   ====================================================== */
+
+.card {
+  position: relative;
+
+  background: #ffffff;
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  transition: all 0.3s ease;
+}
+
+/* ==========================================
+   Hover Effect
+========================================== */
+
+.hover:hover {
+  transform: translateY(-6px);
+
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================
+   Variants
+========================================== */
+
+.default {
+  border: 1px solid #e5e7eb;
+}
+
+.elevated {
+  border: none;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.outline {
+  border: 2px solid #16a34a;
+}
+
+.glass {
+  backdrop-filter: blur(20px);
+
+  background: rgba(255, 255, 255, 0.75);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ==========================================
+   Padding
+========================================== */
+
+.sm {
+  padding: 16px;
+}
+
+.md {
+  padding: 24px;
+}
+
+.lg {
+  padding: 32px;
+}
+
+.xl {
+  padding: 40px;
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media (max-width: 768px) {
+  .lg {
+    padding: 24px;
+  }
+
+  .xl {
+    padding: 28px;
+  }
+}

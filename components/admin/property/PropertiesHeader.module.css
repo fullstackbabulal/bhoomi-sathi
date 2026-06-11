@@ -1,0 +1,141 @@
+/* ======================================================
+   File: PropertiesHeader.module.css
+   Description: Properties Page Header
+   Mobile First Design
+====================================================== */
+
+.header {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 1rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.title {
+  margin: 0;
+
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+
+  color: #0f172a;
+}
+
+.subtitle {
+  margin: 0;
+
+  font-size: 0.95rem;
+  line-height: 1.7;
+
+  color: #64748b;
+}
+
+.actions {
+  width: 100%;
+}
+
+.addButton {
+  width: 100%;
+
+  min-height: 52px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+
+  padding: 0.875rem 1.25rem;
+
+  border: none;
+  border-radius: 1rem;
+
+  background: #2563eb;
+
+  color: #ffffff;
+  text-decoration: none;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  box-sizing: border-box;
+}
+
+.addButton:hover {
+  background: #1d4ed8;
+}
+
+.addButton:active {
+  transform: translateY(1px);
+}
+
+.plusIcon {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (min-width: 768px) {
+  .header {
+    flex-direction: row;
+    align-items: center;
+
+    gap: 1.5rem;
+  }
+
+  .actions {
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .addButton {
+    width: auto;
+    min-width: 180px;
+    padding: 0.95rem 1.5rem;
+  }
+
+  .title {
+    font-size: 2.3rem;
+  }
+}
+
+/* ======================================================
+   DESKTOP
+====================================================== */
+
+@media (min-width: 1024px) {
+  .header {
+    gap: 2rem;
+  }
+
+  .title {
+    font-size: 2.6rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .addButton {
+    min-height: 56px;
+    border-radius: 1.125rem;
+  }
+}

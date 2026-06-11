@@ -1,0 +1,211 @@
+/* ======================================================
+   File: PropertyPagination.module.css
+   Description: Property Pagination
+   Mobile First Design
+====================================================== */
+
+.paginationSection {
+  width: 100%;
+}
+
+.wrapper {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  padding: 1rem;
+
+  background: #ffffff;
+
+  border: 1px solid #e8edf5;
+  border-radius: 1.5rem;
+
+  box-sizing: border-box;
+}
+
+/* ======================================================
+   INFO
+====================================================== */
+
+.info {
+  color: #64748b;
+
+  font-size: 0.9rem;
+  line-height: 1.6;
+
+  text-align: center;
+}
+
+.info strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* ======================================================
+   CONTROLS
+====================================================== */
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+/* ======================================================
+   PAGE NUMBERS
+====================================================== */
+
+.pages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 0.5rem;
+}
+
+/* ======================================================
+   BUTTONS
+====================================================== */
+
+.button,
+.pageButton {
+  min-height: 44px;
+  min-width: 44px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.75rem 1rem;
+
+  border: 1px solid #dbe4f0;
+  border-radius: 1rem;
+
+  background: #ffffff;
+
+  color: #334155;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  box-sizing: border-box;
+}
+
+.button:hover,
+.pageButton:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+
+  transform: translateY(-1px);
+}
+
+.button:active,
+.pageButton:active {
+  transform: translateY(1px);
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.button:disabled:hover {
+  transform: none;
+  background: #ffffff;
+  border-color: #dbe4f0;
+}
+
+/* ======================================================
+   ACTIVE PAGE
+====================================================== */
+
+.active {
+  color: #ffffff;
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.active:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media (min-width: 768px) {
+  .wrapper {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1.5rem;
+
+    padding: 1.25rem 1.5rem;
+  }
+
+  .info {
+    text-align: left;
+    font-size: 0.95rem;
+  }
+
+  .controls {
+    flex-direction: row;
+    align-items: center;
+
+    gap: 1rem;
+  }
+
+  .button,
+  .pageButton {
+    min-height: 46px;
+    min-width: 46px;
+
+    font-size: 0.92rem;
+  }
+}
+
+/* ======================================================
+   DESKTOP
+====================================================== */
+
+@media (min-width: 1024px) {
+  .wrapper {
+    padding: 1.5rem 1.75rem;
+  }
+
+  .button,
+  .pageButton {
+    min-height: 48px;
+    min-width: 48px;
+
+    border-radius: 1.1rem;
+
+    font-size: 0.95rem;
+  }
+}
+
+/* ======================================================
+   LARGE DESKTOP
+====================================================== */
+
+@media (min-width: 1440px) {
+  .wrapper {
+    padding: 1.5rem 2rem;
+  }
+}

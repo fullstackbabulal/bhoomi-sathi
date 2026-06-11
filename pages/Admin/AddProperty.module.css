@@ -1,0 +1,40 @@
+/* ======================================================
+   File: components/property/add/AddProperty.module.css
+   Description: Add Property Layout
+====================================================== */
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 24px;
+  align-items: start;
+  width: 100%;
+}
+
+/* ==========================================
+   LARGE TABLETS / SMALL LAPTOPS
+========================================== */
+@media (max-width: 1200px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+@media (max-width: 768px) {
+  .contentGrid {
+    gap: 16px;
+  }
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+@media (max-width: 480px) {
+  .contentGrid {
+    gap: 14px;
+  }
+}

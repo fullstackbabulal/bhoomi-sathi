@@ -1,0 +1,234 @@
+.card {
+  position: relative;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 28px;
+
+  padding: 24px;
+  overflow: hidden;
+
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+
+  box-shadow:
+    0 4px 12px rgba(15, 23, 42, 0.04),
+    0 16px 36px rgba(15, 23, 42, 0.05);
+}
+
+/* ===================================
+   HOVER
+=================================== */
+
+.card:hover {
+  transform: translateY(-4px);
+
+  border-color: #dbe4ee;
+
+  box-shadow:
+    0 14px 30px rgba(15, 23, 42, 0.08),
+    0 22px 52px rgba(15, 23, 42, 0.08);
+}
+
+/* ===================================
+   TOP ROW
+=================================== */
+
+.topRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+
+  min-width: 0;
+}
+
+/* ===================================
+   ICON
+=================================== */
+
+.iconWrapper {
+  width: 62px;
+  height: 62px;
+  border-radius: 20px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.12),
+    rgba(59, 130, 246, 0.08)
+  );
+
+  color: #2563eb;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  transition:
+    transform 0.28s ease,
+    background 0.28s ease;
+}
+
+.card:hover .iconWrapper {
+  transform: scale(1.03);
+}
+
+/* ===================================
+   CONTENT
+=================================== */
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.label {
+  margin: 0 0 10px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.5;
+
+  color: #64748b;
+}
+
+.value {
+  margin: 0;
+
+  overflow-wrap: break-word;
+  word-break: break-word;
+
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+
+  color: #0f172a;
+}
+
+/* ===================================
+   TREND
+=================================== */
+
+.change {
+  margin-top: 14px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  max-width: 100%;
+
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.change span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.up {
+  color: #16a34a;
+}
+
+.down {
+  color: #dc2626;
+}
+
+/* ===================================
+   LOADING / ERROR SAFE
+=================================== */
+
+.loading {
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.error {
+  border-color: rgba(239, 68, 68, 0.15);
+}
+
+/* ===================================
+   TABLET
+=================================== */
+
+@media (max-width: 1024px) {
+  .card {
+    padding: 22px;
+  }
+
+  .value {
+    font-size: 1.8rem;
+  }
+}
+
+/* ===================================
+   MOBILE
+=================================== */
+
+@media (max-width: 768px) {
+  .card {
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .topRow {
+    gap: 16px;
+  }
+
+  .iconWrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+  }
+
+  .value {
+    font-size: 1.65rem;
+  }
+
+  .change {
+    margin-top: 12px;
+  }
+}
+
+/* ===================================
+   SMALL MOBILE
+=================================== */
+
+@media (max-width: 540px) {
+  .card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .topRow {
+    gap: 14px;
+  }
+
+  .iconWrapper {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+  }
+
+  .label {
+    font-size: 0.88rem;
+  }
+
+  .value {
+    font-size: 1.45rem;
+  }
+
+  .change {
+    font-size: 0.84rem;
+  }
+}

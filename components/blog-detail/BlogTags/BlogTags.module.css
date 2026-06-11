@@ -1,0 +1,138 @@
+/* ======================================================
+   File: BlogTags.module.css
+   Description: Blog Tags
+====================================================== */
+
+.section {
+  width: 100%;
+
+  margin-top: 70px;
+
+  padding-top: 40px;
+
+  border-top: 1px solid #e2e8f0;
+}
+
+/* ======================================================
+   HEADER
+====================================================== */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin-bottom: 28px;
+}
+
+.iconWrapper {
+  width: 54px;
+  height: 54px;
+
+  border-radius: 18px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 28px;
+  font-weight: 800;
+}
+
+/* ======================================================
+   TAGS
+====================================================== */
+
+.tags {
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+
+  flex-wrap: wrap;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 56px;
+
+  padding: 14px 22px;
+
+  border-radius: 999px;
+
+  background: #f8fafc;
+
+  border: 1px solid #e2e8f0;
+
+  color: #334155;
+
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  transform: translateY(-2px);
+
+  background: #2563eb;
+
+  border-color: #2563eb;
+
+  color: #ffffff;
+
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.2);
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 768px) {
+  .section {
+    margin-top: 50px;
+    padding-top: 28px;
+  }
+
+  .header {
+    margin-bottom: 22px;
+  }
+
+  .iconWrapper {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 16px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .tags {
+    gap: 12px;
+  }
+
+  .tag {
+    min-height: 50px;
+
+    padding: 12px 18px;
+
+    font-size: 14px;
+  }
+}

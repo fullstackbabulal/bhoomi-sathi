@@ -1,0 +1,290 @@
+.section {
+  width: 100%;
+  padding: 40px 20px 90px;
+  background: #f7f9fc;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ==========================
+   CTA CARD
+========================== */
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  background: linear-gradient(135deg, #021634 0%, #06336f 100%);
+  padding: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  right: -100px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  bottom: -140px;
+  left: -80px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ==========================
+   CONTENT
+========================== */
+
+.content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  max-width: 760px;
+}
+
+.badge {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.content h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.content p {
+  margin: 22px 0 0;
+  max-width: 640px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 18px;
+  line-height: 1.9;
+}
+
+/* ==========================
+   ACTIONS
+========================== */
+
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 38px;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  height: 58px;
+  padding: 0 28px;
+  border-radius: 18px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.primaryBtn {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.primaryBtn:hover {
+  transform: translateY(-2px);
+}
+
+.secondaryBtn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.secondaryBtn:hover {
+  transform: translateY(-2px);
+}
+
+/* ==========================
+   SUPPORT CARD
+========================== */
+
+.supportCard {
+  position: relative;
+  z-index: 2;
+  min-width: 320px;
+  padding: 34px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.supportIcon {
+  width: 74px;
+  height: 74px;
+  min-width: 74px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.supportCard h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.supportCard a {
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.supportCard a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================
+   LAPTOP
+========================== */
+
+@media (max-width: 1200px) {
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 48px;
+  }
+
+  .content h2 {
+    font-size: 44px;
+  }
+
+  .supportCard {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+/* ==========================
+   TABLET
+========================== */
+
+@media (max-width: 768px) {
+  .section {
+    padding: 30px 16px 70px;
+  }
+
+  .card {
+    padding: 36px 24px;
+    border-radius: 26px;
+    gap: 28px;
+  }
+
+  .badge {
+    font-size: 13px;
+    padding: 10px 18px;
+  }
+
+  .content h2 {
+    font-size: 34px;
+  }
+
+  .content p {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    width: 100%;
+    border-radius: 14px;
+  }
+
+  .supportCard {
+    padding: 24px;
+    border-radius: 22px;
+  }
+
+  .supportIcon {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+  }
+
+  .supportCard h3 {
+    font-size: 18px;
+  }
+
+  .supportCard a {
+    font-size: 16px;
+  }
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media (max-width: 480px) {
+  .content h2 {
+    font-size: 28px;
+  }
+
+  .content p {
+    font-size: 14px;
+  }
+
+  .supportCard {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .supportCard a {
+    font-size: 15px;
+  }
+}

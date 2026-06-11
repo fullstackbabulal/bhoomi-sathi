@@ -9,7 +9,6 @@ const jwt = require("jsonwebtoken");
 // ======================================================
 // GENERATE JWT TOKEN
 // ======================================================
-
 const generateToken = (userId) => {
   return jwt.sign(
     {
@@ -23,46 +22,35 @@ const generateToken = (userId) => {
 };
 
 // ======================================================
-// COOKIE OPTIONS
+// SEND TOKEN IN HTTPONLY COOKIE
 // ======================================================
+const sendTokenResponse = (user, statusCode, res) => {
+  // ================================================
+  // GENERATE TOKEN
+  // ================================================
+  const token = generateToken(user._id);
 
-const getCookieOptions = () => {
-  const isProduction = process.env.NODE_ENV === "production";
-
-  return {
+  // ================================================
+  // COOKIE CONFIGURATION
+  // ================================================
+  const cookieOptions = {
     httpOnly: true,
 
-    secure: isProduction,
+    secure: process.env.NODE_ENV === "production",
 
-    sameSite: isProduction ? "none" : "lax",
-
-    domain: isProduction ? ".bhartiavenue.com" : undefined,
-
-    path: "/",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
 
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   };
-};
 
-// ======================================================
-// SEND TOKEN RESPONSE
-// ======================================================
-
-const sendTokenResponse = (user, statusCode, res) => {
-  const token = generateToken(user._id);
-
-  const cookieOptions = getCookieOptions();
-
-  // ====================================================
-  // SET HTTPONLY COOKIE
-  // ====================================================
-
+  // ================================================
+  // SET COOKIE
+  // ================================================
   res.cookie("token", token, cookieOptions);
 
-  // ====================================================
-  // SAFE USER OBJECT
-  // ====================================================
-
+  // ================================================
+  // REMOVE PASSWORD FROM RESPONSE
+  // ================================================
   const safeUser = {
     _id: user._id,
     name: user.name,
@@ -74,10 +62,9 @@ const sendTokenResponse = (user, statusCode, res) => {
     isActive: user.isActive,
   };
 
-  // ====================================================
-  // RESPONSE
-  // ====================================================
-
+  // ================================================
+  // SEND RESPONSE
+  // ================================================
   return res.status(statusCode).json({
     success: true,
     message: "Authentication successful",
@@ -86,17 +73,21 @@ const sendTokenResponse = (user, statusCode, res) => {
 };
 
 // ======================================================
-// CLEAR COOKIE
+// CLEAR AUTH COOKIE (LOGOUT)
 // ======================================================
-
 const clearTokenCookie = (res) => {
-  res.clearCookie("token", getCookieOptions());
+  res.clearCookie("token", {
+    httpOnly: true,
+
+    secure: process.env.NODE_ENV === "production",
+
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  });
 };
 
 // ======================================================
 // EXPORTS
 // ======================================================
-
 module.exports = {
   generateToken,
   sendTokenResponse,

@@ -22,7 +22,7 @@ const LOCATIONS = [
   {
     icon: <Hospital size={28} />,
     title: "AIIMS Patna",
-    description: "Only 10 Minutes Drive",
+    description: "Only 20 Minutes Drive",
   },
   {
     icon: <Plane size={28} />,
@@ -88,7 +88,7 @@ export default function LocationAdvantages() {
               <h3>Project Location Map</h3>
 
               <p>
-                Near AIIMS Patna, Bihta Airport and upcoming infrastructure
+                Near IIT Patna, Bihta Airport and upcoming infrastructure
                 developments.
               </p>
 

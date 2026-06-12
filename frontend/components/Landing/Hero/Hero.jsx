@@ -31,7 +31,10 @@ export default function Hero() {
           <div className={styles.content}>
             <Badge variant="success">RERA Approved Project</Badge>
 
-            <h1 className={styles.title}>Premium Residential Plot in Patna</h1>
+            <h1 className={styles.title}>
+              Agrani Woods | Luxury Residential Plot in Patna | RERA Approved
+              Plot in Patna
+            </h1>
 
             <p className={styles.subtitle}>
               Secure your future with legally approved, registry-ready
@@ -42,7 +45,7 @@ export default function Hero() {
             <div className={styles.location}>
               <MapPin size={18} />
 
-              <span>Near AIIMS Patna • Bihta Airport • Ring Road</span>
+              <span>Near IIT Patna • Bihta Airport • Ring Road</span>
             </div>
 
             <div className={styles.priceBox}>
@@ -99,7 +102,7 @@ export default function Hero() {
 
             <div className={styles.stats}>
               <div className={styles.stat}>
-                <strong>10+</strong>
+                <strong>1+</strong>
                 <span>Plots</span>
               </div>
 

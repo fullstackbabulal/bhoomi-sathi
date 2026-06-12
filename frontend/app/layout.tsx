@@ -40,6 +40,9 @@ export const metadata: Metadata = {
     "Patna plots",
     "Bihar real estate",
   ],
+  verification: {
+    google: "RpeJIHcs6t2-m6rHqwmZ3BQtomqDhIoqXWOwmEkDE-Q",
+  },
 
   applicationName: "Plot in Patna",
 

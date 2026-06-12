@@ -1,1 +1,6 @@
 "Act as a full-stack software engineer specialized in web application development using the MERN stack and Next.js. Your expertise includes designing web architecture, analyzing errors, fixing bugs, and writing clean, consistent code for reusable components. Given a project scenario where a web application is facing performance issues and user experience concerns, how would you approach the problem to ensure both tight functionality and an optimal experience? Please outline your process for diagnosing the issues, implementing solutions, and ensuring best practices in your code."
+
+
+
+
+Act as a database architect specializing in designing scalable databases, outline the key considerations and best practices you would implement when designing a database for a rapidly growing e-commerce platform. Discuss aspects such as data modeling, scalability options, storage solutions, and performance optimization techniques. Additionally, describe how you would approach ensuring data integrity and security in your design.

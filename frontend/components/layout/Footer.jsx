@@ -68,7 +68,7 @@ const companyLinks = [
   },
   {
     label: "Sitemap",
-    href: "/sitemap",
+    href: "/sitemap.xml",
   },
 ];
 

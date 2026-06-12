@@ -1,0 +1,92 @@
+/* ======================================================
+   File: app/privacy-policy/PrivacyPolicy.module.css
+   Description: Privacy Policy Styles
+   ====================================================== */
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 80px 20px;
+}
+
+.title {
+  margin-bottom: 12px;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #111827;
+}
+
+.updatedDate {
+  margin-bottom: 40px;
+  font-size: 15px;
+  color: #6b7280;
+}
+
+.content {
+  color: #374151;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.section h2 {
+  margin-bottom: 16px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.section p {
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.list {
+  padding-left: 24px;
+}
+
+.list li {
+  margin-bottom: 10px;
+  line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 60px 16px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .section h2 {
+    font-size: 22px;
+  }
+
+  .section p,
+  .list li {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 50px 14px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .section h2 {
+    font-size: 20px;
+  }
+
+  .section p,
+  .list li {
+    font-size: 15px;
+  }
+}

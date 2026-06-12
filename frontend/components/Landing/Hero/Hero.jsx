@@ -122,7 +122,7 @@ export default function Hero() {
           <div className={styles.visual}>
             <div className={styles.imageCard}>
               <Image
-                src="/images/project/hero.png"
+                src="/images/project/hero.jpg"
                 alt="RERA Approved Plot in Patna"
                 fill
                 priority

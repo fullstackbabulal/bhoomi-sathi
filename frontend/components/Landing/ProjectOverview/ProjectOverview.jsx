@@ -24,7 +24,7 @@ const PROJECT_INFO = [
   {
     icon: <MapPin size={22} />,
     label: "Location",
-    value: "Bihta, Patna",
+    value: "Greater Patna",
   },
   {
     icon: <FileBadge size={22} />,
@@ -34,7 +34,7 @@ const PROJECT_INFO = [
   {
     icon: <LayoutGrid size={22} />,
     label: "Total Plots",
-    value: "10+",
+    value: "1",
   },
   {
     icon: <Route size={22} />,

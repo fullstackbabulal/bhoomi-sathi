@@ -55,16 +55,12 @@ const companyLinks = [
     href: "/about",
   },
   {
-    label: "Careers",
-    href: "/careers",
-  },
-  {
     label: "Privacy Policy",
     href: "/privacy-policy",
   },
   {
     label: "Terms & Conditions",
-    href: "/terms-and-conditions",
+    href: "/terms-conditions",
   },
   {
     label: "Sitemap",
@@ -196,7 +192,7 @@ const Footer = () => {
               </p>
 
               <p className={styles.contactItem}>
-                <span>📍</span>
+                <span>Address</span>
                 123, Business Park, Patna, Bihar - 800001
               </p>
             </div>

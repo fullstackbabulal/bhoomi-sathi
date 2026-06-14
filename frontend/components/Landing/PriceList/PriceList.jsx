@@ -20,19 +20,19 @@ const PLOTS = [
     tag: "Starter",
   },
   {
-    size: "1000 Sq.ft",
-    price: "₹15.5 Lakh",
+    size: "1200 Sq.ft",
+    price: "₹18.6 Lakh",
     tag: "Popular",
     featured: true,
   },
   {
-    size: "1200 Sq.ft",
-    price: "₹18.6 Lakh",
+    size: "1800 Sq.ft",
+    price: "₹27.9 Lakh",
     tag: "Best Value",
   },
   {
-    size: "1800 Sq.ft",
-    price: "₹27.50 Lakh",
+    size: "2722 Sq.ft",
+    price: "₹35.2 Lakh",
     tag: "Premium",
   },
 ];
@@ -44,7 +44,7 @@ export default function PriceList() {
         <SectionTitle
           badge="Pricing"
           title="Choose Your Plot Size"
-          subtitle="Transparent pricing with immediate registry and bank loan support."
+          subtitle="*Price as per 01-10-2024"
         />
 
         <div className={styles.grid}>
@@ -73,7 +73,7 @@ export default function PriceList() {
 
               <ul className={styles.features}>
                 <li>RERA Approved</li>
-                <li>Registry Ready</li>
+                <li>Ready to Registry</li>
                 <li>Bank Loan Available</li>
                 <li>Road Facing Options</li>
               </ul>

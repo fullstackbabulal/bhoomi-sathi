@@ -12,9 +12,9 @@ import {
   Building2,
   Landmark,
   ToyBrick,
-  Route,
   Waves,
-  Car,
+  Route,
+  Milestone,
   HeartHandshake,
 } from "lucide-react";
 
@@ -38,7 +38,7 @@ const AMENITIES = [
   {
     icon: <Trees size={30} />,
     title: "Landscaped Parks",
-    description: "Green open spaces for families.",
+    description: "6 Green open park for families.",
   },
   {
     icon: <Droplets size={30} />,
@@ -58,7 +58,7 @@ const AMENITIES = [
   {
     icon: <Landmark size={30} />,
     title: "Temple Area",
-    description: "Dedicated spiritual and community space.",
+    description: "Dedicated spiritual and community space in 5 Bigha.",
   },
   {
     icon: <ToyBrick size={30} />,
@@ -76,9 +76,9 @@ const AMENITIES = [
     description: "Modern drainage infrastructure.",
   },
   {
-    icon: <Car size={30} />,
-    title: "Parking Space",
-    description: "Dedicated parking provisions.",
+    icon: <Milestone size={30} />,
+    title: "Foot Path",
+    description: "Dedicated for walking.",
   },
   {
     icon: <HeartHandshake size={30} />,

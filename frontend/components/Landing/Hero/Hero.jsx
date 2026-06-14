@@ -32,8 +32,7 @@ export default function Hero() {
             <Badge variant="success">RERA Approved Project</Badge>
 
             <h1 className={styles.title}>
-              Agrani Woods | Luxury Residential Plot in Patna | RERA Approved
-              Plot in Patna
+              Agrani Woods | Luxury Residential Plot in Patna
             </h1>
 
             <p className={styles.subtitle}>
@@ -90,9 +89,16 @@ export default function Hero() {
                 Book Site Visit
               </Button>
 
-              <Button variant="outline" size="lg">
-                <Download size={18} />
-                Download Brochure
+              <Button asChild variant="outline" size="lg">
+                <a
+                  href="/brochure/DDL_Woods_Brochure.pdf"
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Download size={18} />
+                  Download Brochure
+                </a>
               </Button>
             </div>
 
@@ -102,7 +108,7 @@ export default function Hero() {
 
             <div className={styles.stats}>
               <div className={styles.stat}>
-                <strong>1+</strong>
+                <strong>1800+</strong>
                 <span>Plots</span>
               </div>
 

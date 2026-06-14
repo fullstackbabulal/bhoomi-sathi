@@ -1,0 +1,214 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  backdrop-filter: blur(20px);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 6, 23, 0.94),
+    rgba(3, 15, 44, 0.94),
+    rgba(2, 6, 23, 0.94)
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.3s ease;
+}
+
+.headerScrolled {
+  background: rgba(2, 6, 23, 0.96);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.navbar {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logoImage {
+  position: relative;
+  width: 220px;
+  height: 55px;
+  flex-shrink: 0;
+}
+
+.logoImage img {
+  object-fit: contain;
+}
+
+.logoContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.logoTitle {
+  margin: 0;
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.logoTagline {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.navLink {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.navLink:hover,
+.activeNavLink {
+  color: #ffffff;
+}
+
+.desktopAuth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userInfo {
+  text-align: right;
+  color: white;
+}
+
+.userInfo small {
+  display: block;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.primaryButton,
+.secondaryButton,
+.dangerButton {
+  height: 46px;
+  padding: 0 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+}
+
+.primaryButton {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.secondaryButton {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dangerButton {
+  background: #dc2626;
+  color: white;
+}
+
+.mobileMenuButton {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.mobileMenuButton span {
+  width: 28px;
+  height: 3px;
+  background: white;
+  border-radius: 999px;
+}
+
+.mobileDrawer {
+  max-height: 0;
+  overflow: hidden;
+  background: #020617;
+  transition: max-height 0.35s ease;
+}
+
+.mobileDrawerOpen {
+  max-height: 700px;
+}
+
+.mobileContent {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobileLink {
+  text-decoration: none;
+  color: white;
+  padding: 14px;
+  border-radius: 12px;
+}
+
+.mobileActive {
+  background: rgba(37, 99, 235, 0.15);
+}
+
+.mobileAuth {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (max-width: 992px) {
+  .desktopNav,
+  .desktopAuth {
+    display: none;
+  }
+
+  .mobileMenuButton {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .logoTitle {
+    font-size: 1.3rem;
+  }
+
+  .logoTagline {
+    display: none;
+  }
+
+  .logoImage {
+    width: 50px;
+    height: 50px;
+  }
+}

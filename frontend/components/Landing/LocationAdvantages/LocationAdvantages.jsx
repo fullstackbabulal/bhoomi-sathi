@@ -21,7 +21,7 @@ import styles from "./LocationAdvantages.module.css";
 const LOCATIONS = [
   {
     icon: <Hospital size={28} />,
-    title: "AIIMS Patna",
+    title: "NSMCH Hospital",
     description: "Only 20 Minutes Drive",
   },
   {
@@ -46,7 +46,7 @@ const LOCATIONS = [
   },
   {
     icon: <MapPin size={28} />,
-    title: "Patna City",
+    title: "Patna Sasaram Highway",
     description: "Excellent Road Access",
   },
 ];

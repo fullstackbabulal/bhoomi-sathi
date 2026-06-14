@@ -22,12 +22,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://plotinpatna.com"),
 
   title: {
-    default: "Plot in Patna - Find Your Dream Land",
+    default: "Plot in Patna - RERA Registered Residential Plot in Patna",
     template: "%s | Plot in Patna",
   },
 
   description:
-    "Buy plots, land, flats and real estate in Patna with trusted guidance and verified property listings.",
+    "Agrani Woods | Luxury Residential Plot in Patna | RERA Approved Plot in Patna",
 
   keywords: [
     "real estate",
@@ -47,9 +47,9 @@ export const metadata: Metadata = {
   applicationName: "Plot in Patna",
 
   openGraph: {
-    title: "Plot in Patna - Find Your Dream Land",
+    title: "Plot in Patna - RERA Registered Residential Plot in Patna",
     description:
-      "Buy plots, land, flats and real estate in Patna with trusted guidance and verified property listings.",
+      "Agrani Woods | Luxury Residential Plot in Patna | RERA Approved Plot in Patna | Call on +91 9661655534",
     url: "https://plotinpatna.com",
     siteName: "Plot in Patna",
     locale: "en_IN",

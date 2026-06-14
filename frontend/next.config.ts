@@ -8,13 +8,14 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["localhost", "127.0.0.1", "192.168.0.2"],
 
   images: {
-    // ==========================================
-    // LOCAL DEVELOPMENT
-    // ==========================================
-
+    // Local Development
     dangerouslyAllowLocalIP: true,
 
-    qualities: [75, 90],
+    // Allowed image qualities
+    qualities: [75, 90, 100],
+
+    // Modern image formats
+    formats: ["image/avif", "image/webp"],
 
     remotePatterns: [
       // ==========================================

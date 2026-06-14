@@ -30,7 +30,7 @@ const TRUST_ITEMS = [
   },
   {
     icon: <FileCheck size={30} />,
-    title: "Registry Ready",
+    title: "Ready to Registry",
     description: "Immediate registration process",
   },
   {
@@ -40,8 +40,8 @@ const TRUST_ITEMS = [
   },
   {
     icon: <Route size={30} />,
-    title: "40 Ft Roads",
-    description: "Wide internal road network",
+    title: "40, 30 Ft Roads",
+    description: "Wide branch road network",
   },
   {
     icon: <Building2 size={30} />,

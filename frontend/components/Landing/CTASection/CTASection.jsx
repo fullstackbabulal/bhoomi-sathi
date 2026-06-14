@@ -31,7 +31,7 @@ export default function CTASection() {
           <div className={styles.highlights}>
             <div>✓ RERA Approved</div>
 
-            <div>✓ Registry Ready</div>
+            <div>✓ Ready to Registry</div>
 
             <div>✓ Bank Loan Available</div>
 

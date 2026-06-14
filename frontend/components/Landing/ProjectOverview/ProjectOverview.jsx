@@ -34,7 +34,7 @@ const PROJECT_INFO = [
   {
     icon: <LayoutGrid size={22} />,
     label: "Total Plots",
-    value: "1",
+    value: "1800+",
   },
   {
     icon: <Route size={22} />,
@@ -49,7 +49,7 @@ const PROJECT_INFO = [
   {
     icon: <CheckCircle2 size={22} />,
     label: "Status",
-    value: "Registry Ready",
+    value: "Ready to Registry",
   },
 ];
 
@@ -71,12 +71,12 @@ export default function ProjectOverview() {
           <div>
             <Badge variant="success">RERA Approved Township</Badge>
 
-            <h3 className={styles.projectName}>Patna Green Valley Township</h3>
+            <h3 className={styles.projectName}>Agrani Woods</h3>
 
             <p className={styles.description}>
-              Located in the rapidly growing Bihta region, this township offers
-              residential plots with wide roads, legal documentation,
-              future-ready infrastructure, and excellent connectivity to AIIMS
+              Located in the rapidly growing greater Patna region, this township
+              offers residential plots with wide roads, legal documentation,
+              future-ready infrastructure, and excellent connectivity to IIT
               Patna, Bihta Airport, and Ring Road.
             </p>
 

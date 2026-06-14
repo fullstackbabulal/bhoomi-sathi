@@ -4,7 +4,14 @@
 // ======================================================
 
 import Image from "next/image";
-import { Maximize2, Trees, Route, Building2, ShieldCheck } from "lucide-react";
+import {
+  Maximize2,
+  Trees,
+  Route,
+  Building2,
+  ShieldCheck,
+  Download,
+} from "lucide-react";
 
 import Container from "@/components/ui/Container/Container";
 import SectionTitle from "@/components/ui/SectionTitle/SectionTitle";
@@ -72,7 +79,17 @@ export default function MasterPlan() {
             </div>
 
             <div className={styles.actions}>
-              <Button size="lg">Download Master Plan</Button>
+              <Button asChild variant="outline" size="lg">
+                <a
+                  href="/brochure/DDL_Woods_Brochure.pdf"
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Download size={18} />
+                  Download Brochure
+                </a>
+              </Button>
 
               <Button variant="outline" size="lg">
                 View Full Layout

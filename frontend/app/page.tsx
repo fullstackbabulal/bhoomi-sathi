@@ -46,7 +46,7 @@ export default function Page() {
       <Hero />
       <TrustBar />
       <PriceList />
-      <ProjectOverview />
+
       <LocationAdvantages />
       <MasterPlan />
       <Amenities />

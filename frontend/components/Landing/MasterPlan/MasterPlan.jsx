@@ -2,7 +2,7 @@
 // File: components/Landing/MasterPlan/MasterPlan.jsx
 // Description: Township Master Plan Section
 // ======================================================
-
+"use client";
 import Image from "next/image";
 import {
   Maximize2,
@@ -53,7 +53,6 @@ export default function MasterPlan() {
           {/* ============================
               Left Side
           ============================ */}
-
           <div className={styles.content}>
             <h3 className={styles.heading}>Designed For Comfortable Living</h3>
 
@@ -66,32 +65,44 @@ export default function MasterPlan() {
             <div className={styles.features}>
               {FEATURES.map((item, index) => (
                 <Card
-                  key={index}
+                  key={`master-feature-${index}`}
                   padding="md"
                   hover={false}
                   className={styles.featureCard}
                 >
                   <div className={styles.icon}>{item.icon}</div>
-
                   <span>{item.title}</span>
                 </Card>
               ))}
             </div>
 
             <div className={styles.actions}>
-              <Button asChild variant="outline" size="lg">
-                <a
-                  href="/brochure/DDL_Woods_Brochure.pdf"
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+              {/* Download Brochure Link */}
+              <a
+                href="/brochure/DDL_Woods_Brochure.pdf"
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block"
+              >
+                <Button variant="outline" size="lg" className="gap-2">
                   <Download size={18} />
                   Download Brochure
-                </a>
-              </Button>
+                </Button>
+              </a>
 
-              <Button variant="outline" size="lg">
+              {/* View Full Layout PDF Button */}
+              <Button
+                onClick={() =>
+                  window.open(
+                    "/Master-Plan-Agrani-Woods.pdf",
+                    "_blank",
+                    "noopener,noreferrer",
+                  )
+                }
+                variant="outline"
+                size="lg"
+              >
                 View Full Layout
               </Button>
             </div>
@@ -100,22 +111,25 @@ export default function MasterPlan() {
           {/* ============================
               Right Side
           ============================ */}
-
           <div className={styles.imageWrapper}>
             <Image
               src="/images/project/master-plan.jpg"
-              alt="Master Plan"
+              alt="Master Plan Layout Map"
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
               className={styles.image}
             />
 
-            <button className={styles.zoomBtn}>
+            <button
+              className={styles.zoomBtn}
+              aria-label="Zoom master plan layout"
+            >
               <Maximize2 size={20} />
             </button>
 
             <div className={styles.overlayCard}>
-              <strong>10+ Premium Plots</strong>
-
+              <strong>1800+ Premium Plots</strong>
               <span>Residential & Commercial</span>
             </div>
           </div>

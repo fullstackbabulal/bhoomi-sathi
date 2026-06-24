@@ -418,7 +418,15 @@
   }
 
   .imageCard {
-    height: 50vh;
+    width: 50%;
+    height: 30vh;
+
+    border-radius: 24px;
+  }
+}
+@media (min-width: 375px) {
+  .imageCard {
+    width: 100%;
 
     border-radius: 24px;
   }

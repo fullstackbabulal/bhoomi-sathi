@@ -55,7 +55,7 @@ const STATS = [
     label: "Infrastructure Investment",
   },
   {
-    value: "1+",
+    value: "1800+",
     label: "Premium Plots",
   },
   {

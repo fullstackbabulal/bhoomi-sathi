@@ -62,13 +62,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/" className={styles.logoWrapper}>
               <div className={styles.logoImage}>
-                <Image
-                  src="/logo.png"
-                  alt="Plot In Patna"
-                  fill
-                  priority
-                  sizes="60px"
-                />
+                <Image src="/logo.png" alt="Plot In Patna" fill priority />
               </div>
             </Link>
 

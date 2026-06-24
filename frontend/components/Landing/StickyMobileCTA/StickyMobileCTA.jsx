@@ -34,7 +34,7 @@ export default function StickyMobileCTA() {
       {/* ==================================
 CALL
 ================================== */}
-      ```
+
       <button
         type="button"
         className={styles.call}

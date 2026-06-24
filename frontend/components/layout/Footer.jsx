@@ -101,8 +101,6 @@ const Footer = () => {
           {/* BRAND COLUMN */}
           <div className={styles.brandSection}>
             <Link href="/" className={styles.logoWrapper}>
-              <div className={styles.logoIcon}>🏠</div>
-
               <div>
                 <h2 className={styles.logoTitle}>Plot in Patna</h2>
 

@@ -191,7 +191,8 @@ const Footer = () => {
 
               <p className={styles.contactItem}>
                 <span>Address</span>
-                123, Business Park, Patna, Bihar - 800001
+                GF-01, Syamdip Apartment, Ashiyana More, Guru Sahay Lal Nagar,
+                Magistrate Colony, Khajpura, Patna, Bihar - 800025
               </p>
             </div>
           </div>

@@ -105,8 +105,11 @@ const ContactHero = ({ data }) => {
 
                 <div className={styles.contactContent}>
                   <h3>Our Office</h3>
-                  <p>{officeInfo?.address || "123, Business Park,"}</p>
-                  <p>{officeInfo?.city || "Patna, Bihar - 800001"}</p>
+                  <p>
+                    {officeInfo?.address ||
+                      "GF-01, Syamdip Apartment, Ashiyana More, Guru Sahay Lal Nagar, Magistrate Colony, Khajpura"}
+                  </p>
+                  <p>{officeInfo?.city || "Patna, Bihar 800025"}</p>
                   <p>{officeInfo?.country || "India"}</p>
                 </div>
               </div>
@@ -144,8 +147,8 @@ const ContactHero = ({ data }) => {
 
                 <div className={styles.contactContent}>
                   <h3>Working Hours</h3>
-                  <p>Mon - Sat: 9:00 AM - 7:00 PM</p>
-                  <p>Sunday: Closed</p>
+                  <p>Tuesday - Sunday: 10:00 AM - 5:00 PM</p>
+                  <p>Monday: Closed</p>
                 </div>
               </div>
             </>

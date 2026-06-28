@@ -71,23 +71,23 @@ const companyLinks = [
 const socialLinks = [
   {
     label: "Facebook",
-    href: "#",
+    href: "https://www.facebook.com/people/Plot-in-Patna/61589361968322/",
     icon: "f",
   },
   {
-    label: "Twitter",
-    href: "#",
-    icon: "𝕏",
-  },
-  {
     label: "Instagram",
-    href: "#",
+    href: "https://www.instagram.com/plotinpatna5",
     icon: "◎",
   },
   {
     label: "LinkedIn",
     href: "#",
     icon: "in",
+  },
+  {
+    label: "Twitter",
+    href: "#",
+    icon: "𝕏",
   },
 ];
 
